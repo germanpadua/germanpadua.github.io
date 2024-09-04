@@ -2567,6 +2567,232 @@ input, select, textarea {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
 }
 
+/* Specific styles for project 2 modal */
+#project-2-modal .modal-dialog {
+    margin-top: 100px;
+}
+
+#project-2-modal.modal.fade .modal-dialog {
+    transform: translate(0, 0);
+}
+
+#project-2-modal .carousel-control-prev,
+#project-2-modal .carousel-control-next {
+    width: 5%;
+    opacity: 0.8;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+#project-2-modal .carousel-control-prev:hover,
+#project-2-modal .carousel-control-next:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#project-2-modal .carousel-control-prev-icon,
+#project-2-modal .carousel-control-next-icon {
+    width: 30px;
+    height: 30px;
+}
+
+#project-2-modal .carousel-control-prev {
+    border-radius: 0 3px 3px 0;
+}
+
+#project-2-modal .carousel-control-next {
+    border-radius: 3px 0 0 3px;
+}
+
+#project-2-modal .carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+}
+
+#project-2-modal .carousel-control-next-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+}
+
+/* Specific styles for project 3 modal */
+#project-3-modal .modal-dialog {
+    margin-top: 100px;
+}
+
+#project-3-modal.modal.fade .modal-dialog {
+    transform: translate(0, 0);
+}
+
+#project-3-modal .carousel-control-prev,
+#project-3-modal .carousel-control-next {
+    width: 5%;
+    opacity: 0.8;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+#project-3-modal .carousel-control-prev:hover,
+#project-3-modal .carousel-control-next:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#project-3-modal .carousel-control-prev-icon,
+#project-3-modal .carousel-control-next-icon {
+    width: 30px;
+    height: 30px;
+}
+
+#project-3-modal .carousel-control-prev {
+    border-radius: 0 3px 3px 0;
+}
+
+#project-3-modal .carousel-control-next {
+    border-radius: 3px 0 0 3px;
+}
+
+#project-3-modal .carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+}
+
+#project-3-modal .carousel-control-next-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+}
+
+/* Specific styles for project 4 modal */
+#project-4-modal .modal-dialog {
+    margin-top: 100px;
+}
+
+#project-4-modal.modal.fade .modal-dialog {
+    transform: translate(0, 0);
+}
+
+#project-4-modal .carousel-control-prev,
+#project-4-modal .carousel-control-next {
+    width: 5%;
+    opacity: 0.8;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+#project-4-modal .carousel-control-prev:hover,
+#project-4-modal .carousel-control-next:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#project-4-modal .carousel-control-prev-icon,
+#project-4-modal .carousel-control-next-icon {
+    width: 30px;
+    height: 30px;
+}
+
+#project-4-modal .carousel-control-prev {
+    border-radius: 0 3px 3px 0;
+}
+
+#project-4-modal .carousel-control-next {
+    border-radius: 3px 0 0 3px;
+}
+
+#project-4-modal .carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+}
+
+#project-4-modal .carousel-control-next-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+}
+
+/* Specific styles for project 5 modal */
+#project-5-modal .modal-dialog {
+    margin-top: 100px;
+}
+
+#project-5-modal.modal.fade .modal-dialog {
+    transform: translate(0, 0);
+}
+
+#project-5-modal .carousel-control-prev,
+#project-5-modal .carousel-control-next {
+    width: 5%;
+    opacity: 0.8;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+#project-5-modal .carousel-control-prev:hover,
+#project-5-modal .carousel-control-next:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#project-5-modal .carousel-control-prev-icon,
+#project-5-modal .carousel-control-next-icon {
+    width: 30px;
+    height: 30px;
+}
+
+#project-5-modal .carousel-control-prev {
+    border-radius: 0 3px 3px 0;
+}
+
+#project-5-modal .carousel-control-next {
+    border-radius: 3px 0 0 3px;
+}
+
+#project-5-modal .carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+}
+
+#project-5-modal .carousel-control-next-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+}
+
+/* Specific styles for project 6 modal */
+#project-6-modal .modal-dialog {
+    margin-top: 100px;
+}
+
+#project-6-modal.modal.fade .modal-dialog {
+    transform: translate(0, 0);
+}
+
+#project-6-modal .carousel-control-prev,
+#project-6-modal .carousel-control-next {
+    width: 5%;
+    opacity: 0.8;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+#project-6-modal .carousel-control-prev:hover,
+#project-6-modal .carousel-control-next:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#project-6-modal .carousel-control-prev-icon,
+#project-6-modal .carousel-control-next-icon {
+    width: 30px;
+    height: 30px;
+}
+
+#project-6-modal .carousel-control-prev {
+    border-radius: 0 3px 3px 0;
+}
+
+#project-6-modal .carousel-control-next {
+    border-radius: 3px 0 0 3px;
+}
+
+#project-6-modal .carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+}
+
+#project-6-modal .carousel-control-next-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+}
+
+
 /* Project modal carousel styles */
 
 
