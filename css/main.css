@@ -1,0 +1,104 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+  }
+  
+  .navbar {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  .hero {
+    background: linear-gradient(135deg, #4a90e2, #7b64ff);
+  }
+  
+  .hero-body {
+    padding: 6rem 1.5rem;
+  }
+  
+  .title, .subtitle {
+    color: #fff;
+  }
+  
+  .section {
+    padding: 5rem 1.5rem;
+  }
+  
+  .project-item {
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .project-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  }
+  
+  .project-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .project-description {
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  .tag {
+    font-weight: 600;
+  }
+  
+  .education-item {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  .education-item:hover {
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  
+  .institution {
+    font-weight: bold;
+    color: #4a90e2;
+  }
+  
+  .degree {
+    font-style: italic;
+  }
+  
+  .year {
+    color: #666;
+  }
+  
+  .footer {
+    background-color: #f8f9fa;
+    padding: 3rem 1.5rem;
+  }
+  
+  .modal-card-body {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  
+  .carousel {
+    margin-bottom: 1rem;
+  }
+  
+  .carousel-cell {
+    width: 100%;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .hero-body {
+      padding: 3rem 1.5rem;
+    }
+  
+    .section {
+      padding: 3rem 1.5rem;
+    }
+  }
