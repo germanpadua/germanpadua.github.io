@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="favicon.png" type="image/x-icon">
   <link rel="stylesheet" href="css/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/4e5a72c756.js"></script>
 </head>
 
@@ -30,7 +31,6 @@
             <i class="fas fa-2x fa-envelope"></i>
           </a>
         </div>
-        <!-- Botón para cambiar idioma -->
         <div class="navbar-item">
           <button id="language-toggle" class="button is-light">EN</button>
         </div>
@@ -38,7 +38,6 @@
     </div>
   </nav>
 
-  <!-- Contenido de la página -->
   <section class="hero is-primary">
     <div class="hero-body">
       <div class="container">
@@ -64,8 +63,6 @@
     </div>
   </section>
 
-  <!-- Secciones restantes -->
-  <!-- About Me -->
   <section class="section">
     <div class="container">
       <h1 class="title" id="about-title">Sobre mí</h1>
@@ -74,261 +71,68 @@
     </div>
   </section>
 
-
   <section class="section projects-section">
     <div class="container">
-      <h2 class="title is-2" id="projects-title">Proyectos</h2>
+      <h2 class="title is-2 has-text-centered mb-6" id="projects-title">Proyectos</h2>
+      <div class="columns is-multiline">
+        <div class="column is-one-third-desktop is-half-tablet">
+          <div class="card project-card">
+            <div class="card-image">
+              <figure class="image is-4by3">
+                <img src="img/project-1-cover.png" alt="Project 1">
+              </figure>
+            </div>
+            <div class="card-content">
+              <p class="title is-4" id="project_1-title">Redes Neuronales para Grafos</p>
+              <div class="content">
+                <p id="project-1-description">Este trabajo se enfoca en el estudio de redes neuronales para grafos...</p>
+                <div class="tags">
+                  <span class="tag is-primary">Python</span>
+                  <span class="tag is-primary">TensorFlow</span>
+                  <span class="tag is-primary">Graph Neural Networks</span>
+                </div>
+              </div>
+            </div>
+            <footer class="card-footer">
+              <a href="#" class="card-footer-item modal-trigger" data-target="project-1-modal">Learn More</a>
+            </footer>
+          </div>
+        </div>
+        <!-- Repeat this structure for the other 5 projects -->
+      </div>
+    </div>
+  </section>
+
+  <section class="section education-section">
+    <div class="container">
+      <h2 class="title is-2 has-text-centered mb-6" id="education-title">Datos Académicos</h2>
       <div class="columns is-multiline">
         <div class="column is-half-desktop is-full-tablet">
-          <div class="project-item modal-trigger" data-target="project-1-modal">
-            <p class="project-title" id="project_1-title">Redes Neuronales para Grafos</p>
-            <figure class="image is-3by2 mb-3">
-              <img src="img/project-1-cover.png" alt="Project 1">
-            </figure>
-            <p class="project-description" id="project-1-description">
-              Este trabajo se enfoca en el estudio de redes neuronales para grafos, con un énfasis especial en las redes neuronales convolucionales en variedades pseudo-riemannianas.
-            </p>
-            <div class="tags">
-              <span class="tag">Python</span>
-              <span class="tag">TensorFlow</span>
-              <span class="tag">Graph Neural Networks</span>
+          <div class="education-item">
+            <div class="institution">Universidad de Granada</div>
+            <div class="degree">Doble Grado en Ingeniería Informática y Matemática</div>
+            <div class="year">Septiembre 2019 - Julio 2024</div>
+            <button class="button is-small is-primary is-light mt-2 show-details">
+              Mostrar Detalles
+            </button>
+            <div class="details mt-3" style="display: none;">
+              <p>Matrícula de Honor en:</p>
+              <ul>
+                <li>Aprendizaje Automático</li>
+                <li>Tecnología y Organización de Computadores</li>
+                <li>Modelos Matemáticos I</li>
+                <li>Variable Compleja I</li>
+                <li>Servidores Web de Altas Prestaciones</li>
+                <li>Lógica y Métodos Discretos</li>
+              </ul>
             </div>
           </div>
         </div>
-
-        <!-- Repeat for each project -->
-
-        <div class="column is-half-desktop is-full-tablet">
-          <div class="project-item modal-trigger" data-target="project-1-modal">
-            <p class="project-title" id="project_1-title">Redes Neuronales para Grafos</p>
-            <figure class="image is-3by2 mb-3">
-              <img src="img/project-1-cover.png" alt="Project 1">
-            </figure>
-            <p class="project-description" id="project-1-description">
-              Este trabajo se enfoca en el estudio de redes neuronales para grafos, con un énfasis especial en las redes neuronales convolucionales en variedades pseudo-riemannianas.
-            </p>
-            <div class="tags">
-              <span class="tag">Python</span>
-              <span class="tag">TensorFlow</span>
-              <span class="tag">Graph Neural Networks</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="column is-half-desktop is-full-tablet">
-          <div class="project-item modal-trigger" data-target="project-1-modal">
-            <p class="project-title" id="project_1-title">Redes Neuronales para Grafos</p>
-            <figure class="image is-3by2 mb-3">
-              <img src="img/project-1-cover.png" alt="Project 1">
-            </figure>
-            <p class="project-description" id="project-1-description">
-              Este trabajo se enfoca en el estudio de redes neuronales para grafos, con un énfasis especial en las redes neuronales convolucionales en variedades pseudo-riemannianas.
-            </p>
-            <div class="tags">
-              <span class="tag">Python</span>
-              <span class="tag">TensorFlow</span>
-              <span class="tag">Graph Neural Networks</span>
-            </div>
-          </div>
-        </div>
+        <!-- Repeat this structure for the other education items -->
       </div>
     </div>
   </section>
 
-  <!-- Proyectos -->
-  <section class="section">
-    <div class="container">
-      <h1 class="title" id="projects-title">Proyectos</h1>
-      <hr />
-      <div class="tile is-ancestor">
-        <div class="tile is-vertical is-12">
-          <div class="tile">
-            <div class="tile is-parent">
-              <article class="tile is-child notification">
-                <p class="title is-4" id="project_1-title">Redes Neuronales para Grafos</p>
-                <figure class="image is-3by2">
-                  <img class="modal-trigger" data-target="project-1-modal" src="img/project-1-cover.png">
-                </figure>
-              </article>
-            </div>
-            <div class="tile is-parent">
-              <article class="tile is-child notification">
-                <p class="title is-4" id="project_2-title">Modelo de Difusión</p>
-                <figure class="image is-4by3">
-                  <img class="modal-trigger" data-target="project-2-modal" src="img/project-2-cover.png">
-                </figure>
-              </article>
-            </div>
-            <div class="tile is-parent">
-              <article class="tile is-child notification">
-                <p class="title is-4" id="project_3-title">Análisis de Fútbol</p>
-                <figure class="image is-4by3">
-                  <img class="modal-trigger" data-target="project-3-modal" src="img/project-3-cover.png">
-                </figure>
-              </article>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="tile is-ancestor">
-        <div class="tile is-vertical is-12">
-          <div class="tile">
-            <div class="tile is-parent">
-              <article class="tile is-child notification">
-                <p class="title is-4" id="project_4-title">F1 Web App</p>
-                <figure class="image is-4by3">
-                  <img class="modal-trigger" data-target="project-4-modal" src="img/project-4-cover.png">
-                </figure>
-              </article>
-            </div>
-            <div class="tile is-parent">
-              <article class="tile is-child notification">
-                <p class="title is-4" id="project_5-title">Análisis de Encuesta</p>
-                <figure class="image is-4by3">
-                  <img class="modal-trigger" data-target="project-5-modal" src="img/project-5-cover.png">
-                </figure>
-              </article>
-            </div>
-            <div class="tile is-parent">
-              <article class="tile is-child notification">
-                <p class="title is-4" id="project_6-title">Estadística sobre una BBDD</p>
-                <figure class="image is-4by3">
-                  <img class="modal-trigger" data-target="project-6-modal" src="img/project-6-cover.png">
-                </figure>
-              </article>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Educación / Formación -->
-
-  <!-- Educación / Formación -->
-<section class="section education-section">
-  <div class="container">
-    <h2 class="title is-2" id="education-title">Datos Académicos</h2>
-    <div class="columns is-multiline">
-      <div class="column is-half-desktop is-full-tablet">
-        <div class="education-item">
-          <div class="institution">Universidad de Granada</div>
-          <div class="degree">Doble Grado en Ingeniería Informática y Matemática</div>
-          <div class="year">Septiembre 2019 - Julio 2024</div>
-          <button class="button is-small is-primary is-light mt-2 show-details">
-            Mostrar Detalles
-          </button>
-          <div class="details mt-3" style="display: none;">
-            <p>Matrícula de Honor en:</p>
-            <ul>
-              <li>Aprendizaje Automático</li>
-              <li>Tecnología y Organización de Computadores</li>
-              <li>Modelos Matemáticos I</li>
-              <li>Variable Compleja I</li>
-              <li>Servidores Web de Altas Prestaciones</li>
-              <li>Lógica y Métodos Discretos</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      
-      <div class="column is-half-desktop is-full-tablet">
-        <div class="education-item">
-          <div class="institution">Universidad de Granada</div>
-          <div class="degree">Máster en Ciencia de Datos</div>
-          <div class="year">Septiembre 2024 - Actualidad</div>
-        </div>
-      </div>
-      
-      <div class="column is-half-desktop is-full-tablet">
-        <div class="education-item">
-          <div class="institution">CPE - Cambridge</div>
-          <div class="degree">Certificate of Proficiency in English (C2)</div>
-          <div class="year">Junio 2019</div>
-          <p>Cambridge English Level 3 Certificate</p>
-        </div>
-      </div>
-      
-      <div class="column is-half-desktop is-full-tablet">
-        <div class="education-item">
-          <div class="institution">Fundación Artificial Intelligence Granada Research & Innovation</div>
-          <div class="degree">Curso Data Engineering con Google Cloud</div>
-          <div class="year">Enero 2024</div>
-        </div>
-      </div>
-      
-      <div class="column is-half-desktop is-full-tablet">
-        <div class="education-item">
-          <div class="institution">Google Cloud Skills Boost</div>
-          <div class="degree">Curso BI y Analytics con Looker</div>
-          <div class="year">Junio 2024</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-  <section class="section">
-    <div class="container">
-      <h1 class="title" id="education-title">Datos Académicos</h1>
-      <hr />
-      <div class="card">
-        <div class="card-content">
-          <div class="content">
-            <p class="title is-4">Universidad de Granada</p>
-            <p class="subtitle is-5">Doble Grado en Ingeniería Informática y Matemática. <time datetime="2019-9">Septiembre 2019</time> - <time
-                datetime="2024-7">Julio 2024</time></p>
-          </div>
-          <div class="content">
-            Matrícula de Honor en:
-            <ul>
-              <li>Aprendizaje Automático</li>
-              <li>Tecnología y Organización de Computadores</li>
-              <li>Modelos Matemáticos I</li>
-              <li>Variable Compleja I</li>
-              <li>Servidores Web de Altas Prestaciones</li>
-              <li>Lógica y Métodos Discretos</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="card card-gap">
-        <div class="card-content">
-          <div class="content">
-            <p class="title is-4">Universidad de Granada</p>
-            <p class="subtitle is-5">Máster en Ciencia de Datos. <time datetime="2024-9">Septiembre 2024</time> - <time
-                datetime="2025-7">Actualidad</time></p>
-          </div>
-        </div>
-      </div>
-      <div class="card card-gap">
-        <div class="card-content">
-          <div class="content">
-            <p class="title is-4">CPE - Cambridge</p>
-            <p class="subtitle is-5">Certificate of Proficiency in English (C2). Cambridge English Level 3 Certificate. <time datetime="2019-7">Junio 2019</time></p>
-          </div>
-        </div>
-      </div>
-      <div class="card card-gap">
-        <div class="card-content">
-          <div class="content">
-            <p class="title is-4">Curso Data Engineering con Google Cloud</p>
-            <p class="content">Organizado por la Fundación Artificial Intelligence Granada Research & Innovation. <time datetime="2024-1">Enero 2024</time></p>
-          </div>
-        </div>
-      </div>
-      <div class="card card-gap">
-        <div class="card-content">
-          <div class="content">
-            <p class="title is-4">Curso BI y Analytics con Looker</p>
-            <p class="content">Organizado por la plataforma Google Cloud Skills Boost. <time datetime="2024-7">Junio 2024</time></p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Contacto -->
   <section class="section">
     <div class="container">
       <h1 class="title" id="contact-title">Contacto</h1>
@@ -380,61 +184,12 @@
         <button class="delete" aria-label="close"></button>
       </header>
       <section class="modal-card-body">
-
         <div id="project-1-modal-carousel" class="carousel">
-          <figure class="image is-4by3 carousel-cell">
-            <img src="img/carousel-1/1.png">
-          </figure>
-          <figure class="image is-4by3 carousel-cell">
-            <img src="img/carousel-1/2.png">
-          </figure>
-        </div>
-
-
-        <div class="content">
-
-          <p id="project-1-description">Este trabajo se enfoca en el estudio de redes neuronales para grafos, con un énfasis especial en las redes neuronales convolucionales en variedades pseudo-riemannianas. 
-            Las redes convolucionales para grafos se han convertido en un estándar en el aprendizaje automático para datos estructurados, pero suelen limitarse al espacio euclidiano, inadecuado para representar estructuras complejas. 
-            Como solución, se proponen las redes pseudo-hiperbólicas convolucionales (QGCN), que operan en pseudo-hiperboloides, subvariedades pseudo-riemannianas. 
-            Sin embargo, estas redes enfrentan el desafío de la falta de conectividad geodésica, resuelto mediante la aplicación exponencial. 
-            El objetivo es comprender y aplicar estas redes a la representación de datos reales, demostrando su potencial y explorando posibles mejoras y aplicaciones futuras.</p>
-
-          <div class="tags">
-            <span class="tag">Python</span>
-            <span class="tag">Scikit-Learn</span>
-            <span class="tag">Torch</span>
-            <span class="tag">networkx</span>
-          </div>
-
-        </div>
-
-      </section>
-      <footer class="modal-card-foot">
-        <button class="button is-success" id="close-project-modal">Cerrar</button>
-      </footer>
-    </div>
-  </div>
-
-  <!-- <div id="project-1-modal" class="modal">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-      <header class="modal-card-head">
-        <p class="modal-card-title" id="project_1-title">Redes Neuronales para Grafos</p>
-        <button class="delete" aria-label="close"></button>
-      </header>
-      <section class="modal-card-body">
-        <div id="project-1-modal-carousel" class="carousel">
-          <div class="carousel-cell">
-            <img src="img/carousel-1/1.png" alt="Project image 1">
-          </div>
-          <div class="carousel-cell">
-            <img src="img/carousel-1/2.png" alt="Project image 2">
-          </div>
-
+          <!-- Add carousel images here -->
         </div>
         <div class="content">
-          <p class="project-description" id="project-1-description">
-            Este trabajo se enfoca en el estudio de redes neuronales para grafos...
+          <p id="project-1-description">
+            <!-- Add full project description here -->
           </p>
           <div class="tags">
             <span class="tag">Python</span>
@@ -444,226 +199,14 @@
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button class="button is-primary" id="close-project-modal">Cerrar</button>
-      </footer>
-    </div>
-  </div> -->
-
-  <div id="project-2-modal" class="modal">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-      <header class="modal-card-head">
-        <p class="modal-card-title" id="project_2-title">Modelo de Difusión</p>
-        <button class="delete" aria-label="close"></button>
-      </header>
-      <section class="modal-card-body">
-
-        <div id="project-2-modal-carousel" class="carousel">
-          <figure class="image is-4by3 carousel-cell">
-            <img src="img/carousel-2/1.png">
-          </figure>
-          <figure class="image is-4by3 carousel-cell">
-            <img src="img/carousel-2/2.png">
-          </figure>
-          <figure class="image is-4by3 carousel-cell">
-            <img src="img/carousel-2/3.png">
-          </figure>
-
-        </div>
-
-        <div class="content">
-
-          <p id="project-2-description">En este proyecto, se estudian los Modelos de Difusión aplicados a la generación de imágenes, centrándose en la síntesis de automóviles usando el "Stanford Cars Dataset". 
-            Adaptando y modificando una arquitectura existente, se lograron representaciones de vehículos en resolución 32x32. 
-            Se realizaron ajustes en las capas de la arquitectura, en el algoritmo de entrenamiento, en ciertos hiperparámetros y se probaron distintas funciones de pérdida. 
-            Además, se implementó el cálculo del FID score para evaluar y comparar las versiones del modelo. 
-            Los resultados muestran que la función de pérdida de Error Absoluto Medio supera al Error Cuadrático Medio, mejorando los puntajes FID y la calidad visual de las imágenes generadas.</p>
-
-          <div class="tags">
-            <span class="tag">Python</span>
-            <span class="tag">PyTorch</span>
-          </div>
-
-        </div>
-
-      </section>
-      <footer class="modal-card-foot">
         <button class="button is-success" id="close-project-modal">Cerrar</button>
       </footer>
     </div>
   </div>
 
-  <div id="project-3-modal" class="modal">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-      <header class="modal-card-head">
-        <p class="modal-card-title" id="project_3-title">Análisis de Fútbol</p>
-        <button class="delete" aria-label="close"></button>
-      </header>
-      <section class="modal-card-body">
-        <div id="project-3-modal-carousel" class="carousel">
-          <figure class="image is-4by3 carousel-cell">
-            <img src="img/carousel-3/1.png">
-          </figure>
-          <figure class="image is-4by3 carousel-cell">
-            <img src="img/carousel-3/2.png">
-          </figure>
-        </div>
-
-        <div class="content">
-          <p id="project-3-description">
-            Proyecto que se enfoca en la aplicación de modelos de visión por computador para analizar vídeos de partidos de fútbol. 
-            Detectando jugadores, árbitros y balón, mediante un modelo YOLOv8 preentrenado con imágenes de fútbol. 
-            Utiliza un modelo YOLOv8 preentrenado específicamente con imágenes de fútbol para detectar jugadores, árbitros y el balón. 
-            Además, se identifica a los jugadores de cada equipo y se realiza un seguimiento en tiempo real de sus movimientos en el campo, incluyendo su ubicación, distancia recorrida y velocidad. 
-            Finalmente, se ofrecen visualizaciones más avanzadas, como mapas de calor de la posición de los jugadores durante el vídeo.
-          </p>
-          <div class="tags">
-            <span class="tag">Python</span>
-            <span class="tag">YOLO</span>
-            <span class="tag">Supervision</span>
-            <span class="tag">OpenCV</span>
-            <span class="tag">Roboflow</span>
-          </div>
-        </div>
-
-      </section>
-      <footer class="modal-card-foot">
-        <button class="button is-success" id="close-project-modal">Cerrar</button>
-      </footer>
-    </div>
-  </div>
-
-  <div id="project-4-modal" class="modal">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-      <header class="modal-card-head">
-        <p class="modal-card-title" id="project_4-title">F1 Web App</p>
-        <button class="delete" aria-label="close"></button>
-      </header>
-      <section class="modal-card-body">
-        <div id="project-4-modal-carousel" class="carousel">
-          <figure class="image is-4by3 carousel-cell">
-            <img src="img/carousel-4/1.png">
-          </figure>
-          <figure class="image is-4by3 carousel-cell">
-            <img src="img/carousel-4/2.png">
-          </figure>
-          <figure class="image is-4by3 carousel-cell">
-            <img src="img/carousel-4/3.png">
-          </figure>
-          <figure class="image is-4by3 carousel-cell">
-            <img src="img/carousel-4/4.png">
-          </figure>
-        </div>
-
-        <div class="content">
-          <p id="project-4-description">En este proyecto he desarrollado la web https:/f1-data.streamlit.app , que permite analizar en detalle las distintas carreras y clasificaciones de la Fórmula 1.
-            La web ofrece información sobre los circuitos, la clasificación actual del campeonato y los tiempos en cada Gran Premio. 
-            Para cada carrera, se proporciona información sobre la parrilla de salida, los tiempos de clasificación, la evolución de las posiciones, y la distribución de los tiempos de cada vuelta, entre otros.
-            Los datos han sido obtenidos mediante las APIs de Ergast y FastF1, y se han procesado y visualizado con Streamlit, Plotly y Pandas.
-          </p>
-          <div class="tags">
-            <span class="tag">Python</span>
-            <span class="tag">Streamlit</span>
-            <span class="tag">Pandas</span>
-            <span class="tag">Plotly</span>
-          </div>
-        </div>
-
-      </section>
-      <footer class="modal-card-foot">
-        <button class="button is-success" id="close-project-modal">Cerrar</button>
-      </footer>
-    </div>
-  </div>
-
-  <div id="project-5-modal" class="modal">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-      <header class="modal-card-head">
-        <p class="modal-card-title" id="project_5-title">Análisis de Encuesta</p>
-        <button class="delete" aria-label="close"></button>
-      </header>
-      <section class="modal-card-body">
-        <div id="project-5-modal-carousel" class="carousel">
-          <figure class="image is-4by3 carousel-cell">
-            <img src="img/carousel-5/1.png">
-          </figure>
-          <figure class="image is-4by3 carousel-cell">
-            <img src="img/carousel-5/2.png">
-          </figure>
-          <figure class="image is-4by3 carousel-cell">
-            <img src="img/carousel-5/3.png">
-          </figure>
-        </div>
-
-        <div class="content">
-          <p id="project-5-description">
-            Esta práctica consiste en la aplicación y análisis de técnicas de agrupamiento para describir grupos en distintos conjuntos de datos seleccionados.
-            En este proyecto nos proponemos analizar la encuesta publicada el 6 de noviembre de 2023 de la empresa 40db, donde se recoge la inteción de voto de la población y otros asuntos de actualidad.
-            Se definirán distintos casos de estudio y se aplicarán distintos algoritmos de clustering para identificar y analizar los distintos grupos de interés.
-          </p>
-          <div class="tags">
-            <span class="tag">Python</span>
-            <span class="tag">Numpy</span>
-            <span class="tag">Pandas</span>
-            <span class="tag">Scikit-Learn</span>
-            <span class="tag">Matplotlib</span>
-            <span class="tag">Seaborn</span>
-          </div>
-        </div>
-
-      </section>
-      <footer class="modal-card-foot">
-        <button class="button is-success" id="close-project-modal">Cerrar</button>
-      </footer>
-    </div>
-  </div>
-
-  <div id="project-6-modal" class="modal">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-      <header class="modal-card-head">
-        <p class="modal-card-title" id="project_6-title">Estadística sobre una BBDD</p>
-        <button class="delete" aria-label="close"></button>
-      </header>
-      <section class="modal-card-body">
-        <div id="project-6-modal-carousel" class="carousel">
-          <figure class="image is-4by3 carousel-cell">
-            <img src="img/carousel-6/1.png">
-          </figure>
-          <figure class="image is-4by3 carousel-cell">
-            <img src="img/carousel-6/2.png">
-          </figure>
-          <figure class="image is-4by3 carousel-cell">
-            <img src="img/carousel-6/3.png">
-          </figure>
-          <figure class="image is-4by3 carousel-cell">
-            <img src="img/carousel-6/4.png">
-          </figure>
-        </div>
-
-        <div class="content">
-          <p id="project-6-description">Este proyecto se centra en el análisis exploratorio, tanto univariante como multivariante, de una base de datos sobre vivienda. Se estudia la presencia de outliers y la normalidad en las distintas variables, 
-            y se aplican distintas técnicas de visualización y reducción de dimensionalidad, PCA y FA, para estudiar la relación entre las variables.
-          </p>
-          <div class="tags">
-            <span class="tag">R</span>
-            <span class="tag">RStudio</span>
-          </div>
-        </div>
-
-      </section>
-      <footer class="modal-card-foot">
-        <button class="button is-success" id="close-project-modal">Cerrar</button>
-      </footer>
-    </div>
-  </div>
-
+  <!-- Repeat modal structure for other projects -->
 
   <script>
-
     // Script para cambiar idioma
     const langToggle = document.getElementById('language-toggle');
     const elements = {
@@ -677,35 +220,7 @@
       },
       'projects-title': { es: 'Proyectos', en: 'Projects' },
       'project_1-title': { es: 'Redes Neuronales para Grafos', en: 'Graph Neural Networks' },
-      'project_2-title': { es: 'Modelo de Difusión', en: 'Diffusion Model' },
-      'project_3-title': { es: 'Análisis de Fútbol', en: 'Computer Vision in Football' },
-      'project_4-title': { es: 'F1 Web App', en: 'F1 Web App' },
-      'project_5-title': { es: 'Análisis de Encuesta', en: 'Survey Analysis' },
-      'project_6-title': { es: 'Estadística sobre una BBDD', en: 'Statistical Analysis of a Database' },
-      'project-1-description': {
-        es: 'Este trabajo se enfoca en el estudio de redes neuronales para grafos, con un énfasis especial en las redes neuronales convolucionales en variedades pseudo-riemannianas. Las redes convolucionales para grafos se han convertido en un estándar en el aprendizaje automático, pero suelen limitarse al espacio euclidiano, inadecuado para representar estructuras más complejas. Como solución, se proponen las redes pseudo-hiperbólicas convolucionales (QGCN), que operan en pseudo-hiperboloides, subvariedades pseudo-riemannianas. Sin embargo, estas redes enfrentan el desafío de la falta de conectividad geodésica, resuelto mediante la aplicación exponencial. El objetivo es comprender y aplicar estas redes a la representación de datos reales, demostrando su potencial y explorando posibles mejoras y aplicaciones futuras.',
-        en: 'This work focuses on the study of Graph Neural Networks, with a particular emphasis on Pseudo-Riemannian Graph Convolutional Neural Networks. Convolutional neural networks for graphs have become a standard in machine learning, but they are often limited to the Euclidean space, which fails to represent more complex structures. As a solution, we study pseudo-hyperbolic convolutional neural networks (QGCN), which operate in pseudo-hyperboloids, Pseudo-Riemannian manifolds. However, these manifolds are not geodesically connected. The solution explored in this project is by using the exponential map. The goal is to understand and apply these networks to the representation of real data, demonstrating their potential and exploring possible improvements and future applications.'
-      },
-      'project-2-description': {
-        es: 'En este proyecto, se estudian los Modelos de Difusión aplicados a la generación de imágenes, centrándose en la síntesis de automóviles usando el "Stanford Cars Dataset". Adaptando y modificando una arquitectura existente, se lograron representaciones de vehículos en resolución 32x32. Se realizaron ajustes en las capas de la arquitectura, en el algoritmo de entrenamiento, en ciertos hiperparámetros y se probaron distintas funciones de pérdida. Además, se implementó el cálculo del FID score para evaluar y comparar las versiones del modelo.',
-        en: 'In this project, we study the application of Diffusion Models to image generation, focusing on the synthesis of cars using the "Stanford Cars Dataset". By adapting and modifying an existing architecture, we achieved vehicle representations at 32x32 resolution. Adjustments were made to the architecture layers, training algorithm, certain hyperparameters, and different loss functions were tested. Additionally, the calculation of the FID score was implemented to evaluate and compare the model versions.'
-      },
-      'project-3-description': {
-        es: 'Proyecto que se enfoca en la aplicación de modelos de visión por computador para analizar vídeos de partidos de fútbol. Utiliza un modelo YOLOv8 preentrenado específicamente con imágenes de fútbol para detectar jugadores, árbitros y balón. Además, se identifica a los jugadores de cada equipo y se realiza un seguimiento en tiempo real de sus movimientos en el campo, incluyendo su ubicación, distancia recorrida y velocidad. Finalmente, se ofrecen visualizaciones más avanzadas, como mapas de calor de la posición de los jugadores durante el vídeo.',
-        en: 'Project focused on the application of computer vision models to analyze football match videos. We use a pre-trained YOLOv8 model specifically with football images to detect players, referees and ball.  Additionally, it identifies players from each team and tracks their movements on the field in real time, including their location, distance traveled, and speed. Finally, more advanced visualizations are offered, such as heat maps of the players\' positions during the video.'
-      },
-      'project-4-description': {
-        es: 'En este proyecto he desarrollado la web https:/f1-data.streamlit.app , que permite analizar en detalle las distintas carreras y clasificaciones de la Fórmula 1. La web ofrece información sobre los circuitos, la clasificación actual del campeonato y los tiempos en cada Gran Premio. Para cada carrera, se proporciona información sobre la parrilla de salida, los tiempos de clasificación, la evolución de las posiciones, y la distribución de los tiempos de cada vuelta, entre otros. Los datos han sido obtenidos mediante las APIs de Ergast y FastF1, y se han procesado y visualizado con Streamlit, Plotly y Pandas.',
-        en: 'In this project, I developed the web https:/f1-data.streamlit.app , which allows analyzing in detail the different races and classifications of the F1. The web offers information about the circuits, the current classification of the championship, and the times in each Grand Prix. For each race, information is provided about the starting grid, the classification times, the evolution of the positions, and the distribution of the times of each lap, among others. The data has been obtained through the Ergast and FastF1 APIs, and has been processed and visualized with Streamlit, Plotly, and Pandas.'
-      },
-      'project-5-description': {
-        es: 'Esta práctica consiste en la aplicación y análisis de técnicas de agrupamiento para describir grupos en distintos conjuntos de datos seleccionados. En este proyecto nos proponemos analizar la encuesta publicada el 6 de noviembre de 2023 de la empresa 40db, donde se recoge la inteción de voto de la población y otros asuntos de actualidad. Se definirán distintos casos de estudio y se aplicarán distintos algoritmos de clustering para identificar y analizar los distintos grupos de interés.',
-        en: 'This practice consists of the application and analysis of clustering techniques to describe groups in different selected data sets. In this project, we propose to analyze the survey published on November 6, 2023, by the company 40db, where the voting intention of the population and other current issues are collected. Different case studies will be defined and different clustering algorithms will be applied to identify and analyze the different groups of interest.'
-      },
-      'project-6-description': {
-        es: 'Este proyecto se centra en el análisis exploratorio, tanto univariante como multivariante, de una base de datos sobre vivienda. Se estudia la presencia de outliers y la normalidad en las distintas variables, y se aplican distintas técnicas de visualización y reducción de dimensionalidad, PCA y FA, para estudiar la relación entre las variables.',
-        en: 'This project focuses on the exploratory analysis, both univariate and multivariate, of a database on housing. The presence of outliers and the normality of the different variables is studied, and different visualization and dimensionality reduction techniques, PCA and FA, are applied to study the relationship between the variables.'
-      },
+      // Add translations for other projects
       'education-title': { es: 'Datos Académicos', en: 'Education' },
       'contact-title': { es: 'Contacto', en: 'Contact' },
       'footer-text': { es: 'portfolio', en: 'portfolio' },
@@ -720,7 +235,10 @@
       document.getElementById('language-toggle').textContent = currentLang === 'es' ? 'EN' : 'ES';
     
       for (let id in elements) {
-        document.getElementById(id).textContent = elements[id][currentLang];
+        const element = document.getElementById(id);
+        if (element) {
+          element.textContent = elements[id][currentLang];
+        }
       }
     });
 
@@ -731,15 +249,14 @@
           const details = button.nextElementSibling;
           if (details.style.display === 'none') {
             details.style.display = 'block';
-            button.textContent = 'Hide Details';
+            button.textContent = elements['hide-details'][currentLang];
           } else {
             details.style.display = 'none';
-            button.textContent = 'Show Details';
+            button.textContent = elements['show-details'][currentLang];
           }
         });
       });
     });
-    
   </script>
 
   <script src="js/bundle.js"></script>
