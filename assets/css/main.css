@@ -3014,3 +3014,38 @@ input, select, textarea {
         max-width: 200px; /* Aún más pequeño en pantallas móviles */
     }
 }
+
+/* Modal header close button without transparency or size increase */
+.modal-header .close {
+    font-size: 1.5rem; /* Keep a moderate size */
+    color: #333; /* Solid color */
+    border: none;
+    background: #333;
+    transition: color 0.3s ease; /* Only change color on hover */
+}
+
+.modal-header .close:hover {
+    color: #ff5e57; /* Change color slightly on hover */
+    /* No scale or size change */
+}
+
+/* Footer close button without size change */
+.modal-footer .btn {
+    background-color: #43B3E0; /* Solid color */
+    color: white;
+    border-radius: 5px;
+    padding: 0.75em 1.5em;
+    border: none;
+    font-size: 1rem;
+    transition: background-color 0.3s ease; /* Only background color changes */
+}
+
+.modal-footer .btn:hover {
+    background-color: #3ba8d3; /* Slight color change */
+    /* No size change */
+}
+
+.modal-footer .btn:active {
+    background-color: #3498db; /* Darker when pressed */
+}
+
