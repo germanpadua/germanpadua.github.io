@@ -1,0 +1,78 @@
+<article id="portfolio" class="wrapper style3">
+    <div class="container">
+        <header>
+            <h2>{{ site.data[page.lang].ui.projects.title }}</h2>
+            <p>{{ site.data[page.lang].ui.projects.subtitle }}</p>
+        </header>
+        <div class="row">
+            {% for project in site.data[page.lang].projects %}
+            <div class="col-4 col-6-medium col-12-small">
+                <article class="box style2">
+                    <a href="#" class="image featured" data-toggle="modal" data-target="#{{ project.modal_id }}">
+                        <img src="{{ project.image | relative_url }}" alt="{{ project.title }}" />
+                    </a>
+                    <h3><a href="#" data-toggle="modal" data-target="#{{ project.modal_id }}">{{ project.title }}</a>
+                    </h3>
+                    <p>{{ project.description | truncatewords: 20 }}</p>
+                </article>
+            </div>
+
+            <!-- Modal for {{ project.title }} -->
+            <div id="{{ project.modal_id }}" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">{{ project.title }}</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            {% if project.carousel_images %}
+                            <div id="carousel-{{ forloop.index }}" class="carousel slide" data-ride="carousel">
+                                <ol class="carousel-indicators">
+                                    {% for img in project.carousel_images %}
+                                    <li data-target="#carousel-{{ forloop.index }}" data-slide-to="{{ forloop.index0 }}"
+                                        class="{% if forloop.first %}active{% endif %}"></li>
+                                    {% endfor %}
+                                </ol>
+                                <div class="carousel-inner">
+                                    {% for img in project.carousel_images %}
+                                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                        <img src="{{ img | relative_url }}" class="d-block w-100"
+                                            alt="Slide {{ forloop.index }}">
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <a class="carousel-control-prev" href="#carousel-{{ forloop.index }}" role="button"
+                                    data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carousel-{{ forloop.index }}" role="button"
+                                    data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                            {% endif %}
+
+                            <div class="project-description mt-4">
+                                {{ project.description | markdownify }}
+                            </div>
+
+                            <div class="tags mt-3">
+                                {% for tag in project.tags %}
+                                <span class="tag badge badge-secondary">{{ tag }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">{{
+                                site.data[page.lang].ui.projects.close_modal }}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</article>

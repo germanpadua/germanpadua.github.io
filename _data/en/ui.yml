@@ -1,0 +1,31 @@
+nav:
+  top: "Top"
+  work: "Education"
+  portfolio: "Projects"
+  contact: "Contact"
+  language_label: "Español"
+  language_url: "/index.html"
+  language_flag: "images/spain-flag.png"
+
+hero:
+  greeting: "Hi, I'm"
+  role: "I'm a Computer Scientist and Mathematician passionate about Artificial Intelligence and Data Science."
+  button: "Learn about what I do"
+
+education:
+  title: "Education"
+  subtitle: ""
+
+projects:
+  title: "Recent Projects"
+  subtitle: "Here are some of my recent works."
+  close_modal: "Close"
+
+contact:
+  title: "Contact"
+  subtitle: "Let's get in touch."
+  footer_text: "Design:"
+
+skills:
+  title: "Skills"
+  subtitle: "Technical proficiency and tools."

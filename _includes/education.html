@@ -1,0 +1,26 @@
+<article id="work" class="wrapper style2">
+    <div class="container">
+        <header>
+            <h2>{{ site.data[page.lang].ui.education.title }}</h2>
+            {% if site.data[page.lang].ui.education.subtitle %}
+            <p>{{ site.data[page.lang].ui.education.subtitle }}</p>
+            {% endif %}
+        </header>
+        <div class="row aln-center">
+            {% for item in site.data[page.lang].education %}
+            <div class="col-4 col-6-medium col-12-small">
+                <section class="box style1">
+                    <span class="icon solid featured {{ item.icon }}" style="color: {{ item.color }};"></span>
+                    <h3>{{ item.title }}</h3>
+                    <p><strong>{{ item.institution }}</strong><br />{{ item.period }}</p>
+                    {% if item.description %}
+                    <div class="text-left" style="font-size: 0.9em;">
+                        {{ item.description | markdownify }}
+                    </div>
+                    {% endif %}
+                </section>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</article>

@@ -1,0 +1,40 @@
+- title: "Master in Data Science"
+  institution: "University of Granada"
+  period: "September 2024 - Present"
+  icon: "fa-graduation-cap"
+  color: "#28a745"
+
+- title: "Double Degree in Computer Science and Mathematics"
+  institution: "University of Granada"
+  period: "September 2019 - July 2024"
+  description: |
+    **Final Degree Project:** Graph Neural Networks in Pseudo-Riemannian Manifolds. **Grade:** 9.9 / 10
+    
+    **Honors in:**
+    - Machine Learning
+    - Computer Technology and Organization
+    - Mathematical Models I
+    - Complex Variable I
+    - High-Performance Web Servers
+    - Logic and Discrete Methods
+  icon: "fa-graduation-cap"
+  color: "#007bff"
+
+- title: "Certificate of Proficiency in English (C2)"
+  institution: "Cambridge English Level 3 Certificate"
+  period: "June 2019"
+  description: "CPE - Cambridge"
+  icon: "fa-certificate"
+  color: "#ffc107"
+
+- title: "Data Engineering Course with Google Cloud"
+  institution: "Fundacion Artificial Intelligence Granada Research & Innovation"
+  period: "January 2024"
+  icon: "fa-cloud"
+  color: "#17a2b8"
+
+- title: "BI and Analytics Course with Looker"
+  institution: "Google Cloud Skills Boost"
+  period: "June 2024"
+  icon: "fa-chart-bar"
+  color: "#dc3545"

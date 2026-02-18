@@ -1,0 +1,15 @@
+<nav id="nav">
+    <ul class="container">
+        <li>
+            <a href="{{ site.data[page.lang].ui.nav.language_url | relative_url }}">
+                <img src="{{ site.data[page.lang].ui.nav.language_flag | relative_url }}"
+                    alt="{{ site.data[page.lang].ui.nav.language_label }}" style="width: 30px; height: auto;" />
+            </a>
+        </li>
+        <li><a href="#top">{{ site.data[page.lang].ui.nav.top }}</a></li>
+        <li><a href="#work">{{ site.data[page.lang].ui.nav.work }}</a></li>
+        <li><a href="#skills">{{ site.data[page.lang].ui.skills.title }}</a></li>
+        <li><a href="#portfolio">{{ site.data[page.lang].ui.nav.portfolio }}</a></li>
+        <li><a href="#contact">{{ site.data[page.lang].ui.nav.contact }}</a></li>
+    </ul>
+</nav>

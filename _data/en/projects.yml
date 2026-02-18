@@ -1,0 +1,102 @@
+- title: "Graph Neural Networks"
+  image: "images/project-1-cover.png"
+  description: |
+    This project focuses on the study of neural networks for graphs, with special emphasis on convolutional networks in pseudo-Riemannian manifolds.
+    Convolutional networks for graphs have become a standard in machine learning for structured data but are often limited to Euclidean space, which is inadequate for representing complex structures.
+    As a solution, pseudo-hyperbolic convolutional networks (QGCN) operating in pseudo-hyperboloids, pseudo-Riemannian submanifolds, are proposed. However, these networks face the challenge of geodesic disconnection, solved through exponential mapping.
+    The goal is to understand and apply these networks to real data representation, demonstrating their potential and exploring possible improvements and future applications.
+  tags:
+    - Python
+    - Scikit-Learn
+    - Torch
+    - networkx
+  modal_id: "project-1-modal"
+  carousel_images:
+    - "images/carousel-1/1.png"
+    - "images/carousel-1/2.png"
+
+- title: "Diffusion Model"
+  image: "images/project-2-cover.png"
+  description: |
+    This project studies Diffusion Models applied to image generation, focusing on synthesizing cars using the "Stanford Cars Dataset".
+    By adapting and modifying an existing architecture, vehicle representations were achieved at 32x32 resolution. Adjustments were made to the layers, training algorithm, and hyperparameters, and different loss functions were tested.
+    Additionally, the FID score calculation was implemented to evaluate and compare model versions.
+  tags:
+    - Python
+    - PyTorch
+  modal_id: "project-2-modal"
+  carousel_images:
+    - "images/carousel-2/1.png"
+    - "images/carousel-2/2.png"
+    - "images/carousel-2/3.png"
+
+- title: "Football Analysis"
+  image: "images/project-3-cover.png"
+  description: |
+    This project focuses on the application of computer vision models to analyze football match videos. It uses a YOLOv8 model specifically pretrained on football images to detect players, referees, and the ball.
+    Additionally, it identifies players from each team and tracks their movements in real-time, including location, distance covered, and speed.
+    Finally, more advanced visualizations are provided, such as heatmaps of player positions throughout the video.
+  tags:
+    - Python
+    - YOLO
+    - OpenCV
+    - Supervision
+    - Roboflow
+  modal_id: "project-3-modal"
+  carousel_images:
+    - "images/carousel-3/1.png"
+    - "images/carousel-3/2.png"
+
+- title: "F1 Web App"
+  image: "images/project-4-cover.png"
+  description: |
+    In this project, I developed the website https://f1-data.streamlit.app, which allows detailed analysis of Formula 1 races and standings.
+    The site offers information about circuits, current championship standings, and times for each Grand Prix. For each race, it provides details about the starting grid, qualifying times, position changes, and lap time distribution, among others.
+    The data was obtained via the Ergast and FastF1 APIs and processed and visualized with Streamlit, Plotly, and Pandas.
+  tags:
+    - Python
+    - Streamlit
+    - FastF1
+    - Ergast
+    - Pandas
+    - Plotly
+  modal_id: "project-4-modal"
+  carousel_images:
+    - "images/carousel-4/1.png"
+    - "images/carousel-4/2.png"
+    - "images/carousel-4/3.png"
+    - "images/carousel-4/4.png"
+
+- title: "Survey Analysis"
+  image: "images/project-5-cover.png"
+  description: |
+    This practice consists of the application and analysis of clustering techniques to describe groups in different selected data sets.
+    In this project, we propose to analyze the survey published on November 6, 2023, by the company 40db, where the voting intention of the population and other current issues are collected.
+    Different case studies will be defined and different clustering algorithms will be applied to identify and analyze the different groups of interest.
+  tags:
+    - Python
+    - Numpy
+    - Pandas
+    - Scikit-Learn
+    - Matplotlib
+    - Seaborn
+  modal_id: "project-5-modal"
+  carousel_images:
+    - "images/carousel-5/1.png"
+    - "images/carousel-5/2.png"
+    - "images/carousel-5/3.png"
+
+- title: "Data Statistics"
+  image: "images/project-6-cover.png"
+  description: |
+    This project focuses on the exploratory analysis, both univariate and multivariate, of a database on housing.
+    The presence of outliers and the normality of the different variables is studied, and different visualization and dimensionality reduction techniques, PCA and FA, are applied to study the relationship between the variables.
+  tags:
+    - R
+    - RStudio
+  modal_id: "project-6-modal"
+  carousel_images:
+    - "images/carousel-6/1.png"
+    - "images/carousel-6/2.png"
+    - "images/carousel-6/3.png"
+    - "images/carousel-6/4.png"

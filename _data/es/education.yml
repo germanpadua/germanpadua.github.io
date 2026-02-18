@@ -1,0 +1,40 @@
+- title: "Máster en Ciencia de Datos"
+  institution: "Universidad de Granada"
+  period: "Septiembre 2024 - Actualidad"
+  icon: "fa-graduation-cap"
+  color: "#28a745"
+
+- title: "Doble Grado en Ingeniería Informática y Matemáticas"
+  institution: "Universidad de Granada"
+  period: "Septiembre 2019 - Julio 2024"
+  description: |
+    **TFG:** Redes Neuronales para Grafos en Variedades Pseudo-Riemannianas. **Nota:** 9.9 / 10
+    
+    **Matrícula de Honor en:**
+    - Aprendizaje Automático
+    - Tecnología y Organización de Computadores
+    - Modelos Matemáticos I
+    - Variable Compleja I
+    - Servidores Web de Altas Prestaciones
+    - Lógica y Métodos Discretos
+  icon: "fa-graduation-cap"
+  color: "#007bff"
+
+- title: "Certificate of Proficiency in English (C2)"
+  institution: "Cambridge English Level 3 Certificate"
+  period: "Junio 2019"
+  description: "CPE - Cambridge"
+  icon: "fa-certificate"
+  color: "#ffc107"
+
+- title: "Curso Data Engineering con Google Cloud"
+  institution: "Fundación Artificial Intelligence Granada Research & Innovation"
+  period: "Enero 2024"
+  icon: "fa-cloud"
+  color: "#17a2b8"
+
+- title: "Curso BI y Analytics con Looker"
+  institution: "Google Cloud Skills Boost"
+  period: "Junio 2024"
+  icon: "fa-chart-bar"
+  color: "#dc3545"

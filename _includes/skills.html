@@ -1,0 +1,25 @@
+<article id="skills" class="wrapper style2">
+    <div class="container">
+        <header>
+            <h2>{{ site.data[page.lang].ui.skills.title }}</h2>
+            <p>{{ site.data[page.lang].ui.skills.subtitle }}</p>
+        </header>
+        <div class="row aln-center">
+            {% for category in site.data[page.lang].skills %}
+            <div class="col-6 col-12-medium mb-4">
+                <section class="box style1">
+                    <h3>{{ category.category }}</h3>
+                    <ul class="list-unstyled">
+                        {% for item in category.items %}
+                        <li class="d-inline-block m-1">
+                            <span class="badge badge-custom p-2"
+                                style="background-color: #e9ecef; color: #495057; font-size: 0.9rem;">{{ item }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </section>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</article>

@@ -1,0 +1,31 @@
+nav:
+  top: "Inicio"
+  work: "Datos Académicos"
+  portfolio: "Proyectos"
+  contact: "Contacto"
+  language_label: "English"
+  language_url: "/index-en.html"
+  language_flag: "images/england-flag.png"
+
+hero:
+  greeting: "Hola, soy"
+  role: "Ingeniero Informático y Matemático, apasionado por la Inteligencia Artificial y la Ciencia de Datos."
+  button: "Conoce lo que hago"
+
+education:
+  title: "Datos Académicos"
+  subtitle: ""
+
+projects:
+  title: "Proyectos Recientes"
+  subtitle: "Aquí están algunos de mis trabajos recientes."
+  close_modal: "Cerrar"
+
+contact:
+  title: "Contacto"
+  subtitle: ""
+  footer_text: "Diseño:"
+
+skills:
+  title: "Habilidades"
+  subtitle: "Competencias técnicas y herramientas."

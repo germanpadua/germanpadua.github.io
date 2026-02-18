@@ -1,0 +1,34 @@
+- category: "Lenguajes & Core"
+  items:
+    - Python
+    - R
+    - C/C++
+    - Java
+    - SQL
+    - HTML/CSS/JS
+
+- category: "Ciencia de Datos & IA"
+  items:
+    - PyTorch
+    - Scikit-Learn
+    - Pandas
+    - NumPy
+    - Matplotlib/Seaborn
+    - YOLO (Computer Vision)
+    - NetworkX (Graph Neural Networks)
+
+- category: "Herramientas & Plataformas"
+  items:
+    - Git/GitHub
+    - Streamlit
+    - Google Cloud Platform
+    - Looker
+    - Docker
+    - Linux
+
+- category: "Matemáticas"
+  items:
+    - Estadística
+    - Álgebra Lineal
+    - Cálculo
+    - Matemáticas Discretas
