@@ -1,19 +1,31 @@
 <article id="portfolio" class="wrapper style3">
     <div class="container">
-        <header>
+        <header class="reveal">
             <h2>{{ site.data[page.lang].ui.projects.title }}</h2>
             <p>{{ site.data[page.lang].ui.projects.subtitle }}</p>
         </header>
         <div class="row">
             {% for project in site.data[page.lang].projects %}
-            <div class="col-4 col-6-medium col-12-small">
+            {% assign project_index = forloop.index %}
+            <div class="col-12 col-md-6 col-lg-4 mb-4 reveal reveal-delay-{{ project_index }}">
                 <article class="box style2">
                     <a href="#" class="image featured" data-toggle="modal" data-target="#{{ project.modal_id }}">
                         <img src="{{ project.image | relative_url }}" alt="{{ project.title }}" />
                     </a>
                     <h3><a href="#" data-toggle="modal" data-target="#{{ project.modal_id }}">{{ project.title }}</a>
                     </h3>
-                    <p>{{ project.description | truncatewords: 20 }}</p>
+                    <p>{{ project.description | truncatewords: 15 }}</p>
+
+                    {% if project.tags %}
+                    <div class="project-card-tags">
+                        {% for tag in project.tags limit:3 %}
+                        <span class="project-card-tag">{{ tag }}</span>
+                        {% endfor %}
+                        {% if project.tags.size > 3 %}
+                        <span class="project-card-tag">+{{ project.tags.size | minus: 3 }}</span>
+                        {% endif %}
+                    </div>
+                    {% endif %}
                 </article>
             </div>
 
@@ -27,10 +39,10 @@
                         </div>
                         <div class="modal-body">
                             {% if project.carousel_images %}
-                            <div id="carousel-{{ forloop.index }}" class="carousel slide" data-ride="carousel">
+                            <div id="carousel-{{ project_index }}" class="carousel slide" data-ride="carousel">
                                 <ol class="carousel-indicators">
                                     {% for img in project.carousel_images %}
-                                    <li data-target="#carousel-{{ forloop.index }}" data-slide-to="{{ forloop.index0 }}"
+                                    <li data-target="#carousel-{{ project_index }}" data-slide-to="{{ forloop.index0 }}"
                                         class="{% if forloop.first %}active{% endif %}"></li>
                                     {% endfor %}
                                 </ol>
@@ -42,12 +54,12 @@
                                     </div>
                                     {% endfor %}
                                 </div>
-                                <a class="carousel-control-prev" href="#carousel-{{ forloop.index }}" role="button"
+                                <a class="carousel-control-prev" href="#carousel-{{ project_index }}" role="button"
                                     data-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                     <span class="sr-only">Previous</span>
                                 </a>
-                                <a class="carousel-control-next" href="#carousel-{{ forloop.index }}" role="button"
+                                <a class="carousel-control-next" href="#carousel-{{ project_index }}" role="button"
                                     data-slide="next">
                                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                     <span class="sr-only">Next</span>

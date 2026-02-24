@@ -12,6 +12,10 @@ hero:
   role: "I'm a Computer Scientist and Mathematician passionate about Artificial Intelligence and Data Science."
   button: "Learn about what I do"
 
+experience:
+  title: "Experience"
+  subtitle: ""
+
 education:
   title: "Education"
   subtitle: ""
@@ -23,8 +27,16 @@ projects:
 
 contact:
   title: "Contact"
-  subtitle: "Let's get in touch."
+  subtitle: "Have a project in mind or a professional opportunity? Feel free to reach out."
   footer_text: "Design:"
+  linkedin_cta: "Let's connect"
+  github_cta: "See my projects"
+
+footer:
+  nav_title: "Navigation"
+  connect_title: "Connect"
+  rights: "All rights reserved."
+  description: "Portfolio of German Padua - Computer Scientist and Mathematician, passionate about Artificial Intelligence and Data Science."
 
 skills:
   title: "Skills"

@@ -1,40 +1,79 @@
-- title: "Máster en Ciencia de Datos"
-  institution: "Universidad de Granada"
-  period: "Septiembre 2024 - Actualidad"
-  icon: "fa-graduation-cap"
-  color: "#28a745"
+- section: "Formación Académica"
+  items:
+    - title: "Máster en Ciencia de Datos"
+      institution: "Universidad de Granada"
+      period: "Septiembre 2024 - Agosto 2025"
+      description: |
+        Formación avanzada en Machine Learning, Deep Learning, Optimización, Modelos Probabilísticos y Big Data.
+        
+        Enfoque en:
+        - Modelado estadístico avanzado
+        - Deep Learning y arquitecturas modernas
+        - Ingeniería de datos y procesamiento distribuido
+        - Validación y evaluación rigurosa de modelos
+      icon: "fa-brain"
+      color: "#28a745"
 
-- title: "Doble Grado en Ingeniería Informática y Matemáticas"
-  institution: "Universidad de Granada"
-  period: "Septiembre 2019 - Julio 2024"
-  description: |
-    **TFG:** Redes Neuronales para Grafos en Variedades Pseudo-Riemannianas. **Nota:** 9.9 / 10
-    
-    **Matrícula de Honor en:**
-    - Aprendizaje Automático
-    - Tecnología y Organización de Computadores
-    - Modelos Matemáticos I
-    - Variable Compleja I
-    - Servidores Web de Altas Prestaciones
-    - Lógica y Métodos Discretos
-  icon: "fa-graduation-cap"
-  color: "#007bff"
+    - title: "Doble Grado en Ingeniería Informática y Matemáticas"
+      institution: "Universidad de Granada"
+      period: "Septiembre 2019 - Junio 2024"
+      description: |
+        **TFG:** Redes Neuronales para Grafos en Variedades Pseudo-Riemannianas  
+        **Calificación:** 9.9 / 10
+        
+        **Matrículas de Honor en:**
+        - Aprendizaje Automático
+        - Tecnología y Organización de Computadores
+        - Modelos Matemáticos I
+        - Variable Compleja I
+        - Servidores Web de Altas Prestaciones
+        - Lógica y Métodos Discretos
+      icon: "fa-graduation-cap"
+      color: "#007bff"
 
-- title: "Certificate of Proficiency in English (C2)"
-  institution: "Cambridge English Level 3 Certificate"
-  period: "Junio 2019"
-  description: "CPE - Cambridge"
-  icon: "fa-certificate"
-  color: "#ffc107"
+- section: "Especialización Técnica y Certificaciones"
+  items:
+    - title: "Hugging Face Agents & LLMs"
+      institution: "Hugging Face"
+      period: "Diciembre 2025"
+      description: |
+        Desarrollo de AI Agents, RAG pipelines y uso de LangGraph para orquestación de LLMs.
+      icon: "fa-robot"
+      color: "#fd7e14"
 
-- title: "Curso Data Engineering con Google Cloud"
-  institution: "Fundación Artificial Intelligence Granada Research & Innovation"
-  period: "Enero 2024"
-  icon: "fa-cloud"
-  color: "#17a2b8"
+    - title: "Machine Learning Engineer Track (MLOps & End-to-End ML)"
+      institution: "DataCamp"
+      period: "Diciembre 2024 - Enero 2025"
+      description: |
+        Especialización en:
+        - MLflow, Docker, DVC
+        - CI/CD aplicado a Machine Learning
+        - Versionado de modelos y datos
+        - Despliegue y monitorización de pipelines ML
+      icon: "fa-cogs"
+      color: "#6f42c1"
 
-- title: "Curso BI y Analytics con Looker"
-  institution: "Google Cloud Skills Boost"
-  period: "Junio 2024"
-  icon: "fa-chart-bar"
-  color: "#dc3545"
+    - title: "Data Engineering en Google Cloud"
+      institution: "Fundación AI Granada Research & Innovation"
+      period: "Septiembre 2023 - Enero 2024"
+      description: |
+        Diseño de pipelines en GCP.
+        Procesamiento de datos en entornos cloud y arquitecturas escalables.
+      icon: "fa-cloud"
+      color: "#17a2b8"
+
+    - title: "BI & Analytics con Looker"
+      institution: "Google Cloud Skills Boost"
+      period: "Enero 2024 - Junio 2024"
+      description: |
+        Modelado analítico, visualización y diseño de dashboards.
+      icon: "fa-chart-line"
+      color: "#dc3545"
+
+
+    - title: "Certificate of Proficiency in English (C2)"
+      institution: "Cambridge English Level 3 Certificate"
+      period: "Junio 2019"
+      description: "Nivel C2 certificado oficialmente."
+      icon: "fa-certificate"
+      color: "#ffc107"

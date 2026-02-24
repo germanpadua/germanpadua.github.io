@@ -1,22 +1,46 @@
-<footer id="footer">
-    <ul class="icons">
-        {% if site.twitter_username %}
-        <li><a href="https://twitter.com/{{ site.twitter_username }}" class="icon brands fa-twitter"><span
-                    class="label">Twitter</span></a></li>
-        {% endif %}
-        {% if site.github_username %}
-        <li><a href="https://github.com/{{ site.github_username }}" class="icon brands fa-github"><span
-                    class="label">Github</span></a></li>
-        {% endif %}
-        {% if site.linkedin_username %}
-        <li><a href="https://www.linkedin.com/in/{{ site.linkedin_username }}" class="icon brands fa-linkedin-in"><span
-                    class="label">LinkedIn</span></a></li>
-        {% endif %}
-        {% if site.email %}
-        <li><a href="mailto:{{ site.email }}" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
-        {% endif %}
-    </ul>
-    <ul class="copyright">
-        <li>&copy; {{ site.title }}. All rights reserved.</li>
-    </ul>
+<footer id="footer" class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>German Padua</h3>
+                <p>{{ site.data[page.lang].ui.footer.description }}</p>
+            </div>
+            <div class="footer-nav">
+                <h4>{{ site.data[page.lang].ui.footer.nav_title }}</h4>
+                <ul>
+                    <li><a href="#top">{{ site.data[page.lang].ui.nav.top }}</a></li>
+                    <li><a href="#experience">{{ site.data[page.lang].ui.experience.title }}</a></li>
+                    <li><a href="#work">{{ site.data[page.lang].ui.nav.work }}</a></li>
+                    <li><a href="#portfolio">{{ site.data[page.lang].ui.nav.portfolio }}</a></li>
+                    <li><a href="#skills">{{ site.data[page.lang].ui.skills.title }}</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <h4>{{ site.data[page.lang].ui.footer.connect_title }}</h4>
+                <div class="footer-social-links">
+                    {% if site.linkedin_username %}
+                    <a href="https://www.linkedin.com/in/{{ site.linkedin_username }}" target="_blank"
+                        rel="noopener noreferrer" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    {% endif %}
+                    {% if site.github_username %}
+                    <a href="https://github.com/{{ site.github_username }}" target="_blank" rel="noopener noreferrer"
+                        aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    {% endif %}
+                    {% if site.email %}
+                    <a href="mailto:{{ site.email }}" aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom text-center pt-5 border-top border-secondary mt-5">
+            <p class="mb-0 opacity-75">&copy; {{ 'now' | date: "%Y" }} German Padua. {{
+                site.data[page.lang].ui.footer.rights }}</p>
+        </div>
+    </div>
 </footer>

@@ -1,23 +1,13 @@
-<article id="work" class="wrapper style2">
+<article id="experience" class="wrapper style2">
     <div class="container">
         <header class="reveal">
-            <h2>{{ site.data[page.lang].ui.education.title }}</h2>
-            {% if site.data[page.lang].ui.education.subtitle %}
-            <p>{{ site.data[page.lang].ui.education.subtitle }}</p>
+            <h2>{{ site.data[page.lang].ui.experience.title }}</h2>
+            {% if site.data[page.lang].ui.experience.subtitle %}
+            <p>{{ site.data[page.lang].ui.experience.subtitle }}</p>
             {% endif %}
         </header>
         <div class="timeline">
-            {% for section in site.data[page.lang].education %}
-
-            {% if section.section %}
-            <div class="timeline-section-title reveal reveal-delay-1 mt-5 mb-4 pl-4">
-                <h3 class="education-section-title">
-                    {{ section.section }}
-                </h3>
-            </div>
-            {% endif %}
-
-            {% for item in section.items %}
+            {% for item in site.data[page.lang].experience %}
             <div class="timeline-item reveal reveal-delay-{{ forloop.index }}">
                 <div class="timeline-marker">
                     <span class="icon solid {{ item.icon }}" style="color: {{ item.color }};"></span>
@@ -25,7 +15,7 @@
                 <div class="timeline-content">
                     <span class="timeline-date">{{ item.period }}</span>
                     <h3>{{ item.title }}</h3>
-                    <p class="timeline-org">{{ item.institution }}</p>
+                    <p class="timeline-org">{{ item.company }}</p>
                     {% if item.description %}
                     <div class="timeline-desc">
                         {{ item.description | markdownify }}
@@ -33,8 +23,6 @@
                     {% endif %}
                 </div>
             </div>
-            {% endfor %}
-
             {% endfor %}
         </div>
     </div>

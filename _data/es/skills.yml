@@ -1,13 +1,14 @@
 - category: "Lenguajes & Core"
+  icon: "fas fa-code"
   items:
     - Python
     - R
-    - C/C++
+    - C++
     - Java
     - SQL
-    - HTML/CSS/JS
 
 - category: "Ciencia de Datos & IA"
+  icon: "fas fa-brain"
   items:
     - PyTorch
     - Scikit-Learn
@@ -15,9 +16,10 @@
     - NumPy
     - Matplotlib/Seaborn
     - YOLO (Computer Vision)
-    - NetworkX (Graph Neural Networks)
+    - LangGraph
 
 - category: "Herramientas & Plataformas"
+  icon: "fas fa-tools"
   items:
     - Git/GitHub
     - Streamlit
@@ -27,8 +29,16 @@
     - Linux
 
 - category: "Matemáticas"
+  icon: "fas fa-square-root-alt"
   items:
     - Estadística
     - Álgebra Lineal
     - Cálculo
     - Matemáticas Discretas
+
+- category: "Idiomas"
+  icon: "fas fa-globe-americas"
+  items:
+    - Español (Nativo)
+    - Inglés (C2 - Avanzado)
+    - Francés (Básico)

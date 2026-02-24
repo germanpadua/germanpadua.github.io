@@ -1,33 +1,27 @@
 <article id="contact" class="wrapper style4">
     <div class="container medium">
-        <header>
+        <header class="reveal">
             <h2>{{ site.data[page.lang].ui.contact.title }}</h2>
             <p>{{ site.data[page.lang].ui.contact.subtitle }}</p>
         </header>
-        <div class="row">
-            <div class="col-12">
-                <ul class="social">
-                    {% if site.linkedin_username %}
-                    <li><a href="https://www.linkedin.com/in/{{ site.linkedin_username }}"
-                            class="icon brands fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
-                    {% endif %}
-                    {% if site.github_username %}
-                    <li><a href="https://github.com/{{ site.github_username }}" class="icon brands fa-github"><span
-                                class="label">Github</span></a></li>
-                    {% endif %}
-                    {% if site.email %}
-                    <li><a href="mailto:{{ site.email }}" class="icon solid fa-envelope"><span
-                                class="label">Email</span></a></li>
-                    {% endif %}
-                </ul>
-                <hr />
-            </div>
+        <div class="contact-icons reveal reveal-delay-1">
+            {% if site.email %}
+            <a href="mailto:{{ site.email }}" class="contact-icon" aria-label="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+            {% endif %}
+            {% if site.linkedin_username %}
+            <a href="https://www.linkedin.com/in/{{ site.linkedin_username }}" target="_blank" rel="noopener noreferrer"
+                class="contact-icon" aria-label="LinkedIn">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+            {% endif %}
+            {% if site.github_username %}
+            <a href="https://github.com/{{ site.github_username }}" target="_blank" rel="noopener noreferrer"
+                class="contact-icon" aria-label="GitHub">
+                <i class="fab fa-github"></i>
+            </a>
+            {% endif %}
         </div>
-        <footer>
-            <ul id="copyright">
-                <li>&copy; {{ site.title }}. All rights reserved.</li>
-                <li>{{ site.data[page.lang].ui.contact.footer_text }} <a href="http://html5up.net">HTML5 UP</a></li>
-            </ul>
-        </footer>
     </div>
 </article>

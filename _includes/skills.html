@@ -1,22 +1,24 @@
 <article id="skills" class="wrapper style2">
     <div class="container">
-        <header>
+        <header class="reveal">
             <h2>{{ site.data[page.lang].ui.skills.title }}</h2>
             <p>{{ site.data[page.lang].ui.skills.subtitle }}</p>
         </header>
-        <div class="row aln-center">
+        <div class="row">
             {% for category in site.data[page.lang].skills %}
-            <div class="col-6 col-12-medium mb-4">
+            <div class="col-12 col-md-6 mb-4 reveal reveal-delay-{{ forloop.index }}">
                 <section class="box style1">
-                    <h3>{{ category.category }}</h3>
-                    <ul class="list-unstyled">
+                    <h3>
+                        {% if category.icon %}
+                        <i class="{{ category.icon }} mr-2 text-primary"></i>
+                        {% endif %}
+                        {{ category.category }}
+                    </h3>
+                    <div class="d-flex flex-wrap">
                         {% for item in category.items %}
-                        <li class="d-inline-block m-1">
-                            <span class="badge badge-custom p-2"
-                                style="background-color: #e9ecef; color: #495057; font-size: 0.9rem;">{{ item }}</span>
-                        </li>
+                        <span class="badge badge-custom">{{ item }}</span>
                         {% endfor %}
-                    </ul>
+                    </div>
                 </section>
             </div>
             {% endfor %}

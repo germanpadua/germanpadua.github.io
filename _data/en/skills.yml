@@ -2,10 +2,9 @@
   items:
     - Python
     - R
-    - C/C++
+    - C++
     - Java
     - SQL
-    - HTML/CSS/JS
 
 - category: "Data Science & AI"
   items:
@@ -15,7 +14,7 @@
     - NumPy
     - Matplotlib/Seaborn
     - YOLO (Computer Vision)
-    - NetworkX (Graph Neural Networks)
+    - LangGraph
 
 - category: "Tools & Platforms"
   items:
@@ -32,3 +31,10 @@
     - Linear Algebra
     - Calculus
     - Discrete Mathematics
+
+- category: "Languages"
+  icon: "fas fa-globe-americas"
+  items: 
+    - Spanish (Native)
+    - English (C2 - Advanced)
+    - French (Basic)

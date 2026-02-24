@@ -32,3 +32,10 @@
     - Linear Algebra
     - Calculus
     - Discrete Mathematics
+
+- category: "Languages"
+  icon: "fas fa-globe-americas"
+  items:
+    - Spanish (Native)
+    - English (C2 - Advanced)
+    - French (Basic)

@@ -1,15 +1,18 @@
 <article id="top" class="wrapper style1">
     <div class="container">
-        <div class="row">
-            <div class="col-4 col-12-medium">
-                <span class="image fit"><img src="{{ " /images/me-big-2.jpg" | relative_url }}" alt="" /></span>
+        <div class="row align-items-center">
+            <div class="col-12 col-md-5 col-lg-4 mb-4 mb-md-0">
+                <span class="image fit reveal"><img src="{{ " /images/me-big-2.jpg" | relative_url }}"
+                        alt="German Padua" /></span>
             </div>
-            <div class="col-8 col-12-medium">
-                <header>
+            <div class="col-12 col-md-7 col-lg-8">
+                <header class="mb-4 reveal reveal-delay-1">
                     <h1>{{ site.data[page.lang].ui.hero.greeting }} <strong>German Padua</strong>.</h1>
                 </header>
-                <p>{{ site.data[page.lang].ui.hero.role }}</p>
-                <a href="#work" class="button scrolly">{{ site.data[page.lang].ui.hero.button }}</a>
+                <p class="lead mb-5 reveal reveal-delay-2">{{ site.data[page.lang].ui.hero.role }}</p>
+                <a href="#experience" class="button scrolly reveal reveal-delay-3">{{
+                    site.data[page.lang].ui.hero.button
+                    }}</a>
             </div>
         </div>
     </div>
