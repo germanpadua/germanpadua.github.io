@@ -1,0 +1,54 @@
+- title: "Credit Risk Data Scientist"
+  company: "Grupo Cajamar (Banco de Crédito Cooperativo)"
+  period: "Feb 2025 - Present"
+  icon: "fa-university"
+  color: "#4F46E5"
+  description: |
+    Credit Risk Data Scientist within the provisioning parameters team, working under the IFRS 9 regulatory framework.
+
+    Primary owner of LGD (Loss Given Default) calibration, monitoring and projection.
+
+    Responsibilities span the full LGD modelling lifecycle:
+
+    - End-to-end data extraction, transformation and cleaning
+    - Outlier detection and treatment under regulatory standards
+    - Recovery cash flow analysis and LGD computation methodologies
+    - Portfolio segmentation and risk differentiation strategies
+    - Development and calibration of forward-looking LGD projection models
+    - Sensitivity analysis and performance monitoring
+    - Expected Credit Loss impact assessment
+    - Technical documentation aligned with audit and governance requirements
+    - Ensuring reproducibility, traceability and model governance compliance
+
+    Tools: R, SQL, Excel
+
+
+- title: "Freelance AI & Automation Engineer"
+  company: "Independent"
+  period: "Sep 2025 - Present"
+  icon: "fa-robot"
+  color: "#06B6D4"
+  description: |
+    Design and implementation of advanced automation workflows and AI-powered tools to streamline internal processes, improve data quality and support decision-making.
+
+    - Development of automated workflows within Microsoft ecosystems
+    - Integration of AI tools into business processes
+    - Digitisation of manual operations
+
+    Tools: Azure, SharePoint, Power Automate
+
+- title: "Data Scientist"
+  company: "PwC (Deals)"
+  period: "Oct 2024 - Feb 2025"
+  icon: "fa-chart-line"
+  color: "#8B5CF6"
+  description: |
+    Early-stage advanced analytics and pricing optimisation project for a Spanish transportation operator.
+
+    - Built foundational data pipelines across multiple heterogeneous sources
+    - Developed price-forecasting models and dynamic pricing prototypes
+    - Optimised purchases/visits conversion ratio through predictive modelling
+
+    First exposure to high-impact, client-facing analytics delivery.
+
+    Tools: Python (pandas, numpy, scikit-learn, XGBoost), Plotly

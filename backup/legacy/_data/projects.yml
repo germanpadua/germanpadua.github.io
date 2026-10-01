@@ -1,0 +1,102 @@
+- title: "Redes Neuronales para Grafos"
+  image: "images/project-1-cover.png"
+  description: |
+    Este trabajo se enfoca en el estudio de redes neuronales para grafos, con un énfasis especial en las redes neuronales convolucionales en variedades pseudo-riemannianas.
+    Las redes convolucionales para grafos se han convertido en un estándar en el aprendizaje automático para datos estructurados, pero suelen limitarse al espacio euclidiano, inadecuado para representar estructuras complejas.
+    Como solución, se proponen las redes pseudo-hiperbólicas convolucionales (QGCN), que operan en pseudo-hiperboloides, subvariedades pseudo-riemannianas. Sin embargo, estas redes enfrentan el desafío de la falta de conectividad geodésica, resuelto mediante la aplicación exponencial.
+    El objetivo es comprender y aplicar estas redes a la representación de datos reales, demostrando su potencial y explorando posibles mejoras y aplicaciones futuras.
+  tags:
+    - Python
+    - Scikit-Learn
+    - Torch
+    - networkx
+  modal_id: "project-1-modal"
+  carousel_images:
+    - "images/carousel-1/1.png"
+    - "images/carousel-1/2.png"
+
+- title: "Modelo de Difusión"
+  image: "images/project-2-cover.png"
+  description: |
+    En este proyecto, se estudian los Modelos de Difusión aplicados a la generación de imágenes, centrándose en la síntesis de automóviles usando el "Stanford Cars Dataset".
+    Adaptando y modificando una arquitectura existente, se lograron representaciones de vehículos en resolución 32x32. Se realizaron ajustes en las capas de la arquitectura, en el algoritmo de entrenamiento, en ciertos hiperparámetros y se probaron distintas funciones de pérdida.
+    Además, se implementó el cálculo del FID score para evaluar y comparar las versiones del modelo.
+  tags:
+    - Python
+    - PyTorch
+  modal_id: "project-2-modal"
+  carousel_images:
+    - "images/carousel-2/1.png"
+    - "images/carousel-2/2.png"
+    - "images/carousel-2/3.png"
+
+- title: "Análisis de Fútbol"
+  image: "images/project-3-cover.png"
+  description: |
+    Proyecto que se enfoca en la aplicación de modelos de visión por computador para analizar vídeos de partidos de fútbol. Se utiliza un modelo YOLOv8 preentrenado específicamente con imágenes de fútbol para detectar jugadores, árbitros y el balón.
+    Además, se identifica a los jugadores de cada equipo y se realiza un seguimiento en tiempo real de sus movimientos en el campo, incluyendo su ubicación, distancia recorrida y velocidad.
+    Finalmente, se ofrecen visualizaciones más avanzadas, como mapas de calor de la posición de los jugadores durante el vídeo.
+  tags:
+    - Python
+    - YOLO
+    - OpenCV
+    - Supervision
+    - Roboflow
+  modal_id: "project-3-modal"
+  carousel_images:
+    - "images/carousel-3/1.png"
+    - "images/carousel-3/2.png"
+
+- title: "F1 Web App"
+  image: "images/project-4-cover.png"
+  description: |
+    En este proyecto he desarrollado la web https:/f1-data.streamlit.app , que permite analizar en detalle las distintas carreras y clasificaciones de la Fórmula 1.
+    La web ofrece información sobre los circuitos, la clasificación actual del campeonato y los tiempos en cada Gran Premio. Para cada carrera, se proporciona información sobre la parrilla de salida, los tiempos de clasificación, la evolución de las posiciones, y la distribución de los tiempos de cada vuelta, entre otros.
+    Los datos han sido obtenidos mediante las APIs de Ergast y FastF1, y se han procesado y visualizado con Streamlit, Plotly y Pandas.
+  tags:
+    - Python
+    - Streamlit
+    - FastF1
+    - Ergast
+    - Pandas
+    - Plotly
+  modal_id: "project-4-modal"
+  carousel_images:
+    - "images/carousel-4/1.png"
+    - "images/carousel-4/2.png"
+    - "images/carousel-4/3.png"
+    - "images/carousel-4/4.png"
+
+- title: "Análisis de Encuesta"
+  image: "images/project-5-cover.png"
+  description: |
+    Esta práctica consiste en la aplicación y análisis de técnicas de agrupamiento para describir grupos en distintos conjuntos de datos seleccionados.
+    En este proyecto nos proponemos analizar la encuesta publicada el 6 de noviembre de 2023 de la empresa 40db, donde se recoge la inteción de voto de la población y otros asuntos de actualidad.
+    Se definirán distintos casos de estudio y se aplicarán distintos algoritmos de clustering para identificar y analizar los distintos grupos de interés.
+  tags:
+    - Python
+    - Numpy
+    - Pandas
+    - Scikit-Learn
+    - Matplotlib
+    - Seaborn
+  modal_id: "project-5-modal"
+  carousel_images:
+    - "images/carousel-5/1.png"
+    - "images/carousel-5/2.png"
+    - "images/carousel-5/3.png"
+
+- title: "Estadística sobre una BD"
+  image: "images/project-6-cover.png"
+  description: |
+    Este proyecto se centra en el análisis exploratorio, tanto univariante como multivariante, de una base de datos sobre vivienda.
+    Se estudia la presencia de outliers y la normalidad en las distintas variables, y se aplican distintas técnicas de visualización y reducción de dimensionalidad, PCA y FA, para estudiar la relación entre las variables.
+  tags:
+    - R
+    - RStudio
+  modal_id: "project-6-modal"
+  carousel_images:
+    - "images/carousel-6/1.png"
+    - "images/carousel-6/2.png"
+    - "images/carousel-6/3.png"
+    - "images/carousel-6/4.png"

@@ -1,0 +1,44 @@
+- category: "Lenguajes & Core"
+  icon: "fas fa-code"
+  items:
+    - Python
+    - R
+    - C++
+    - Java
+    - SQL
+
+- category: "Ciencia de Datos & IA"
+  icon: "fas fa-brain"
+  items:
+    - PyTorch
+    - Scikit-Learn
+    - Pandas
+    - NumPy
+    - Matplotlib/Seaborn
+    - YOLO (Computer Vision)
+    - LangGraph
+
+- category: "Herramientas & Plataformas"
+  icon: "fas fa-tools"
+  items:
+    - Git/GitHub
+    - Streamlit
+    - Google Cloud Platform
+    - Looker
+    - Docker
+    - Linux
+
+- category: "Matemáticas"
+  icon: "fas fa-square-root-alt"
+  items:
+    - Estadística
+    - Álgebra Lineal
+    - Cálculo
+    - Matemáticas Discretas
+
+- category: "Idiomas"
+  icon: "fas fa-globe-americas"
+  items:
+    - Español (Nativo)
+    - Inglés (C2 - Avanzado)
+    - Francés (Básico)

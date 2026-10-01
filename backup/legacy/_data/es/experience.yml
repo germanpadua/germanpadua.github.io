@@ -1,0 +1,53 @@
+- title: "Científico de Datos – Riesgo de Crédito"
+  company: "Grupo Cajamar (Banco de Crédito Cooperativo)"
+  period: "Feb 2025 - Actualidad"
+  icon: "fa-university"
+  color: "#4F46E5"
+  description: |
+    Miembro del equipo de parámetros de provisiones bajo el marco regulatorio IFRS 9.
+
+    Responsable principal de la calibración, monitorización y proyección del parámetro LGD (Loss Given Default).
+
+    Responsabilidades a lo largo del ciclo completo del modelo:
+
+    - Extracción, transformación y depuración de grandes volúmenes de datos
+    - Identificación y tratamiento de outliers
+    - Análisis de flujos de recuperación y cálculo de LGD
+    - Segmentación de carteras y diferenciación por perfil de riesgo
+    - Desarrollo y calibración de modelos de proyección
+    - Análisis de sensibilidad y seguimiento del desempeño del modelo
+    - Evaluación del impacto en provisiones
+    - Elaboración de documentación técnica conforme a estándares de auditoría y gobernanza
+    - Garantía de trazabilidad, reproducibilidad y cumplimiento normativo
+
+    Herramientas: R, SQL, Excel
+
+- title: "Freelance AI & Automation Engineer"
+  company: "Independent"
+  period: "Sep 2025 - Actualidad"
+  icon: "fa-robot"
+  color: "#06B6D4"
+  description: |
+    Diseño e implementación de flujos avanzados de automatización y herramientas impulsadas por IA para optimizar procesos internos, mejorar la calidad del dato y apoyar la toma de decisiones.
+
+    - Desarrollo de workflows automatizados en entornos Microsoft
+    - Integración de herramientas IA en procesos empresariales
+    - Digitalización de procesos manuales
+
+    Tools: Azure, SharePoint, Power Automate
+
+- title: "Data Scientist"
+  company: "PwC (Deals)"
+  period: "Oct 2024 - Feb 2025"
+  icon: "fa-chart-line"
+  color: "#8B5CF6"
+  description: |
+    Proyecto de analítica avanzada y optimización de precios para un operador de transporte.
+
+    - Construcción de la base de datos y pipelines iniciales desde múltiples fuentes
+    - Desarrollo de modelos de forecasting y pricing dinámico
+    - Optimización del ratio compras/visitas mediante modelado predictivo
+
+    Primer entorno profesional de alta velocidad, enfocado a impacto directo en negocio.
+
+    Tools: Python (pandas, numpy, scikit-learn, XGBoost), Plotly

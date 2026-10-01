@@ -1,0 +1,43 @@
+nav:
+  top: "Inicio"
+  work: "Datos Académicos"
+  portfolio: "Proyectos"
+  contact: "Contacto"
+  language_label: "English"
+  language_url: "/index-en.html"
+  language_flag: "images/england-flag.png"
+
+hero:
+  greeting: "Hola, soy"
+  role: "Ingeniero Informático y Matemático, apasionado por la Inteligencia Artificial y la Ciencia de Datos."
+  button: "Conoce lo que hago"
+
+experience:
+  title: "Experiencia"
+  subtitle: ""
+
+education:
+  title: "Datos Académicos"
+  subtitle: ""
+
+projects:
+  title: "Proyectos Recientes"
+  subtitle: "Aquí están algunos de mis trabajos recientes."
+  close_modal: "Cerrar"
+
+contact:
+  title: "Contacto"
+  subtitle: "¿Tienes un proyecto en mente o una oportunidad profesional? No dudes en contactarme."
+  footer_text: "Diseño:"
+  linkedin_cta: "Conectemos"
+  github_cta: "Ve mis proyectos"
+
+footer:
+  nav_title: "Navegación"
+  connect_title: "Conectar"
+  rights: "Todos los derechos reservados."
+  description: "Portafolio de German Padua - Ingeniero Informático y Matemático, apasionado por la Inteligencia Artificial y la Ciencia de Datos."
+
+skills:
+  title: "Habilidades"
+  subtitle: "Competencias técnicas y herramientas."
