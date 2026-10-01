@@ -1,5 +1,15 @@
 ---
+/**
+ * The playground: the two layers that live in their own section.
+ *
+ * An earlier version of this section was three cards promising a terminal, a graph
+ * and a game. Two of those now exist, so the promises were replaced by the things
+ * themselves plus a short index that also points at the graph over in `#skills`,
+ * where it belongs next to the skill list.
+ */
+import Terminal from './islands/Terminal';
 import { useTranslations, type Locale } from '../i18n/ui';
+import '../styles/islands.css';
 
 interface Props {
   locale: Locale;
@@ -8,36 +18,11 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 
-/**
- * The three interactive layers, described before they exist as a promise the nav
- * can point at. Each card is a real feature with a real entry point, not a tease:
- * the `status` field is what keeps this section honest until each island lands.
- */
-const layers = [
-  {
-    id: 'terminal',
-    ...t.playground.terminal,
-    status: 'soon',
-    accent: 'var(--node-cs)',
-  },
-  {
-    id: 'graph',
-    ...t.playground.graph,
-    status: 'soon',
-    accent: 'var(--node-math)',
-  },
-  {
-    id: 'game',
-    ...t.playground.game,
-    status: 'soon',
-    accent: 'var(--node-tools)',
-  },
+const index = [
+  { href: '#terminal', label: t.playground.terminal.title },
+  { href: '#skills', label: t.playground.graph.title },
+  { href: '#game', label: t.playground.game.title },
 ];
-
-const statusLabel: Record<string, string> = {
-  soon: locale === 'es' ? 'en construcción' : 'in progress',
-  ready: locale === 'es' ? 'listo' : 'ready',
-};
 ---
 
 <section id="playground" class="section section--gridded">
@@ -48,77 +33,96 @@ const statusLabel: Record<string, string> = {
       <p class="section-head__lead">{t.sections.playground.lead}</p>
     </header>
 
-    <ul class="layers" role="list">
+    <ul class="index" role="list">
       {
-        layers.map((layer) => (
-          <li class="layer card reveal" style={`--layer-accent:${layer.accent}`}>
-            <div class="layer__top">
-              <span class="layer__index tabular" aria-hidden="true">
-                {String(layers.indexOf(layer) + 1).padStart(2, '0')}
+        index.map((item, position) => (
+          <li class="index__item">
+            <a href={item.href}>
+              <span class="index__num tabular" aria-hidden="true">
+                {String(position + 1).padStart(2, '0')}
               </span>
-              <span class="layer__status">{statusLabel[layer.status]}</span>
-            </div>
-            <h3 class="layer__title">{layer.title}</h3>
-            <p class="layer__body">{layer.description}</p>
-            <span class="layer__cta">{layer.cta}</span>
+              <span class="index__label">{item.label}</span>
+            </a>
           </li>
         ))
       }
     </ul>
+
+    <article class="layer" id="terminal">
+      <header class="layer__head">
+        <h3 class="layer__title">{t.playground.terminal.title}</h3>
+        <p class="layer__body">{t.playground.terminal.description}</p>
+      </header>
+      <Terminal
+        client:idle
+        locale={locale}
+        dataUrl={`/data/${locale}/terminal.json`}
+        labels={{
+          title: t.playground.terminal.title,
+          description: t.playground.terminal.description,
+          inputLabel: t.terminal.inputLabel,
+          share: t.terminal.share,
+          cleared: t.terminal.cleared,
+          loading: t.terminal.loading,
+          failed: t.terminal.failed,
+        }}
+      />
+    </article>
+
+    <div id="game" class="layer-anchor"></div>
   </div>
 </section>
 
 <style>
-  .layers {
+  .index {
     list-style: none;
-    margin: 0;
+    margin: 0 0 var(--space-xl);
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
     gap: var(--space-s);
+    border-top: var(--rule) var(--border-style) var(--border);
+  }
+
+  .index__item a {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding-block: var(--space-s);
+    border-bottom: var(--rule) var(--border-style) var(--border);
+    text-decoration: none;
+  }
+
+  .index__num {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    color: var(--fg-faint);
+  }
+
+  .index__label {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    color: var(--fg-strong);
+  }
+
+  .index__item a:hover .index__label {
+    color: var(--accent);
   }
 
   .layer {
-    position: relative;
     display: grid;
-    align-content: start;
-    gap: var(--space-2xs);
-    padding: var(--space-s);
-    overflow: hidden;
+    gap: var(--space-s);
   }
 
-  /* A top edge in the layer's own colour: the only ornament, and it doubles as
-     the visual key for the skill graph categories. */
-  .layer::before {
-    content: "";
-    position: absolute;
-    inset: 0 0 auto 0;
-    height: var(--rule-strong);
-    background-color: var(--layer-accent);
+  .layer + .layer,
+  .layer-anchor + .layer {
+    margin-top: var(--space-2xl);
   }
 
-  .layer__top {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--space-2xs);
-  }
-
-  .layer__index {
-    font-family: var(--font-code);
-    font-size: var(--step--2);
-    color: var(--fg-faint);
-    letter-spacing: var(--tracking-wide);
-  }
-
-  .layer__status {
-    font-family: var(--font-code);
-    font-size: var(--step--2);
-    letter-spacing: var(--tracking-wide);
-    color: var(--fg-faint);
-    border: var(--rule) var(--border-style) var(--border);
-    border-radius: var(--radius-pill);
-    padding: 0.2rem 0.5rem;
+  .layer__head {
+    display: grid;
+    gap: var(--space-3xs);
+    max-width: var(--measure-narrow);
   }
 
   .layer__title {
@@ -128,15 +132,14 @@ const statusLabel: Record<string, string> = {
   }
 
   .layer__body {
-    font-size: var(--step--1);
+    font-size: var(--step-0);
+    line-height: var(--leading-snug);
     color: var(--fg-muted);
   }
 
-  .layer__cta {
-    font-family: var(--font-code);
-    font-size: var(--step--2);
-    letter-spacing: var(--tracking-wide);
-    color: var(--layer-accent);
-    margin-top: var(--space-2xs);
+  /* Scroll offset for the in-page anchors, since the nav is sticky. */
+  #terminal,
+  #game {
+    scroll-margin-top: 5rem;
   }
 </style>

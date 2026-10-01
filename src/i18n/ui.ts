@@ -204,6 +204,13 @@ const es = {
   offClock: {
     interests: 'Fuera del reloj',
   },
+  terminal: {
+    inputLabel: 'Entrada de la terminal',
+    share: 'Ejecutar',
+    cleared: 'Pantalla limpia.',
+    loading: 'Cargando los datos del sitio…',
+    failed: 'No se pudieron cargar los datos del sitio.',
+  },
   skillsExtra: {
     levels: {
       high: 'Nivel alto',
@@ -224,6 +231,8 @@ const es = {
     canvasLabel: 'Grafo de skills: nodos agrupados por área y unidos por relaciones de uso, aplicación, extensión y afinidad.',
     selected: 'Seleccionado',
     listLabel: 'Las mismas skills, en texto',
+    loading: 'Cargando el grafo…',
+    failed: 'No se pudo cargar el grafo. La lista de abajo tiene la misma información.',
   },
   notFound: {
     title: 'Página no encontrada',
@@ -443,6 +452,13 @@ const en: Dictionary = {
   offClock: {
     interests: 'Off the clock',
   },
+  terminal: {
+    inputLabel: 'Terminal input',
+    share: 'Run',
+    cleared: 'Screen cleared.',
+    loading: 'Loading the site data…',
+    failed: 'The site data could not be loaded.',
+  },
   skillsExtra: {
     levels: {
       high: 'Strong',
@@ -463,6 +479,8 @@ const en: Dictionary = {
     canvasLabel: 'Skill graph: nodes grouped by area and joined by relationships of use, application, extension and affinity.',
     selected: 'Selected',
     listLabel: 'The same skills, in text',
+    loading: 'Loading the graph…',
+    failed: 'The graph could not be loaded. The list below has the same information.',
   },
   notFound: {
     title: 'Page not found',

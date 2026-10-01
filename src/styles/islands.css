@@ -174,3 +174,189 @@
   padding-top: var(--space-s);
   border-top: var(--rule) var(--border-style) var(--border);
 }
+
+/* ------------------------------------------------------------ terminal === */
+
+/*
+ * The terminal adapts to the theme instead of forcing a dark box: under atlas it is
+ * a paper panel with monospace text, under phosphor it is the console it was always
+ * meant to be. Everything comes from tokens, so a theme change restyles it for free.
+ */
+.terminal {
+  border: var(--rule) var(--border-style) var(--border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-inset);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.terminal__chrome {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: 0.45rem 0.7rem;
+  border-bottom: var(--rule) var(--border-style) var(--border);
+  background-color: var(--bg-raised);
+  font-family: var(--font-code);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-wide);
+  color: var(--fg-faint);
+}
+
+.terminal__dots {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.terminal__dots i {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--border-strong);
+}
+
+.terminal__dots i:first-child {
+  background-color: var(--err);
+}
+
+.terminal__dots i:nth-child(2) {
+  background-color: var(--warn);
+}
+
+.terminal__dots i:last-child {
+  background-color: var(--ok);
+}
+
+.terminal__path {
+  margin-right: auto;
+}
+
+.terminal__body {
+  padding: var(--space-s);
+  cursor: text;
+}
+
+.terminal__output {
+  height: clamp(15rem, 34vh, 22rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+.terminal__line {
+  font-family: var(--font-code);
+  font-size: var(--step--1);
+  line-height: 1.5;
+  color: var(--fg);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-width: none;
+}
+
+.terminal__line[data-tone='dim'] {
+  color: var(--fg-faint);
+}
+
+.terminal__line[data-tone='heading'] {
+  color: var(--fg-strong);
+  font-weight: 600;
+}
+
+.terminal__line[data-tone='ok'] {
+  color: var(--ok);
+}
+
+.terminal__line[data-tone='warn'] {
+  color: var(--warn);
+}
+
+.terminal__line[data-tone='err'] {
+  color: var(--err);
+}
+
+.terminal__line[data-tone='accent'],
+.terminal__line--link a {
+  color: var(--accent);
+}
+
+.terminal__line--link {
+  font-family: var(--font-code);
+  font-size: var(--step--1);
+}
+
+.terminal__form {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-top: var(--space-2xs);
+  border-top: var(--rule) var(--border-style) var(--border);
+  padding-top: var(--space-2xs);
+}
+
+.terminal__prompt {
+  font-family: var(--font-code);
+  font-size: var(--step--1);
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.terminal__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: var(--font-code);
+  font-size: var(--step--1);
+  color: var(--fg-strong);
+  /* A caret that looks like a cursor rather than a selection. */
+  caret-color: var(--accent);
+}
+
+.terminal__suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0 var(--space-s) var(--space-s);
+}
+
+.terminal__suggestion {
+  font-family: var(--font-code);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-wide);
+  color: var(--fg-muted);
+  border: var(--rule) var(--border-style) var(--border);
+  border-radius: var(--radius-pill);
+  background-color: var(--bg-raised);
+  padding: 0.25rem 0.6rem;
+}
+
+.terminal__suggestion:hover {
+  color: var(--fg-strong);
+  border-color: var(--accent);
+}
+
+.graph__failed {
+  padding: var(--space-s);
+  border: var(--rule) var(--border-style) var(--warn);
+  border-radius: var(--radius-md);
+  color: var(--warn);
+  font-size: var(--step--1);
+  background-color: var(--bg-inset);
+}
+
+/* A disabled island control has to look disabled, not just behave that way. */
+.graph__areas[disabled],
+.graph__reset[disabled],
+.terminal__suggestion[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.terminal__input::placeholder {
+  color: var(--fg-faint);
+}
+
+.terminal__input:disabled {
+  cursor: wait;
+}

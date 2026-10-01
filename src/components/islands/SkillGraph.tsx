@@ -3,12 +3,16 @@
  *
  * An enhancement, not the content: the grouped list rendered below it is the real
  * page, so a reader without JavaScript, a crawler, or someone using a screen reader
- * loses the interaction and not the information. The canvas is `aria-hidden` and a
- * live region announces every selection instead.
+ * loses the interaction and not the information.
  *
- * Colours come from the theme tokens rather than from literals, and the component
- * re-reads them when `data-theme` changes, so the graph is themed like everything
- * else instead of keeping its own palette.
+ * The graph data is fetched from an endpoint rather than passed as props. Astro
+ * serialises island props into the HTML, and the node and edge data alone added 28 KB
+ * of attributes to the home page — paid by every reader, including the ones who never
+ * scroll this far. As a fetch it is cacheable and only happens when the island
+ * actually loads.
+ *
+ * Colours come from the theme tokens and are re-read when `data-theme` changes, so the
+ * graph is themed like everything else instead of keeping its own palette.
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import {
@@ -27,17 +31,22 @@ interface Area {
   blurb: string;
 }
 
-interface Props {
+interface GraphData {
+  areas: Area[];
   nodes: GraphNode[];
   edges: GraphEdge[];
-  areas: Area[];
+}
+
+interface Props {
+  dataUrl: string;
   labels: {
-    title: string;
     areas: string;
     reset: string;
     hint: string;
     usedIn: string;
     empty: string;
+    loading: string;
+    failed: string;
     canvasLabel: string;
     selected: string;
   };
@@ -52,17 +61,41 @@ const EDGE_ALPHA: Record<GraphEdge['kind'], number> = {
 
 const tokenName = (area: string) => `--node-${area}`;
 
-export default function SkillGraph({ nodes, edges, areas, labels }: Props) {
+export default function SkillGraph({ dataUrl, labels }: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const simRef = useRef<SimNode[]>([]);
   const sizeRef = useRef({ width: 900, height: 520 });
-  const dragRef = useRef<{ id: string; offsetX: number; offsetY: number } | null>(null);
+  const dragRef = useRef<{ id: string } | null>(null);
 
+  const [data, setData] = useState<GraphData | null>(null);
+  const [failed, setFailed] = useState(false);
   const [hidden, setHidden] = useState<Set<string>>(new Set());
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [settled, setSettled] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    fetch(dataUrl)
+      .then((response) => {
+        if (!response.ok) throw new Error(String(response.status));
+        return response.json();
+      })
+      .then((payload: GraphData) => {
+        if (active) setData(payload);
+      })
+      .catch(() => {
+        if (active) setFailed(true);
+      });
+    return () => {
+      active = false;
+    };
+  }, [dataUrl]);
+
+  const nodes = data?.nodes ?? [];
+  const edges = data?.edges ?? [];
+  const areas = data?.areas ?? [];
 
   const nodeById = useMemo(() => new Map(nodes.map((node) => [node.id, node])), [nodes]);
   const visible = useMemo(() => nodes.filter((node) => !hidden.has(node.area)), [nodes, hidden]);
@@ -76,7 +109,6 @@ export default function SkillGraph({ nodes, edges, areas, labels }: Props) {
       return value.length > 0 ? value : fallback;
     };
     return {
-      bg: read('--bg', '#ffffff'),
       fg: read('--fg-strong', '#111111'),
       muted: read('--fg-faint', '#888888'),
       border: read('--border', '#dddddd'),
@@ -92,9 +124,9 @@ export default function SkillGraph({ nodes, edges, areas, labels }: Props) {
 
     const { width, height } = sizeRef.current;
     const dpr = Math.min(2, window.devicePixelRatio || 1);
-    if (canvas.width !== width * dpr || canvas.height !== height * dpr) {
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
+    if (canvas.width !== Math.round(width * dpr) || canvas.height !== Math.round(height * dpr)) {
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
     }
     context.setTransform(dpr, 0, 0, dpr, 0, 0);
     context.clearRect(0, 0, width, height);
@@ -103,13 +135,13 @@ export default function SkillGraph({ nodes, edges, areas, labels }: Props) {
     const active = hoveredId ?? selectedId;
     const activeNode = active ? simRef.current.find((node) => node.id === active) : undefined;
     const shown = new Set(visible.map((node) => node.id));
+    const positions = new Map(simRef.current.map((node) => [node.id, node]));
 
-    // Edges first, so nodes sit on top of them.
     context.lineWidth = 1;
     for (const edge of edges) {
       if (!shown.has(edge.from) || !shown.has(edge.to)) continue;
-      const a = simRef.current.find((node) => node.id === edge.from);
-      const b = simRef.current.find((node) => node.id === edge.to);
+      const a = positions.get(edge.from);
+      const b = positions.get(edge.to);
       if (!a || !b) continue;
 
       const touchesActive = activeNode && (edge.from === activeNode.id || edge.to === activeNode.id);
@@ -122,7 +154,6 @@ export default function SkillGraph({ nodes, edges, areas, labels }: Props) {
       context.stroke();
     }
 
-    // Nodes.
     for (const node of simRef.current) {
       if (!shown.has(node.id)) continue;
       const isActive = activeNode?.id === node.id;
@@ -162,29 +193,18 @@ export default function SkillGraph({ nodes, edges, areas, labels }: Props) {
     context.globalAlpha = 1;
   }, [edges, hoveredId, palette, selectedId, visible]);
 
-  /** Rebuild the simulation whenever the visible set changes. */
-  const reset = useCallback(
-    (animate: boolean) => {
-      const { width, height } = sizeRef.current;
-      simRef.current = initialNodes(visible, { width, height });
-      setSettled(!animate);
-      if (!animate) {
-        for (let i = 0; i < 420; i += 1) {
-          step(simRef.current, edges, { width, height });
-        }
-        draw();
-      }
-    },
-    [draw, edges, visible],
-  );
-
   // Size tracking. The canvas is sized by CSS and the backing store by DPR.
   useEffect(() => {
     const wrap = wrapRef.current;
     if (!wrap) return;
     const measure = () => {
       const rect = wrap.getBoundingClientRect();
-      sizeRef.current = { width: Math.max(320, rect.width), height: Math.max(320, rect.height) };
+      // A hidden or not-yet-laid-out container reports zero; fall back to something
+      // sane rather than collapsing the whole layout to a 320px square.
+      sizeRef.current = {
+        width: rect.width > 40 ? rect.width : 900,
+        height: rect.height > 40 ? rect.height : 520,
+      };
       draw();
     };
     measure();
@@ -193,9 +213,10 @@ export default function SkillGraph({ nodes, edges, areas, labels }: Props) {
     return () => observer.disconnect();
   }, [draw]);
 
-  // Settle on mount and whenever the visible set changes, then stop. A graph that
-  // keeps moving is a graph you cannot click.
+  // Settle whenever the visible set changes, then stop. A graph that keeps moving is
+  // a graph you cannot click.
   useEffect(() => {
+    if (nodes.length === 0) return;
     const { width, height } = sizeRef.current;
     simRef.current = initialNodes(visible, { width, height });
     setSettled(false);
@@ -208,15 +229,12 @@ export default function SkillGraph({ nodes, edges, areas, labels }: Props) {
         frame += 1;
       }
       draw();
-      if (frame < total) {
-        handle = requestAnimationFrame(tick);
-      } else {
-        setSettled(true);
-      }
+      if (frame < total) handle = requestAnimationFrame(tick);
+      else setSettled(true);
     };
     handle = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(handle);
-  }, [draw, edges, visible]);
+  }, [draw, edges, nodes.length, visible]);
 
   // The theme can change under us; the palette is read from the document.
   useEffect(() => {
@@ -236,6 +254,8 @@ export default function SkillGraph({ nodes, edges, areas, labels }: Props) {
     return { x: event.clientX - rect.left, y: event.clientY - rect.top };
   };
 
+  const interactable = () => simRef.current.filter((node) => !hidden.has(node.area));
+
   const onPointerMove = (event: PointerEvent) => {
     const { x, y } = pointer(event);
     if (dragRef.current) {
@@ -249,24 +269,20 @@ export default function SkillGraph({ nodes, edges, areas, labels }: Props) {
       }
       return;
     }
-    const hit = nodeAt(simRef.current.filter((node) => !hidden.has(node.area)), x, y);
+    const hit = nodeAt(interactable(), x, y);
     const next = hit ? hit.id : null;
     if (next !== hoveredId) setHoveredId(next);
   };
 
   const onPointerDown = (event: PointerEvent) => {
     const { x, y } = pointer(event);
-    const hit = nodeAt(simRef.current.filter((node) => !hidden.has(node.area)), x, y);
+    const hit = nodeAt(interactable(), x, y);
     if (hit) {
-      dragRef.current = { id: hit.id, offsetX: hit.x - x, offsetY: hit.y - y };
+      dragRef.current = { id: hit.id };
       setSelectedId(hit.id);
     } else {
       setSelectedId(null);
     }
-  };
-
-  const endDrag = () => {
-    dragRef.current = null;
   };
 
   const toggleArea = (id: string) => {
@@ -281,12 +297,16 @@ export default function SkillGraph({ nodes, edges, areas, labels }: Props) {
 
   const announce = selected
     ? `${labels.selected}: ${selected.label}, ${selected.note}`
-    : `${labels.title}. ${labels.hint}`;
+    : `${labels.hint}`;
+
+  if (failed) {
+    return <p class="graph__failed">{labels.failed}</p>;
+  }
 
   return (
     <div class="graph">
       <div class="graph__controls">
-        <fieldset class="graph__areas">
+        <fieldset class="graph__areas" disabled={!data}>
           <legend class="sr-only">{labels.areas}</legend>
           {areas.map((area) => (
             <label
@@ -295,17 +315,13 @@ export default function SkillGraph({ nodes, edges, areas, labels }: Props) {
               style={{ '--area-color': `var(${tokenName(area.id)})` }}
               data-off={hidden.has(area.id) ? 'true' : 'false'}
             >
-              <input
-                type="checkbox"
-                checked={!hidden.has(area.id)}
-                onChange={() => toggleArea(area.id)}
-              />
+              <input type="checkbox" checked={!hidden.has(area.id)} onChange={() => toggleArea(area.id)} />
               <span class="graph__swatch" aria-hidden="true"></span>
               {area.label}
             </label>
           ))}
         </fieldset>
-        <button type="button" class="graph__reset" onClick={() => reset(true)}>
+        <button type="button" class="graph__reset" onClick={() => setHidden(new Set())} disabled={!data}>
           {labels.reset}
         </button>
       </div>
@@ -318,16 +334,19 @@ export default function SkillGraph({ nodes, edges, areas, labels }: Props) {
           aria-label={labels.canvasLabel}
           onPointerMove={onPointerMove}
           onPointerDown={onPointerDown}
-          onPointerUp={endDrag}
+          onPointerUp={() => {
+            dragRef.current = null;
+          }}
           onPointerLeave={() => {
-            endDrag();
+            dragRef.current = null;
             setHoveredId(null);
           }}
         />
+        {!data && !failed && <p class="graph__empty">{labels.loading}</p>}
+        {data && visible.length === 0 && <p class="graph__empty">{labels.empty}</p>}
         <p class="sr-only" role="status" aria-live="polite">
           {announce}
         </p>
-        {visible.length === 0 && <p class="graph__empty">{labels.empty}</p>}
       </div>
 
       <div class="graph__detail" data-empty={selected ? 'false' : 'true'}>

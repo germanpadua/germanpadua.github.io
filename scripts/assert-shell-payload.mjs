@@ -39,17 +39,17 @@ const SHELL_ROUTE_INLINE = 2600;
 const ROUTE_BUDGETS = [
   {
     pattern: /^\/$/,
-    inlineMax: 12000,
+    inlineMax: 9200,
     totalMax: 60000,
-    scripts: ['_astro/SkillGraph.', '_astro/client.'],
-    reason: 'home (es): shell plus the skill graph island',
+    scripts: ['_astro/SkillGraph.', '_astro/Terminal.', '_astro/client.'],
+    reason: 'home (es): shell plus the skill graph and terminal islands',
   },
   {
     pattern: /^\/en\/$/,
-    inlineMax: 12000,
+    inlineMax: 9200,
     totalMax: 60000,
-    scripts: ['_astro/SkillGraph.', '_astro/client.'],
-    reason: 'home (en): shell plus the skill graph island',
+    scripts: ['_astro/SkillGraph.', '_astro/Terminal.', '_astro/client.'],
+    reason: 'home (en): shell plus the skill graph and terminal islands',
   },
   {
     pattern: /^\/lab\/$/,
@@ -125,10 +125,46 @@ async function sizeOf(src, htmlFile) {
   const target = src.startsWith('/') ? path.join(DIST, src) : path.resolve(path.dirname(htmlFile), src);
   try {
     const info = await stat(target);
-    return info.isFile() ? info.size : 0;
+    return info.isFile() ? { size: info.size, file: target } : { size: 0, file: null };
+  } catch {
+    return { size: 0, file: null };
+  }
+}
+
+/**
+ * A chunk's real cost includes everything it imports. The island entry point is a
+ * thin module that pulls in Preact, signals and the hooks runtime, so counting only
+ * the files named in the HTML understated the payload by roughly forty per cent.
+ */
+const SIBLING_IMPORT = /['"]\.\/([\w.-]+\.js)['"]/g;
+
+async function closureSize(entryUrl, htmlFile, seen) {
+  const { size, file } = await sizeOf(entryUrl, htmlFile);
+  if (!file) return 0;
+  let total = size;
+  const body = await readFile(file, 'utf8');
+  const dir = path.dirname(entryUrl);
+  for (const match of body.matchAll(SIBLING_IMPORT)) {
+    const sibling = `${dir}/${match[1]}`.replace(/\/+/g, '/');
+    if (seen.has(sibling)) continue;
+    seen.add(sibling);
+    total += await closureSize(sibling, htmlFile, seen);
+  }
+  return total;
+}
+
+async function dataPayloadBytes(dir) {
+  let total = 0;
+  try {
+    for (const entry of await readdir(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) total += await dataPayloadBytes(full);
+      else total += (await stat(full)).size;
+    }
   } catch {
     return 0;
   }
+  return total;
 }
 
 const failures = [];
@@ -167,6 +203,7 @@ for (const file of await walkHtml(DIST)) {
   }
 
   let externalBytes = 0;
+  const counted = new Set();
   for (const src of loaded) {
     if (!LOCAL_SRC.test(src)) {
       failures.push(`${route}: loads a third-party script (${src}); self-host it or drop it`);
@@ -181,7 +218,7 @@ for (const file of await walkHtml(DIST)) {
         `${route}: loads ${src}, which is not declared for this route (${budget.reason}); declare it or remove it`,
       );
     }
-    externalBytes += await sizeOf(src, file);
+    externalBytes += await closureSize(src, file, counted);
   }
 
   const total = inlineBytes + externalBytes;
@@ -211,6 +248,7 @@ if (failures.length > 0) {
 }
 
 const heaviest = rows.reduce((worst, row) => (row.total > worst.total ? row : worst), rows[0] ?? { route: '-', total: 0 });
+const dataBytes = await dataPayloadBytes(path.join(DIST, 'data'));
 console.log(
-  `\nPayload guard passed: ${rows.length} route(s), no undeclared or third-party script. Heaviest route ${heaviest.route} at ${heaviest.total} bytes.`,
+  `\nPayload guard passed: ${rows.length} route(s), no undeclared or third-party script. Heaviest route ${heaviest.route} at ${heaviest.total} bytes. Fetched data payload ${dataBytes} bytes (islands only, in /data/).`,
 );

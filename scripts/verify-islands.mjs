@@ -185,6 +185,92 @@ async function checkSkillGraph(page, baseUrl) {
   check((live ?? '').length > 0, 'graph: live region carries an announcement', (live ?? '').slice(0, 60));
 }
 
+async function checkTerminal(page, baseUrl) {
+  await page.goto(`${baseUrl}/`, { waitUntil: 'networkidle' });
+  await page.locator('#terminal').scrollIntoViewIfNeeded();
+
+  const island = 'astro-island[component-url*="Terminal"]';
+  await waitForHydration(page, island);
+
+  const input = page.locator('#terminal-input');
+  await input.waitFor({ state: 'visible' });
+  // The terminal is disabled until its data arrives; typing into it before then is
+  // exactly the race a reader would hit.
+  await page.waitForFunction(() => {
+    const el = document.querySelector('#terminal-input');
+    return el instanceof HTMLInputElement && !el.disabled;
+  }, undefined, { timeout: 15_000 });
+
+  const output = () => page.locator('.terminal__output').innerText();
+  const type = async (command) => {
+    await input.fill(command);
+    await input.press('Enter');
+    await page.waitForTimeout(150);
+  };
+
+  check((await output()).includes('help'), 'terminal: banner invites the reader to type help');
+
+  await type('help');
+  const help = await output();
+  check(help.includes('projects') && help.includes('neofetch'), 'terminal: help lists the commands');
+
+  await type('projects');
+  const projects = await output();
+  check(projects.includes('15 proyectos'), 'terminal: projects reports the count', (projects.match(/\d+ proyectos/) ?? [''])[0]);
+  check(projects.includes('telemetry-sentinel'), 'terminal: projects lists slugs');
+
+  await type('project telemetry-sentinel');
+  const detail = await output();
+  check(detail.includes('Telemetry Sentinel'), 'terminal: project shows the title');
+  check(detail.includes('Monza') || detail.includes('recall') || detail.includes('1.00'), 'terminal: project shows metrics');
+
+  await type('project actas-visitas-obras');
+  const gate = await output();
+  check(gate.includes('objetivo'), 'terminal: a goal metric is marked as a goal in the terminal too');
+
+  await type('thereisnosuchcommand');
+  check((await output()).includes('no existe'), 'terminal: unknown command reports an error');
+
+  await type('beskar');
+  check((await output()).includes('camino'), 'terminal: an easter egg answers');
+
+  // Tab completion of a command name.
+  await input.fill('whoam');
+  await input.press('Tab');
+  await page.waitForTimeout(100);
+  check((await input.inputValue()) === 'whoami ', 'terminal: tab completes a command', await input.inputValue());
+
+  // History recall with the arrow keys.
+  await input.fill('');
+  await input.press('ArrowUp');
+  await page.waitForTimeout(80);
+  check((await input.inputValue()).length > 0, 'terminal: arrow up recalls history', await input.inputValue());
+
+  // The theme command must drive the real control, not set the attribute itself.
+  await type('theme phosphor');
+  await page.waitForTimeout(250);
+  const themeState = await page.evaluate(() => ({
+    root: document.documentElement.getAttribute('data-theme'),
+    checked: document.querySelector('[data-theme-switch] input:checked')?.value ?? null,
+    stored: localStorage.getItem('gp.theme'),
+  }));
+  check(themeState.root === 'phosphor', 'terminal: theme command switches the theme', themeState.root ?? 'null');
+  check(
+    themeState.checked === 'phosphor' && themeState.stored === 'phosphor',
+    'terminal: theme command goes through the real switch and persists',
+    `checked=${themeState.checked} stored=${themeState.stored}`,
+  );
+  await type('theme atlas');
+
+  // An invalid argument must not silently do nothing.
+  await type('theme nope');
+  check((await output()).includes('No existe el tema'), 'terminal: an unknown theme is rejected');
+
+  await type('clear');
+  const afterClear = await output();
+  check(afterClear.trim().length === 0, 'terminal: clear empties the screen', `${afterClear.trim().length} chars`);
+}
+
 async function main() {
   const { baseUrl, stop } = await withPreview();
   const browser = await chromium.launch();
@@ -198,6 +284,7 @@ async function main() {
     });
 
     await checkSkillGraph(page, baseUrl);
+    await checkTerminal(page, baseUrl);
     check(errors.length === 0, 'islands: no console or page error', errors.slice(0, 3).join(' | '));
   } finally {
     await browser.close();

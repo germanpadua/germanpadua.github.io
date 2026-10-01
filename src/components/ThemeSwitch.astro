@@ -105,10 +105,19 @@ const themes = [
    *
    * Found by scripts/verify-theme.mjs: a synthesised click on the 1px input was
    * intercepted by the swatch, which is exactly the fragility this removes.
+   *
+   * `z-index` is not optional here. The swatch is positioned and comes later in the
+   * DOM, so it painted above the input and swallowed the click. The first version of
+   * this fix stretched the input and appeared to work, but only because the click
+   * happened to land on the label text at the width the test ran at — unpositioned
+   * text the input did cover. Hiding the labels at narrower widths moved the click
+   * centre onto the swatch and the bug came straight back. A fix that depends on
+   * incidental geometry is not a fix.
    */
   .theme-switch__input {
     position: absolute;
     inset: 0;
+    z-index: 1;
     width: 100%;
     height: 100%;
     margin: 0;

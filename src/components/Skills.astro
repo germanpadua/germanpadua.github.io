@@ -13,31 +13,6 @@ const t = useTranslations(locale);
 const graph = await getSkillGraph();
 
 /*
- * The island gets one locale at a time. Shipping both would double the serialised
- * payload of the largest piece of content on the page for no benefit.
- */
-const islandNodes = graph.nodes.map((node) => ({
-  id: node.id,
-  label: node.label,
-  area: node.area,
-  weight: node.weight,
-  note: node.note[locale],
-  projects: [...node.projects],
-}));
-
-const islandAreas = graph.areas.map((area) => ({
-  id: area.id,
-  label: area.label[locale],
-  blurb: area.blurb[locale],
-}));
-
-const islandEdges = graph.edges.map((edge) => ({
-  from: edge.from,
-  to: edge.to,
-  kind: edge.kind,
-}));
-
-/*
  * The no-JavaScript version of the skill graph, and the accessible fallback for
  * the island above it. Same data, same grouping, no interaction: a reader with
  * JavaScript disabled should lose the picture, not the information.
@@ -66,16 +41,15 @@ const edgeCount = graph.edges.length;
 
     <SkillGraph
       client:visible
-      nodes={islandNodes}
-      edges={islandEdges}
-      areas={islandAreas}
+      dataUrl={`/data/${locale}/skills.json`}
       labels={{
-        title: t.graph.title,
         areas: t.graph.areas,
         reset: t.graph.reset,
         hint: t.graph.hint,
         usedIn: t.graph.usedIn,
         empty: t.graph.empty,
+        loading: t.graph.loading,
+        failed: t.graph.failed,
         canvasLabel: t.graph.canvasLabel,
         selected: t.graph.selected,
       }}

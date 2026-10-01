@@ -103,6 +103,31 @@ async function main() {
     // --- 4. no third-party request at runtime -----------------------------
     check('no third-party requests', offsite, []);
 
+    /*
+     * The theme control has to be the topmost element at its own centre. Driving it
+     * by clicking is an indirect test: it passed for a while only because the click
+     * landed on the label text, and broke the moment the layout changed and the
+     * centre moved onto the swatch. This asserts the property directly, at several
+     * widths, so a change to the control's geometry cannot quietly reintroduce it.
+     */
+    for (const width of [1600, 1440, 1280, 900, 390]) {
+      const context = await browser.newContext({ viewport: { width, height: 800 } });
+      const probe = await context.newPage();
+      await probe.goto(`${baseUrl}${ROUTE}`, { waitUntil: 'networkidle' });
+      const reachable = await probe.evaluate(() => {
+        const inputs = [...document.querySelectorAll('[data-theme-switch] input')];
+        return inputs.map((input) => {
+          const rect = input.getBoundingClientRect();
+          const top = document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
+          return { value: input.value, hit: top === input };
+        });
+      });
+      const blocked = reachable.filter((entry) => !entry.hit).map((entry) => entry.value);
+      // verify-theme uses check(label, actual, expected); verify-layout uses check(ok, label, detail).
+      check(`theme control is the topmost element at ${width}px`, blocked, []);
+      await context.close();
+    }
+
     // --- 5. the shell ships no external script ---------------------------
     const page = await browser.newPage();
     await page.goto(`${baseUrl}${ROUTE}`, { waitUntil: 'networkidle' });
