@@ -36,10 +36,30 @@ const slug = z
 
 /* ---------------------------------------------------------------- projects */
 
+/**
+ * Metric and headline values are display text, not arithmetic. YAML turns an
+ * unquoted `452` into a number, so accept both and normalise: the alternative is
+ * remembering to quote every numeric-looking value by hand, which is exactly the
+ * kind of rule that gets broken six months later.
+ */
+const displayValue = z.union([z.string(), z.number()]).transform((value) => String(value));
+
 const metrics = z.object({
-  value: z.string().min(1),
+  value: displayValue,
   label: z.string().min(1),
-  /** Where the number came from, so a reader can judge it. */
+  /**
+   * How much weight this number can carry, and the reason the field exists.
+   *   artifact   a committed file in the project contains this number
+   *   measured   produced by running the project; reproducible but not committed
+   *   record     an administrative or academic record: a grade, a certificate, a
+   *              competitive selection. Checkable, but not by running anything
+   *   target     a goal, a gate, or a contractual threshold — NOT a result
+   *   unverified stated in the project's own notes, not independently checkable
+   * The layout renders `target` and `unverified` differently on purpose. A target
+   * presented as a result is the fastest way to lose an interview.
+   */
+  basis: z.enum(['artifact', 'measured', 'record', 'target', 'unverified']).default('measured'),
+  /** Where the number came from, so a reader can go and check it. */
   source: z.string().optional(),
 });
 
@@ -63,6 +83,18 @@ const projects = defineCollection({
        */
       visibility: z.enum(['public', 'case-study', 'demo-only']),
       featured: z.boolean().default(false),
+      /**
+       * Present when the work was not solo. Contributions are stated explicitly so
+       * a team project is never presented as individual work.
+       */
+      team: z
+        .object({
+          name: z.string().min(1),
+          size: z.number().int().min(2).optional(),
+          /** Exactly what he owned, in his own terms. */
+          contribution: z.string().min(10),
+        })
+        .optional(),
       /** Subject areas: credit-risk, telemetry, llm-ops, computer-vision, ... */
       domains: z.array(z.string().min(2)).min(1),
       stack: z.array(z.string().min(1)).min(1),
@@ -264,7 +296,43 @@ const skillsGraph = defineCollection({
     }),
 });
 
-/* ------------------------------------------------------ interests and "now" */
+/* ------------------------------------------------------ highlights ==== */
+
+/**
+ * Recognitions that are neither a job nor a degree: competitive programmes,
+ * hackathons, awards, publications. Rendered as a compact high-signal band.
+ */
+const highlights = defineCollection({
+  loader: glob({ base: './src/content/highlights', pattern: '**/*.{md,mdx}' }),
+  schema: z.object({
+    locale,
+    order: z.number().int(),
+    kind: z.enum(['program', 'competition', 'award', 'publication', 'contribution']),
+    title: z.string().min(2),
+    issuer: z.string().min(2),
+    period: z.string().min(4),
+    /** The single number worth remembering, when there is one. */
+    headline: z
+      .object({
+        value: displayValue,
+        label: z.string().min(1),
+        basis: z.enum(['artifact', 'measured', 'record', 'target', 'unverified']).default('measured'),
+        source: z.string().optional(),
+      })
+      .optional(),
+    /** What it was, in one or two sentences, first person. */
+    summary: z.string().min(40),
+    /** Required given how many highlights are team based. */
+    contribution: z.string().min(20).optional(),
+    /** What he would not claim. Same contract as projects. */
+    limits: z.array(z.string().min(10)).default([]),
+    links: z
+      .object({ url: z.url().optional(), label: z.string().optional() })
+      .default({}),
+  }),
+});
+
+/* ------------------------------------------------------ interests and now */
 
 const site = defineCollection({
   loader: glob({ base: './src/content/site', pattern: '**/*.json' }),
@@ -302,4 +370,4 @@ const site = defineCollection({
   }),
 });
 
-export const collections = { projects, experience, education, skillsGraph, site };
+export const collections = { projects, experience, education, skillsGraph, highlights, site };
