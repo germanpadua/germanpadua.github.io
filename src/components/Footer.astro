@@ -1,0 +1,202 @@
+---
+import { identity, useTranslations, type Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+  /** Kept for future per-page footers; the home route is the only consumer today. */
+  alternate: { es: string; en: string };
+  /** Same list the nav was given, so the footer cannot point at a missing section. */
+  links: { href: string; label: string }[];
+}
+
+const { locale, links } = Astro.props;
+const t = useTranslations(locale);
+const year = new Date().getFullYear();
+
+const elsewhere = [
+  { href: identity.github, label: t.sections.contact.githubLabel, handle: identity.githubHandle },
+  {
+    href: identity.linkedin,
+    label: t.sections.contact.linkedinLabel,
+    handle: 'german-jose-padua-pleguezuelo',
+  },
+  { href: `mailto:${identity.email}`, label: 'Email', handle: identity.email },
+];
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__col">
+        <p class="footer__brand">{identity.name}</p>
+        <p class="footer__tagline">{t.hero.eyebrow}</p>
+        <p class="footer__location">{identity.location[locale]}</p>
+      </div>
+
+      <nav class="footer__col" aria-label={t.footer.nav}>
+        <h2 class="footer__heading">{t.footer.nav}</h2>
+        <ul role="list">
+          {
+            links.map((link) => (
+              <li>
+                <a href={link.href}>{link.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="footer__col">
+        <h2 class="footer__heading">{t.footer.elsewhere}</h2>
+        <ul role="list">
+          {
+            elsewhere.map((link) => (
+              <li>
+                <a href={link.href} rel="me noopener noreferrer" target="_blank">
+                  <span class="footer__link-label">{link.label}</span>
+                  <span class="footer__link-handle">{link.handle}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__base">
+      <p class="footer__note">
+        <span class="tabular">{year}</span> · {t.footer.rights} {identity.name}
+      </p>
+      <p class="footer__note footer__note--soft">{t.footer.built}</p>
+      <a class="footer__top" href="#top">
+        <span aria-hidden="true">↑</span>
+        {t.footer.backToTop}
+      </a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: var(--rule) var(--border-style) var(--border);
+    padding-block: var(--space-xl) var(--space-l);
+    background-color: var(--bg-inset);
+  }
+
+  .footer__grid {
+    display: grid;
+    grid-template-columns: minmax(15rem, 1.4fr) 1fr 1.4fr;
+    gap: var(--space-l) var(--space-xl);
+  }
+
+  .footer__brand {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    color: var(--fg-strong);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .footer__tagline {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-wide);
+    color: var(--accent);
+    margin-top: var(--space-3xs);
+  }
+
+  .footer__location {
+    color: var(--fg-muted);
+    font-size: var(--step--1);
+    margin-top: var(--space-2xs);
+  }
+
+  .footer__heading {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--fg-faint);
+    margin-bottom: var(--space-2xs);
+  }
+
+  .footer__col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .footer__col a {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    color: var(--fg-muted);
+    font-size: var(--step--1);
+    text-decoration: none;
+  }
+
+  .footer__col a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+
+  .footer__link-handle {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    color: var(--fg-faint);
+  }
+
+  .footer__base {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2xs) var(--space-m);
+    margin-top: var(--space-xl);
+    padding-top: var(--space-m);
+    border-top: var(--rule) var(--border-style) var(--border);
+  }
+
+  .footer__note {
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+    max-width: none;
+  }
+
+  .footer__note--soft {
+    flex: 1 1 22rem;
+    color: var(--fg-faint);
+  }
+
+  .footer__top {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-wide);
+    color: var(--fg-muted);
+    text-decoration: none;
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: center;
+  }
+
+  .footer__top:hover {
+    color: var(--accent);
+  }
+
+  @media (max-width: 56rem) {
+    .footer__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .footer__col:first-child {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 32rem) {
+    .footer__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

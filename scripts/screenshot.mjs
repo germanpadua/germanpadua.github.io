@@ -11,10 +11,10 @@
  *   node scripts/screenshot.mjs --url https://...    # capture an already-running site
  *   node scripts/screenshot.mjs --theme phosphor     # force a data-theme value
  */
-import { spawn } from 'node:child_process';
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { chromium } from 'playwright';
+import { withPreview } from './lib/preview-server.mjs';
 
 const OUT_DIR = '.screenshots';
 
@@ -25,7 +25,15 @@ const VIEWPORTS = {
 };
 
 function parseArgs(argv) {
-  const args = { routes: ['/'], viewports: ['desktop', 'mobile'], theme: null, url: null, full: true };
+  const args = {
+    routes: ['/'],
+    viewports: ['desktop', 'mobile'],
+    theme: null,
+    url: null,
+    full: true,
+    colorScheme: 'dark',
+    reducedMotion: false,
+  };
   for (let i = 0; i < argv.length; i += 1) {
     const flag = argv[i];
     const value = argv[i + 1];
@@ -41,52 +49,16 @@ function parseArgs(argv) {
     } else if (flag === '--url' && value) {
       args.url = value.replace(/\/$/, '');
       i += 1;
+    } else if (flag === '--color-scheme' && value) {
+      args.colorScheme = value;
+      i += 1;
+    } else if (flag === '--reduced-motion') {
+      args.reducedMotion = true;
     } else if (flag === '--viewport-only') {
       args.full = false;
     }
   }
   return args;
-}
-
-async function waitForServer(baseUrl, timeoutMs = 30_000) {
-  const deadline = Date.now() + timeoutMs;
-  while (Date.now() < deadline) {
-    try {
-      const res = await fetch(baseUrl, { signal: AbortSignal.timeout(2000) });
-      if (res.ok) return true;
-    } catch {
-      /* not up yet */
-    }
-    await new Promise((resolve) => setTimeout(resolve, 250));
-  }
-  return false;
-}
-
-function startPreview() {
-  // `detached` puts pnpm and the astro server it forks into their own process
-  // group, so shutting down the preview cannot leave an orphan holding the
-  // parent's event loop open.
-  const child = spawn('pnpm', ['exec', 'astro', 'preview', '--port', '4321'], {
-    stdio: ['ignore', 'pipe', 'pipe'],
-    detached: true,
-  });
-  child.stdout.on('data', () => {});
-  child.stderr.on('data', () => {});
-  child.unref();
-  return child;
-}
-
-function stopPreview(child) {
-  if (!child?.pid) return;
-  try {
-    process.kill(-child.pid, 'SIGTERM');
-  } catch {
-    try {
-      child.kill('SIGTERM');
-    } catch {
-      /* already gone */
-    }
-  }
 }
 
 const slugify = (route) => (route === '/' ? 'home' : route.replace(/^\/|\/$/g, '').replace(/\//g, '-'));
@@ -95,17 +67,7 @@ async function main() {
   const args = parseArgs(process.argv.slice(2));
   await mkdir(OUT_DIR, { recursive: true });
 
-  let server = null;
-  let baseUrl = args.url;
-  if (!baseUrl) {
-    server = startPreview();
-    baseUrl = 'http://localhost:4321';
-    const ready = await waitForServer(baseUrl);
-    if (!ready) {
-      stopPreview(server);
-      throw new Error(`astro preview did not answer on ${baseUrl}`);
-    }
-  }
+  const { baseUrl, stop } = await withPreview({ url: args.url });
 
   const browser = await chromium.launch();
   const reports = [];
@@ -116,7 +78,7 @@ async function main() {
     const context = await browser.newContext({
       viewport,
       deviceScaleFactor: 1,
-      colorScheme: 'dark',
+      colorScheme: args.colorScheme,
       reducedMotion: args.reducedMotion ? 'reduce' : 'no-preference',
     });
 
@@ -131,14 +93,28 @@ async function main() {
 
       const response = await page.goto(url, { waitUntil: 'networkidle' });
       if (args.theme) {
-        await page.evaluate((theme) => {
-          document.documentElement.dataset.theme = theme;
+        // Drive the real control rather than setting the attribute directly, so a
+        // capture also exercises the switch's own code path.
+        const applied = await page.evaluate((theme) => {
+          const input = document.querySelector(`[data-theme-switch] input[value="${theme}"]`);
+          if (!input) {
+            document.documentElement.setAttribute('data-theme', theme);
+            return `forced:${theme}`;
+          }
+          input.click();
+          return document.documentElement.getAttribute('data-theme');
         }, args.theme);
-        await page.waitForTimeout(150);
+        if (applied !== args.theme && applied !== `forced:${args.theme}`) {
+          throw new Error(`theme switch did not reach "${args.theme}" (got "${applied}")`);
+        }
+        await page.waitForTimeout(200);
       }
       await page.waitForTimeout(400);
 
-      const file = path.join(OUT_DIR, `${slugify(route)}.${viewportName}${args.theme ? `.${args.theme}` : ''}.png`);
+      const file = path.join(
+        OUT_DIR,
+        `${slugify(route)}.${viewportName}.${args.colorScheme}${args.theme ? `.${args.theme}` : ''}.png`,
+      );
       await page.screenshot({ path: file, fullPage: args.full });
 
       const vitals = await page.evaluate(() => {
@@ -157,7 +133,7 @@ async function main() {
         route,
         viewport: viewportName,
         status: response?.status() ?? null,
-        theme: args.theme ?? 'default',
+        theme: args.theme ?? `system:${args.colorScheme}`,
         file,
         consoleErrors,
         vitals,
@@ -168,7 +144,7 @@ async function main() {
   }
 
   await browser.close();
-  stopPreview(server);
+  stop();
 
   await writeFile(path.join(OUT_DIR, 'report.json'), `${JSON.stringify(reports, null, 2)}\n`);
   for (const report of reports) {
@@ -185,7 +161,6 @@ async function main() {
   // can never turn a finished capture run into a hang.
   process.exit(0);
 }
-
 main().catch((error) => {
   console.error(error);
   process.exit(1);

@@ -1,0 +1,81 @@
+---
+/**
+ * Theme bootstrap and switch wiring.
+ *
+ * This is the only script the document shell is allowed to ship, and it must be
+ * inline and synchronous: it has to set `data-theme` before first paint, or the
+ * reader sees the fallback palette flash and then invert.
+ *
+ * Kept deliberately small — scripts/assert-shell-payload.mjs caps inline script
+ * at 2 KB per route.
+ */
+---
+
+<script is:inline>
+  (function () {
+    var KEY = 'gp.theme';
+    var THEMES = ['atlas', 'tinta', 'phosphor', 'nebula'];
+    var root = document.documentElement;
+    var query = window.matchMedia('(prefers-color-scheme: dark)');
+    var stored = null;
+    try {
+      stored = localStorage.getItem(KEY);
+    } catch (error) {
+      /* storage can be blocked; the system preference still decides. */
+    }
+
+    function systemTheme() {
+      return query.matches ? 'tinta' : 'atlas';
+    }
+
+    function apply(name, persist) {
+      var theme = THEMES.indexOf(name) > -1 ? name : systemTheme();
+      root.setAttribute('data-theme', theme);
+      var meta = document.querySelector('meta[name="theme-color"]');
+      var input = document.querySelector('[data-theme-switch] input[value="' + theme + '"]');
+      if (meta && input && input.dataset.swatch) meta.setAttribute('content', input.dataset.swatch);
+      // Keep the control truthful whenever the theme changes from any source,
+      // not only from a click on the control itself.
+      if (input) input.checked = true;
+      if (persist) {
+        try {
+          localStorage.setItem(KEY, theme);
+        } catch (error) {
+          /* ignore */
+        }
+      }
+      return theme;
+    }
+
+    apply(stored, false);
+
+    // Follow the operating system only while the reader has not picked a theme.
+    query.addEventListener('change', function () {
+      if (!stored) apply(null, false);
+    });
+
+    function wire() {
+      var group = document.querySelector('[data-theme-switch]');
+      if (!group) return;
+      // Re-apply the resolved theme so the control reflects it, then listen.
+      apply(root.getAttribute('data-theme'), false);
+
+      group.addEventListener('change', function (event) {
+        var target = event.target;
+        if (!target || target.name !== 'theme') return;
+        stored = target.value;
+        apply(target.value, true);
+        root.classList.add('is-theme-switching');
+        window.setTimeout(function () {
+          root.classList.remove('is-theme-switching');
+        }, 260);
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', wire);
+    } else {
+      wire();
+    }
+  })();
+</script>

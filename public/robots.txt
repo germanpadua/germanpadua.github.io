@@ -1,0 +1,9 @@
+# Everything here is meant to be read and indexed.
+User-agent: *
+Allow: /
+
+# Working routes, not content: a design-system harness and a capture-only card.
+Disallow: /lab/
+Disallow: /og/
+
+Sitemap: https://germanpadua.github.io/sitemap-index.xml

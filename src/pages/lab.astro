@@ -1,0 +1,404 @@
+---
+/**
+ * Theme laboratory.
+ *
+ * Four complete themes over one identical markup tree, plus a working switch on
+ * the page itself. This is the page that decides which palette becomes the
+ * default, so it has to show the real components rather than colour chips.
+ */
+import Base from '../layouts/Base.astro';
+import { themeIds, themeMeta, useTranslations, type Locale, type ThemeId } from '../i18n/ui';
+
+const locale: Locale = 'es';
+const t = useTranslations(locale);
+
+const paletteTokens = [
+  '--bg',
+  '--bg-raised',
+  '--bg-inset',
+  '--fg-strong',
+  '--fg',
+  '--fg-muted',
+  '--border',
+  '--accent',
+  '--accent-2',
+  '--accent-3',
+  '--ok',
+  '--warn',
+  '--err',
+];
+
+const nodeTokens = [
+  { token: '--node-math', label: 'Matemáticas' },
+  { token: '--node-cs', label: 'Informática' },
+  { token: '--node-ds', label: 'Datos' },
+  { token: '--node-tools', label: 'Herramientas' },
+  { token: '--node-lang', label: 'Idiomas' },
+];
+
+const metrics = [
+  { value: '957', label: t.lab.metricLabels.tests },
+  { value: '0.5', label: t.lab.metricLabels.score },
+  { value: '1.2 M', label: t.lab.metricLabels.dataset },
+];
+
+const chips = ['Python', 'PyTorch', 'IFRS 9', 'FastF1', 'LiteLLM'];
+---
+
+<Base locale={locale} title={`${t.lab.title} · German Padua`} noindex={true} chrome={false} navLinks={[]}>
+  <div class="lab">
+    <header class="lab__head container">
+      <p class="eyebrow">{t.lab.noindex}</p>
+      <h1>{t.lab.title}</h1>
+      <p class="lede">{t.lab.lead}</p>
+      <div class="lab__tokens">
+        <p class="lab__hint">
+          El tema por defecto se resuelve en <code>prefers-color-scheme</code>: claro → Atlas,
+          oscuro → Tinta.
+        </p>
+      </div>
+    </header>
+
+    {
+      themeIds.map((themeId: ThemeId) => {
+        const meta = themeMeta[themeId];
+        return (
+          <section class="lab__panel" data-theme={themeId}>
+            <div class="lab__sticky">
+              <span class="lab__theme-name">{meta.label}</span>
+              <span class="lab__theme-hint">{meta.hint[locale]}</span>
+              <span class="lab__theme-scheme chip tabular">{meta.scheme}</span>
+            </div>
+
+            <div class="lab__panel-body">
+              <div class="lab__col">
+                <h2 class="lab__col-title">{t.lab.specimen}</h2>
+                <div class="specimen">
+                  <h3 class="specimen__h1">Sobre números grandes</h3>
+                  <h4 class="specimen__h2">Un modelo y su auditoría</h4>
+                  <p class="specimen__lede">
+                    Los supuestos se escriben antes de mirar el resultado.
+                  </p>
+                  <p class="specimen__body">{t.lab.bodySample}</p>
+                  <p class="specimen__meta">
+                    <code>{t.lab.codeSample}</code>
+                  </p>
+                  <p class="specimen__link">
+                    <a href="#main">Un enlace dentro de un párrafo</a> y <strong>una negrita</strong>
+                    {' '}para ver el contraste real.
+                  </p>
+                </div>
+              </div>
+
+              <div class="lab__col">
+                <h2 class="lab__col-title">{t.lab.palette}</h2>
+                <ul class="palette" role="list">
+                  {paletteTokens.map((token) => (
+                    <li class="palette__item">
+                      <span class="palette__chip" style={`background-color: var(${token})`} />
+                      <code>{token}</code>
+                    </li>
+                  ))}
+                </ul>
+
+                <h2 class="lab__col-title">{t.lab.graph}</h2>
+                <ul class="nodes" role="list">
+                  {nodeTokens.map((node) => (
+                    <li class="nodes__item">
+                      <span class="nodes__dot" style={`background-color: var(${node.token})`} />
+                      {node.label}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div class="lab__col">
+                <h2 class="lab__col-title">{t.lab.components}</h2>
+
+                <div class="cluster">
+                  <button type="button" class="btn btn--primary">
+                    {t.hero.primaryAction}
+                  </button>
+                  <button type="button" class="btn">Secundario</button>
+                  <span class="chip">chip</span>
+                </div>
+
+                <div class="metrics">
+                  {metrics.map((metric) => (
+                    <div class="metric">
+                      <span class="metric__value tabular">{metric.value}</span>
+                      <span class="metric__label">{metric.label}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div class="cluster">
+                  {chips.map((chip) => (
+                    <span class="chip">{chip}</span>
+                  ))}
+                </div>
+
+                <div class="card demo-card">
+                  <span class="demo-card__kind">{t.lab.note}</span>
+                  <h5 class="demo-card__title">Una tarjeta de proyecto</h5>
+                  <p class="demo-card__body">
+                    Radio, borde, sombra y glow se comparan aquí, que es donde más se diferencian
+                    los cuatro temas.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+        );
+      })
+    }
+  </div>
+</Base>
+
+<style>
+  .lab {
+    padding-bottom: var(--space-3xl);
+  }
+
+  .lab__head {
+    padding-block: var(--space-2xl);
+  }
+
+  .lab__tokens {
+    margin-top: var(--space-m);
+  }
+
+  .lab__hint {
+    color: var(--fg-muted);
+    font-size: var(--step--1);
+  }
+
+  /* Each panel carries its own data-theme, which re-scopes every token inside it
+     because the theme selectors match any element, not only :root. */
+  .lab__panel {
+    border-top: var(--rule) var(--border-style) var(--border);
+    background-color: var(--bg);
+    color: var(--fg);
+    padding-block: var(--space-l) var(--space-2xl);
+  }
+
+  .lab__sticky {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-s);
+    flex-wrap: wrap;
+    padding: var(--space-2xs) var(--gutter);
+    position: sticky;
+    top: 0;
+    z-index: var(--z-raised);
+    background-color: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: var(--rule) var(--border-style) var(--border);
+    margin-bottom: var(--space-l);
+  }
+
+  .lab__theme-name {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    color: var(--fg-strong);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .lab__theme-hint {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    color: var(--fg-muted);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .lab__theme-scheme {
+    margin-left: auto;
+  }
+
+  .lab__panel-body {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr 1.1fr;
+    gap: var(--space-xl);
+    padding-inline: var(--gutter);
+    max-width: var(--page-max);
+    margin-inline: auto;
+  }
+
+  .lab__col-title {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--fg-faint);
+    margin-bottom: var(--space-s);
+  }
+
+  .lab__col-title:not(:first-child) {
+    margin-top: var(--space-l);
+  }
+
+  .specimen > * + * {
+    margin-top: var(--space-xs);
+  }
+
+  .specimen__h1 {
+    font-size: var(--step-4);
+  }
+
+  .specimen__h2 {
+    font-size: var(--step-2);
+  }
+
+  .specimen__lede {
+    font-size: var(--step-1);
+    line-height: var(--leading-snug);
+    color: var(--fg-muted);
+  }
+
+  .specimen__body {
+    font-size: var(--step-0);
+  }
+
+  .specimen__link {
+    font-size: var(--step--1);
+  }
+
+  .palette {
+    display: grid;
+    gap: 1px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .palette__item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+  }
+
+  .palette__chip {
+    width: 2.25rem;
+    height: 1.25rem;
+    border: var(--rule) var(--border-style) var(--border-strong);
+    border-radius: var(--radius-sm);
+    flex: none;
+  }
+
+  .palette__item code {
+    font-size: var(--step--2);
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--fg-muted);
+  }
+
+  .nodes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.35rem var(--space-2xs);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: var(--step--1);
+  }
+
+  .nodes__item {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--fg-muted);
+  }
+
+  .nodes__dot {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: var(--radius-pill);
+    flex: none;
+  }
+
+  .btn {
+    font-family: var(--font-code);
+    font-size: var(--step--1);
+    letter-spacing: var(--tracking-wide);
+    padding: 0.6rem 1rem;
+    border: var(--rule) var(--border-style) var(--border-strong);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-raised);
+    color: var(--fg-strong);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .btn--primary {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: var(--fg-on-accent);
+    box-shadow: var(--glow);
+  }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2xs);
+    margin-block: var(--space-m);
+    border-block: var(--rule) var(--border-style) var(--border);
+    padding-block: var(--space-s);
+  }
+
+  .metric {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .metric__value {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    color: var(--fg-strong);
+    line-height: 1;
+  }
+
+  .metric__label {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    color: var(--fg-faint);
+  }
+
+  .demo-card {
+    margin-top: var(--space-m);
+    padding: var(--space-s);
+  }
+
+  .demo-card__kind {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .demo-card__title {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    color: var(--fg-strong);
+    margin-top: var(--space-2xs);
+  }
+
+  .demo-card__body {
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+    margin-top: var(--space-2xs);
+  }
+
+  @media (max-width: 62rem) {
+    .lab__panel-body {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 44rem) {
+    .lab__panel-body {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

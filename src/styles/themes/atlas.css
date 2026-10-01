@@ -1,0 +1,55 @@
+/* ============================================================================
+   ATLAS — paper and ink, scientific editorial.
+   ----------------------------------------------------------------------------
+   The default. Legible in daylight, dense enough for tables of numbers, and
+   deliberately close to a printed paper: warm paper stock, one cool measuring
+   accent, one warm accent for secondary emphasis.
+   ========================================================================== */
+
+[data-theme="atlas"] {
+  --bg: #f6f4ee;
+  --bg-raised: #fffdf8;
+  --bg-inset: #efece3;
+  --bg-hover: #eae6da;
+  --bg-overlay: rgba(16, 20, 26, 0.55);
+
+  --fg: #2a2f38;
+  --fg-strong: #10141a;
+  --fg-muted: #5f6773;
+  --fg-faint: #8b939f;
+  --fg-on-accent: #ffffff;
+
+  --border: #dbd5c7;
+  --border-strong: #c2baa8;
+
+  --accent: #0b6e8c;
+  --accent-2: #a2590a;
+  --accent-3: #6b4ea8;
+  --accent-soft: rgba(11, 110, 140, 0.1);
+
+  --ok: #157f52;
+  --warn: #a2740a;
+  --err: #b3261e;
+  --info: #0b6e8c;
+
+  --shadow-sm: 0 1px 2px rgba(16, 20, 26, 0.05);
+  --shadow: 0 1px 2px rgba(16, 20, 26, 0.05), 0 12px 32px -20px rgba(16, 20, 26, 0.35);
+  --glow: none;
+
+  --node-math: #6b4ea8;
+  --node-cs: #0b6e8c;
+  --node-ds: #157f52;
+  --node-tools: #a2590a;
+  --node-lang: #8c2f5c;
+
+  --grid-line: rgba(16, 20, 26, 0.055);
+  --grid-size: 3.5rem;
+  --ornament-opacity: 1;
+
+  --font-display: var(--font-serif);
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-lg: 6px;
+
+  color-scheme: light;
+}

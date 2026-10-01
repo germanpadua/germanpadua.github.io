@@ -1,0 +1,201 @@
+---
+import ThemeSwitch from './ThemeSwitch.astro';
+import { identity, useTranslations, type Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+  alternate: { es: string; en: string };
+  /** Only sections the page actually renders, so no anchor is ever dead. */
+  links: { href: string; label: string }[];
+}
+
+const { locale, alternate, links } = Astro.props;
+const t = useTranslations(locale);
+
+const otherLocale: Locale = locale === 'es' ? 'en' : 'es';
+---
+
+<header class="nav">
+  <div class="container nav__inner">
+    <a class="nav__brand" href="#top">
+      <span class="nav__brand-mark" aria-hidden="true"></span>
+      <span class="nav__brand-text">
+        <span class="nav__brand-name">{identity.name}</span>
+        <span class="nav__brand-role">{t.hero.eyebrow}</span>
+      </span>
+    </a>
+
+    <nav class="nav__links" aria-label={t.nav.label}>
+      <ul role="list">
+        {
+          links.map((link) => (
+            <li>
+              <a href={link.href}>{link.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="nav__tools">
+      <ThemeSwitch />
+      <a
+        class="nav__lang"
+        href={alternate[otherLocale]}
+        hreflang={otherLocale}
+        lang={otherLocale}
+        title={t.nav.languageLabel}
+      >
+        {t.nav.languageShort}
+        <span class="sr-only"> — {t.nav.languageLabel}</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-nav);
+    background-color: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(12px) saturate(140%);
+    border-bottom: var(--rule) var(--border-style) var(--border);
+  }
+
+  .nav__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+    min-height: 4rem;
+  }
+
+  .nav__brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    margin-right: auto;
+    text-decoration: none;
+    min-width: 0;
+  }
+
+  /* The mark is the favicon reduced to its two ideas: a measuring rule and a
+     graph node. Drawn in CSS so it re-colours with the theme. */
+  .nav__brand-mark {
+    flex: none;
+    position: relative;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: var(--rule) var(--border-style) var(--border-strong);
+    border-radius: var(--radius-sm);
+    background-color: var(--bg-inset);
+  }
+
+  .nav__brand-mark::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0.28rem;
+    width: var(--rule-strong);
+    height: 0.85rem;
+    transform: translateX(-50%);
+    background-color: var(--accent);
+  }
+
+  .nav__brand-mark::after {
+    content: "";
+    position: absolute;
+    inset: 0.28rem 0.28rem auto auto;
+    width: 0.32rem;
+    height: 0.32rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--accent-2);
+  }
+
+  .nav__brand-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.15;
+  }
+
+  .nav__brand-name {
+    color: var(--fg-strong);
+    font-weight: 600;
+    font-size: var(--step-0);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .nav__brand-role {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    color: var(--fg-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .nav__links ul {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav__links a {
+    display: block;
+    padding: 0.45rem 0.6rem;
+    border-radius: var(--radius-sm);
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      color var(--dur-fast) var(--ease-standard),
+      background-color var(--dur-fast) var(--ease-standard);
+  }
+
+  .nav__links a:hover {
+    color: var(--fg-strong);
+    background-color: var(--bg-hover);
+  }
+
+  .nav__tools {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    flex: none;
+  }
+
+  .nav__lang {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-wide);
+    color: var(--fg-muted);
+    text-decoration: none;
+    padding: 0.35rem 0.55rem;
+    border: var(--rule) var(--border-style) var(--border);
+    border-radius: var(--radius-pill);
+  }
+
+  .nav__lang:hover {
+    color: var(--fg-strong);
+    border-color: var(--border-strong);
+  }
+
+  /* Below the first breakpoint the section links live in the page body, and the
+     bar keeps only identity, theme, and language. */
+  @media (max-width: 68rem) {
+    .nav__links {
+      display: none;
+    }
+  }
+
+  @media (max-width: 32rem) {
+    .nav__brand-role {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,142 @@
+---
+import { useTranslations, type Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+/**
+ * The three interactive layers, described before they exist as a promise the nav
+ * can point at. Each card is a real feature with a real entry point, not a tease:
+ * the `status` field is what keeps this section honest until each island lands.
+ */
+const layers = [
+  {
+    id: 'terminal',
+    ...t.playground.terminal,
+    status: 'soon',
+    accent: 'var(--node-cs)',
+  },
+  {
+    id: 'graph',
+    ...t.playground.graph,
+    status: 'soon',
+    accent: 'var(--node-math)',
+  },
+  {
+    id: 'game',
+    ...t.playground.game,
+    status: 'soon',
+    accent: 'var(--node-tools)',
+  },
+];
+
+const statusLabel: Record<string, string> = {
+  soon: locale === 'es' ? 'en construcción' : 'in progress',
+  ready: locale === 'es' ? 'listo' : 'ready',
+};
+---
+
+<section id="playground" class="section section--gridded">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="eyebrow">{t.sections.playground.eyebrow}</p>
+      <h2>{t.sections.playground.title}</h2>
+      <p class="section-head__lead">{t.sections.playground.lead}</p>
+    </header>
+
+    <ul class="layers" role="list">
+      {
+        layers.map((layer) => (
+          <li class="layer card reveal" style={`--layer-accent:${layer.accent}`}>
+            <div class="layer__top">
+              <span class="layer__index tabular" aria-hidden="true">
+                {String(layers.indexOf(layer) + 1).padStart(2, '0')}
+              </span>
+              <span class="layer__status">{statusLabel[layer.status]}</span>
+            </div>
+            <h3 class="layer__title">{layer.title}</h3>
+            <p class="layer__body">{layer.description}</p>
+            <span class="layer__cta">{layer.cta}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .layers {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    gap: var(--space-s);
+  }
+
+  .layer {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: var(--space-2xs);
+    padding: var(--space-s);
+    overflow: hidden;
+  }
+
+  /* A top edge in the layer's own colour: the only ornament, and it doubles as
+     the visual key for the skill graph categories. */
+  .layer::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: var(--rule-strong);
+    background-color: var(--layer-accent);
+  }
+
+  .layer__top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2xs);
+  }
+
+  .layer__index {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    color: var(--fg-faint);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .layer__status {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-wide);
+    color: var(--fg-faint);
+    border: var(--rule) var(--border-style) var(--border);
+    border-radius: var(--radius-pill);
+    padding: 0.2rem 0.5rem;
+  }
+
+  .layer__title {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    color: var(--fg-strong);
+  }
+
+  .layer__body {
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+  }
+
+  .layer__cta {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-wide);
+    color: var(--layer-accent);
+    margin-top: var(--space-2xs);
+  }
+</style>

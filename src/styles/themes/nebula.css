@@ -1,0 +1,56 @@
+/* ============================================================================
+   NEBULA — data-viz on dark slate.
+   ----------------------------------------------------------------------------
+   The familiar modern-tooling palette: sans display, generous radii, colour used
+   to separate categories rather than to decorate. Inverted in emphasis from the
+   atlas themes: colour carries meaning, structure stays quiet.
+   ========================================================================== */
+
+[data-theme="nebula"] {
+  --bg: #0a0a12;
+  --bg-raised: #12121d;
+  --bg-inset: #07070e;
+  --bg-hover: #1a1a29;
+  --bg-overlay: rgba(4, 4, 10, 0.72);
+
+  --fg: #b9bccd;
+  --fg-strong: #f4f5fb;
+  --fg-muted: #7b7f95;
+  --fg-faint: #555969;
+  --fg-on-accent: #0b0716;
+
+  --border: #1e1e2e;
+  --border-strong: #32324a;
+
+  --accent: #a78bfa;
+  --accent-2: #22d3ee;
+  --accent-3: #f472b6;
+  --accent-soft: rgba(167, 139, 250, 0.14);
+
+  --ok: #34d399;
+  --warn: #fbbf24;
+  --err: #fb7185;
+  --info: #22d3ee;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.45), 0 24px 60px -32px rgba(77, 52, 168, 0.6);
+  --glow: 0 0 28px rgba(167, 139, 250, 0.22);
+
+  --node-math: #a78bfa;
+  --node-cs: #22d3ee;
+  --node-ds: #34d399;
+  --node-tools: #fbbf24;
+  --node-lang: #f472b6;
+
+  --grid-line: rgba(167, 139, 250, 0.05);
+  --grid-size: 4rem;
+  --ornament-opacity: 0.8;
+
+  --font-display: var(--font-sans);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --tracking-tight: -0.011em;
+
+  color-scheme: dark;
+}

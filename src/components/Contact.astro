@@ -1,0 +1,129 @@
+---
+import { identity, useTranslations, type Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const channels = [
+  { href: `mailto:${identity.email}`, label: t.sections.contact.emailLabel, value: identity.email },
+  { href: identity.github, label: t.sections.contact.githubLabel, value: identity.githubHandle },
+  {
+    href: identity.linkedin,
+    label: t.sections.contact.linkedinLabel,
+    value: locale === 'es' ? 'german-jose-padua-pleguezuelo' : 'german-jose-padua-pleguezuelo',
+  },
+];
+---
+
+<section id="contact" class="section">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="eyebrow">{t.sections.contact.eyebrow}</p>
+      <h2>{t.sections.contact.title}</h2>
+      <p class="section-head__lead">{t.sections.contact.lead}</p>
+    </header>
+
+    <ul class="channels" role="list">
+      {
+        channels.map((channel) => (
+          <li>
+            <a class="channel" href={channel.href} rel="me noopener noreferrer" target="_blank">
+              <span class="channel__label">{channel.label}</span>
+              <span class="channel__value">{channel.value}</span>
+              <span class="channel__arrow" aria-hidden="true">
+                ↗
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .channels {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: var(--rule) var(--border-style) var(--border);
+  }
+
+  .channels li {
+    border-bottom: var(--rule) var(--border-style) var(--border);
+  }
+
+  /* Full-width rows rather than buttons: on a phone this is a comfortable tap
+     target, and on desktop it reads like an index. */
+  .channel {
+    display: grid;
+    grid-template-columns: 12rem 1fr auto;
+    align-items: baseline;
+    gap: var(--space-2xs) var(--space-s);
+    padding-block: var(--space-s);
+    text-decoration: none;
+    color: var(--fg);
+    transition: background-color var(--dur-fast) var(--ease-standard);
+  }
+
+  .channel:hover {
+    background-color: var(--bg-hover);
+  }
+
+  .channel__label {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--fg-faint);
+  }
+
+  .channel__value {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    color: var(--fg-strong);
+    letter-spacing: var(--tracking-tight);
+    overflow-wrap: anywhere;
+  }
+
+  .channel__arrow {
+    font-family: var(--font-code);
+    color: var(--accent);
+    opacity: 0;
+    transform: translateX(-0.5rem);
+    transition:
+      opacity var(--dur-fast) var(--ease-standard),
+      transform var(--dur-fast) var(--ease-standard);
+  }
+
+  .channel:hover .channel__arrow,
+  .channel:focus-visible .channel__arrow {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (max-width: 46rem) {
+    .channel {
+      grid-template-columns: 1fr auto;
+    }
+
+    .channel__value {
+      grid-column: 1;
+      font-size: var(--step-1);
+    }
+
+    .channel__label {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .channel__arrow {
+      grid-row: 1 / span 2;
+      align-self: center;
+    }
+  }
+</style>

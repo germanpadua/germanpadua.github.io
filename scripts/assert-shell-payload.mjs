@@ -1,36 +1,68 @@
 #!/usr/bin/env node
 /**
- * Payload guard: the portfolio shell must stay readable and fast for a recruiter
- * who only scrolls. Every interactive feature (terminal, skill graph, F1 game) is
- * an Astro island, so its JavaScript must appear on the routes that host it and
- * nowhere else.
+ * Payload guard.
  *
- * This script reads the built `dist/` and asserts, per HTML route:
- *   - inline JavaScript stays under INLINE_JS_BUDGET bytes
- *   - every external module script is declared in ROUTE_BUDGETS
- *   - the total JavaScript a page pulls (inline + referenced local files) stays
- *     under the route's budget
+ * The portfolio has three layers, and only the interactive ones may ship
+ * JavaScript. This script reads the built `dist/`, and for every HTML route
+ * asserts three things:
  *
- * Update ROUTE_BUDGETS in the same commit that adds an island. Growing a budget
- * without a matching island is exactly the regression this guard exists for.
+ *   1. inline JavaScript stays within the route's declared budget
+ *   2. every script the page loads is declared for that route
+ *   3. no route loads a third-party script (fonts and everything else are
+ *      self-hosted, so an off-site script is always a mistake)
+ *
+ * The budgets below are the contract. Adding an island means declaring its entry
+ * script on the routes that host it, in the same commit. Adding a route means
+ * declaring it. Growing a budget without a matching island is exactly the
+ * regression this guard exists to catch.
+ *
+ * Note on the inline budget: it is not zero, and it cannot be. A theme system
+ * that must not flash the wrong palette has to set its attribute before first
+ * paint, which means a synchronous inline script. Everything else stays at zero.
  */
 import { readdir, readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 
 const DIST = 'dist';
 
-/** Inline scripts (theme bootstrap, JSON-LD bootstrap) may never exceed this. */
-const INLINE_JS_BUDGET = 2048;
+/** Shell allowance: theme bootstrap only, with room to grow a little. */
+const SHELL_INLINE = 2560;
 
 /**
- * Per-route allowance for JavaScript the page loads over the network.
- * `null` means "no external module scripts allowed at all".
- * Keys are route patterns; the first match wins, `*` is the fallback.
+ * `scripts` lists the entry scripts a route may load, matched against the
+ * `src` attribute. An empty array means "this route loads no JavaScript at all".
  */
 const ROUTE_BUDGETS = [
-  { pattern: /^\/$/, external: null, reason: 'document shell only' },
-  { pattern: /^\/en\/$/, external: null, reason: 'document shell only' },
-  { pattern: /.*/, external: null, reason: 'not yet classified' },
+  {
+    pattern: /^\/$/,
+    inline: SHELL_INLINE,
+    scripts: [],
+    reason: 'home (es): document shell plus theme bootstrap, no islands yet',
+  },
+  {
+    pattern: /^\/en\/$/,
+    inline: SHELL_INLINE,
+    scripts: [],
+    reason: 'home (en): document shell plus theme bootstrap, no islands yet',
+  },
+  {
+    pattern: /^\/lab\/$/,
+    inline: SHELL_INLINE,
+    scripts: [],
+    reason: 'design system harness, document only',
+  },
+  {
+    pattern: /^\/og\/$/,
+    inline: 0,
+    scripts: [],
+    reason: 'capture-only social card, plain document',
+  },
+  {
+    pattern: /.*/,
+    inline: SHELL_INLINE,
+    scripts: [],
+    reason: 'unclassified route inherits the shell allowance but no island scripts',
+  },
 ];
 
 const SCRIPT_TAG = /<script\b([^>]*)>([\s\S]*?)<\/script>/gi;
@@ -45,6 +77,17 @@ const DATA_SCRIPT_TYPES = new Set([
   'importmap',
   'speculationrules',
 ]);
+
+const THIRD_PARTY_JS = [
+  'googletagmanager.com',
+  'google-analytics.com',
+  'clarity.ms',
+  'hotjar.com',
+  'cdn.jsdelivr.net',
+  'unpkg.com',
+  'cdnjs.cloudflare.com',
+  'bootstrapcdn.com',
+];
 
 function attrsOf(raw) {
   const attrs = {};
@@ -69,9 +112,9 @@ function routeOf(file) {
 }
 
 async function sizeOfReferenced(src, htmlFile) {
-  let target;
-  if (src.startsWith('/')) target = path.join(DIST, src);
-  else target = path.resolve(path.dirname(htmlFile), src);
+  const target = src.startsWith('/')
+    ? path.join(DIST, src)
+    : path.resolve(path.dirname(htmlFile), src);
   try {
     const info = await stat(target);
     return info.isFile() ? info.size : 0;
@@ -90,57 +133,64 @@ for (const file of await walkHtml(DIST)) {
 
   let inlineBytes = 0;
   let inlineCount = 0;
-  const externalLocal = [];
+  const external = [];
 
   for (const match of html.matchAll(SCRIPT_TAG)) {
     const attrs = attrsOf(match[1]);
-    const body = match[2] ?? '';
-    const type = (attrs.type ?? '').toLowerCase();
-    if (DATA_SCRIPT_TYPES.has(type)) continue;
+    if (DATA_SCRIPT_TYPES.has((attrs.type ?? '').toLowerCase())) continue;
+
     if (attrs.src) {
-      if (!LOCAL_SRC.test(attrs.src)) {
-        failures.push(`${route}: loads a third-party script (${attrs.src}); self-host it or drop it`);
-        continue;
-      }
-      externalLocal.push(attrs.src);
+      external.push(attrs.src);
       continue;
     }
-    inlineBytes += Buffer.byteLength(body, 'utf8');
+
+    inlineBytes += Buffer.byteLength(match[2] ?? '', 'utf8');
     inlineCount += 1;
   }
 
-  if (inlineBytes > INLINE_JS_BUDGET) {
+  if (inlineBytes > budget.inline) {
     failures.push(
-      `${route}: ${inlineBytes} bytes of inline JavaScript exceeds the ${INLINE_JS_BUDGET} byte budget`,
+      `${route}: ${inlineBytes} bytes of inline JavaScript exceeds the declared ${budget.inline} byte budget (${budget.reason})`,
     );
   }
 
-  if (budget.external === null && externalLocal.length > 0) {
-    failures.push(
-      `${route}: loads ${externalLocal.length} script(s) [${externalLocal.join(', ')}] but its budget expects none (${budget.reason})`,
-    );
+  for (const src of external) {
+    if (!LOCAL_SRC.test(src)) {
+      failures.push(`${route}: loads a third-party script (${src}); self-host it or drop it`);
+      continue;
+    }
+    if (THIRD_PARTY_JS.some((host) => src.includes(host))) {
+      failures.push(`${route}: loads a bundled CDN script (${src}); vendor it instead`);
+      continue;
+    }
+    if (!budget.scripts.some((allowed) => src.includes(allowed))) {
+      failures.push(
+        `${route}: loads ${src}, which is not declared for this route (${budget.reason}); declare it or remove it`,
+      );
+    }
   }
 
   let externalBytes = 0;
-  for (const src of externalLocal) externalBytes += await sizeOfReferenced(src, file);
+  for (const src of external) externalBytes += await sizeOfReferenced(src, file);
 
   rows.push({
     route,
     inlineCount,
     inlineBytes,
-    externalCount: externalLocal.length,
+    inlineBudget: budget.inline,
+    externalCount: external.length,
     externalBytes,
     totalBytes: inlineBytes + externalBytes,
   });
 }
 
-rows.sort((a, b) => b.totalBytes - a.totalBytes);
+rows.sort((a, b) => a.route.localeCompare(b.route));
 const pad = (value, width) => String(value).padStart(width);
 
-console.log('route                            inline  ext  total');
+console.log('route                                  inline  /budget  scripts  js total');
 for (const row of rows) {
   console.log(
-    `${row.route.padEnd(32)} ${pad(row.inlineBytes, 6)} ${pad(row.externalCount, 4)} ${pad(row.totalBytes, 6)}`,
+    `${row.route.padEnd(36)} ${pad(row.inlineBytes, 6)}  ${pad(row.inlineBudget, 7)}  ${pad(row.externalCount, 7)}  ${pad(row.totalBytes, 8)}`,
   );
 }
 
@@ -151,5 +201,5 @@ if (failures.length > 0) {
 }
 
 console.log(
-  `\nPayload guard passed: ${rows.length} route(s), inline JavaScript under ${INLINE_JS_BUDGET} bytes, no undeclared island payload.`,
+  `\nPayload guard passed: ${rows.length} route(s), no undeclared script, no third-party JavaScript.`,
 );

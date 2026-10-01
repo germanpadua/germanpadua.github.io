@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="German Padua">
+  <title>German Padua</title>
+  <!--
+    A geometric "G" drawn as an open ring with a crossbar.
+    It reads as a monogram at 16px and as a gauge dial at larger sizes, which is
+    the whole identity in one mark: a letter and a measurement.
+  -->
+  <rect width="32" height="32" rx="7" fill="#0f1216" />
+  <path
+    d="M22.4 9.6A9 9 0 1 0 22.4 22.4"
+    fill="none"
+    stroke="#4cc2e0"
+    stroke-width="3.2"
+    stroke-linecap="round"
+  />
+  <path
+    d="M15.6 16h7.6"
+    fill="none"
+    stroke="#e0a24c"
+    stroke-width="3.2"
+    stroke-linecap="round"
+  />
+</svg>
