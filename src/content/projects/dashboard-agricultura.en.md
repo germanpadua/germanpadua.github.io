@@ -26,6 +26,11 @@ stack:
   - Sentinel-2
   - AEMET
   - Docker
+images:
+  - file: agricultura-satelite
+    alt: "Satellite view of an olive parcel with the NDVI vegetation index overlaid and the analysis configuration panels."
+  - file: agricultura-historico
+    alt: "Historical weather analysis: precipitation, humidity and temperature series with the repilo risk thresholds marked."
 metrics:
   - value: 10 m/pixel
     label: Resolution of the satellite analysis

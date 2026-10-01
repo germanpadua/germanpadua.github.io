@@ -35,7 +35,14 @@ export default defineConfig({
       cssVariable: '--font-serif',
       provider: fontProviders.google(),
       weights: [400, 500, 600],
-      styles: ['normal', 'italic'],
+      /*
+       * Normal only. The italic face was a separate 64.5 KB file, downloaded on every
+       * route for two small uses: a blockquote rule that no content triggers, and the
+       * confidentiality note under a project plate. The note now reads as a quiet aside
+       * with a rule and a muted colour, which costs nothing and reads better inside the
+       * editorial layout than a slanted serif did.
+       */
+      styles: ['normal'],
       subsets: ['latin'],
       display: 'swap',
       fallbacks: ['Georgia', 'serif'],

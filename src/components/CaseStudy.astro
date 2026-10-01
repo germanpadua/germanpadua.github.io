@@ -1,5 +1,7 @@
 ---
 import { render } from 'astro:content';
+import { Picture } from 'astro:assets';
+import { projectImage } from '../lib/projectImages';
 import Base from '../layouts/Base.astro';
 import Metric from './Metric.astro';
 import { getProject, getProjects, projectPath, projectsIndexPath } from '../lib/content';
@@ -136,6 +138,28 @@ const navLinks = [
     <div class="case__body container">
       <div class="case__prose">
         <Content />
+
+        {data.images.length > 0 && (
+          <section class="case__gallery">
+            <h2 class="case__section-label">
+              {locale === 'es' ? 'Capturas' : 'Screenshots'}
+            </h2>
+            {data.images.map((image) => (
+              <figure class="case__figure">
+                <Picture
+                  src={projectImage(image.file)}
+                  alt={image.alt}
+                  widths={[480, 900, 1600]}
+                  sizes="(max-width: 56rem) 92vw, 46rem"
+                  formats={['avif', 'webp']}
+                  loading="lazy"
+                  decoding="async"
+                />
+                {image.caption && <figcaption>{image.caption}</figcaption>}
+              </figure>
+            ))}
+          </section>
+        )}
       </div>
 
       <aside class="case__aside">
@@ -306,7 +330,8 @@ const navLinks = [
   .case__confidential {
     font-size: var(--step--1);
     color: var(--fg-muted);
-    font-style: italic;
+    border-left: var(--rule-strong) var(--border-style) var(--border-strong);
+    padding-left: var(--space-2xs);
     max-width: 62ch;
   }
 
@@ -339,6 +364,32 @@ const navLinks = [
 
   .case__prose :global(strong) {
     color: var(--fg-strong);
+  }
+
+  .case__gallery {
+    margin-top: var(--space-xl);
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  .case__figure {
+    margin: 0;
+    border: var(--rule) var(--border-style) var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--bg-inset);
+  }
+
+  .case__figure :global(img) {
+    width: 100%;
+    height: auto;
+  }
+
+  .case__figure figcaption {
+    font-size: var(--step--2);
+    color: var(--fg-muted);
+    padding: var(--space-2xs) var(--space-s);
+    border-top: var(--rule) var(--border-style) var(--border);
   }
 
   .case__aside {
@@ -435,7 +486,33 @@ const navLinks = [
       grid-template-columns: 1fr;
     }
 
-    .case__aside {
+    .case__gallery {
+    margin-top: var(--space-xl);
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  .case__figure {
+    margin: 0;
+    border: var(--rule) var(--border-style) var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--bg-inset);
+  }
+
+  .case__figure :global(img) {
+    width: 100%;
+    height: auto;
+  }
+
+  .case__figure figcaption {
+    font-size: var(--step--2);
+    color: var(--fg-muted);
+    padding: var(--space-2xs) var(--space-s);
+    border-top: var(--rule) var(--border-style) var(--border);
+  }
+
+  .case__aside {
       position: static;
     }
   }

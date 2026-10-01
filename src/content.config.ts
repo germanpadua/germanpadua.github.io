@@ -128,14 +128,21 @@ const projects = defineCollection({
           writeup: z.url().optional(),
         })
         .default({}),
-      cover: z
-        .object({
-          src: z.string().min(1),
-          alt: z.string().min(4),
-          width: z.number().int().positive().optional(),
-          height: z.number().int().positive().optional(),
-        })
-        .optional(),
+      /**
+       * Screenshots, by key rather than by path. `file` is resolved against
+       * `src/assets/projects/` by `src/lib/projectImages.ts`, which throws at build time
+       * when a key resolves to nothing; a path in frontmatter would render a broken image
+       * instead. Alt text is required: an unexplained screenshot is decoration.
+       */
+      images: z
+        .array(
+          z.object({
+            file: z.string().min(1),
+            alt: z.string().min(10),
+            caption: z.string().optional(),
+          }),
+        )
+        .default([]),
       /** Explains a case study with no link, in one line, on the card. */
       confidentiality: z.string().optional(),
     })

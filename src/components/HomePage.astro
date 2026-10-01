@@ -22,6 +22,7 @@ import Playground from './Playground.astro';
 import OffTheClock from './OffTheClock.astro';
 import Contact from './Contact.astro';
 import { useTranslations, type Locale } from '../i18n/ui';
+import portraitImage from '../assets/portrait.jpg';
 
 interface Props {
   locale: Locale;
@@ -40,17 +41,11 @@ const navLinks = [
   { href: '#contact', label: t.nav.contact },
 ];
 
-const portrait = {
-  src: '/images/portrait.jpg',
-  width: 760,
-  height: 762,
-  alt: locale === 'es' ? 'Retrato de German Padua' : 'Portrait of German Padua',
-};
 ---
 
 <Base locale={locale} alternate={{ es: '/', en: '/en/' }} navLinks={navLinks}>
   <Hero locale={locale} primaryHref="#projects" secondaryHref="#work" />
-  <Profile locale={locale} portrait={portrait} />
+  <Profile locale={locale} portrait={portraitImage} />
   <Projects locale={locale} />
   <Highlights locale={locale} />
   <Experience locale={locale} />

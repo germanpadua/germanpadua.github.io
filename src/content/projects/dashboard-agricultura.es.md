@@ -26,6 +26,11 @@ stack:
   - Sentinel-2
   - AEMET
   - Docker
+images:
+  - file: agricultura-satelite
+    alt: "Vista satelital de una parcela de olivar con el índice de vegetación NDVI superpuesto y los paneles de configuración del análisis."
+  - file: agricultura-historico
+    alt: "Análisis meteorológico histórico: series de precipitación, humedad y temperatura con los umbrales de riesgo de repilo marcados."
 metrics:
   - value: 10 m/píxel
     label: Resolución del análisis satelital

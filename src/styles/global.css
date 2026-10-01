@@ -181,11 +181,13 @@ hr {
   margin-block: var(--space-l);
 }
 
+/* No rendered content uses a blockquote today, and the rule stays so that adding one
+   later is styled rather than bare. It deliberately does not ask for an italic face:
+   the browser synthesises the slant instead of downloading 64.5 KB for it. */
 blockquote {
   border-left: var(--rule-strong) var(--border-style) var(--accent);
   padding-left: var(--space-m);
   color: var(--fg-muted);
-  font-style: italic;
 }
 
 ::selection {

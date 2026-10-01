@@ -101,6 +101,37 @@ Route the island under `src/components/islands/`, hydrate it with
 in `ROUTE_BUDGETS` inside `scripts/assert-shell-payload.mjs`. If the guard fails,
 that is the guard working: the declaration is the point.
 
+## Performance
+
+Measured, not estimated. The method matters more than the number:
+
+- `astro preview` serves with gzip, and Playwright's `response.body()` returns the
+  **decompressed** body, so a naive sum overstates the transfer. The figures below
+  combine the already-compressed assets as served (images, fonts) with the text assets
+  compressed locally at gzip level 9, which is what GitHub Pages does.
+- Only the variants one browser actually picks are counted: `<Picture>` emits 18 AVIF and
+  18 WebP files across all widths, and a reader downloads one of each.
+
+| Route | Realistic transfer | What dominates |
+| --- | --- | --- |
+| `/` (cold, nothing scrolled) | ~200 KB | document 132 KB decoded (26 KB gzipped), fonts 135 KB, CSS 54 KB, JS 55 KB |
+| `/` (scrolled to the end) | ~450 KB | plus 253 KB of lazy project screenshots |
+| A case study | ~180 KB | fonts 135 KB, one screenshot ~50 KB |
+
+Budgets, enforced rather than hoped for:
+
+- JavaScript per route is capped in `scripts/assert-shell-payload.mjs`, which fails the
+  build on an undeclared or third-party script and on a total above the declared ceiling.
+  The home page is at 68,544 of 72,000 bytes with three islands.
+- Fonts: 135 KB across three files. The Newsreader italic face was a fourth file of
+  64.5 KB, downloaded on every route for two small uses; it is gone and those two uses
+  now read as a quiet rule and a muted colour.
+- Images: everything lives in `src/assets/`, never in `public/`, so Astro emits AVIF and
+  WebP at the widths the layout asks for. The isometric render is 366 KB as a source JPEG
+  and 138 KB as the largest AVIF; the portrait is 151 KB as a source and 6.8 KB at its
+  smallest AVIF. Sources went from 3.6 MB of PNG to 1.1 MB by converting the two
+  photographic ones.
+
 ## Deployment
 
 `main` deploys through the `Deploy to GitHub Pages` workflow. The repository's

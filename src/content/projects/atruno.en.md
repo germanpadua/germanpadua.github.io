@@ -27,6 +27,13 @@ stack:
   - Vitest
   - Playwright
   - Vercel
+images:
+  - file: atruno-panel
+    alt: "Atruno's main panel over the project's fictitious sample data: incidents, tasks and the state of each property."
+  - file: atruno-gastos
+    alt: "Expenses and rent charges, over the project's invented sample data."
+  - file: atruno-inmuebles
+    alt: "Property list and inventory, over the project's invented sample data."
 metrics:
   - value: 1402
     label: Tests passing in 127.80 s

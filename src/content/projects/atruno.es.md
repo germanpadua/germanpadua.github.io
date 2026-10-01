@@ -27,6 +27,13 @@ stack:
   - Vitest
   - Playwright
   - Vercel
+images:
+  - file: atruno-panel
+    alt: "Panel principal de Atruno sobre datos de ejemplo ficticios: incidencias, tareas y estado de cada inmueble."
+  - file: atruno-gastos
+    alt: "Vista de gastos y cuotas de alquiler, con los datos de ejemplo inventados del proyecto."
+  - file: atruno-inmuebles
+    alt: "Listado de inmuebles y su inventario, con los datos de ejemplo inventados del proyecto."
 metrics:
   - value: 1402
     label: Tests pasando en 127,80 s

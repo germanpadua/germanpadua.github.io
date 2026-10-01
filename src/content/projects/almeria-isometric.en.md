@@ -24,6 +24,9 @@ stack:
   - DeepSeek
   - FLUX
   - DZI
+images:
+  - file: almeria-isometric
+    alt: "Isometric view of Almería rebuilt from LiDAR and Cadastre, with the monuments labelled and the pipeline stage selector along the bottom."
 metrics:
   - value: 2.19 pts/m²
     label: Density of the LiDAR used as source of truth

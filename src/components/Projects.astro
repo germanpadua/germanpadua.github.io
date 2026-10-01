@@ -1,5 +1,7 @@
 ---
+import { Picture } from 'astro:assets';
 import Metric from './Metric.astro';
+import { projectImage } from '../lib/projectImages';
 import {
   getFeaturedProjects,
   getSupportingProjects,
@@ -62,6 +64,20 @@ const pad = (value: number) => String(value).padStart(2, '0');
                 )}
 
                 <p class="plate__summary">{data.summary}</p>
+
+                {data.images[0] && (
+                  <figure class="plate__figure">
+                    <Picture
+                      src={projectImage(data.images[0].file)}
+                      alt={data.images[0].alt}
+                      widths={[480, 900, 1600]}
+                      sizes="(max-width: 52rem) 92vw, 58rem"
+                      formats={['avif', 'webp']}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </figure>
+                )}
 
                 {data.metrics.length > 0 && (
                   <div class="plate__metrics">
@@ -271,6 +287,22 @@ const pad = (value: number) => String(value).padStart(2, '0');
     max-width: 62ch;
   }
 
+  /* A hairline frame and a slightly desaturated treatment so a screenshot sits inside
+     the palette instead of fighting it. */
+  .plate__figure {
+    margin: var(--space-2xs) 0 0;
+    border: var(--rule) var(--border-style) var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--bg-inset);
+  }
+
+  .plate__figure :global(img) {
+    width: 100%;
+    height: auto;
+    filter: saturate(0.96);
+  }
+
   .plate__metrics {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
@@ -291,7 +323,8 @@ const pad = (value: number) => String(value).padStart(2, '0');
   .plate__confidential {
     font-size: var(--step--2);
     color: var(--fg-muted);
-    font-style: italic;
+    border-left: var(--rule-strong) var(--border-style) var(--border-strong);
+    padding-left: var(--space-2xs);
     max-width: 62ch;
   }
 
