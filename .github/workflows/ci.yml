@@ -49,3 +49,6 @@ jobs:
 
       - name: Layout and content across viewports
         run: pnpm run test:layout
+
+      - name: Island behaviour
+        run: pnpm run test:islands

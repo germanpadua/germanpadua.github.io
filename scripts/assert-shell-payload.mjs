@@ -2,70 +2,80 @@
 /**
  * Payload guard.
  *
- * The portfolio has three layers, and only the interactive ones may ship
- * JavaScript. This script reads the built `dist/`, and for every HTML route
- * asserts three things:
+ * The site has three layers, and only the interactive one may ship JavaScript. This
+ * script reads the built `dist/` and asserts, per route:
  *
  *   1. inline JavaScript stays within the route's declared budget
  *   2. every script the page loads is declared for that route
- *   3. no route loads a third-party script (fonts and everything else are
- *      self-hosted, so an off-site script is always a mistake)
+ *   3. no route loads a third-party script
+ *   4. the total JavaScript the page pulls stays within a declared ceiling
+ *
+ * "Loads" includes island payload that never appears as a `<script src>`: Astro
+ * hydrates with an inline bootstrap and then `import()`s the component from
+ * `component-url` and the renderer from `renderer-url`. An earlier version of this
+ * guard only looked at `<script>` tags, so it reported zero for a page that was in
+ * fact shipping four kilobytes of island machinery and would have shipped the
+ * whole Preact runtime without a word.
  *
  * The budgets below are the contract. Adding an island means declaring its entry
- * script on the routes that host it, in the same commit. Adding a route means
+ * chunk on the routes that host it, in the same commit. Adding a route means
  * declaring it. Growing a budget without a matching island is exactly the
  * regression this guard exists to catch.
- *
- * Note on the inline budget: it is not zero, and it cannot be. A theme system
- * that must not flash the wrong palette has to set its attribute before first
- * paint, which means a synchronous inline script. Everything else stays at zero.
  */
 import { readdir, readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 
 const DIST = 'dist';
 
-/** Shell allowance: theme bootstrap only, with room to grow a little. */
-const SHELL_INLINE = 2560;
+/** The theme bootstrap, which is the only script the document shell itself needs. */
+const SHELL_INLINE = 2030;
+/** A route that hosts no island has no reason to exceed the shell plus slack. */
+const SHELL_ROUTE_INLINE = 2600;
 
 /**
- * `scripts` lists the entry scripts a route may load, matched against the
- * `src` attribute. An empty array means "this route loads no JavaScript at all".
+ * `scripts` lists substrings that must match each loaded script URL. An empty array
+ * means "this route loads no JavaScript at all".
  */
 const ROUTE_BUDGETS = [
   {
     pattern: /^\/$/,
-    inline: SHELL_INLINE,
-    scripts: [],
-    reason: 'home (es): document shell plus theme bootstrap, no islands yet',
+    inlineMax: 12000,
+    totalMax: 60000,
+    scripts: ['_astro/SkillGraph.', '_astro/client.'],
+    reason: 'home (es): shell plus the skill graph island',
   },
   {
     pattern: /^\/en\/$/,
-    inline: SHELL_INLINE,
-    scripts: [],
-    reason: 'home (en): document shell plus theme bootstrap, no islands yet',
+    inlineMax: 12000,
+    totalMax: 60000,
+    scripts: ['_astro/SkillGraph.', '_astro/client.'],
+    reason: 'home (en): shell plus the skill graph island',
   },
   {
     pattern: /^\/lab\/$/,
-    inline: SHELL_INLINE,
+    inlineMax: SHELL_ROUTE_INLINE,
+    totalMax: SHELL_ROUTE_INLINE,
     scripts: [],
     reason: 'design system harness, document only',
   },
   {
     pattern: /^\/og\/$/,
-    inline: 0,
+    inlineMax: 0,
+    totalMax: 0,
     scripts: [],
     reason: 'capture-only social card, plain document',
   },
   {
     pattern: /.*/,
-    inline: SHELL_INLINE,
+    inlineMax: SHELL_ROUTE_INLINE,
+    totalMax: SHELL_ROUTE_INLINE,
     scripts: [],
-    reason: 'unclassified route inherits the shell allowance but no island scripts',
+    reason: 'shell-only route: no island is declared for it',
   },
 ];
 
 const SCRIPT_TAG = /<script\b([^>]*)>([\s\S]*?)<\/script>/gi;
+const ISLAND_TAG = /<astro-island\b([^>]*)>/gi;
 const ATTR = /([a-zA-Z-]+)\s*=\s*"([^"]*)"/g;
 const LOCAL_SRC = /^(\/|\.{0,2}\/)/;
 
@@ -78,7 +88,7 @@ const DATA_SCRIPT_TYPES = new Set([
   'speculationrules',
 ]);
 
-const THIRD_PARTY_JS = [
+const THIRD_PARTY = [
   'googletagmanager.com',
   'google-analytics.com',
   'clarity.ms',
@@ -111,10 +121,8 @@ function routeOf(file) {
   return rel.replace(/\/index\.html$/, '/').replace(/^\/index\.html$/, '/');
 }
 
-async function sizeOfReferenced(src, htmlFile) {
-  const target = src.startsWith('/')
-    ? path.join(DIST, src)
-    : path.resolve(path.dirname(htmlFile), src);
+async function sizeOf(src, htmlFile) {
+  const target = src.startsWith('/') ? path.join(DIST, src) : path.resolve(path.dirname(htmlFile), src);
   try {
     const info = await stat(target);
     return info.isFile() ? info.size : 0;
@@ -132,34 +140,39 @@ for (const file of await walkHtml(DIST)) {
   const budget = ROUTE_BUDGETS.find((entry) => entry.pattern.test(route));
 
   let inlineBytes = 0;
-  let inlineCount = 0;
-  const external = [];
+  const loaded = [];
 
   for (const match of html.matchAll(SCRIPT_TAG)) {
     const attrs = attrsOf(match[1]);
     if (DATA_SCRIPT_TYPES.has((attrs.type ?? '').toLowerCase())) continue;
-
-    if (attrs.src) {
-      external.push(attrs.src);
-      continue;
-    }
-
-    inlineBytes += Buffer.byteLength(match[2] ?? '', 'utf8');
-    inlineCount += 1;
+    if (attrs.src) loaded.push(attrs.src);
+    else inlineBytes += Buffer.byteLength(match[2] ?? '', 'utf8');
   }
 
-  if (inlineBytes > budget.inline) {
+  // Island payload: the component and the renderer are fetched by dynamic import
+  // from attributes, so they never show up as a script tag.
+  let islands = 0;
+  for (const match of html.matchAll(ISLAND_TAG)) {
+    const attrs = attrsOf(match[1]);
+    islands += 1;
+    for (const key of ['component-url', 'renderer-url']) {
+      if (attrs[key]) loaded.push(attrs[key]);
+    }
+  }
+
+  if (inlineBytes > budget.inlineMax) {
     failures.push(
-      `${route}: ${inlineBytes} bytes of inline JavaScript exceeds the declared ${budget.inline} byte budget (${budget.reason})`,
+      `${route}: ${inlineBytes} bytes of inline JavaScript exceeds the declared ${budget.inlineMax} (${budget.reason})`,
     );
   }
 
-  for (const src of external) {
+  let externalBytes = 0;
+  for (const src of loaded) {
     if (!LOCAL_SRC.test(src)) {
       failures.push(`${route}: loads a third-party script (${src}); self-host it or drop it`);
       continue;
     }
-    if (THIRD_PARTY_JS.some((host) => src.includes(host))) {
+    if (THIRD_PARTY.some((host) => src.includes(host))) {
       failures.push(`${route}: loads a bundled CDN script (${src}); vendor it instead`);
       continue;
     }
@@ -168,29 +181,26 @@ for (const file of await walkHtml(DIST)) {
         `${route}: loads ${src}, which is not declared for this route (${budget.reason}); declare it or remove it`,
       );
     }
+    externalBytes += await sizeOf(src, file);
   }
 
-  let externalBytes = 0;
-  for (const src of external) externalBytes += await sizeOfReferenced(src, file);
+  const total = inlineBytes + externalBytes;
+  if (total > budget.totalMax) {
+    failures.push(
+      `${route}: ${total} bytes of JavaScript in total exceeds the declared ${budget.totalMax} (${budget.reason})`,
+    );
+  }
 
-  rows.push({
-    route,
-    inlineCount,
-    inlineBytes,
-    inlineBudget: budget.inline,
-    externalCount: external.length,
-    externalBytes,
-    totalBytes: inlineBytes + externalBytes,
-  });
+  rows.push({ route, islands, inlineBytes, inlineMax: budget.inlineMax, externalBytes, total, totalMax: budget.totalMax });
 }
 
 rows.sort((a, b) => a.route.localeCompare(b.route));
 const pad = (value, width) => String(value).padStart(width);
 
-console.log('route                                  inline  /budget  scripts  js total');
+console.log('route                                   islands   inline  /max    island-js    total  /max');
 for (const row of rows) {
   console.log(
-    `${row.route.padEnd(36)} ${pad(row.inlineBytes, 6)}  ${pad(row.inlineBudget, 7)}  ${pad(row.externalCount, 7)}  ${pad(row.totalBytes, 8)}`,
+    `${row.route.padEnd(38)} ${pad(row.islands, 7)} ${pad(row.inlineBytes, 8)} ${pad(row.inlineMax, 6)} ${pad(row.externalBytes, 11)} ${pad(row.total, 8)} ${pad(row.totalMax, 6)}`,
   );
 }
 
@@ -200,6 +210,7 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
+const heaviest = rows.reduce((worst, row) => (row.total > worst.total ? row : worst), rows[0] ?? { route: '-', total: 0 });
 console.log(
-  `\nPayload guard passed: ${rows.length} route(s), no undeclared script, no third-party JavaScript.`,
+  `\nPayload guard passed: ${rows.length} route(s), no undeclared or third-party script. Heaviest route ${heaviest.route} at ${heaviest.total} bytes.`,
 );
