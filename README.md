@@ -134,9 +134,47 @@ Budgets, enforced rather than hoped for:
 
 ## Deployment
 
-`main` deploys through the `Deploy to GitHub Pages` workflow. The repository's
-Pages source must be set to **GitHub Actions** (not "Deploy from a branch") for
-that workflow to publish.
+`main` deploys through the `Deploy to GitHub Pages` workflow, which builds and uploads
+`dist/` as a Pages artifact. This repository has no server: every route is a directory
+with an `index.html`, the islands fetch static JSON from `/data/`, and `dist/404.html` is
+served by Pages for any unknown path.
+
+### Releasing
+
+1. **One-time prerequisite.** The repository's Pages source must be **GitHub Actions**,
+   not "Deploy from a branch". It is currently the legacy branch build, which runs Jekyll
+   against `main`; with the Jekyll tree gone that build has nothing to build, and
+   `actions/deploy-pages` fails while the setting says `legacy`. Change it under
+   *Settings → Pages → Build and deployment → Source*, or:
+
+   ```bash
+   gh api -X PUT repos/germanpadua/germanpadua.github.io/pages -f build_type=workflow
+   ```
+
+2. Merge or push to `main`. The workflow runs `pnpm install --frozen-lockfile`,
+   `astro check`, `pnpm build`, the payload guard, and then publishes.
+3. Verify the deployed result rather than assuming it:
+
+   ```bash
+   pnpm shot --url https://germanpadua.github.io --routes /,/en/,/proyectos/ --viewports desktop,mobile
+   pnpm run test:e2e   # then point it at the live URL
+   ```
+
+### What CI enforces before anything ships
+
+`.github/workflows/ci.yml` runs on every pull request and on every branch that is not
+`main`, and it fails rather than warns:
+
+- `astro check` — TypeScript and the content schemas, so a missing or misspelled field
+  cannot reach a page
+- the payload guard — no undeclared script, no third-party script, and a per-route
+  JavaScript ceiling
+- theme behaviour, layout and content across five viewports, island behaviour, the game
+  model, and the accessibility audit
+
+That is five separate verification scripts, all of them runnable locally with
+`pnpm verify`, `pnpm test:e2e`, `pnpm test:layout`, `pnpm test:islands`,
+`pnpm test:model` and `pnpm test:a11y`.
 
 ## Content
 
