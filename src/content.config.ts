@@ -165,12 +165,16 @@ const experience = defineCollection({
       accent: z.enum(['accent', 'accent-2', 'accent-3']).default('accent'),
       /** Rendered as a small "under audit" style note when true. */
       regulated: z.boolean().default(false),
-    })
-    .refine((entry) => (entry.end === 'present') === (entry.order === 0), {
-      message:
-        'only the entry with order 0 is the current role, so `end: present` must appear exactly there',
-      path: ['end'],
     }),
+  /*
+   * The first version of this schema asserted that exactly one entry could be
+   * current, which is wrong about the domain: a salaried role and a freelance
+   * practice run at the same time, and so does a role held while studying. A schema
+   * that cannot describe the truth is a schema that gets worked around.
+   *
+   * "At least one entry is current" is a cross-entry invariant that a per-entry
+   * schema cannot express, so the section asserts it instead.
+   */
 });
 
 /* --------------------------------------------------------------- education */
@@ -335,7 +339,12 @@ const highlights = defineCollection({
 /* ------------------------------------------------------ interests and now */
 
 const site = defineCollection({
-  loader: glob({ base: './src/content/site', pattern: '**/*.json' }),
+  /*
+   * One file, both locales, as an array of entries with ids — the same pattern the
+   * skill graph uses. Pairing the locales inside a single file makes it impossible
+   * for one language to gain an interest the other is missing.
+   */
+  loader: file('./src/content/site/site.json'),
   schema: z.object({
     locale,
     /**
