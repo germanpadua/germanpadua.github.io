@@ -32,7 +32,7 @@ metrics:
     basis: artifact
     source: API de GitHub
 highlights:
-  - "Es el proyecto que me llevó a entender que la parte difícil de una aplicación de datos son los huecos de la fuente: vueltas borradas por dirección de carrera, coches que abandonan a mitad de vuelta y sesiones con formato distinto según la temporada."
+  - "\"Es el proyecto que me llevó a entender que la parte difícil de una aplicación de datos son los huecos de la fuente: vueltas borradas por dirección de carrera, coches que abandonan a mitad de vuelta y sesiones con formato distinto según la temporada.\""
   - La aplicación está construida sobre las APIs públicas, sin datos propietarios, y publicada para que se pueda usar sin instalar nada.
   - La evolución de posiciones vuelta a vuelta es la vista que mejor funciona para explicar una carrera, y no es la que más se pide.
 limits:
@@ -40,7 +40,7 @@ limits:
   - El despliegue de Streamlit Cloud redirige a una pantalla de acceso, así que hoy no es una demo pública de verdad. O lo abro o no lo enlazo como demo.
   - No tiene tests ni integración continua. Es un cuaderno convertido en aplicación, y se nota.
   - Las dependencias se actualizaron por última vez en agosto de 2024, así que puede no arrancar tal cual con las versiones actuales de FastF1.
-  - "Sin README útil: la aplicación se explica sola o no se explica."
+  - "\"Sin README útil: la aplicación se explica sola o no se explica.\""
 ---
 
 ## Qué es

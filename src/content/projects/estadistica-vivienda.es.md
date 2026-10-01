@@ -36,12 +36,12 @@ metrics:
     basis: artifact
     source: repositorios
 highlights:
-  - "Son los cuatro problemas clásicos, uno cada uno: clasificación supervisada, segmentación no supervisada, regresión y reducción de dimensionalidad. Cada técnica se aplicó a un conjunto de datos distinto y se defendió con su informe."
+  - "\"Son los cuatro problemas clásicos, uno cada uno: clasificación supervisada, segmentación no supervisada, regresión y reducción de dimensionalidad. Cada técnica se aplicó a un conjunto de datos distinto y se defendió con su informe.\""
   - En la segmentación trabajé sobre una encuesta real de intención de voto, lo que obliga a justificar cada agrupación en términos que se puedan explicar, no sólo en una métrica de cohesión.
   - En el análisis multivariante usé R para estudiar normalidad, outliers y estructura latente con componentes principales y análisis factorial, que es la parte de la estadística que sostiene todo lo demás.
-  - "Están aquí precisamente porque son los cimientos: sin esto, el resto de los proyectos serían modelos sin criterio para saber si están bien."
+  - "\"Están aquí precisamente porque son los cimientos: sin esto, el resto de los proyectos serían modelos sin criterio para saber si están bien.\""
 limits:
-  - "Es coursework, y no lo disfrazo: son entregables académicos con su enunciado, no proyectos con un usuario detrás."
+  - "\"Es coursework, y no lo disfrazo: son entregables académicos con su enunciado, no proyectos con un usuario detrás.\""
   - Uno de ellos es sólo flujos visuales de KNIME, sin código que se pueda leer. Es una herramienta legítima y es un entregable mucho menos verificable.
   - El repositorio de análisis multivariante pesa 122 MB por datos de entrada versionados. Mismo defecto que F1 Data App.
   - No hay tests, porque el entregable es un informe en HTML o PDF, no una librería.

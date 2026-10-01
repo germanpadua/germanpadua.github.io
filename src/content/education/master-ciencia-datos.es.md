@@ -10,7 +10,7 @@ end: 2025-08
 grade: 8,59/10
 summary: Un año intensivo de estadística avanzada, aprendizaje automático, optimización y procesamiento distribuido, cerrado con un trabajo de fin de máster sobre teledetección aplicada a agricultura.
 highlights:
-  - "Trabajo de Fin de Máster: dashboard de agricultura inteligente que cruza imágenes Sentinel-2 con datos de AEMET para monitorizar olivares."
+  - "\"Trabajo de Fin de Máster: dashboard de agricultura inteligente que cruza imágenes Sentinel-2 con datos de AEMET para monitorizar olivares.\""
   - "Modelado estadístico avanzado, aprendizaje profundo, ingeniería de datos y evaluación rigurosa de modelos."
   - "Cursado mientras trabajaba, lo que obligó a elegir muy bien dónde poner el esfuerzo."
 ---

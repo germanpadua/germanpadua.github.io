@@ -42,12 +42,12 @@ metrics:
     basis: artifact
     source: los resultados viven en Phoenix, no en el repositorio
 highlights:
-  - "La degradación está probada, no supuesta: con Phoenix caído una petición sigue devolviendo 200, la traza de esa ventana se pierde y no se reexporta. Es un test de integración con Docker, no una intención."
-  - "Un proyecto, una clave virtual: las claves llevan metadatos que enrutan cada traza a su proyecto en Phoenix, así que la atribución no depende de que el cliente se identifique bien."
+  - "\"La degradación está probada, no supuesta: con Phoenix caído una petición sigue devolviendo 200, la traza de esa ventana se pierde y no se reexporta. Es un test de integración con Docker, no una intención.\""
+  - "\"Un proyecto, una clave virtual: las claves llevan metadatos que enrutan cada traza a su proyecto en Phoenix, así que la atribución no depende de que el cliente se identifique bien.\""
   - Cuatro suites de análisis estático en integración continua —secretos, shell, Dockerfile y dependencias— más un bloqueo de dependencias con hashes, porque una pasarela con acceso a todos los modelos es un objetivo interesante.
   - El informe de evaluación separa los fallos del modelo, los del juez y los juicios que faltan, en lugar de meterlos todos en un promedio.
 limits:
-  - "No hay puntuaciones de evaluación commiteadas: los resultados viven en Phoenix y no en el repositorio, así que no puedo publicar ninguna."
+  - "\"No hay puntuaciones de evaluación commiteadas: los resultados viven en Phoenix y no en el repositorio, así que no puedo publicar ninguna.\""
   - El despliegue en un VPS genérico no está soportado en esta versión; está pensado para una plataforma concreta de aplicaciones con HTTPS público.
   - El gasto es contabilidad sintética, no la facturación real del proveedor. Sirve para atribuir coste por proyecto, no para cuadrar una factura.
   - La base de datos de trazas es mono usuario. Con varios operadores simultáneos no aguanta.

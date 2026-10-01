@@ -1,0 +1,299 @@
+---
+import { render } from 'astro:content';
+import { getEducation } from '../lib/content';
+import { useTranslations, type Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const entries = await getEducation(locale);
+
+const degrees = entries.filter((entry) => entry.data.kind === 'degree' || entry.data.kind === 'master');
+
+/* Paired rather than positionally indexed: see the note in Experience.astro. */
+const degreesWithContent = await Promise.all(
+  degrees.map(async (entry) => ({ entry, rendered: await render(entry) })),
+);
+
+/* Certifications and languages are credentials, not education: they render as rows. */
+const credentials = entries.filter((entry) => entry.data.kind === 'certification');
+const languages = entries.filter((entry) => entry.data.kind === 'language');
+---
+
+<section id="education" class="section">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="eyebrow">{t.sections.education.eyebrow}</p>
+      <h2>{t.sections.education.title}</h2>
+    </header>
+
+    <h3 class="group-label">{t.education.degrees}</h3>
+    <ol class="degrees" role="list">
+      {
+        degreesWithContent.map(({ entry, rendered }) => {
+          const { data } = entry;
+          const { Content } = rendered;
+          return (
+            <li class="degree">
+              <div class="degree__meta">
+                <span class="degree__period">{data.period}</span>
+                {data.grade && <span class="degree__grade tabular">{data.grade}</span>}
+              </div>
+              <div class="degree__body">
+                <h4 class="degree__title">{data.title}</h4>
+                <p class="degree__institution">{data.institution}</p>
+                <p class="degree__summary">{data.summary}</p>
+                {data.highlights.length > 0 && (
+                  <ul class="degree__points" role="list">
+                    {data.highlights.map((point) => (
+                      <li>{point}</li>
+                    ))}
+                  </ul>
+                )}
+                <details class="degree__more">
+                  <summary>{locale === 'es' ? 'Más contexto' : 'More context'}</summary>
+                  <div class="degree__prose">
+                    <Content />
+                  </div>
+                </details>
+              </div>
+            </li>
+          );
+        })
+      }
+    </ol>
+
+    <h3 class="group-label">{t.education.certifications}</h3>
+    <ul class="credentials" role="list">
+      {
+        credentials.map((entry) => (
+          <li class="credential">
+            <span class="credential__title">{entry.data.title}</span>
+            <span class="credential__issuer">{entry.data.institution}</span>
+            <span class="credential__period">{entry.data.period}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <h3 class="group-label">{t.education.languages}</h3>
+    <ul class="credentials" role="list">
+      {
+        languages.map((entry) => (
+          <li class="credential">
+            <span class="credential__title">{entry.data.title}</span>
+            <span class="credential__issuer">{entry.data.institution}</span>
+            <span class="credential__period">{entry.data.period}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .group-label {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--fg-faint);
+    margin-bottom: var(--space-s);
+  }
+
+  .group-label:not(:first-of-type) {
+    margin-top: var(--space-xl);
+  }
+
+  .degrees {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: var(--rule) var(--border-style) var(--border);
+  }
+
+  .degree {
+    display: grid;
+    grid-template-columns: 13rem minmax(0, 1fr);
+    gap: var(--space-2xs) var(--space-xl);
+    padding-block: var(--space-l);
+    border-bottom: var(--rule) var(--border-style) var(--border);
+  }
+
+  .degree__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    align-items: flex-start;
+  }
+
+  .degree__period {
+    font-family: var(--font-code);
+    font-size: var(--step--1);
+    letter-spacing: var(--tracking-wide);
+    color: var(--fg-muted);
+  }
+
+  .degree__grade {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .degree__body {
+    display: grid;
+    gap: var(--space-2xs);
+    max-width: var(--measure);
+  }
+
+  .degree__title {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    color: var(--fg-strong);
+  }
+
+  .degree__institution {
+    color: var(--fg-muted);
+    font-size: var(--step--1);
+    max-width: none;
+  }
+
+  .degree__summary {
+    font-size: var(--step-0);
+    line-height: var(--leading-snug);
+    color: var(--fg);
+  }
+
+  .degree__points {
+    list-style: none;
+    margin: var(--space-2xs) 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .degree__points li {
+    position: relative;
+    padding-left: 1.1rem;
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+  }
+
+  .degree__points li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 0.45rem;
+    height: var(--rule);
+    background-color: var(--border-strong);
+  }
+
+  .degree__more {
+    margin-top: var(--space-2xs);
+  }
+
+  .degree__more summary {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-wide);
+    color: var(--fg-muted);
+    cursor: pointer;
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .degree__more summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .degree__more summary::before {
+    content: "+";
+    color: var(--accent);
+  }
+
+  .degree__more[open] summary::before {
+    content: "−";
+  }
+
+  .degree__more summary:hover {
+    color: var(--fg-strong);
+  }
+
+  .degree__prose {
+    margin-top: var(--space-s);
+    padding-left: var(--space-s);
+    border-left: var(--rule-strong) var(--border-style) var(--border);
+  }
+
+  .degree__prose :global(h2) {
+    display: none;
+  }
+
+  .degree__prose :global(p) {
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+  }
+
+  .credentials {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: var(--rule) var(--border-style) var(--border);
+  }
+
+  .credential {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1.6fr) 10rem;
+    gap: var(--space-2xs) var(--space-s);
+    align-items: baseline;
+    padding-block: var(--space-xs);
+    border-bottom: var(--rule) var(--border-style) var(--border);
+  }
+
+  .credential__title {
+    color: var(--fg-strong);
+    font-size: var(--step-0);
+  }
+
+  .credential__issuer {
+    color: var(--fg-muted);
+    font-size: var(--step--1);
+  }
+
+  .credential__period {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    color: var(--fg-faint);
+    text-align: right;
+  }
+
+  @media (max-width: 48rem) {
+    .degree {
+      grid-template-columns: 1fr;
+      gap: var(--space-2xs);
+    }
+
+    .degree__meta {
+      flex-direction: row;
+      align-items: baseline;
+      gap: var(--space-2xs);
+    }
+
+    .credential {
+      grid-template-columns: 1fr;
+      gap: 0.15rem;
+    }
+
+    .credential__period {
+      text-align: left;
+    }
+  }
+</style>

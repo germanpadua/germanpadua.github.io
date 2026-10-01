@@ -4,11 +4,22 @@
  *
  * Owns the section list and hands it to Base, which is what keeps the nav and the
  * footer pointing only at sections that exist on this route.
+ *
+ * Order is deliberate: identity, then what he has built, then the recognitions,
+ * then the track record, then the toolbox, then the interactive layer and the
+ * personal note. A recruiter who reads three sections has read the three that
+ * matter.
  */
 import Base from '../layouts/Base.astro';
 import Hero from './Hero.astro';
 import Profile from './Profile.astro';
+import Projects from './Projects.astro';
+import Highlights from './Highlights.astro';
+import Experience from './Experience.astro';
+import Skills from './Skills.astro';
+import Education from './Education.astro';
 import Playground from './Playground.astro';
+import OffTheClock from './OffTheClock.astro';
 import Contact from './Contact.astro';
 import { useTranslations, type Locale } from '../i18n/ui';
 
@@ -21,6 +32,10 @@ const t = useTranslations(locale);
 
 const navLinks = [
   { href: '#about', label: t.nav.about },
+  { href: '#projects', label: t.nav.projects },
+  { href: '#work', label: t.nav.work },
+  { href: '#skills', label: t.nav.skills },
+  { href: '#education', label: t.nav.education },
   { href: '#playground', label: t.nav.playground },
   { href: '#contact', label: t.nav.contact },
 ];
@@ -29,20 +44,19 @@ const portrait = {
   src: '/images/portrait.jpg',
   width: 760,
   height: 762,
-  alt:
-    locale === 'es'
-      ? 'Retrato de German Padua'
-      : 'Portrait of German Padua',
+  alt: locale === 'es' ? 'Retrato de German Padua' : 'Portrait of German Padua',
 };
 ---
 
-<Base
-  locale={locale}
-  alternate={{ es: '/', en: '/en/' }}
-  navLinks={navLinks}
->
-  <Hero locale={locale} primaryHref="#playground" secondaryHref="#about" />
+<Base locale={locale} alternate={{ es: '/', en: '/en/' }} navLinks={navLinks}>
+  <Hero locale={locale} primaryHref="#projects" secondaryHref="#work" />
   <Profile locale={locale} portrait={portrait} />
+  <Projects locale={locale} />
+  <Highlights locale={locale} />
+  <Experience locale={locale} />
+  <Skills locale={locale} />
+  <Education locale={locale} />
   <Playground locale={locale} />
+  <OffTheClock locale={locale} />
   <Contact locale={locale} />
 </Base>

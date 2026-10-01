@@ -53,14 +53,14 @@ highlights:
   - La regla del proyecto es que la fidelidad se impone con datos, no se le pide a la IA. La geometría sale del LiDAR y del Catastro; el modelo generativo sólo elige cómo se ve una superficie.
   - Toda especificación que produce el LLM pasa por una gramática acotada, así que una alucinación se rechaza antes de llegar al render en lugar de estropear el resultado.
   - El pipeline son cinco etapas reanudables con estado por tesela, así que una ejecución interrumpida continúa donde quedó en vez de empezar de nuevo.
-  - "La elevación de cámara se eligió midiendo: a 26° se ve el 51,7 % de fachada, frente al 42,5 % a 35,264°. El ángulo isométrico clásico muestra menos edificio."
+  - "\"La elevación de cámara se eligió midiendo: a 26° se ve el 51,7 % de fachada, frente al 42,5 % a 35,264°. El ángulo isométrico clásico muestra menos edificio.\""
   - Hice una auditoría posterior que invalidó conclusiones mías anteriores. Eso está documentado como tal, y es la parte del proyecto de la que estoy más contento.
 limits:
   - No hay ninguna tesela aprobada ni costura validada. El proyecto funciona por partes y todavía no produce un resultado publicable completo.
-  - "El LiDAR aéreo no resuelve fachadas: la altura está, el detalle vertical no. Es una limitación de la fuente, no del método."
+  - "\"El LiDAR aéreo no resuelve fachadas: la altura está, el detalle vertical no. Es una limitación de la fuente, no del método.\""
   - Las cuatro variantes v5 se rechazaron en la evaluación. El registro de cuota marca 4 peticiones completadas de un presupuesto de viabilidad holgado, y no gasté más porque la cuota es de 100 peticiones al mes.
   - Las costuras entre teselas son el riesgo principal y no están resueltas.
-  - "El visor se puede publicar tal cual, pero no está publicado, y el proyecto no tiene repositorio remoto: existe sólo en local."
+  - "\"El visor se puede publicar tal cual, pero no está publicado, y el proyecto no tiene repositorio remoto: existe sólo en local.\""
   - El texto de los monumentos es de Wikipedia y las fotos de Wikimedia Commons, con atribución CC BY-SA 4.0. No es contenido propio.
 ---
 

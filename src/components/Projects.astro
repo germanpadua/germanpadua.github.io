@@ -1,0 +1,396 @@
+---
+import Metric from './Metric.astro';
+import {
+  getFeaturedProjects,
+  getSupportingProjects,
+  projectPath,
+  projectsIndexPath,
+} from '../lib/content';
+import { useTranslations, type Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const featured = await getFeaturedProjects(locale);
+const supporting = await getSupportingProjects(locale);
+
+const index = projectsIndexPath(locale);
+const pad = (value: number) => String(value).padStart(2, '0');
+---
+
+<section id="projects" class="section section--gridded">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="eyebrow">{t.sections.projects.eyebrow}</p>
+      <h2>{t.sections.projects.title}</h2>
+      <p class="section-head__lead">{t.sections.projects.lead}</p>
+    </header>
+
+    <ol class="plates" role="list">
+      {
+        featured.map((entry, position) => {
+          const { data } = entry;
+          return (
+            <li class:list={['plate', `plate--${data.accent ?? 'accent'}`]}>
+              <div class="plate__rail">
+                <span class="plate__index tabular">{pad(position + 1)}</span>
+                <span class="plate__status">{t.projects.statuses[data.status]}</span>
+              </div>
+
+              <div class="plate__body">
+                <h3 class="plate__title">
+                  <a href={projectPath(locale, data.slug)}>{data.title}</a>
+                </h3>
+
+                <p class="plate__meta">
+                  <span>{data.role}</span>
+                  <span class="plate__sep" aria-hidden="true">
+                    ·
+                  </span>
+                  <span class="tabular">{data.period}</span>
+                </p>
+
+                {data.team && (
+                  <p class="plate__team">
+                    <strong>{t.projects.team}:</strong> {data.team.name}
+                    {data.team.size ? ` (${data.team.size})` : ''} — {data.team.contribution}
+                  </p>
+                )}
+
+                <p class="plate__summary">{data.summary}</p>
+
+                {data.metrics.length > 0 && (
+                  <div class="plate__metrics">
+                    {data.metrics.slice(0, 3).map((metric) => (
+                      <Metric
+                        locale={locale}
+                        value={metric.value}
+                        label={metric.label}
+                        basis={metric.basis}
+                        source={metric.source}
+                        variant="plate"
+                      />
+                    ))}
+                  </div>
+                )}
+
+                <div class="cluster plate__stack">
+                  {data.stack.slice(0, 6).map((item) => (
+                    <span class="chip">{item}</span>
+                  ))}
+                </div>
+
+                <div class="cluster plate__actions">
+                  <a class="btn btn--primary" href={projectPath(locale, data.slug)}>
+                    {t.projects.caseStudy}
+                  </a>
+                  {data.links.repo && (
+                    <a class="btn" href={data.links.repo} rel="noopener noreferrer" target="_blank">
+                      {t.projects.repo}
+                    </a>
+                  )}
+                  {!data.links.repo && data.links.demo && (
+                    <a class="btn" href={data.links.demo} rel="noopener noreferrer" target="_blank">
+                      {t.projects.demo}
+                    </a>
+                  )}
+                </div>
+
+                {data.confidentiality && (
+                  <p class="plate__confidential">{data.confidentiality}</p>
+                )}
+              </div>
+            </li>
+          );
+        })
+      }
+    </ol>
+
+    <h3 class="more-label">{t.projects.more}</h3>
+    <ul class="cards" role="list">
+      {
+        supporting.map((entry) => {
+          const { data } = entry;
+          // Bind once: `data.metrics[0]` re-evaluated inside JSX does not narrow.
+          const lead = data.metrics[0];
+          return (
+            <li class="project-card card reveal">
+              <div class="project-card__top">
+                <h4 class="project-card__title">
+                  <a href={projectPath(locale, data.slug)}>{data.title}</a>
+                </h4>
+                <span class="project-card__status">{t.projects.statuses[data.status]}</span>
+              </div>
+
+              <p class="project-card__summary">{data.summary}</p>
+
+              {lead && (
+                <div class="project-card__metric">
+                  <Metric
+                    locale={locale}
+                    value={lead.value}
+                    label={lead.label}
+                    basis={lead.basis}
+                    source={lead.source}
+                    variant="card"
+                  />
+                </div>
+              )}
+
+              <div class="cluster project-card__stack">
+                {data.stack.slice(0, 4).map((item) => (
+                  <span class="chip">{item}</span>
+                ))}
+              </div>
+
+              <div class="cluster project-card__actions">
+                <a href={projectPath(locale, data.slug)}>{t.projects.caseStudy}</a>
+                {data.links.repo && (
+                  <a href={data.links.repo} rel="noopener noreferrer" target="_blank">
+                    {t.projects.repo}
+                  </a>
+                )}
+                {!data.links.repo && data.links.demo && (
+                  <a href={data.links.demo} rel="noopener noreferrer" target="_blank">
+                    {t.projects.demo}
+                  </a>
+                )}
+              </div>
+            </li>
+          );
+        })
+      }
+    </ul>
+
+    <p class="projects__all">
+      <a class="btn" href={index}>
+        {locale === 'es' ? 'Ver todos los proyectos' : 'See all projects'}
+      </a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .plates {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: var(--rule) var(--border-style) var(--border);
+  }
+
+  .plate {
+    display: grid;
+    grid-template-columns: 8rem minmax(0, 1fr);
+    gap: var(--space-m) var(--space-l);
+    padding-block: var(--space-xl);
+    border-bottom: var(--rule) var(--border-style) var(--border);
+  }
+
+  .plate__rail {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    align-items: flex-start;
+    position: sticky;
+    top: 5rem;
+    align-self: start;
+  }
+
+  .plate__index {
+    font-family: var(--font-display);
+    font-size: var(--step-3);
+    line-height: 0.9;
+    color: var(--border-strong);
+  }
+
+  .plate__status {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--fg-faint);
+  }
+
+  .plate__body {
+    display: grid;
+    gap: var(--space-2xs);
+    max-width: 60rem;
+  }
+
+  .plate__title {
+    font-family: var(--font-display);
+    font-size: var(--step-4);
+    line-height: 1.05;
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .plate__title a {
+    color: var(--fg-strong);
+    text-decoration: none;
+  }
+
+  .plate__title a:hover {
+    color: var(--accent);
+  }
+
+  .plate__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-wide);
+    color: var(--fg-muted);
+    max-width: none;
+  }
+
+  .plate__sep {
+    color: var(--border-strong);
+  }
+
+  .plate__team {
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+    border-left: var(--rule-strong) var(--border-style) var(--accent-2);
+    padding-left: var(--space-2xs);
+    max-width: 62ch;
+  }
+
+  .plate__team strong {
+    color: var(--fg);
+  }
+
+  .plate__summary {
+    font-size: var(--step-1);
+    line-height: var(--leading-snug);
+    color: var(--fg);
+    max-width: 62ch;
+  }
+
+  .plate__metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: var(--space-s);
+    margin-top: var(--space-2xs);
+    padding-block: var(--space-s);
+    border-block: var(--rule) var(--border-style) var(--border);
+  }
+
+  .plate__stack {
+    margin-top: var(--space-2xs);
+  }
+
+  .plate__actions {
+    margin-top: var(--space-2xs);
+  }
+
+  .plate__confidential {
+    font-size: var(--step--2);
+    color: var(--fg-faint);
+    font-style: italic;
+    max-width: 62ch;
+  }
+
+  .more-label {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--fg-faint);
+    margin-top: var(--space-xl);
+    margin-bottom: var(--space-s);
+  }
+
+  .cards {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--space-s);
+  }
+
+  .project-card {
+    display: grid;
+    align-content: start;
+    gap: var(--space-2xs);
+    padding: var(--space-s);
+  }
+
+  .project-card__top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2xs);
+  }
+
+  .project-card__title {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+  }
+
+  .project-card__title a {
+    color: var(--fg-strong);
+    text-decoration: none;
+  }
+
+  .project-card__title a:hover {
+    color: var(--accent);
+  }
+
+  .project-card__status {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-wide);
+    color: var(--fg-faint);
+    white-space: nowrap;
+  }
+
+  .project-card__summary {
+    font-size: var(--step--1);
+    line-height: var(--leading-normal);
+    color: var(--fg-muted);
+  }
+
+  .project-card__metric {
+    margin-top: var(--space-2xs);
+    padding-top: var(--space-2xs);
+    border-top: var(--rule) var(--border-style) var(--border);
+  }
+
+  .project-card__stack {
+    margin-top: var(--space-2xs);
+  }
+
+  .project-card__actions {
+    margin-top: var(--space-2xs);
+    font-size: var(--step--1);
+  }
+
+  .projects__all {
+    margin-top: var(--space-l);
+  }
+
+  @media (max-width: 52rem) {
+    .plate {
+      grid-template-columns: 1fr;
+      gap: var(--space-2xs);
+    }
+
+    .plate__rail {
+      position: static;
+      flex-direction: row;
+      align-items: baseline;
+      gap: var(--space-2xs);
+    }
+
+    .plate__index {
+      font-size: var(--step-2);
+    }
+  }
+</style>

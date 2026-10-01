@@ -34,7 +34,7 @@ metrics:
 highlights:
   - La homografía desde los puntos de referencia del campo es lo que convierte píxeles en metros, y sin ella las distancias y velocidades no significan nada. Es el paso que separa una demo de un análisis.
   - Entrené el detector de puntos de referencia del campo porque un modelo genérico de objetos no distingue las líneas de un campo de fútbol.
-  - "Los mapas de calor de posición por jugador son la vista que hace legible el seguimiento: una tabla de coordenadas no dice nada, un mapa dice dónde juega cada uno."
+  - "\"Los mapas de calor de posición por jugador son la vista que hace legible el seguimiento: una tabla de coordenadas no dice nada, un mapa dice dónde juega cada uno.\""
 limits:
   - Son tres cuadernos, no un sistema. No hay tests, no hay integración continua y no hay paquete instalable.
   - No hay ninguna métrica de precisión commiteada. Los pesos entrenados tampoco están en el repositorio, así que el resultado no se puede reproducir sin reentrenar.

@@ -31,14 +31,6 @@ metrics:
     label: Tests en verde en el registro de commits
     basis: artifact
     source: historial de commits del proyecto
-  - value: 13
-    label: Decisiones de arquitectura registradas como ADR
-    basis: artifact
-    source: docs/adr/0001…0013
-  - value: 38
-    label: Archivos de test
-    basis: artifact
-    source: tests/
   - value: ≥ 80 %
     label: Objetivo de retención borrador → acta final
     basis: target
@@ -47,6 +39,14 @@ metrics:
     label: Latencia de generación por nota
     basis: unverified
     source: notas del proyecto, no medido
+  - value: 13
+    label: Decisiones de arquitectura registradas como ADR
+    basis: artifact
+    source: docs/adr/0001…0013
+  - value: 38
+    label: Archivos de test
+    basis: artifact
+    source: tests/
 highlights:
   - El núcleo de captura es determinista y sólo un conjunto cerrado de herramientas tipadas escribe. Las correcciones conservan el historial en lugar de sobrescribir.
   - El LLM devuelve un plan en JSON que se valida antes de ejecutarse, y nunca tiene permiso de escritura directa. Si el plan no valida, se degrada a reglas.
@@ -59,7 +59,7 @@ limits:
   - Cada acta se genera desde cero, sin arrastrar la anterior, así que el sistema no aprende el estilo del técnico entre visitas.
   - Entre 10 y 20 segundos por nota es lento para alguien de pie en una obra.
   - Depende de una pasarela de inferencia con varios modelos, alguno de pago.
-  - "El repositorio se queda privado: contiene actas reales de un cliente con nombre de empresa, de obra y fotografías de campo. No se publica ni se describe en detalle."
+  - "\"El repositorio se queda privado: contiene actas reales de un cliente con nombre de empresa, de obra y fotografías de campo. No se publica ni se describe en detalle.\""
 ---
 
 ## El problema

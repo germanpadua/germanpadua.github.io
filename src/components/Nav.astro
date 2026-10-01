@@ -76,7 +76,11 @@ const otherLocale: Locale = locale === 'es' ? 'en' : 'es';
     gap: var(--space-2xs);
     margin-right: auto;
     text-decoration: none;
+    /* Bounded and shrinkable: with seven sections plus the theme control in the
+       bar, an unconstrained brand pushed into the links and overlapped them. */
+    flex: 0 1 auto;
     min-width: 0;
+    max-width: 20rem;
   }
 
   /* The mark is the favicon reduced to its two ideas: a measuring rule and a
@@ -142,6 +146,12 @@ const otherLocale: Locale = locale === 'es' ? 'en' : 'es';
     list-style: none;
     margin: 0;
     padding: 0;
+    flex-wrap: nowrap;
+  }
+
+  .nav__links {
+    flex: 0 1 auto;
+    min-width: 0;
   }
 
   .nav__links a {
@@ -185,16 +195,20 @@ const otherLocale: Locale = locale === 'es' ? 'en' : 'es';
     border-color: var(--border-strong);
   }
 
-  /* Below the first breakpoint the section links live in the page body, and the
-     bar keeps only identity, theme, and language. */
-  @media (max-width: 68rem) {
-    .nav__links {
+  /*
+   * Two thresholds, both chosen from the real content width rather than a round
+   * number: the role subtitle and the theme labels go first, then the section
+   * links. Below the second one the nav keeps identity, theme and language, and the
+   * sections live in the page body.
+   */
+  @media (max-width: 100rem) {
+    .nav__brand-role {
       display: none;
     }
   }
 
-  @media (max-width: 32rem) {
-    .nav__brand-role {
+  @media (max-width: 80rem) {
+    .nav__links {
       display: none;
     }
   }

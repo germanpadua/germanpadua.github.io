@@ -29,14 +29,14 @@ metrics:
     basis: unverified
     source: el FID se implementa y se calcula, pero no hay informe con las cifras
 highlights:
-  - "No me quedé en ejecutar un cuaderno ajeno: modifiqué capas, el algoritmo de entrenamiento, hiperparámetros y funciones de pérdida, y comparé las tres variantes entre sí."
+  - "\"No me quedé en ejecutar un cuaderno ajeno: modifiqué capas, el algoritmo de entrenamiento, hiperparámetros y funciones de pérdida, y comparé las tres variantes entre sí.\""
   - Implementé el cálculo del FID para poder comparar versiones con una métrica objetiva en lugar de mirar muestras y opinar.
   - Trabajé con la resolución de 32×32 píxeles, que es pequeña y obliga a mirar de cerca el equilibrio entre la arquitectura y el presupuesto de cómputo.
 limits:
-  - "La arquitectura de partida no es mía: adapté y modifiqué un modelo existente. Lo que aporto es el análisis experimental, no el diseño."
+  - "\"La arquitectura de partida no es mía: adapté y modifiqué un modelo existente. Lo que aporto es el análisis experimental, no el diseño.\""
   - El cálculo del FID está implementado pero no hay un informe con los valores commiteado, así que no puedo publicar cifras.
   - 32×32 es una resolución de juguete comparada con los modelos actuales; sirve para estudiar el mecanismo, no para producir imágenes útiles.
-  - "No hay tests ni integración continua: es un trabajo de estudio en cuadernos."
+  - "\"No hay tests ni integración continua: es un trabajo de estudio en cuadernos.\""
   - El repositorio tiene tres cuadernos y un PDF, con un README de una línea. La explicación está en el PDF, no donde uno la busca.
 ---
 

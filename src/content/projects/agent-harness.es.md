@@ -38,10 +38,10 @@ metrics:
     basis: artifact
     source: docs/performance-diagnosis.md
 highlights:
-  - "El diagnóstico no se quedó en la intuición: perfil de V8, muestras contadas y un porcentaje de tiempo ocioso antes y después. El documento dice explícitamente qué **no** demuestra la medición, que es más raro de lo que debería."
-  - "Encontré la causa de un consumo de memoria que no cuadraba: cada sesión levantaba su propio árbol de servidores de lenguaje de TypeScript, en lugar de compartirlo. Arreglarlo fue consecuencia de medirlo."
+  - "\"El diagnóstico no se quedó en la intuición: perfil de V8, muestras contadas y un porcentaje de tiempo ocioso antes y después. El documento dice explícitamente qué **no** demuestra la medición, que es más raro de lo que debería.\""
+  - "\"Encontré la causa de un consumo de memoria que no cuadraba: cada sesión levantaba su propio árbol de servidores de lenguaje de TypeScript, en lugar de compartirlo. Arreglarlo fue consecuencia de medirlo.\""
   - Las herramientas de los subagentes se validan con un script propio, y el manifiesto de integridad verifica por SHA-256 que las dependencias externas son las que se revisaron.
-  - "Documenté una colisión real: dos entornos registran la misma familia de herramientas y el host rechaza proveedores duplicados. La solución no fue unificarlos, que era lo que yo quería, sino entender por qué no se podían unificar."
+  - "\"Documenté una colisión real: dos entornos registran la misma familia de herramientas y el host rechaza proveedores duplicados. La solución no fue unificarlos, que era lo que yo quería, sino entender por qué no se podían unificar.\""
 limits:
   - El banco sintético mide componentes, no la aplicación completa. Una mejora de 31× en esa prueba no implica nada parecido en el uso real, y el propio documento lo dice.
   - La memoria se midió en residente y no en compartida, así que la cifra exagera el consumo real cuando varios procesos comparten bibliotecas.

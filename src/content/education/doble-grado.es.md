@@ -10,9 +10,9 @@ end: 2024-06
 grade: TFG 9,9/10
 summary: Cinco años cursando las dos carreras a la vez. Es la base de todo lo que hago después y la razón por la que puedo leer un artículo de aprendizaje automático sin saltarme la parte de matemáticas.
 highlights:
-  - "Trabajo de Fin de Grado: redes neuronales para grafos en variedades pseudo-riemannianas, calificado con 9,9 sobre 10 y disponible como repositorio público con licencia MIT."
+  - "\"Trabajo de Fin de Grado: redes neuronales para grafos en variedades pseudo-riemannianas, calificado con 9,9 sobre 10 y disponible como repositorio público con licencia MIT.\""
   - "Matrículas de honor en Aprendizaje Automático, Tecnología y Organización de Computadores, Modelos Matemáticos I, Variable Compleja I, Servidores Web de Altas Prestaciones y Lógica y Métodos Discretos."
-  - "Las dos carreras a la vez, no una después de la otra: eso obligó a encontrar los puntos donde las dos disciplinas se tocan de verdad."
+  - "\"Las dos carreras a la vez, no una después de la otra: eso obligó a encontrar los puntos donde las dos disciplinas se tocan de verdad.\""
 ---
 
 ## Qué significó

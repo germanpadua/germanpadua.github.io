@@ -1,0 +1,117 @@
+---
+import { basisIsResult, type MetricBasis } from '../lib/content';
+import { useTranslations, type Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+  value: string;
+  label: string;
+  basis?: MetricBasis | undefined;
+  /* `| undefined` is required, not optional tidiness: the project is compiled with
+     exactOptionalPropertyTypes, and a metric's source genuinely is undefined when
+     there is nothing to point at. */
+  source?: string | undefined;
+  /** `plate` is the large editorial treatment; `card` is the compact one. */
+  variant?: 'plate' | 'card' | undefined;
+}
+
+const { locale, value, label, basis = 'measured', source, variant = 'plate' } = Astro.props;
+const t = useTranslations(locale);
+const isResult = basisIsResult(basis);
+---
+
+<span class:list={['metric', `metric--${variant}`, { 'metric--soft': !isResult }]}>
+  <span class="metric__value tabular">{value}</span>
+  <span class="metric__label">{label}</span>
+  <span class="metric__basis" title={source ? `${t.provenance.source}: ${source}` : t.provenance.label}>
+    <span class="metric__dot" aria-hidden="true"></span>
+    {t.provenance[basis]}
+  </span>
+  {
+    source && (
+      <span class="metric__source">
+        {t.provenance.source}: <code>{source}</code>
+      </span>
+    )
+  }
+</span>
+
+<style>
+  .metric {
+    display: grid;
+    gap: 0.15rem;
+    align-content: start;
+  }
+
+  .metric__value {
+    font-family: var(--font-display);
+    line-height: 1;
+    color: var(--fg-strong);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .metric--plate .metric__value {
+    font-size: var(--step-2);
+  }
+
+  .metric--card .metric__value {
+    font-size: var(--step-1);
+  }
+
+  .metric__label {
+    font-size: var(--step--1);
+    line-height: var(--leading-snug);
+    color: var(--fg-muted);
+  }
+
+  .metric__basis {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-wide);
+    color: var(--fg-faint);
+    margin-top: 0.2rem;
+  }
+
+  .metric__dot {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--ok);
+    flex: none;
+  }
+
+  /*
+   * A goal or an unverified figure is not a result, and it must not look like one.
+   * The dot turns hollow and the whole block loses contrast, so a reader scanning
+   * the numbers sees which ones carry weight before reading a single source line.
+   */
+  .metric--soft .metric__dot {
+    background-color: transparent;
+    border: var(--rule) var(--border-style) var(--warn);
+  }
+
+  .metric--soft .metric__value {
+    color: var(--fg);
+  }
+
+  .metric--soft .metric__basis {
+    color: var(--warn);
+  }
+
+  .metric__source {
+    font-size: var(--step--2);
+    color: var(--fg-faint);
+    overflow-wrap: anywhere;
+  }
+
+  .metric__source code {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: inherit;
+    color: inherit;
+  }
+</style>

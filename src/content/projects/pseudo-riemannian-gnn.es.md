@@ -38,15 +38,15 @@ metrics:
     basis: artifact
     source: LICENSE
 highlights:
-  - "El núcleo matemático está escrito a mano: las operaciones de cada capa (euclídea, hiperbólica y pseudo-hiperbólica) están implementadas de forma explícita en layers/ y manifolds/, no delegadas a una librería de geometría."
+  - "\"El núcleo matemático está escrito a mano: las operaciones de cada capa (euclídea, hiperbólica y pseudo-hiperbólica) están implementadas de forma explícita en layers/ y manifolds/, no delegadas a una librería de geometría.\""
   - El problema central es la falta de conectividad geodésica en el pseudo-hiperboloide, que se resuelve mediante la aplicación exponencial en lugar de forzar una métrica que no existe.
   - El repositorio incluye la búsqueda de hiperparámetros y los resultados completos, no sólo la ejecución que salió bien.
   - Es público y con licencia MIT, así que el código se puede leer y reutilizar legalmente.
 limits:
   - El código parte de la implementación de referencia de Pseudo-Riemannian GCN, que a su vez deriva de HGCN. Mi aporte es el estudio, la adaptación, la reimplementación y el análisis experimental, no el diseño original de la arquitectura. Decirlo es lo honesto.
-  - "El alcance es un trabajo de fin de grado: reconstrucción de grafos y análisis sobre conjuntos de datos académicos, sin aplicación a producción."
+  - "\"El alcance es un trabajo de fin de grado: reconstrucción de grafos y análisis sobre conjuntos de datos académicos, sin aplicación a producción.\""
   - Los datos de las ejecuciones están commiteados como resultados, no como artefactos con manifiesto de procedencia reproducible paso a paso.
-  - "El repositorio tiene un README breve: la explicación completa está en el cuaderno y en la memoria, no en la puerta de entrada."
+  - "\"El repositorio tiene un README breve: la explicación completa está en el cuaderno y en la memoria, no en la puerta de entrada.\""
 ---
 
 ## El problema

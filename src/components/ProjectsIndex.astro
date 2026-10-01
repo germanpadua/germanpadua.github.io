@@ -1,0 +1,227 @@
+---
+/**
+ * The full project index.
+ *
+ * Every project, including the ones that do not fit on the home page, as a single
+ * dense list. This is the page a reader lands on when the home page has convinced
+ * them and they want the whole picture.
+ */
+import Base from '../layouts/Base.astro';
+import { getProjects, projectPath } from '../lib/content';
+import { useTranslations, type Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const projects = await getProjects(locale);
+
+const navLinks = [
+  { href: '/#about', label: t.nav.about },
+  { href: '/#work', label: t.nav.work },
+  { href: '/#skills', label: t.nav.skills },
+  { href: '/#contact', label: t.nav.contact },
+];
+
+const byDomain = new Map<string, number>();
+for (const project of projects) {
+  for (const domain of project.data.domains) {
+    byDomain.set(domain, (byDomain.get(domain) ?? 0) + 1);
+  }
+}
+const domains = [...byDomain.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+---
+
+<Base
+  locale={locale}
+  title={`${t.sections.projects.title} · German Padua`}
+  description={t.sections.projects.lead}
+  alternate={{ es: '/proyectos/', en: '/en/projects/' }}
+  navLinks={navLinks}
+>
+  <section class="index section">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow">{t.sections.projects.eyebrow}</p>
+        <h1 class="index__title">{t.sections.projects.title}</h1>
+        <p class="section-head__lead">{t.sections.projects.lead}</p>
+      </header>
+
+      <ul class="domains" role="list">
+        {
+          domains.map(([domain, count]) => (
+            <li class="chip">
+              {domain} <span class="tabular domains__count">{count}</span>
+            </li>
+          ))
+        }
+      </ul>
+
+      <table class="table">
+        <caption class="sr-only">
+          {t.sections.projects.title}
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">{t.projects.status}</th>
+            <th scope="col">{locale === 'es' ? 'Proyecto' : 'Project'}</th>
+            <th scope="col">{t.projects.role}</th>
+            <th scope="col">{t.projects.period}</th>
+            <th scope="col">{t.projects.stack}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            projects.map((entry) => {
+              const { data } = entry;
+              return (
+                <tr>
+                  <td data-label={t.projects.status}>
+                    <span class="status">{t.projects.statuses[data.status]}</span>
+                  </td>
+                  <th scope="row" data-label={locale === 'es' ? 'Proyecto' : 'Project'}>
+                    <a class="table__title" href={projectPath(locale, data.slug)}>
+                      {data.title}
+                    </a>
+                    <span class="table__summary">{data.summary}</span>
+                  </th>
+                  <td data-label={t.projects.role}>{data.role}</td>
+                  <td class="tabular" data-label={t.projects.period}>
+                    {data.period}
+                  </td>
+                  <td data-label={t.projects.stack}>
+                    <span class="table__stack">{data.stack.slice(0, 4).join(' · ')}</span>
+                  </td>
+                </tr>
+              );
+            })
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .index__title {
+    font-family: var(--font-display);
+    font-size: var(--step-4);
+    color: var(--fg-strong);
+  }
+
+  .domains {
+    list-style: none;
+    margin: 0 0 var(--space-m);
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .domains__count {
+    color: var(--fg-faint);
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+
+  .table thead th {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--fg-faint);
+    padding-bottom: var(--space-2xs);
+    border-bottom: var(--rule-strong) var(--border-style) var(--border);
+    white-space: nowrap;
+  }
+
+  .table tbody tr {
+    border-bottom: var(--rule) var(--border-style) var(--border);
+  }
+
+  .table td,
+  .table tbody th {
+    padding: var(--space-s) var(--space-s) var(--space-s) 0;
+    font-weight: 400;
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+    vertical-align: top;
+  }
+
+  .table__title {
+    display: block;
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    color: var(--fg-strong);
+    text-decoration: none;
+  }
+
+  .table__title:hover {
+    color: var(--accent);
+  }
+
+  .table__summary {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: var(--step--2);
+    line-height: var(--leading-snug);
+    color: var(--fg-faint);
+    max-width: 46ch;
+  }
+
+  .table__stack {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    color: var(--fg-faint);
+  }
+
+  .status {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-wide);
+    color: var(--fg-faint);
+    white-space: nowrap;
+  }
+
+  /* Below the table breakpoint each row becomes a labelled block, so nothing has
+     to be scrolled sideways on a phone. */
+  @media (max-width: 60rem) {
+    .table thead {
+      display: none;
+    }
+
+    .table,
+    .table tbody,
+    .table tr,
+    .table td,
+    .table tbody th {
+      display: block;
+      width: 100%;
+    }
+
+    .table tbody tr {
+      padding-block: var(--space-s);
+    }
+
+    .table td,
+    .table tbody th {
+      padding: 0 0 0.3rem;
+    }
+
+    .table td[data-label]::before {
+      content: attr(data-label) ': ';
+      font-family: var(--font-code);
+      font-size: var(--step--2);
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      color: var(--fg-faint);
+    }
+  }
+</style>

@@ -10,7 +10,7 @@ end: 2025-12
 summary: Formación sobre construcción de agentes de IA, pipelines de recuperación aumentada y orquestación de modelos con LangGraph.
 highlights:
   - "Desarrollo de agentes con herramientas, memoria y control de flujo, incluyendo cuándo conviene que el modelo decida y cuándo no."
-  - "Pipelines de RAG, con la parte que casi nunca se cubre: evaluar si la recuperación está trayendo lo que hay que traer."
+  - "\"Pipelines de RAG, con la parte que casi nunca se cubre: evaluar si la recuperación está trayendo lo que hay que traer.\""
   - "Orquestación de varios modelos dentro de un mismo flujo, que es donde aparecen los fallos que no se ven en una demo de un solo paso."
 ---
 

@@ -10,7 +10,7 @@ end: 2024-01
 summary: Diseño de pipelines de datos y arquitecturas escalables sobre servicios gestionados de Google Cloud, en paralelo al último año del doble grado.
 highlights:
   - "Construcción de pipelines de ingesta, transformación y carga sobre servicios gestionados, con la parte de orquestación y de manejo de errores."
-  - "Modelado de almacenamiento analítico: cuándo conviene una tabla particionada, cuándo conviene un modelo en estrella y cuándo ninguna de las dos cosas."
+  - "\"Modelado de almacenamiento analítico: cuándo conviene una tabla particionada, cuándo conviene un modelo en estrella y cuándo ninguna de las dos cosas.\""
   - "Coste como restricción de diseño, que es algo que en un entorno académico no se enseña y en la nube se aprende rápido."
 ---
 

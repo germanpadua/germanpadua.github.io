@@ -49,12 +49,12 @@ metrics:
     basis: artifact
     source: docs/architecture.md §10
 highlights:
-  - "Las reglas de acceso por fila están en la base de datos, no en la aplicación, y cada tabla tiene un test con el mismo patrón de tres casos: usuario anónimo, dueño del espacio, y usuario de otro espacio. Si la tercera pasa, la política está mal."
+  - "\"Las reglas de acceso por fila están en la base de datos, no en la aplicación, y cada tabla tiene un test con el mismo patrón de tres casos: usuario anónimo, dueño del espacio, y usuario de otro espacio. Si la tercera pasa, la política está mal.\""
   - La generación de cuotas de alquiler y las recurrencias son idempotentes a nivel de base de datos, con restricciones únicas y conflictos resueltos en el motor. No dependen de que el trabajo programado se ejecute una sola vez.
-  - "Hay una decisión escrita de **abandonar** una idea: un ejecutor genérico de búsquedas que iba a perder seguridad de tipos, con la evidencia del compilador que lo demuestra. Registrar un abandono es más útil que registrar una victoria."
+  - "\"Hay una decisión escrita de **abandonar** una idea: un ejecutor genérico de búsquedas que iba a perder seguridad de tipos, con la evidencia del compilador que lo demuestra. Registrar un abandono es más útil que registrar una victoria.\""
   - Excluí a propósito los datos personales sensibles —DNI, nóminas, datos bancarios— porque el sistema no los necesita para nada de lo que hace.
 limits:
-  - "No hay entorno de preproducción: las migraciones se aplican a mano contra producción."
+  - "\"No hay entorno de preproducción: las migraciones se aplican a mano contra producción.\""
   - El README dice que los hitos 0, 1 y 2 están completos mientras el roadmap marca el hito 3 cerrado. Es una línea desactualizada que todavía no corregí.
   - No es una demo pública. La aplicación es multiusuario y con autenticación, así que un visitante no puede entrar a mirarla; lo que se muestra son capturas sobre datos ficticios.
   - Los datos de ejemplo son inventados a propósito ("Calle Falsa 123", "Piso Piloto"), pero la documentación describe el alcance real del patrimonio, así que el repositorio se queda privado.

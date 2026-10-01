@@ -66,9 +66,9 @@ const es = {
     title: 'matemáticas + informática + datos',
     lead: 'Los tres ejes, y por qué juntos valen más que por separado.',
     paragraphs: [
-      'Soy ingeniero informático y matemático, con un máster en Ciencia de Datos por la Universidad de Granada. Hice las dos carreras a la vez, y eso me dejó una manía útil: cuando un resultado me gusta demasiado, lo vuelvo a mirar.',
+      'Estudié Matemáticas e Informática porque me atraen los problemas que hay que entender de verdad antes de resolverlos, no los que se resuelven aplicando algo que ya sabes. Hice las dos carreras a la vez, después un máster en Ciencia de Datos, y de ahí me quedó una manía útil: cuando un resultado me gusta demasiado, lo vuelvo a mirar.',
       'Trabajo en riesgo de crédito bajo el marco IFRS 9, donde soy responsable de la calibración, la monitorización y la proyección del parámetro LGD. Es un entorno donde un modelo no vale por su métrica en validación, sino por lo que aguanta cuando alguien de fuera audita el dato, los supuestos y la documentación seis meses después.',
-      'Fuera del banco construyo lo mismo pero por gusto: detección causal de anomalías sobre telemetría pública de Fórmula 1, pasarelas de inferencia autoalojadas con evaluación instrumentada, y pipelines que convierten notas de voz en documentos revisables. Si algo no se puede reproducir, no está terminado.',
+      'Lo que me interesa no es modelar en aislamiento: es el proceso completo. Entender el problema, diseñar, iterar y hacer que el resultado sirva para algo. Fuera del banco construyo lo mismo por gusto: detección causal de anomalías sobre telemetría pública de Fórmula 1, pasarelas de inferencia autoalojadas con evaluación instrumentada, y flujos que convierten notas de voz en documentos revisables. Si algo no se puede reproducir, no está terminado.',
     ],
     pillars: [
       {
@@ -97,6 +97,16 @@ const es = {
       lead: 'Sistemas que he diseñado, construido y medido.',
     },
     skills: { eyebrow: 'Herramientas', title: 'Skills', lead: '' },
+    highlights: {
+      eyebrow: 'Reconocimientos',
+      title: 'Selecciones y competiciones',
+      lead: 'Cosas que no son un trabajo ni un título y que, sin embargo, explican bastante.',
+    },
+    offClock: {
+      eyebrow: 'Fuera del reloj',
+      title: 'Fuera del reloj',
+      lead: 'Lo que hago cuando no estoy trabajando en esto. O cuando sí.',
+    },
     education: { eyebrow: 'Formación', title: 'Formación y certificaciones', lead: '' },
     playground: {
       eyebrow: 'Playground',
@@ -139,6 +149,70 @@ const es = {
     themeNote: 'Cuatro temas, un solo diseño.',
     rights: 'Contenido y diseño',
     backToTop: 'Volver arriba',
+  },
+  provenance: {
+    label: 'Procedencia',
+    artifact: 'artefacto en el repositorio',
+    measured: 'medido',
+    record: 'expediente',
+    target: 'objetivo, no resultado',
+    unverified: 'sin verificar',
+    source: 'Fuente',
+  },
+  projects: {
+    featured: 'Proyectos destacados',
+    more: 'Otros proyectos',
+    role: 'Rol',
+    period: 'Periodo',
+    status: 'Estado',
+    stack: 'Tecnologías',
+    limits: 'Lo que no reclamo',
+    metrics: 'Números',
+    team: 'Equipo',
+    contribution: 'Mi aporte',
+    repo: 'Ver el repositorio',
+    demo: 'Ver el proyecto',
+    writeup: 'Leer más',
+    caseStudy: 'Leer el caso completo',
+    privateNote: 'Caso de estudio',
+    statuses: {
+      shipped: 'terminado',
+      'in-progress': 'en curso',
+      research: 'investigación',
+    },
+  },
+  education: {
+    degrees: 'Titulaciones',
+    certifications: 'Certificaciones',
+    languages: 'Idiomas',
+    kinds: {
+      degree: 'Grado',
+      master: 'Máster',
+      certification: 'Certificación',
+      language: 'Idioma',
+    },
+  },
+  highlightsExtra: {
+    kinds: {
+      program: 'Programa',
+      competition: 'Competición',
+      award: 'Reconocimiento',
+      publication: 'Publicación',
+      contribution: 'Contribución',
+    },
+  },
+  offClock: {
+    interests: 'Fuera del reloj',
+  },
+  skillsExtra: {
+    levels: {
+      high: 'Nivel alto',
+      medium: 'Nivel medio',
+      low: 'Nivel básico',
+    },
+    usedIn: 'Usado en',
+    areas: 'Áreas',
+    graphHint: 'El grafo interactivo llega en la siguiente capa. Esto es la versión que funciona sin JavaScript.',
   },
   notFound: {
     title: 'Página no encontrada',
@@ -225,9 +299,9 @@ const en: Dictionary = {
     title: 'mathematics + computer science + data',
     lead: 'Three axes, and why together they are worth more than separately.',
     paragraphs: [
-      'I am a computer engineer and mathematician with an MSc in Data Science from the University of Granada. I took both degrees at once, which left me with a useful habit: when a result looks too good, I check it again.',
+      'I studied Mathematics and Computer Science because I am drawn to problems you have to genuinely understand before you can solve them, not problems you solve by applying something you already know. I took both degrees at once, then an MSc in Data Science, and it left me with a useful habit: when a result looks too good, I check it again.',
       'I work on credit risk under the IFRS 9 framework, where I own the calibration, monitoring, and projection of the LGD parameter. It is an environment where a model is not worth its validation metric, but what it withstands when someone outside audits the data, the assumptions, and the documentation six months later.',
-      'Outside the bank I build the same kind of thing for the pleasure of it: causal anomaly detection over public Formula 1 telemetry, self-hosted inference gateways with instrumented evaluation, and pipelines that turn voice notes into reviewable documents. If it cannot be reproduced, it is not finished.',
+      'What interests me is not modelling in isolation: it is the whole process. Understanding the problem, designing a solution, iterating, and making the result useful. Outside the bank I build the same kind of thing for the pleasure of it: causal anomaly detection over public Formula 1 telemetry, self-hosted inference gateways with instrumented evaluation, and flows that turn voice notes into reviewable documents. If it cannot be reproduced, it is not finished.',
     ],
     pillars: [
       {
@@ -252,6 +326,16 @@ const en: Dictionary = {
     work: { eyebrow: 'Track record', title: 'Experience', lead: '' },
     projects: { eyebrow: 'Work', title: 'Projects', lead: 'Systems I designed, built, and measured.' },
     skills: { eyebrow: 'Toolbox', title: 'Skills', lead: '' },
+    highlights: {
+      eyebrow: 'Recognition',
+      title: 'Selections and competitions',
+      lead: 'Things that are neither a job nor a degree, and that still explain a fair amount.',
+    },
+    offClock: {
+      eyebrow: 'Off the clock',
+      title: 'Off the clock',
+      lead: 'What I do when I am not working on this. Or when I am.',
+    },
     education: { eyebrow: 'Background', title: 'Education and certifications', lead: '' },
     playground: {
       eyebrow: 'Playground',
@@ -293,6 +377,70 @@ const en: Dictionary = {
     themeNote: 'Four themes, one design.',
     rights: 'Content and design',
     backToTop: 'Back to top',
+  },
+  provenance: {
+    label: 'Provenance',
+    artifact: 'artifact in the repository',
+    measured: 'measured',
+    record: 'academic record',
+    target: 'target, not a result',
+    unverified: 'unverified',
+    source: 'Source',
+  },
+  projects: {
+    featured: 'Featured projects',
+    more: 'More projects',
+    role: 'Role',
+    period: 'Period',
+    status: 'Status',
+    stack: 'Stack',
+    limits: 'What I do not claim',
+    metrics: 'Numbers',
+    team: 'Team',
+    contribution: 'My contribution',
+    repo: 'View the repository',
+    demo: 'View the project',
+    writeup: 'Read more',
+    caseStudy: 'Read the full case study',
+    privateNote: 'Case study',
+    statuses: {
+      shipped: 'shipped',
+      'in-progress': 'in progress',
+      research: 'research',
+    },
+  },
+  education: {
+    degrees: 'Degrees',
+    certifications: 'Certifications',
+    languages: 'Languages',
+    kinds: {
+      degree: 'Degree',
+      master: "Master's",
+      certification: 'Certification',
+      language: 'Language',
+    },
+  },
+  highlightsExtra: {
+    kinds: {
+      program: 'Programme',
+      competition: 'Competition',
+      award: 'Award',
+      publication: 'Publication',
+      contribution: 'Contribution',
+    },
+  },
+  offClock: {
+    interests: 'Off the clock',
+  },
+  skillsExtra: {
+    levels: {
+      high: 'Strong',
+      medium: 'Working',
+      low: 'Basic',
+    },
+    usedIn: 'Used in',
+    areas: 'Areas',
+    graphHint: 'The interactive graph arrives in the next layer. This is the version that works without JavaScript.',
   },
   notFound: {
     title: 'Page not found',

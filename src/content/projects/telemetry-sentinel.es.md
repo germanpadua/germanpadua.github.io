@@ -47,14 +47,14 @@ metrics:
     basis: artifact
     source: reports/metrics/validation-2023-spain-r-tune-*.json
 highlights:
-  - "La causalidad está impuesta por construcción, no prometida: tests de invariancia de prefijo y de perturbación del futuro, con testigo en vivo para cada componente con estado."
+  - "\"La causalidad está impuesta por construcción, no prometida: tests de invariancia de prefijo y de perturbación del futuro, con testigo en vivo para cada componente con estado.\""
   - Las reglas de supresión se revisaron viendo las falsas alarmas de validación y después se congelaron antes del test ciego, que es el orden correcto y el que casi nadie respeta.
   - Cada número publicado apunta a un fichero de métricas commiteado y a una ejecución concreta de MLflow. Una métrica no definida es una etiqueta, nunca un cero.
-  - "El detector suprime lo que el contexto ya explica: entrada a boxes, bandera amarilla, coche de seguridad y bandera azul."
+  - "\"El detector suprime lo que el contexto ya explica: entrada a boxes, bandera amarilla, coche de seguridad y bandera azul.\""
 limits:
   - El test ciego tuvo un solo positivo real, y un positivo no es una tasa. El intervalo de confianza es tan ancho que el 1,00 se lee como "no falló en el único caso que había".
-  - "No publico la cifra de 957 tests que aparece en las notas del proyecto: sólo está en prosa, sin artefacto, y los recuentos commiteados dicen 414, 418 y 533 según el momento y el alcance. Un número que no puedo señalar no va."
-  - "Hay un defecto medido y sin arreglar: 40 alertas posteriores a la bandera a cuadros."
+  - "\"No publico la cifra de 957 tests que aparece en las notas del proyecto: sólo está en prosa, sin artefacto, y los recuentos commiteados dicen 414, 418 y 533 según el momento y el alcance. Un número que no puedo señalar no va.\""
+  - "\"Hay un defecto medido y sin arreglar: 40 alertas posteriores a la bandera a cuadros.\""
   - Un único anotador humano, sin acuerdo entre anotadores. La segunda pasada se retiró.
   - El fin de carrera depende de un mensaje que el feed público a veces omite.
   - El sitio de presentación reproduce ejecuciones precalculadas y exige regenerar la exportación, que no está commiteada.

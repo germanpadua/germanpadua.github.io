@@ -11,7 +11,6 @@
  *   - a project marked `public` must link its repository, and a project marked
  *     `case-study` must NOT (its repository is private, so a link would be a 404
  *     for the visitor this site exists for)
- *   - a job marked current must have `end: present`, and vice versa
  *   - every skill-graph edge must reference nodes that exist, and node ids must be
  *     unique, because a dangling edge renders as a silently missing connection
  *
@@ -33,6 +32,23 @@ const isoMonth = z
 const slug = z
   .string()
   .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'expected a lowercase kebab-case slug');
+
+/**
+ * Loader for the four bilingual collections.
+ *
+ * The glob loader strips the whole extension chain by default, so `foo.es.md` and
+ * `foo.en.md` both became the id `foo` and one silently overwrote the other. The
+ * symptom was a build that generated fifteen case-study pages instead of thirty,
+ * with the locale split varying between runs, because the winner of each collision
+ * depended on iteration order. `generateId` strips only the final extension, which
+ * keeps the locale in the id and makes the pairing real.
+ */
+const bilingualLoader = (base: string) =>
+  glob({
+    base,
+    pattern: '**/*.{md,mdx}',
+    generateId: ({ entry }) => entry.replace(/\.(md|mdx)$/i, ''),
+  });
 
 /* ---------------------------------------------------------------- projects */
 
@@ -64,7 +80,7 @@ const metrics = z.object({
 });
 
 const projects = defineCollection({
-  loader: glob({ base: './src/content/projects', pattern: '**/*.{md,mdx}' }),
+  loader: bilingualLoader('./src/content/projects'),
   schema: z
     .object({
       locale,
@@ -83,6 +99,8 @@ const projects = defineCollection({
        */
       visibility: z.enum(['public', 'case-study', 'demo-only']),
       featured: z.boolean().default(false),
+      /** Which token tints the plate. Themes stay in control of the value. */
+      accent: z.enum(['accent', 'accent-2', 'accent-3']).default('accent'),
       /**
        * Present when the work was not solo. Contributions are stated explicitly so
        * a team project is never presented as individual work.
@@ -145,7 +163,7 @@ const projects = defineCollection({
 /* -------------------------------------------------------------- experience */
 
 const experience = defineCollection({
-  loader: glob({ base: './src/content/experience', pattern: '**/*.{md,mdx}' }),
+  loader: bilingualLoader('./src/content/experience'),
   schema: z
     .object({
       locale,
@@ -180,7 +198,7 @@ const experience = defineCollection({
 /* --------------------------------------------------------------- education */
 
 const education = defineCollection({
-  loader: glob({ base: './src/content/education', pattern: '**/*.{md,mdx}' }),
+  loader: bilingualLoader('./src/content/education'),
   schema: z.object({
     locale,
     order: z.number().int(),
@@ -307,7 +325,7 @@ const skillsGraph = defineCollection({
  * hackathons, awards, publications. Rendered as a compact high-signal band.
  */
 const highlights = defineCollection({
-  loader: glob({ base: './src/content/highlights', pattern: '**/*.{md,mdx}' }),
+  loader: bilingualLoader('./src/content/highlights'),
   schema: z.object({
     locale,
     order: z.number().int(),

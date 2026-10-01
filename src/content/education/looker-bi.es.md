@@ -9,9 +9,9 @@ start: 2024-01
 end: 2024-06
 summary: Modelado analítico, visualización y diseño de cuadros de mando orientados a que alguien tome una decisión, no a que el gráfico quede bonito.
 highlights:
-  - "Modelado analítico con una capa semántica: definir las métricas una vez y que todo el mundo use la misma definición."
+  - "\"Modelado analítico con una capa semántica: definir las métricas una vez y que todo el mundo use la misma definición.\""
   - "Diseño de cuadros de mando por pregunta, no por dato disponible, que es la diferencia entre un informe que se usa y uno que se archiva."
-  - "La lección más útil fue negativa: la mayoría de los cuadros de mando que se construyen no los abre nadie."
+  - "\"La lección más útil fue negativa: la mayoría de los cuadros de mando que se construyen no los abre nadie.\""
 ---
 
 ## Lo que de verdad enseñan estas herramientas

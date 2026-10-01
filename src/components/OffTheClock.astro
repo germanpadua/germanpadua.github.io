@@ -1,0 +1,185 @@
+---
+import { getSite } from '../lib/content';
+import { useTranslations, type Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const site = await getSite(locale);
+
+/*
+ * `now` is optional in the schema and empty on purpose right now. It renders only
+ * when it has content: a "what I am doing right now" block that says the same
+ * thing for eight months is worse than not having one.
+ */
+const now = site.now;
+const kindLabels: Record<string, string> = {
+  game: locale === 'es' ? 'Jugando' : 'Playing',
+  book: locale === 'es' ? 'Leyendo' : 'Reading',
+  series: locale === 'es' ? 'Viendo' : 'Watching',
+  film: locale === 'es' ? 'Viendo' : 'Watching',
+  course: locale === 'es' ? 'Cursando' : 'Studying',
+};
+---
+
+<section id="off-clock" class="section">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="eyebrow">{t.sections.offClock.eyebrow}</p>
+      <h2>{t.sections.offClock.title}</h2>
+      <p class="section-head__lead">{t.sections.offClock.lead}</p>
+    </header>
+
+    <div class="interests">
+      {
+        site.interests.map((group) => (
+          <div class="interest reveal">
+            <h3 class="interest__label">{group.group}</h3>
+            <ul class="interest__items" role="list">
+              {group.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+
+    {
+      now.length > 0 && (
+        <div class="now">
+          <h3 class="now__label">
+            {locale === 'es' ? 'Ahora mismo' : 'Right now'}
+            {site.nowUpdated && <span class="now__updated tabular"> · {site.nowUpdated}</span>}
+          </h3>
+          <ul class="now__list" role="list">
+            {now.map((item) => (
+              <li class="now__item">
+                <span class="now__kind">{kindLabels[item.kind]}</span>
+                <span class="now__title">
+                  {item.link ? <a href={item.link} rel="noopener noreferrer" target="_blank">{item.title}</a> : item.title}
+                </span>
+                {item.progress && <span class="now__progress tabular">{item.progress}</span>}
+                {item.note && <span class="now__note">{item.note}</span>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .interests {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: var(--space-m) var(--space-l);
+  }
+
+  .interest__label {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--fg-faint);
+    margin-bottom: var(--space-2xs);
+    padding-bottom: var(--space-3xs);
+    border-bottom: var(--rule) var(--border-style) var(--border);
+  }
+
+  .interest__items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.3rem;
+  }
+
+  .interest__items li {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    color: var(--fg-strong);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .interest:last-child .interest__items li {
+    font-family: var(--font-code);
+    font-size: var(--step--1);
+    letter-spacing: var(--tracking-wide);
+    color: var(--accent);
+  }
+
+  .now {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-m);
+    border-top: var(--rule) var(--border-style) var(--border);
+  }
+
+  .now__label {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--fg-faint);
+    margin-bottom: var(--space-s);
+  }
+
+  .now__updated {
+    color: var(--fg-faint);
+  }
+
+  .now__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2xs);
+  }
+
+  .now__item {
+    display: grid;
+    grid-template-columns: 7rem minmax(0, 1fr) auto;
+    gap: var(--space-2xs) var(--space-s);
+    align-items: baseline;
+    padding-bottom: var(--space-2xs);
+    border-bottom: var(--rule) var(--border-style) var(--border);
+  }
+
+  .now__kind {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-wide);
+    color: var(--fg-muted);
+  }
+
+  .now__title {
+    color: var(--fg-strong);
+    font-size: var(--step-0);
+  }
+
+  .now__progress,
+  .now__note {
+    font-size: var(--step--1);
+    color: var(--fg-faint);
+  }
+
+  .now__note {
+    grid-column: 2 / -1;
+  }
+
+  @media (max-width: 40rem) {
+    .now__item {
+      grid-template-columns: 1fr;
+    }
+
+    .now__note {
+      grid-column: 1;
+    }
+  }
+</style>

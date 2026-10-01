@@ -49,14 +49,14 @@ metrics:
     basis: record
     source: crónica del equipo, capítulo 1
 highlights:
-  - "El arnés no es un test unitario: es una clínica falsa completa que responde por WebSocket, con un oráculo de escenarios que verifica llamada a llamada si la reserva quedó bien hecha, para no gastar el límite de minutos puntuados del reto."
+  - "\"El arnés no es un test unitario: es una clínica falsa completa que responde por WebSocket, con un oráculo de escenarios que verifica llamada a llamada si la reserva quedó bien hecha, para no gastar el límite de minutos puntuados del reto.\""
   - El comparador es determinista y campo por campo, así que un fallo se puede atribuir a un campo concreto en lugar de a "el agente fue mal".
   - Sirve para iterar sin la plataforma oficial delante, que es lo que hace posible mejorar 18 familias de escenarios en 36 horas.
-  - "Trabajé contra un contrato de interfaz escrito, no contra el código de otro: el documento fija qué devuelve el agente y qué espera el evaluador, y eso permitió que dos personas avanzaran en paralelo sin pisarse."
+  - "\"Trabajé contra un contrato de interfaz escrito, no contra el código de otro: el documento fija qué devuelve el agente y qué espera el evaluador, y eso permitió que dos personas avanzaran en paralelo sin pisarse.\""
 limits:
-  - "No publico la cifra de 412 tests que aparece en nuestras notas: sólo está en prosa y el mismo repositorio contiene 415, 418 y 533 en otros archivos. Un número que no puedo señalar no entra."
+  - "\"No publico la cifra de 412 tests que aparece en nuestras notas: sólo está en prosa y el mismo repositorio contiene 415, 418 y 533 en otros archivos. Un número que no puedo señalar no entra.\""
   - El "71 puntos, 4º, líder 76" de las 16:45 sólo existe en prosa. Hay capturas commiteadas de las 13:04, las 14:13 y las 21:36; no hay ninguna de esa hora. Publico el 4º con la captura de las 21:36 y digo de dónde sale.
-  - "La organización nunca publicó una clasificación final: el propio equipo dejó escrito que \"no consta una posición oficial\". El 4º es del marcador en vivo, no del resultado final."
+  - "\"La organización nunca publicó una clasificación final: el propio equipo dejó escrito que \\\"no consta una posición oficial\\\". El 4º es del marcador en vivo, no del resultado final.\""
   - El arnés produce una estimación local y no es el juez oficial. Sus cifras no explican el marcador del reto.
   - Las cifras de la presentación (94,4 %, 82 %, cero fugas) eran objetivos de piloto, no resultados observados. No las publico como medidas.
   - La ejecución de 120 casos del Voice Lab fue simulada y se guardó en /tmp, nunca se commiteó.

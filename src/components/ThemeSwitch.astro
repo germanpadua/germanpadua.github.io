@@ -163,8 +163,12 @@ const themes = [
     color: var(--fg-strong);
   }
 
-  /* Below 640px the swatches alone carry the choice. */
-  @media (max-width: 40rem) {
+  /*
+   * Below this width the swatches alone carry the choice. The threshold is wide
+   * because the theme control shares a bar with seven section links: at 1440px the
+   * labelled buttons made the nav overflow into the brand.
+   */
+  @media (max-width: 100rem) {
     .theme-switch__label {
       position: absolute;
       width: 1px;

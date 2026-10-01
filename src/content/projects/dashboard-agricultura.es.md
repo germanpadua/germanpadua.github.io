@@ -40,16 +40,17 @@ metrics:
     basis: artifact
     source: dashboard/data/fincas.json
 highlights:
-  - "El dashboard traduce índices espectrales a lenguaje de agricultor: no enseña el NDVI crudo, enseña si la parcela va peor o mejor que los últimos años y en qué zona concreta."
+  - "\"El dashboard traduce índices espectrales a lenguaje de agricultor: no enseña el NDVI crudo, enseña si la parcela va peor o mejor que los últimos años y en qué zona concreta.\""
+  - "Cruza cuatro fuentes que no hablan entre ellas: imágenes de satélite, previsión meteorológica, una estación de campo y observaciones del propio agricultor enviadas desde el móvil."
   - Las anomalías se detectan comparando cada fecha contra el histórico de la misma parcela, no contra un umbral absoluto, porque el valor normal depende del suelo y del año.
   - Empaquetado con Docker y Compose para que el despliegue no dependa de la máquina de nadie.
   - Incluye un bot de Telegram como vía de entrada de fotos de campo, con el que se documentaron detecciones desde el móvil.
 limits:
-  - "No tengo un número de precisión que publicar: el trabajo mide tendencia y anomalía relativa por parcela, no clasificación contra una verdad de campo anotada. Presentar una exactitud sería inventarla."
+  - "\"No tengo un número de precisión que publicar: el trabajo mide tendencia y anomalía relativa por parcela, no clasificación contra una verdad de campo anotada. Presentar una exactitud sería inventarla.\""
   - El bot de Telegram recibió fotografías de una explotación real y quedó fuera de la versión publicable; el repositorio está en privado mientras se limpia.
   - Las credenciales que aparecían commiteadas están rotadas y el repositorio pasó a privado el 1 de octubre de 2026.
   - El análisis depende de la disponibilidad de imágenes sin nubes, así que hay meses sin datos útiles y no monté una estrategia de interpolación seria.
-  - "Las tres parcelas son de un único cultivo y una única comarca: no hay validación en otras condiciones."
+  - "\"Las tres parcelas son de un único cultivo y una única comarca: no hay validación en otras condiciones.\""
 ---
 
 ## El problema
@@ -60,7 +61,9 @@ El trabajo de fin de máster consistía en cerrar esa distancia.
 
 ## Qué hace
 
-El dashboard combina dos fuentes públicas. De Sentinel-2 saca imágenes a 10 metros por píxel y calcula índices de vegetación ajustados a olivar: NDVI, OSAVI y NDRE. De AEMET recoge la serie meteorológica, que es lo que permite distinguir el estrés hídrico de una plaga.
+El dashboard combina cuatro fuentes. De Sentinel-2 saca imágenes a 10 metros por píxel y calcula índices de vegetación ajustados a olivar: NDVI, OSAVI y NDRE. De AEMET recoge la previsión meteorológica, que es lo que permite distinguir el estrés hídrico de una plaga. Y del campo entran dos cosas: una estación meteorológica con humedad, temperatura, radiación solar, viento y lluvia, y las observaciones que el propio agricultor manda por el móvil cuando ve algo raro.
+
+Esa última fuente es la que menos parece de ciencia de datos y la que más cambió el sistema. Un índice espectral dice que hay un problema; una foto con una nota dice cuál.
 Con eso construye series temporales por parcela y detecta anomalías **contra el propio histórico de esa parcela**, no contra un umbral fijo. Es la decisión que más cambia el resultado: el valor normal de una parcela depende del suelo, de la orientación y del año, así que un umbral absoluto produce falsas alarmas constantes.
 La interfaz se organiza alrededor de una pregunta: ¿está esta zona peor que otros años, y desde cuándo?
 
