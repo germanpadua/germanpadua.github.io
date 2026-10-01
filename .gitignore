@@ -4,3 +4,8 @@ _site
 .jekyll-metadata
 vendor
 Gemfile.lock
+odd/
+node_modules/
+dist/
+.astro/
+.screenshots/
