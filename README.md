@@ -76,9 +76,13 @@ src/styles/tokens.css         the semantic token contract
 src/styles/themes/            one file per theme; values only, never new names
 src/components/               static shell components (Nav, Hero, Profile, Footer, ...)
 src/components/islands/       the only hydrated code: Terminal, SkillGraph, Game
-src/pages/                    routes, ES at / and EN at /en/
+src/pages/                    routes, ES at / and EN at /en/, plus 404.astro
+src/pages/data/               static JSON endpoints the islands fetch
+src/pages/404.astro           served by GitHub Pages for any unknown path
 public/                       images, icons, crawler files
-scripts/                      screenshot capture, icon and OG rendering, payload guard
+scripts/                      screenshot capture, icon and OG rendering, and the
+                              verification suite: payload guard, theme behaviour,
+                              layout and content, island behaviour, game model
 .github/workflows/            ci.yml (pull requests) and deploy.yml (main)
 ```
 
@@ -123,7 +127,12 @@ and `/og/` is the social card that `pnpm og-image` screenshots. Both are
 `noindex`, both are excluded from the sitemap, and both are disallowed in
 `robots.txt`.
 
-## License
+## License and provenance
 
 The code in this repository is available for reference. Written content, project
 descriptions, and images are © German Padua and are not licensed for reuse.
+
+This site was previously built on the **devfolio** theme, distributed under
+Creative Commons Attribution 3.0. No part of that theme remains: the markup, styles,
+scripts, and assets were all replaced, and the theme's licence file was removed with
+it. The credit is recorded here so the attribution is not lost with the file.
