@@ -1,0 +1,194 @@
+---
+/**
+ * Theme switch — four complete palettes behind one control.
+ *
+ * Radio inputs rather than buttons: arrow keys, grouping, and the checked state
+ * come from the platform instead of from JavaScript. The inline ThemeScript only
+ * applies the choice and persists it.
+ */
+const themes = [
+  {
+    id: 'atlas',
+    label: 'Atlas',
+    hint: 'Paper and ink, scientific editorial',
+    bg: '#f6f4ee',
+    accent: '#0b6e8c',
+    accent2: '#a2590a',
+    colorScheme: 'light',
+  },
+  {
+    id: 'tinta',
+    label: 'Tinta',
+    hint: 'The atlas after dark',
+    bg: '#0f1216',
+    accent: '#4cc2e0',
+    accent2: '#e0a24c',
+    colorScheme: 'dark',
+  },
+  {
+    id: 'phosphor',
+    label: 'Phosphor',
+    hint: 'Green CRT terminal',
+    bg: '#050906',
+    accent: '#4ade80',
+    accent2: '#5eead4',
+    colorScheme: 'dark',
+  },
+  {
+    id: 'nebula',
+    label: 'Nebula',
+    hint: 'Dark data-viz slate',
+    bg: '#0a0a12',
+    accent: '#a78bfa',
+    accent2: '#22d3ee',
+    colorScheme: 'dark',
+  },
+];
+---
+
+<fieldset class="theme-switch" data-theme-switch>
+  <legend class="sr-only">Visual theme</legend>
+  {
+    themes.map((theme) => (
+      <label class="theme-switch__option" data-hint={theme.hint}>
+        <input
+          type="radio"
+          name="theme"
+          value={theme.id}
+          data-swatch={theme.bg}
+          class="theme-switch__input"
+        />
+        <span
+          class="theme-switch__swatch"
+          aria-hidden="true"
+          style={`--swatch-bg:${theme.bg};--swatch-accent:${theme.accent};--swatch-accent-2:${theme.accent2};--swatch-scheme:${theme.colorScheme}`}
+        />
+        <span class="theme-switch__label">{theme.label}</span>
+      </label>
+    ))
+  }
+</fieldset>
+
+<style>
+  .theme-switch {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin: 0;
+    padding: 2px;
+    border: var(--rule) var(--border-style) var(--border);
+    border-radius: var(--radius-pill);
+    background-color: var(--bg-inset);
+  }
+
+  .theme-switch__option {
+    /* Anchors the stretched input below. */
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.55rem;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    transition: background-color var(--dur-fast) var(--ease-standard);
+  }
+
+  .theme-switch__option:hover {
+    background-color: var(--bg-hover);
+  }
+
+  /*
+   * The input is stretched over the whole option instead of being parked in a
+   * 1px box. The visible swatch and label become the hit target, the radio keeps
+   * its native keyboard behaviour and its place in the accessibility tree, and
+   * the clickable area stops depending on where a 1px dot happened to land.
+   *
+   * Found by scripts/verify-theme.mjs: a synthesised click on the 1px input was
+   * intercepted by the swatch, which is exactly the fragility this removes.
+   *
+   * `z-index` is not optional here. The swatch is positioned and comes later in the
+   * DOM, so it painted above the input and swallowed the click. The first version of
+   * this fix stretched the input and appeared to work, but only because the click
+   * happened to land on the label text at the width the test ran at — unpositioned
+   * text the input did cover. Hiding the labels at narrower widths moved the click
+   * centre onto the swatch and the bug came straight back. A fix that depends on
+   * incidental geometry is not a fix.
+   */
+  .theme-switch__input {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+    appearance: none;
+  }
+
+  .theme-switch__option:has(.theme-switch__input:checked) {
+    background-color: var(--bg-raised);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .theme-switch__option:has(.theme-switch__input:focus-visible) {
+    outline: var(--rule-strong) var(--border-style) var(--accent);
+    outline-offset: 2px;
+  }
+
+  .theme-switch__swatch {
+    flex: none;
+    position: relative;
+    width: 1rem;
+    height: 1rem;
+    border-radius: var(--radius-sm);
+    border: var(--rule) var(--border-style) var(--border-strong);
+    background-color: var(--swatch-bg);
+    overflow: hidden;
+  }
+
+  /* A diagonal split shows both accents without any extra markup. */
+  .theme-switch__swatch::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      var(--swatch-accent) 0 50%,
+      var(--swatch-accent-2) 50% 100%
+    );
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  }
+
+  .theme-switch__label {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-wide);
+    color: var(--fg-muted);
+    white-space: nowrap;
+  }
+
+  .theme-switch__option:has(.theme-switch__input:checked) .theme-switch__label {
+    color: var(--fg-strong);
+  }
+
+  /*
+   * Below this width the swatches alone carry the choice. The threshold is wide
+   * because the theme control shares a bar with seven section links: at 1440px the
+   * labelled buttons made the nav overflow into the brand.
+   */
+  @media (max-width: 100rem) {
+    .theme-switch__label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    .theme-switch__option {
+      padding: 0.4rem;
+    }
+  }
+</style>

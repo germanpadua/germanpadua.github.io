@@ -1,0 +1,56 @@
+/* ============================================================================
+   PHOSPHOR — a green CRT in a dark room.
+   ----------------------------------------------------------------------------
+   Monospace everywhere, zero radii, and a faint bloom on emphasis. The display
+   face is the same mono as the code, so headings read like output, not titles.
+   Deliberately not the default: this is the terminal theme, opt-in.
+   ========================================================================== */
+
+[data-theme="phosphor"] {
+  --bg: #050906;
+  --bg-raised: #0a110c;
+  --bg-inset: #030603;
+  --bg-hover: #101a13;
+  --bg-overlay: rgba(2, 5, 3, 0.78);
+
+  --fg: #9fe6b4;
+  --fg-strong: #d8ffe4;
+  --fg-muted: #5f9c74;
+  --fg-faint: #3f6b4e;
+  --fg-on-accent: #04140a;
+
+  --border: #14251a;
+  --border-strong: #24402c;
+
+  --accent: #4ade80;
+  --accent-2: #5eead4;
+  --accent-3: #a3e635;
+  --accent-soft: rgba(74, 222, 128, 0.12);
+
+  --ok: #4ade80;
+  --warn: #facc15;
+  --err: #f87171;
+  --info: #5eead4;
+
+  --shadow-sm: none;
+  --shadow: 0 0 0 1px rgba(74, 222, 128, 0.12);
+  --glow: 0 0 14px rgba(74, 222, 128, 0.28);
+
+  --node-math: #a3e635;
+  --node-cs: #4ade80;
+  --node-ds: #2dd4bf;
+  --node-tools: #facc15;
+  --node-lang: #5eead4;
+
+  --grid-line: rgba(74, 222, 128, 0.05);
+  --grid-size: 2rem;
+  --ornament-opacity: 0.7;
+
+  --font-display: var(--font-mono);
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --tracking-normal: 0.01em;
+
+  color-scheme: dark;
+}

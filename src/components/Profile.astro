@@ -1,0 +1,164 @@
+---
+import { Picture } from 'astro:assets';
+import { useTranslations, type Locale } from '../i18n/ui';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  locale: Locale;
+  /** Resolved from `src/assets`, so Astro can emit the responsive variants. */
+  portrait?: ImageMetadata | null;
+}
+
+const { locale, portrait = null } = Astro.props;
+const t = useTranslations(locale);
+const p = t.profile;
+---
+
+<section id="about" class="section section--gridded">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="eyebrow">{p.eyebrow}</p>
+      <h2>{p.title}</h2>
+      <p class="section-head__lead">{p.lead}</p>
+    </header>
+
+    <div class="about">
+      <div class="about__prose stack reveal reveal--late">
+        {p.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+
+      <div class="about__aside reveal reveal--last">
+        {
+          portrait && (
+            <figure class="portrait">
+              <Picture
+                src={portrait}
+                alt={
+                  locale === 'es' ? 'Retrato de German Padua' : 'Portrait of German Padua'
+                }
+                widths={[240, 400, 760]}
+                sizes="(max-width: 44rem) 22rem, 26rem"
+                formats={['avif', 'webp']}
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+          )
+        }
+
+        <ul class="pillars" role="list">
+          {
+            p.pillars.map((pillar) => (
+              <li class="pillar">
+                <h3 class="pillar__label">{pillar.label}</h3>
+                <p class="pillar__detail">{pillar.detail}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: var(--space-xl);
+    align-items: start;
+  }
+
+  .about__prose p {
+    font-size: var(--step-1);
+    line-height: var(--leading-normal);
+    color: var(--fg);
+    max-width: 72ch;
+  }
+
+  /* The drop-cap-ish opening: the first paragraph is the positioning statement,
+     so it gets more weight than the rest. */
+  .about__prose p:first-child {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    line-height: var(--leading-snug);
+    color: var(--fg-strong);
+  }
+
+  .portrait {
+    margin: 0 0 var(--space-l);
+    border: var(--rule) var(--border-style) var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--bg-inset);
+  }
+
+  .portrait :global(img) {
+    width: 100%;
+    height: auto;
+    /* Desaturate slightly so the portrait sits in the palette instead of
+       fighting it; the theme's accents stay the only strong colour. */
+    filter: saturate(0.92) contrast(1.02);
+  }
+
+  .pillars {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  .pillar {
+    padding-left: var(--space-s);
+    border-left: var(--rule-strong) var(--border-style) var(--accent);
+  }
+
+  .pillar:nth-child(2) {
+    border-left-color: var(--accent-2);
+  }
+
+  .pillar:nth-child(3) {
+    border-left-color: var(--accent-3);
+  }
+
+  .pillar__label {
+    font-family: var(--font-code);
+    font-size: var(--step--1);
+    letter-spacing: var(--tracking-wide);
+    color: var(--fg-strong);
+  }
+
+  .pillar__detail {
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+    margin-top: 0.25rem;
+  }
+
+  @media (max-width: 62rem) {
+    .about {
+      grid-template-columns: 1fr;
+    }
+
+    .about__aside {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+      gap: var(--space-l);
+      align-items: start;
+    }
+
+    .portrait {
+      margin-bottom: 0;
+    }
+  }
+
+  @media (max-width: 44rem) {
+    .about__aside {
+      grid-template-columns: 1fr;
+    }
+
+    .portrait {
+      max-width: 22rem;
+    }
+  }
+</style>

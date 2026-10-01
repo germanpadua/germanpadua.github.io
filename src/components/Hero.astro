@@ -1,0 +1,107 @@
+---
+import { identity, useTranslations, type Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+  /** Anchors rendered by the home page; the hero never links to a missing section. */
+  primaryHref: string;
+  secondaryHref: string;
+}
+
+const { locale, primaryHref, secondaryHref } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section id="top" class="hero section--gridded">
+  <div class="container hero__inner">
+    <p class="eyebrow reveal">{t.hero.eyebrow}</p>
+
+    <h1 class="hero__title reveal reveal--late">
+      <span class="hero__greeting">{t.hero.greeting}</span>
+      <span class="hero__name">{identity.name}</span>
+    </h1>
+
+    <p class="hero__headline reveal reveal--late">{t.hero.headline}</p>
+    <p class="hero__support reveal reveal--last">{t.hero.support}</p>
+
+    <div class="cluster hero__actions reveal reveal--last">
+      <a class="btn btn--primary" href={primaryHref}>{t.hero.primaryAction}</a>
+      <a class="btn" href={secondaryHref}>{t.hero.secondaryAction}</a>
+    </div>
+
+    <dl class="metrics hero__stats reveal reveal--last">
+      {
+        t.hero.stats.map((stat) => (
+          <div class="metric">
+            <dt class="metric__value tabular">{stat.value}</dt>
+            <dd class="metric__label">{stat.label}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>
+
+<style>
+  .hero__inner {
+    padding-block: clamp(2.25rem, 7vh, 4.5rem) clamp(2rem, 6vh, 4rem);
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  .hero__title {
+    display: grid;
+    gap: 0.1em;
+    margin: var(--space-2xs) 0 0;
+    /* The display face carries the identity, so the name gets the largest step
+       on the page and the greeting stays a quiet label above it. */
+    font-size: var(--step-6);
+    line-height: 0.98;
+    letter-spacing: -0.032em;
+    font-weight: 500;
+  }
+
+  .hero__greeting {
+    font-family: var(--font-code);
+    font-size: var(--step--1);
+    font-weight: 400;
+    letter-spacing: var(--tracking-wide);
+    color: var(--fg-muted);
+    text-transform: none;
+  }
+
+  .hero__headline {
+    font-family: var(--font-display);
+    font-size: var(--step-3);
+    line-height: var(--leading-tight);
+    color: var(--fg-strong);
+    max-width: 34ch;
+    margin: var(--space-2xs) 0 0;
+  }
+
+  .hero__support {
+    font-size: var(--step-1);
+    line-height: var(--leading-snug);
+    color: var(--fg-muted);
+    max-width: 62ch;
+  }
+
+  .hero__actions {
+    margin-top: var(--space-2xs);
+  }
+
+  .hero__stats {
+    margin-top: var(--space-l);
+  }
+
+  /* `dd` inherits an indent by default; the metric labels are flush left. */
+  .hero__stats dd {
+    margin-inline-start: 0;
+  }
+
+  @media (min-width: 60rem) {
+    .hero__support {
+      max-width: 58ch;
+    }
+  }
+</style>

@@ -1,0 +1,519 @@
+---
+import { render } from 'astro:content';
+import { Picture } from 'astro:assets';
+import { projectImage } from '../lib/projectImages';
+import Base from '../layouts/Base.astro';
+import Metric from './Metric.astro';
+import { getProject, getProjects, projectPath, projectsIndexPath } from '../lib/content';
+import { useTranslations, type Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+  slug: string;
+}
+
+const { locale, slug } = Astro.props;
+const t = useTranslations(locale);
+const entry = await getProject(locale, slug);
+const { data } = entry;
+const { Content } = await render(entry);
+
+const all = await getProjects(locale);
+const position = all.findIndex((item) => item.data.slug === slug);
+const previous = position > 0 ? all[position - 1] : undefined;
+const next = position >= 0 && position < all.length - 1 ? all[position + 1] : undefined;
+
+const navLinks = [
+  { href: `${projectsIndexPath(locale)}`, label: t.nav.projects },
+  { href: '/#skills', label: t.nav.skills },
+  { href: '/#contact', label: t.nav.contact },
+];
+---
+
+<Base
+  locale={locale}
+  title={`${data.title} · ${locale === 'es' ? 'German Padua' : 'German Padua'}`}
+  description={data.summary}
+  alternate={{
+    es: projectPath('es', slug),
+    en: projectPath('en', slug),
+  }}
+  navLinks={navLinks}
+>
+  <article class="case">
+    <header class="case__head container">
+      <p class="case__back">
+        <a href={projectsIndexPath(locale)}>← {t.nav.projects}</a>
+      </p>
+
+      <p class="eyebrow">{data.domains.join(' · ')}</p>
+      <h1 class="case__title">{data.title}</h1>
+      <p class="case__summary">{data.summary}</p>
+
+      <dl class="case__facts">
+        <div>
+          <dt>{t.projects.role}</dt>
+          <dd>{data.role}</dd>
+        </div>
+        <div>
+          <dt>{t.projects.period}</dt>
+          <dd class="tabular">{data.period}</dd>
+        </div>
+        <div>
+          <dt>{t.projects.status}</dt>
+          <dd>{t.projects.statuses[data.status]}</dd>
+        </div>
+        <div>
+          <dt>{locale === 'es' ? 'Visibilidad' : 'Visibility'}</dt>
+          <dd>
+            {data.visibility === 'public'
+              ? locale === 'es'
+                ? 'repositorio público'
+                : 'public repository'
+              : t.projects.privateNote}
+          </dd>
+        </div>
+      </dl>
+
+      {
+        data.team && (
+          <div class="case__team">
+            <h2 class="case__team-title">
+              {t.projects.team}: {data.team.name}
+              {data.team.size ? ` · ${data.team.size}` : ''}
+            </h2>
+            <p>
+              <strong>{t.projects.contribution}:</strong> {data.team.contribution}
+            </p>
+          </div>
+        )
+      }
+
+      {
+        data.metrics.length > 0 && (
+          <section class="case__metrics">
+            <h2 class="case__section-label">{t.projects.metrics}</h2>
+            <ul class="case__metric-list" role="list">
+              {data.metrics.map((metric) => (
+                <li>
+                  <Metric
+                    locale={locale}
+                    value={metric.value}
+                    label={metric.label}
+                    basis={metric.basis}
+                    source={metric.source}
+                  />
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      {
+        data.links.repo || data.links.demo || data.links.writeup ? (
+          <div class="cluster case__links">
+            {data.links.repo && (
+              <a class="btn btn--primary" href={data.links.repo} rel="noopener noreferrer" target="_blank">
+                {t.projects.repo}
+              </a>
+            )}
+            {data.links.demo && (
+              <a class="btn" href={data.links.demo} rel="noopener noreferrer" target="_blank">
+                {t.projects.demo}
+              </a>
+            )}
+            {data.links.writeup && (
+              <a class="btn" href={data.links.writeup} rel="noopener noreferrer" target="_blank">
+                {t.projects.writeup}
+              </a>
+            )}
+          </div>
+        ) : (
+          data.confidentiality && <p class="case__confidential">{data.confidentiality}</p>
+        )
+      }
+    </header>
+
+    <div class="case__body container">
+      <div class="case__prose">
+        <Content />
+
+        {data.images.length > 0 && (
+          <section class="case__gallery">
+            <h2 class="case__section-label">
+              {locale === 'es' ? 'Capturas' : 'Screenshots'}
+            </h2>
+            {data.images.map((image) => (
+              <figure class="case__figure">
+                <Picture
+                  src={projectImage(image.file)}
+                  alt={image.alt}
+                  widths={[480, 900, 1600]}
+                  sizes="(max-width: 56rem) 92vw, 46rem"
+                  formats={['avif', 'webp']}
+                  loading="lazy"
+                  decoding="async"
+                />
+                {image.caption && <figcaption>{image.caption}</figcaption>}
+              </figure>
+            ))}
+          </section>
+        )}
+      </div>
+
+      <aside class="case__aside">
+        <section>
+          <h2 class="case__section-label">{t.projects.stack}</h2>
+          <ul class="case__tags" role="list">
+            {data.stack.map((item) => (
+              <li class="chip">{item}</li>
+            ))}
+          </ul>
+        </section>
+
+        {
+          data.highlights.length > 0 && (
+            <section>
+              <h2 class="case__section-label">
+                {locale === 'es' ? 'Lo que destaco' : 'What stands out'}
+              </h2>
+              <ul class="case__notes" role="list">
+                {data.highlights.map((point) => (
+                  <li>{point}</li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
+
+        {
+          data.limits.length > 0 && (
+            <section class="case__limits">
+              <h2 class="case__section-label">{t.projects.limits}</h2>
+              <ul class="case__notes" role="list">
+                {data.limits.map((point) => (
+                  <li>{point}</li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
+      </aside>
+    </div>
+
+    <nav class="case__nav container" aria-label={t.nav.projects}>
+      {
+        previous && (
+          <a class="case__nav-item" href={projectPath(locale, previous.data.slug)}>
+            <span class="case__nav-dir">← {locale === 'es' ? 'anterior' : 'previous'}</span>
+            <span class="case__nav-title">{previous.data.title}</span>
+          </a>
+        )
+      }
+      {
+        next && (
+          <a class="case__nav-item case__nav-item--next" href={projectPath(locale, next.data.slug)}>
+            <span class="case__nav-dir">{locale === 'es' ? 'siguiente' : 'next'} →</span>
+            <span class="case__nav-title">{next.data.title}</span>
+          </a>
+        )
+      }
+    </nav>
+  </article>
+</Base>
+
+<style>
+  .case__head {
+    padding-block: var(--space-xl) var(--space-l);
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  .case__back {
+    font-size: var(--step--1);
+    max-width: none;
+  }
+
+  .case__back a {
+    text-decoration: none;
+    color: var(--fg-muted);
+  }
+
+  .case__back a:hover {
+    color: var(--accent);
+  }
+
+  .case__title {
+    font-family: var(--font-display);
+    font-size: var(--step-5);
+    line-height: 1.02;
+    letter-spacing: -0.028em;
+    color: var(--fg-strong);
+    max-width: 22ch;
+  }
+
+  .case__summary {
+    font-size: var(--step-2);
+    line-height: var(--leading-snug);
+    color: var(--fg-muted);
+    max-width: 58ch;
+  }
+
+  .case__facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: var(--space-s);
+    margin: var(--space-2xs) 0 0;
+    padding-block: var(--space-s);
+    border-block: var(--rule) var(--border-style) var(--border);
+  }
+
+  .case__facts dt {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+
+  .case__facts dd {
+    margin: 0.25rem 0 0;
+    color: var(--fg);
+    font-size: var(--step--1);
+  }
+
+  .case__team {
+    border-left: var(--rule-strong) var(--border-style) var(--accent-2);
+    padding-left: var(--space-s);
+    max-width: 62ch;
+  }
+
+  .case__team-title {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--accent-2);
+  }
+
+  .case__team p {
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+    margin-top: var(--space-3xs);
+  }
+
+  .case__section-label {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    margin-bottom: var(--space-2xs);
+  }
+
+  .case__metric-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: var(--space-m);
+  }
+
+  .case__links {
+    margin-top: var(--space-2xs);
+  }
+
+  .case__confidential {
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+    border-left: var(--rule-strong) var(--border-style) var(--border-strong);
+    padding-left: var(--space-2xs);
+    max-width: 62ch;
+  }
+
+  .case__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: var(--space-xl);
+    padding-block: var(--space-l) var(--space-xl);
+    border-top: var(--rule) var(--border-style) var(--border);
+  }
+
+  .case__prose :global(h2) {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    color: var(--fg-strong);
+    margin-top: var(--space-l);
+  }
+
+  .case__prose :global(h2:first-child) {
+    margin-top: 0;
+  }
+
+  .case__prose :global(p) {
+    font-size: var(--step-0);
+    line-height: var(--leading-normal);
+    color: var(--fg-muted);
+    max-width: 68ch;
+    margin-top: var(--space-2xs);
+  }
+
+  .case__prose :global(strong) {
+    color: var(--fg-strong);
+  }
+
+  .case__gallery {
+    margin-top: var(--space-xl);
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  .case__figure {
+    margin: 0;
+    border: var(--rule) var(--border-style) var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--bg-inset);
+  }
+
+  .case__figure :global(img) {
+    width: 100%;
+    height: auto;
+  }
+
+  .case__figure figcaption {
+    font-size: var(--step--2);
+    color: var(--fg-muted);
+    padding: var(--space-2xs) var(--space-s);
+    border-top: var(--rule) var(--border-style) var(--border);
+  }
+
+  .case__aside {
+    display: grid;
+    gap: var(--space-l);
+    align-content: start;
+    position: sticky;
+    top: 5rem;
+  }
+
+  .case__tags {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .case__notes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .case__notes li {
+    position: relative;
+    padding-left: 1rem;
+    font-size: var(--step--1);
+    line-height: var(--leading-normal);
+    color: var(--fg-muted);
+  }
+
+  .case__notes li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 0.4rem;
+    height: var(--rule);
+    background-color: var(--border-strong);
+  }
+
+  /* The limits block is the one that has to be read, so it gets the warn tint. */
+  .case__limits .case__section-label {
+    color: var(--warn);
+  }
+
+  .case__limits li::before {
+    background-color: var(--warn);
+  }
+
+  .case__nav {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-s);
+    padding-block: var(--space-l);
+    border-top: var(--rule) var(--border-style) var(--border);
+  }
+
+  .case__nav-item {
+    display: grid;
+    gap: 0.15rem;
+    text-decoration: none;
+    max-width: 22rem;
+  }
+
+  .case__nav-item--next {
+    text-align: right;
+    margin-left: auto;
+  }
+
+  .case__nav-dir {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-wide);
+    color: var(--fg-muted);
+  }
+
+  .case__nav-title {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    color: var(--fg-strong);
+  }
+
+  .case__nav-item:hover .case__nav-title {
+    color: var(--accent);
+  }
+
+  @media (max-width: 56rem) {
+    .case__body {
+      grid-template-columns: 1fr;
+    }
+
+    .case__gallery {
+    margin-top: var(--space-xl);
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  .case__figure {
+    margin: 0;
+    border: var(--rule) var(--border-style) var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--bg-inset);
+  }
+
+  .case__figure :global(img) {
+    width: 100%;
+    height: auto;
+  }
+
+  .case__figure figcaption {
+    font-size: var(--step--2);
+    color: var(--fg-muted);
+    padding: var(--space-2xs) var(--space-s);
+    border-top: var(--rule) var(--border-style) var(--border);
+  }
+
+  .case__aside {
+      position: static;
+    }
+  }
+</style>

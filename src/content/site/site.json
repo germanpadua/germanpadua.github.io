@@ -1,0 +1,56 @@
+[
+  {
+    "id": "site-es",
+    "locale": "es",
+    "interests": [
+      {
+        "group": "Deporte",
+        "items": ["Fórmula 1", "Baloncesto", "Fútbol"]
+      },
+      {
+        "group": "Lectura",
+        "items": ["Brandon Sanderson", "Fantasía y ciencia ficción"]
+      },
+      {
+        "group": "Cómic y animación",
+        "items": ["Berserk", "Batman", "Spider-Man"]
+      },
+      {
+        "group": "Cine y series",
+        "items": ["Star Wars", "The Mandalorian"]
+      },
+      {
+        "group": "Y de fondo, siempre",
+        "items": ["Inteligencia artificial", "Matemáticas", "Datos"]
+      }
+    ],
+    "now": []
+  },
+  {
+    "id": "site-en",
+    "locale": "en",
+    "interests": [
+      {
+        "group": "Sport",
+        "items": ["Formula 1", "Basketball", "Football"]
+      },
+      {
+        "group": "Reading",
+        "items": ["Brandon Sanderson", "Fantasy and science fiction"]
+      },
+      {
+        "group": "Comics and animation",
+        "items": ["Berserk", "Batman", "Spider-Man"]
+      },
+      {
+        "group": "Film and TV",
+        "items": ["Star Wars", "The Mandalorian"]
+      },
+      {
+        "group": "And always in the background",
+        "items": ["Artificial intelligence", "Mathematics", "Data"]
+      }
+    ],
+    "now": []
+  }
+]

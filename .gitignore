@@ -1,6 +1,16 @@
-_site
-.sass-cache
-.jekyll-cache
-.jekyll-metadata
-vendor
-Gemfile.lock
+# Build output and tool caches
+node_modules/
+dist/
+.astro/
+
+# Verification artefacts: screenshots and their timing report
+.screenshots/
+
+# Planning artefacts (feature documents and task lists). Kept on disk, not published:
+# a recruiter browsing this repository should read the site's code, not my task list.
+odd/
+
+# Environment
+.env
+.env.*
+!.env.example

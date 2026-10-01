@@ -1,0 +1,37 @@
+{
+  "name": "germanpadua-portfolio",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "shot": "node scripts/screenshot.mjs",
+    "verify": "pnpm run check && pnpm run build && node scripts/assert-shell-payload.mjs",
+    "icons": "node scripts/make-icons.mjs",
+    "og-image": "node scripts/make-og-image.mjs",
+    "test:e2e": "node scripts/verify-theme.mjs",
+    "test:layout": "node scripts/verify-layout.mjs",
+    "test:islands": "node scripts/verify-islands.mjs",
+    "test:model": "node --experimental-strip-types scripts/verify-game-model.mjs",
+    "test:a11y": "node scripts/verify-a11y.mjs"
+  },
+  "dependencies": {
+    "@astrojs/preact": "^6.0.5",
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.3.5",
+    "preact": "^10.29.8"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@types/node": "^26.6.3",
+    "axe-core": "^4.13.0",
+    "playwright": "^1.63.0",
+    "preact-render-to-string": "^6.7.0",
+    "sharp": "^0.35.5",
+    "typescript": "^5.9.0"
+  },
+  "packageManager": "pnpm@12.3.4"
+}

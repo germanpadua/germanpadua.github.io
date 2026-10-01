@@ -1,0 +1,21 @@
+{
+  "source": "public/favicon.svg",
+  "renderer": "chromium",
+  "targets": [
+    {
+      "file": "public/apple-touch-icon.png",
+      "size": 180,
+      "pad": 0.12
+    },
+    {
+      "file": "public/icon-192.png",
+      "size": 192,
+      "pad": 0.12
+    },
+    {
+      "file": "public/icon-512.png",
+      "size": 512,
+      "pad": 0.24
+    }
+  ]
+}

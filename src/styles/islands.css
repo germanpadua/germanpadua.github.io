@@ -1,0 +1,605 @@
+/* ============================================================================
+   Interactive islands
+   ----------------------------------------------------------------------------
+   Kept out of global.css on purpose: these rules belong to the three hydrated
+   components, and only the routes that host them should pay for the CSS.
+   ========================================================================== */
+
+/* ---------------------------------------------------------- skill graph === */
+
+.graph {
+  display: grid;
+  gap: var(--space-s);
+}
+
+.graph__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2xs) var(--space-s);
+}
+
+.graph__areas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.graph__area {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-code);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-wide);
+  color: var(--fg-muted);
+  border: var(--rule) var(--border-style) var(--border);
+  border-radius: var(--radius-pill);
+  background-color: var(--bg-inset);
+  padding: 0.3rem 0.65rem;
+  cursor: pointer;
+  transition: opacity var(--dur-fast) var(--ease-standard);
+}
+
+.graph__area[data-off='true'] {
+  opacity: 0.45;
+}
+
+.graph__area input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.graph__area:has(input:focus-visible) {
+  outline: var(--rule-strong) var(--border-style) var(--accent);
+  outline-offset: 2px;
+}
+
+.graph__swatch {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--area-color);
+  flex: none;
+}
+
+.graph__reset {
+  font-family: var(--font-code);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-wide);
+  color: var(--fg-muted);
+  border: var(--rule) var(--border-style) var(--border);
+  border-radius: var(--radius-pill);
+  padding: 0.3rem 0.65rem;
+  background: none;
+}
+
+.graph__reset:hover {
+  color: var(--fg-strong);
+  border-color: var(--border-strong);
+}
+
+.graph__stage {
+  position: relative;
+  height: clamp(24rem, 52vh, 34rem);
+  border: var(--rule) var(--border-style) var(--border);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-inset);
+  overflow: hidden;
+  /* A drag on the canvas must not scroll the page on a phone. */
+  touch-action: none;
+}
+
+.graph__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  /*
+   * Vertical panning stays available so a finger can scroll past the graph. With
+   * `touch-action: none` the canvas swallowed the gesture and a reader on a phone could
+   * get stuck inside it. Dragging a node is a mouse affordance: a touch selects.
+   */
+  touch-action: pan-y;
+}
+
+.graph__canvas:active {
+  cursor: grabbing;
+}
+
+.graph__empty {
+  position: absolute;
+  inset: auto 0 50% 0;
+  text-align: center;
+  color: var(--fg-muted);
+  font-size: var(--step--1);
+}
+
+.graph__detail {
+  min-height: 5.5rem;
+  border-left: var(--rule-strong) var(--border-style) var(--accent);
+  padding-left: var(--space-s);
+  transition: border-color var(--dur) var(--ease-standard);
+}
+
+.graph__detail[data-empty='true'] {
+  border-left-color: var(--border);
+}
+
+.graph__detail-area {
+  font-family: var(--font-code);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.graph__detail-title {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  color: var(--fg-strong);
+  margin-top: 0.15rem;
+}
+
+.graph__detail-note {
+  font-size: var(--step--1);
+  line-height: var(--leading-snug);
+  color: var(--fg-muted);
+  margin-top: var(--space-3xs);
+  max-width: 68ch;
+}
+
+.graph__detail-projects {
+  font-family: var(--font-code);
+  font-size: var(--step--2);
+  color: var(--fg-muted);
+  margin-top: var(--space-2xs);
+}
+
+.graph__detail-hint {
+  font-size: var(--step--1);
+  color: var(--fg-muted);
+}
+
+/* The list below the graph is the accessible and indexable version of the same
+   information, so it is labelled rather than hidden. */
+.graph-list__label {
+  font-family: var(--font-code);
+  font-size: var(--step--2);
+  font-weight: 500;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-top: var(--space-l);
+  margin-bottom: var(--space-s);
+  padding-top: var(--space-s);
+  border-top: var(--rule) var(--border-style) var(--border);
+}
+
+/* ------------------------------------------------------------ terminal === */
+
+/*
+ * The terminal adapts to the theme instead of forcing a dark box: under atlas it is
+ * a paper panel with monospace text, under phosphor it is the console it was always
+ * meant to be. Everything comes from tokens, so a theme change restyles it for free.
+ */
+.terminal {
+  border: var(--rule) var(--border-style) var(--border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-inset);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.terminal__chrome {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: 0.45rem 0.7rem;
+  border-bottom: var(--rule) var(--border-style) var(--border);
+  background-color: var(--bg-raised);
+  font-family: var(--font-code);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-wide);
+  color: var(--fg-muted);
+}
+
+.terminal__dots {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.terminal__dots i {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--border-strong);
+}
+
+.terminal__dots i:first-child {
+  background-color: var(--err);
+}
+
+.terminal__dots i:nth-child(2) {
+  background-color: var(--warn);
+}
+
+.terminal__dots i:last-child {
+  background-color: var(--ok);
+}
+
+.terminal__path {
+  margin-right: auto;
+}
+
+.terminal__body {
+  padding: var(--space-s);
+  cursor: text;
+}
+
+.terminal__output {
+  height: clamp(15rem, 34vh, 22rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+.terminal__line {
+  font-family: var(--font-code);
+  font-size: var(--step--1);
+  line-height: 1.5;
+  color: var(--fg);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-width: none;
+}
+
+.terminal__line[data-tone='dim'] {
+  color: var(--fg-muted);
+}
+
+.terminal__line[data-tone='heading'] {
+  color: var(--fg-strong);
+  font-weight: 600;
+}
+
+.terminal__line[data-tone='ok'] {
+  color: var(--ok);
+}
+
+.terminal__line[data-tone='warn'] {
+  color: var(--warn);
+}
+
+.terminal__line[data-tone='err'] {
+  color: var(--err);
+}
+
+.terminal__line[data-tone='accent'],
+.terminal__line--link a {
+  color: var(--accent);
+}
+
+.terminal__line--link {
+  font-family: var(--font-code);
+  font-size: var(--step--1);
+}
+
+.terminal__form {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-top: var(--space-2xs);
+  border-top: var(--rule) var(--border-style) var(--border);
+  padding-top: var(--space-2xs);
+}
+
+.terminal__prompt {
+  font-family: var(--font-code);
+  font-size: var(--step--1);
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.terminal__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: var(--font-code);
+  font-size: var(--step--1);
+  color: var(--fg-strong);
+  /* A caret that looks like a cursor rather than a selection. */
+  caret-color: var(--accent);
+}
+
+.terminal__suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0 var(--space-s) var(--space-s);
+}
+
+.terminal__suggestion {
+  font-family: var(--font-code);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-wide);
+  color: var(--fg-muted);
+  border: var(--rule) var(--border-style) var(--border);
+  border-radius: var(--radius-pill);
+  background-color: var(--bg-raised);
+  padding: 0.25rem 0.6rem;
+}
+
+.terminal__suggestion:hover {
+  color: var(--fg-strong);
+  border-color: var(--accent);
+}
+
+.graph__failed {
+  padding: var(--space-s);
+  border: var(--rule) var(--border-style) var(--warn);
+  border-radius: var(--radius-md);
+  color: var(--warn);
+  font-size: var(--step--1);
+  background-color: var(--bg-inset);
+}
+
+/* A disabled island control has to look disabled, not just behave that way. */
+.graph__areas[disabled],
+.graph__reset[disabled],
+.terminal__suggestion[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.terminal__input::placeholder {
+  color: var(--fg-muted);
+}
+
+.terminal__input:disabled {
+  cursor: wait;
+}
+
+/* --------------------------------------------------------------- F1 game === */
+
+.game {
+  display: grid;
+  gap: var(--space-s);
+}
+
+.game__hud {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr));
+  gap: var(--space-s);
+  padding-block: var(--space-2xs);
+  border-block: var(--rule) var(--border-style) var(--border);
+}
+
+.game__stat {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.game__stat-label {
+  font-family: var(--font-code);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.game__stat-value {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  line-height: 1;
+  color: var(--fg-strong);
+}
+
+.game__delta--ahead {
+  color: var(--ok);
+}
+
+.game__delta--behind {
+  color: var(--err);
+}
+
+.game__stage {
+  position: relative;
+  height: clamp(20rem, 46vh, 30rem);
+  border: var(--rule) var(--border-style) var(--border);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-inset);
+  overflow: hidden;
+  touch-action: none;
+}
+
+.game__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.game__canvas:focus-visible {
+  outline: var(--rule-strong) var(--border-style) var(--accent);
+  outline-offset: -3px;
+}
+
+.game__splits {
+  position: absolute;
+  top: var(--space-2xs);
+  left: var(--space-2xs);
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  font-family: var(--font-code);
+  font-size: var(--step--2);
+  color: var(--fg-muted);
+  pointer-events: none;
+}
+
+.game__split {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+
+.game__split[data-active='true'] {
+  color: var(--fg-strong);
+}
+
+.game__split-label {
+  letter-spacing: var(--tracking-wide);
+}
+
+.game__split-best--faster {
+  color: var(--ok);
+}
+
+.game__overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: var(--space-2xs);
+  text-align: center;
+  padding: var(--space-s);
+  background-color: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(2px);
+}
+
+.game__overlay-title {
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  color: var(--fg-strong);
+  max-width: none;
+}
+
+.game__overlay-value {
+  font-family: var(--font-code);
+  font-size: var(--step-2);
+  color: var(--accent);
+}
+
+.game__overlay-hint {
+  font-size: var(--step--1);
+  color: var(--fg-muted);
+  max-width: 40ch;
+}
+
+.game__overlay-hint--dim {
+  color: var(--fg-muted);
+}
+
+.game__record {
+  font-family: var(--font-code);
+  font-size: var(--step--1);
+  letter-spacing: var(--tracking-wide);
+  color: var(--ok);
+}
+
+.game__summary {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 14rem;
+  margin-block: var(--space-2xs);
+  text-align: left;
+}
+
+.game__summary-title {
+  font-family: var(--font-code);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.game__summary-row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-s);
+  font-family: var(--font-code);
+  font-size: var(--step--1);
+  color: var(--fg-muted);
+  border-bottom: var(--rule) var(--border-style) var(--border);
+  padding-bottom: 0.15rem;
+}
+
+.game__flag {
+  position: absolute;
+  right: var(--space-2xs);
+  bottom: var(--space-2xs);
+  font-family: var(--font-code);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--warn);
+  background-color: color-mix(in srgb, var(--bg) 70%, transparent);
+  border-radius: var(--radius-pill);
+  padding: 0.2rem 0.6rem;
+  pointer-events: none;
+}
+
+.game__touch {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.6fr 1.6fr;
+  gap: var(--space-2xs);
+}
+
+/* The pads exist for touch, so on a device with a pointer they are noise. */
+@media (hover: hover) and (pointer: fine) {
+  .game__touch {
+    display: none;
+  }
+}
+
+.game__pad {
+  font-family: var(--font-code);
+  font-size: var(--step-0);
+  color: var(--fg-strong);
+  background-color: var(--bg-raised);
+  border: var(--rule) var(--border-style) var(--border-strong);
+  border-radius: var(--radius-md);
+  padding-block: var(--space-s);
+  touch-action: none;
+  user-select: none;
+}
+
+.game__pad:active {
+  background-color: var(--accent-soft);
+  border-color: var(--accent);
+}
+
+.game__help {
+  font-size: var(--step--2);
+  color: var(--fg-muted);
+  max-width: var(--measure);
+}
+
+.game__help-sep {
+  color: var(--border-strong);
+}
+
+/*
+ * The countdown is DOM rather than a canvas glyph: a number painted on a canvas is
+ * invisible to a screen reader, and it made "still counting down" indistinguishable
+ * from "the run has started" to anything but a human eye.
+ */
+.game__countdown {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 9vw, 5rem);
+  color: var(--fg-strong);
+  pointer-events: none;
+  text-shadow: 0 2px 24px var(--bg);
+}

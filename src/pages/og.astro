@@ -1,0 +1,189 @@
+---
+/**
+ * Social preview card.
+ *
+ * Not a real page: it exists so `scripts/make-og-image.mjs` can screenshot it at
+ * exactly 1200x630 with the site's real fonts, instead of hand-drawing a PNG or
+ * rasterising text through an SVG engine that lacks the project typefaces.
+ *
+ * Sizes are in pixels, not the fluid scale, because the output size is fixed.
+ */
+import '../styles/global.css';
+import { identity } from '../i18n/ui';
+
+const stats = [
+  { value: '9,9/10', label: 'TFG · GNN en variedades pseudo-riemannianas' },
+  { value: '8,59/10', label: 'Máster en Ciencia de Datos · UGR' },
+  { value: '90/105.000', label: 'Santander AI Experience @ IE' },
+];
+---
+
+<html lang="es" data-theme="atlas">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>OG card</title>
+  </head>
+  <body class="og">
+    <div class="og__grid" aria-hidden="true"></div>
+
+    <header class="og__head">
+      <span class="og__mark" aria-hidden="true"></span>
+      <span class="og__eyebrow">Matemáticas · Ingeniería · Ciencia de datos</span>
+    </header>
+
+    <div class="og__body">
+      <h1 class="og__name">{identity.name}</h1>
+      <p class="og__claim">Construyo modelos y sistemas que aguantan una auditoría.</p>
+      <p class="og__url">{identity.site.replace('https://', '')}</p>
+    </div>
+
+    <footer class="og__stats">
+      {
+        stats.map((stat) => (
+          <div class="og__stat">
+            <span class="og__stat-value tabular">{stat.value}</span>
+            <span class="og__stat-label">{stat.label}</span>
+          </div>
+        ))
+      }
+    </footer>
+  </body>
+</html>
+
+<style>
+  html,
+  body.og {
+    width: 1200px;
+    height: 630px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  body.og {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 64px 72px;
+    background-color: var(--bg);
+    color: var(--fg);
+  }
+
+  .og__grid {
+    position: absolute;
+    inset: 0;
+    opacity: 0.9;
+    background-image:
+      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 70% 80% at 20% 0%, #000 10%, transparent 75%);
+  }
+
+  .og__head {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .og__mark {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    background-color: var(--bg-inset);
+    flex: none;
+  }
+
+  .og__mark::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 9px;
+    width: 3px;
+    height: 24px;
+    transform: translateX(-50%);
+    background-color: var(--accent);
+  }
+
+  .og__mark::after {
+    content: "";
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    background-color: var(--accent-2);
+  }
+
+  .og__eyebrow {
+    font-family: var(--font-code);
+    font-size: 17px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+
+  .og__body {
+    position: relative;
+  }
+
+  .og__name {
+    font-family: var(--font-serif);
+    font-size: 118px;
+    line-height: 0.98;
+    letter-spacing: -0.032em;
+    font-weight: 500;
+    color: var(--fg-strong);
+    margin: 0 0 22px;
+  }
+
+  .og__claim {
+    font-family: var(--font-serif);
+    font-size: 34px;
+    line-height: 1.28;
+    color: var(--fg);
+    max-width: 880px;
+    margin: 0;
+  }
+
+  .og__url {
+    font-family: var(--font-code);
+    font-size: 20px;
+    color: var(--accent);
+    margin: 26px 0 0;
+  }
+
+  .og__stats {
+    position: relative;
+    display: flex;
+    gap: 56px;
+    padding-top: 26px;
+    border-top: 1px solid var(--border);
+  }
+
+  .og__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .og__stat-value {
+    font-family: var(--font-serif);
+    font-size: 32px;
+    color: var(--fg-strong);
+    line-height: 1;
+  }
+
+  .og__stat-label {
+    font-family: var(--font-code);
+    font-size: 14px;
+    color: var(--fg-muted);
+    letter-spacing: 0.02em;
+  }
+</style>

@@ -1,0 +1,180 @@
+---
+/**
+ * The playground: the two layers that live in their own section.
+ *
+ * An earlier version of this section was three cards promising a terminal, a graph
+ * and a game. Two of those now exist, so the promises were replaced by the things
+ * themselves plus a short index that also points at the graph over in `#skills`,
+ * where it belongs next to the skill list.
+ */
+import Terminal from './islands/Terminal';
+import F1Game from './islands/F1Game';
+import { useTranslations, type Locale } from '../i18n/ui';
+import '../styles/islands.css';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const index = [
+  { href: '#terminal', label: t.playground.terminal.title },
+  { href: '#skills', label: t.playground.graph.title },
+  { href: '#game', label: t.playground.game.title },
+];
+---
+
+<section id="playground" class="section section--gridded">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="eyebrow">{t.sections.playground.eyebrow}</p>
+      <h2>{t.sections.playground.title}</h2>
+      <p class="section-head__lead">{t.sections.playground.lead}</p>
+    </header>
+
+    <ul class="index" role="list">
+      {
+        index.map((item, position) => (
+          <li class="index__item">
+            <a href={item.href}>
+              <span class="index__num tabular" aria-hidden="true">
+                {String(position + 1).padStart(2, '0')}
+              </span>
+              <span class="index__label">{item.label}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <article class="layer" id="terminal">
+      <header class="layer__head">
+        <h3 class="layer__title">{t.playground.terminal.title}</h3>
+        <p class="layer__body">{t.playground.terminal.description}</p>
+      </header>
+      <Terminal
+        client:idle
+        locale={locale}
+        dataUrl={`/data/${locale}/terminal.json`}
+        labels={{
+          title: t.playground.terminal.title,
+          description: t.playground.terminal.description,
+          inputLabel: t.terminal.inputLabel,
+          cleared: t.terminal.cleared,
+          loading: t.terminal.loading,
+          failed: t.terminal.failed,
+        }}
+      />
+    </article>
+
+    <article class="layer" id="game">
+      <header class="layer__head">
+        <h3 class="layer__title">{t.playground.game.title}</h3>
+        <p class="layer__body">{t.playground.game.description}</p>
+      </header>
+      <F1Game
+        client:visible
+        labels={{
+          title: t.game.title,
+          start: t.game.start,
+          restart: t.game.restart,
+          pause: t.game.paused,
+          resume: t.game.resume,
+          paused: t.game.paused,
+          lap: t.game.lap,
+          best: t.game.best,
+          last: t.game.last,
+          sector: t.game.sector,
+          speed: t.game.speed,
+          offTrack: t.game.offTrack,
+          sliding: t.game.sliding,
+          record: t.game.record,
+          noRecord: t.game.noRecord,
+          summary: t.game.sectors,
+          sectors: t.game.sectors,
+          delta: t.game.delta,
+          controls: t.game.controls,
+          throttle: t.game.throttle,
+          brake: t.game.brake,
+          keyboard: t.game.keyboard,
+          touch: t.game.touch,
+          countingdown: t.game.paused,
+          finished: t.game.finished,
+          clearance: t.game.clearance,
+        }}
+      />
+    </article>
+  </div>
+</section>
+
+<style>
+  .index {
+    list-style: none;
+    margin: 0 0 var(--space-xl);
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: var(--space-s);
+    border-top: var(--rule) var(--border-style) var(--border);
+  }
+
+  .index__item a {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding-block: var(--space-s);
+    border-bottom: var(--rule) var(--border-style) var(--border);
+    text-decoration: none;
+  }
+
+  .index__num {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    color: var(--fg-muted);
+  }
+
+  .index__label {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    color: var(--fg-strong);
+  }
+
+  .index__item a:hover .index__label {
+    color: var(--accent);
+  }
+
+  .layer {
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  .layer + .layer {
+    margin-top: var(--space-2xl);
+  }
+
+  .layer__head {
+    display: grid;
+    gap: var(--space-3xs);
+    max-width: var(--measure-narrow);
+  }
+
+  .layer__title {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    color: var(--fg-strong);
+  }
+
+  .layer__body {
+    font-size: var(--step-0);
+    line-height: var(--leading-snug);
+    color: var(--fg-muted);
+  }
+
+  /* Scroll offset for the in-page anchors, since the nav is sticky. */
+  #terminal,
+  #game {
+    scroll-margin-top: 5rem;
+  }
+</style>

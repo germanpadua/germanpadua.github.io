@@ -1,0 +1,92 @@
+---
+/**
+ * Not found.
+ *
+ * GitHub Pages serves `dist/404.html` for any unknown path, so this is a real page
+ * rather than a redirect. It keeps the site's chrome and points at the three places a
+ * lost reader most likely wanted.
+ */
+import Base from '../layouts/Base.astro';
+import { useTranslations } from '../i18n/ui';
+
+const t = useTranslations('es');
+
+const navLinks = [
+  { href: '/#projects', label: t.nav.projects },
+  { href: '/#work', label: t.nav.work },
+  { href: '/#contact', label: t.nav.contact },
+];
+---
+
+<Base
+  locale="es"
+  title={`404 · ${t.notFound.title}`}
+  description={t.notFound.lead}
+  noindex={true}
+  navLinks={navLinks}
+>
+  <section class="missing section">
+    <div class="container">
+      <p class="eyebrow">404</p>
+      <h1 class="missing__title">{t.notFound.title}</h1>
+      <p class="missing__lead">{t.notFound.lead}</p>
+
+      <div class="cluster missing__actions">
+        <a class="btn btn--primary" href="/">{t.notFound.cta}</a>
+        <a class="btn" href="/proyectos/">{t.nav.projects}</a>
+      </div>
+
+      <p class="missing__terminal">
+        <code>help</code>
+        <span aria-hidden="true"> · </span>
+        <code>projects</code>
+        <span aria-hidden="true"> · </span>
+        <code>contact</code>
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .missing {
+    padding-block: clamp(4rem, 14vh, 9rem);
+    min-height: 60vh;
+    display: grid;
+    align-content: center;
+  }
+
+  .missing__title {
+    font-family: var(--font-display);
+    font-size: var(--step-5);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--fg-strong);
+    margin-top: var(--space-2xs);
+  }
+
+  .missing__lead {
+    font-size: var(--step-1);
+    line-height: var(--leading-snug);
+    color: var(--fg-muted);
+    max-width: 48ch;
+    margin-top: var(--space-2xs);
+  }
+
+  .missing__actions {
+    margin-top: var(--space-m);
+  }
+
+  .missing__terminal {
+    font-family: var(--font-code);
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+    margin-top: var(--space-l);
+  }
+
+  .missing__terminal code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--accent);
+  }
+</style>

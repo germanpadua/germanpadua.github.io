@@ -1,0 +1,55 @@
+/* ============================================================================
+   TINTA — the atlas after dark.
+   ----------------------------------------------------------------------------
+   Same editorial skeleton and the same serif, inverted for night reading. This
+   is what `prefers-color-scheme: dark` resolves to when no theme was chosen, so
+   a reader who never touches the switch still gets a deliberate palette.
+   ========================================================================== */
+
+[data-theme="tinta"] {
+  --bg: #0f1216;
+  --bg-raised: #161a20;
+  --bg-inset: #0a0d10;
+  --bg-hover: #1d232b;
+  --bg-overlay: rgba(4, 6, 9, 0.7);
+
+  --fg: #c3cbd6;
+  --fg-strong: #f2f5f8;
+  --fg-muted: #8b95a2;
+  --fg-faint: #626c79;
+  --fg-on-accent: #06090c;
+
+  --border: #232a33;
+  --border-strong: #35404d;
+
+  --accent: #4cc2e0;
+  --accent-2: #e0a24c;
+  --accent-3: #a98ef0;
+  --accent-soft: rgba(76, 194, 224, 0.12);
+
+  --ok: #4ade80;
+  --warn: #facc15;
+  --err: #f87171;
+  --info: #4cc2e0;
+
+  --shadow-sm: 0 1px 0 rgba(255, 255, 255, 0.03);
+  --shadow: 0 1px 0 rgba(255, 255, 255, 0.03), 0 18px 44px -28px #000000;
+  --glow: 0 0 0 1px rgba(76, 194, 224, 0.14);
+
+  --node-math: #a98ef0;
+  --node-cs: #4cc2e0;
+  --node-ds: #4ade80;
+  --node-tools: #e0a24c;
+  --node-lang: #f0709f;
+
+  --grid-line: rgba(255, 255, 255, 0.045);
+  --grid-size: 3.5rem;
+  --ornament-opacity: 1;
+
+  --font-display: var(--font-serif);
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-lg: 6px;
+
+  color-scheme: dark;
+}

@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches-ignore: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Check and build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Content schemas
+        run: pnpm run check
+
+      - name: Build
+        run: pnpm build
+
+      - name: Assert the document shell ships no external JavaScript
+        run: node scripts/assert-shell-payload.mjs
+
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Theme behaviour
+        run: pnpm run test:e2e
+
+      - name: Layout and content across viewports
+        run: pnpm run test:layout
+
+      - name: Island behaviour
+        run: pnpm run test:islands
+
+      - name: Game model
+        run: pnpm run test:model
+
+      - name: Accessibility, structure and keyboard
+        run: pnpm run test:a11y

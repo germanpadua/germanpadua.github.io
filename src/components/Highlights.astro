@@ -1,0 +1,249 @@
+---
+import { getHighlights } from '../lib/content';
+import { useTranslations, type Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const entries = await getHighlights(locale);
+---
+
+<section id="highlights" class="section">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="eyebrow">{t.sections.highlights.eyebrow}</p>
+      <h2>{t.sections.highlights.title}</h2>
+      <p class="section-head__lead">{t.sections.highlights.lead}</p>
+    </header>
+
+    <ul class="highlights" role="list">
+      {
+        entries.map((entry) => {
+          const { data } = entry;
+          const soft = data.headline && data.headline.basis !== 'artifact' && data.headline.basis !== 'record';
+          return (
+            <li class="highlight card reveal">
+              <div class="highlight__top">
+                <span class="highlight__kind">{t.highlightsExtra.kinds[data.kind]}</span>
+                <span class="highlight__period">{data.period}</span>
+              </div>
+
+              {data.headline && (
+                <p class:list={['highlight__headline', { 'highlight__headline--soft': soft }]}>
+                  <span class="highlight__value tabular">{data.headline.value}</span>
+                  <span class="highlight__caption">{data.headline.label}</span>
+                </p>
+              )}
+
+              <h3 class="highlight__title">{data.title}</h3>
+              <p class="highlight__issuer">{data.issuer}</p>
+              <p class="highlight__summary">{data.summary}</p>
+
+              {data.contribution && (
+                <p class="highlight__contribution">
+                  <strong>{t.projects.contribution}:</strong> {data.contribution}
+                </p>
+              )}
+
+              {data.limits.length > 0 && (
+                <details class="highlight__limits">
+                  <summary>{t.projects.limits}</summary>
+                  <ul role="list">
+                    {data.limits.map((limit) => (
+                      <li>{limit}</li>
+                    ))}
+                  </ul>
+                </details>
+              )}
+
+              {data.links.url && (
+                <p class="highlight__link">
+                  <a href={data.links.url} rel="noopener noreferrer" target="_blank">
+                    {data.links.label ?? data.links.url}
+                  </a>
+                </p>
+              )}
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .highlights {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: var(--space-s);
+  }
+
+  .highlight {
+    display: grid;
+    align-content: start;
+    gap: var(--space-2xs);
+    padding: var(--space-m);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .highlight::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: var(--rule-strong);
+    background-color: var(--accent);
+  }
+
+  .highlight:nth-child(2)::before {
+    background-color: var(--accent-2);
+  }
+
+  .highlight:nth-child(3)::before {
+    background-color: var(--accent-3);
+  }
+
+  .highlight__top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2xs);
+  }
+
+  .highlight__kind {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+
+  .highlight__period {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-wide);
+    color: var(--fg-muted);
+    white-space: nowrap;
+  }
+
+  .highlight__headline {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-top: var(--space-3xs);
+  }
+
+  .highlight__value {
+    font-family: var(--font-display);
+    font-size: var(--step-4);
+    line-height: 0.95;
+    color: var(--accent);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .highlight__headline--soft .highlight__value {
+    color: var(--warn);
+  }
+
+  .highlight__caption {
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+    max-width: 18ch;
+  }
+
+  .highlight__title {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    color: var(--fg-strong);
+    margin-top: var(--space-2xs);
+  }
+
+  .highlight__issuer {
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+  }
+
+  .highlight__summary {
+    font-size: var(--step-0);
+    line-height: var(--leading-snug);
+    color: var(--fg);
+  }
+
+  .highlight__contribution {
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+    border-left: var(--rule-strong) var(--border-style) var(--border);
+    padding-left: var(--space-2xs);
+  }
+
+  .highlight__contribution strong {
+    color: var(--fg);
+  }
+
+  .highlight__limits {
+    margin-top: var(--space-2xs);
+  }
+
+  .highlight__limits summary {
+    font-family: var(--font-code);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-wide);
+    color: var(--fg-muted);
+    cursor: pointer;
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .highlight__limits summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .highlight__limits summary::before {
+    content: "+";
+    color: var(--accent);
+  }
+
+  .highlight__limits[open] summary::before {
+    content: "−";
+  }
+
+  .highlight__limits ul {
+    list-style: none;
+    margin: var(--space-2xs) 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .highlight__limits li {
+    position: relative;
+    padding-left: 1rem;
+    font-size: var(--step--2);
+    line-height: var(--leading-normal);
+    color: var(--fg-muted);
+  }
+
+  .highlight__limits li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 0.4rem;
+    height: var(--rule);
+    background-color: var(--border-strong);
+  }
+
+  .highlight__link {
+    margin-top: var(--space-2xs);
+    font-size: var(--step--1);
+  }
+</style>

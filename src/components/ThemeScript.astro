@@ -1,0 +1,101 @@
+---
+/**
+ * Theme bootstrap and switch wiring.
+ *
+ * The only script the document shell is allowed to ship, and it must be inline
+ * and synchronous: it has to set `data-theme` before first paint, or the reader
+ * sees the fallback palette flash and then invert.
+ *
+ * Every comment lives here rather than inside the script on purpose. An
+ * `is:inline` script is not minified or tree-shaken, so a comment inside it would
+ * be downloaded by every visitor on every page for no runtime benefit. Keeping
+ * the rationale in the frontmatter costs nothing at the edge, and the payload
+ * guard measures the difference.
+ *
+ * Behaviour:
+ *   - reads the stored theme from localStorage, tolerating blocked storage
+ *   - resolves `prefers-color-scheme` when nothing is stored: Atlas by default,
+ *     Tinta when the operating system asks for a dark surface. Forcing a light
+ *     paper theme on a dark-mode reader is hostile, not a design statement
+ *   - keeps `meta[theme-color]` in step with the resolved theme, reading the
+ *     value from the matching radio's `data-swatch`
+ *   - keeps the radio control truthful whenever the theme changes from any
+ *     source, not only from a click on the control
+ *   - follows system changes while the reader has expressed no preference
+ *
+ * Budget: see the inline allowance in scripts/assert-shell-payload.mjs.
+ */
+---
+
+<script is:inline>
+  (function () {
+    var KEY = 'gp.theme';
+    var THEMES = ['atlas', 'tinta', 'phosphor', 'nebula'];
+    var DEFAULT_THEME = 'atlas';
+    var DARK_THEME = 'tinta';
+    var root = document.documentElement;
+    var query = window.matchMedia('(prefers-color-scheme: dark)');
+
+    function readStored() {
+      try {
+        return localStorage.getItem(KEY);
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function remember(value) {
+      try {
+        localStorage.setItem(KEY, value);
+      } catch (error) {
+        return;
+      }
+    }
+
+    var stored = readStored();
+
+    function systemTheme() {
+      return query.matches ? DARK_THEME : DEFAULT_THEME;
+    }
+
+    function apply(name, persist) {
+      var theme = THEMES.indexOf(name) > -1 ? name : systemTheme();
+      root.setAttribute('data-theme', theme);
+      var meta = document.querySelector('meta[name="theme-color"]');
+      var input = document.querySelector('[data-theme-switch] input[value="' + theme + '"]');
+      if (meta && input && input.dataset.swatch) meta.setAttribute('content', input.dataset.swatch);
+      if (input) input.checked = true;
+      if (persist) remember(theme);
+      return theme;
+    }
+
+    apply(stored, false);
+
+    query.addEventListener('change', function () {
+      if (!stored) apply(null, false);
+    });
+
+    function wire() {
+      var group = document.querySelector('[data-theme-switch]');
+      if (!group) return;
+      apply(root.getAttribute('data-theme'), false);
+
+      group.addEventListener('change', function (event) {
+        var target = event.target;
+        if (!target || target.name !== 'theme') return;
+        stored = target.value;
+        apply(target.value, true);
+        root.classList.add('is-theme-switching');
+        window.setTimeout(function () {
+          root.classList.remove('is-theme-switching');
+        }, 260);
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', wire);
+    } else {
+      wire();
+    }
+  })();
+</script>
