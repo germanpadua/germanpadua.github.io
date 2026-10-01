@@ -2,12 +2,28 @@
 /**
  * Theme bootstrap and switch wiring.
  *
- * This is the only script the document shell is allowed to ship, and it must be
- * inline and synchronous: it has to set `data-theme` before first paint, or the
- * reader sees the fallback palette flash and then invert.
+ * The only script the document shell is allowed to ship, and it must be inline
+ * and synchronous: it has to set `data-theme` before first paint, or the reader
+ * sees the fallback palette flash and then invert.
  *
- * Kept deliberately small — scripts/assert-shell-payload.mjs caps inline script
- * at 2 KB per route.
+ * Every comment lives here rather than inside the script on purpose. An
+ * `is:inline` script is not minified or tree-shaken, so a comment inside it would
+ * be downloaded by every visitor on every page for no runtime benefit. Keeping
+ * the rationale in the frontmatter costs nothing at the edge, and the payload
+ * guard measures the difference.
+ *
+ * Behaviour:
+ *   - reads the stored theme from localStorage, tolerating blocked storage
+ *   - resolves `prefers-color-scheme` when nothing is stored: Atlas by default,
+ *     Tinta when the operating system asks for a dark surface. Forcing a light
+ *     paper theme on a dark-mode reader is hostile, not a design statement
+ *   - keeps `meta[theme-color]` in step with the resolved theme, reading the
+ *     value from the matching radio's `data-swatch`
+ *   - keeps the radio control truthful whenever the theme changes from any
+ *     source, not only from a click on the control
+ *   - follows system changes while the reader has expressed no preference
+ *
+ * Budget: see the inline allowance in scripts/assert-shell-payload.mjs.
  */
 ---
 
@@ -15,17 +31,31 @@
   (function () {
     var KEY = 'gp.theme';
     var THEMES = ['atlas', 'tinta', 'phosphor', 'nebula'];
+    var DEFAULT_THEME = 'atlas';
+    var DARK_THEME = 'tinta';
     var root = document.documentElement;
     var query = window.matchMedia('(prefers-color-scheme: dark)');
-    var stored = null;
-    try {
-      stored = localStorage.getItem(KEY);
-    } catch (error) {
-      /* storage can be blocked; the system preference still decides. */
+
+    function readStored() {
+      try {
+        return localStorage.getItem(KEY);
+      } catch (error) {
+        return null;
+      }
     }
 
+    function remember(value) {
+      try {
+        localStorage.setItem(KEY, value);
+      } catch (error) {
+        return;
+      }
+    }
+
+    var stored = readStored();
+
     function systemTheme() {
-      return query.matches ? 'tinta' : 'atlas';
+      return query.matches ? DARK_THEME : DEFAULT_THEME;
     }
 
     function apply(name, persist) {
@@ -34,22 +64,13 @@
       var meta = document.querySelector('meta[name="theme-color"]');
       var input = document.querySelector('[data-theme-switch] input[value="' + theme + '"]');
       if (meta && input && input.dataset.swatch) meta.setAttribute('content', input.dataset.swatch);
-      // Keep the control truthful whenever the theme changes from any source,
-      // not only from a click on the control itself.
       if (input) input.checked = true;
-      if (persist) {
-        try {
-          localStorage.setItem(KEY, theme);
-        } catch (error) {
-          /* ignore */
-        }
-      }
+      if (persist) remember(theme);
       return theme;
     }
 
     apply(stored, false);
 
-    // Follow the operating system only while the reader has not picked a theme.
     query.addEventListener('change', function () {
       if (!stored) apply(null, false);
     });
@@ -57,7 +78,6 @@
     function wire() {
       var group = document.querySelector('[data-theme-switch]');
       if (!group) return;
-      // Re-apply the resolved theme so the control reflects it, then listen.
       apply(root.getAttribute('data-theme'), false);
 
       group.addEventListener('change', function (event) {

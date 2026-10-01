@@ -38,5 +38,11 @@ jobs:
       - name: Build
         run: pnpm build
 
-      - name: Assert the document shell ships no JavaScript
+      - name: Assert the document shell ships no external JavaScript
         run: node scripts/assert-shell-payload.mjs
+
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Theme behaviour
+        run: pnpm run test:e2e

@@ -82,6 +82,8 @@ const themes = [
   }
 
   .theme-switch__option {
+    /* Anchors the stretched input below. */
+    position: relative;
     display: flex;
     align-items: center;
     gap: 0.4rem;
@@ -95,13 +97,24 @@ const themes = [
     background-color: var(--bg-hover);
   }
 
-  /* The input stays in the accessibility tree; the swatch is its visual proxy. */
+  /*
+   * The input is stretched over the whole option instead of being parked in a
+   * 1px box. The visible swatch and label become the hit target, the radio keeps
+   * its native keyboard behaviour and its place in the accessibility tree, and
+   * the clickable area stops depending on where a 1px dot happened to land.
+   *
+   * Found by scripts/verify-theme.mjs: a synthesised click on the 1px input was
+   * intercepted by the swatch, which is exactly the fragility this removes.
+   */
   .theme-switch__input {
     position: absolute;
-    width: 1px;
-    height: 1px;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
     opacity: 0;
-    pointer-events: none;
+    cursor: pointer;
+    appearance: none;
   }
 
   .theme-switch__option:has(.theme-switch__input:checked) {
