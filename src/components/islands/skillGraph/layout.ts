@@ -186,6 +186,43 @@ export function step(
     node.x = Math.max(margin, Math.min(width - margin, node.x));
     node.y = Math.max(margin, Math.min(height - margin, node.y));
   }
+
+  /*
+   * Hard separation, as a final pass.
+   *
+   * The forces above are soft: nothing guarantees that two nodes end up apart, and in
+   * practice two pairs were landing on top of each other, which made them look like one
+   * node and made one of the pair impossible to click. This costs another O(n^2) sweep
+   * and removes the possibility entirely; the clamp afterwards means the very edge of
+   * the canvas may still be slightly tight, and the next step resolves it.
+   */
+  for (let i = 0; i < nodes.length; i += 1) {
+    const a = nodes[i];
+    /* c8 ignore next */
+    if (!a) continue;
+    for (let j = i + 1; j < nodes.length; j += 1) {
+      const b = nodes[j];
+      /* c8 ignore next */
+      if (!b) continue;
+      const dx = b.x - a.x;
+      const dy = b.y - a.y;
+      const distance = Math.hypot(dx, dy) || 0.01;
+      const minimum = radiusFor(a.weight) + radiusFor(b.weight) + 3;
+      if (distance >= minimum) continue;
+      const push = (minimum - distance) / 2;
+      const ux = dx / distance;
+      const uy = dy / distance;
+      a.x -= ux * push;
+      a.y -= uy * push;
+      b.x += ux * push;
+      b.y += uy * push;
+    }
+  }
+
+  for (const node of nodes) {
+    node.x = Math.max(margin, Math.min(width - margin, node.x));
+    node.y = Math.max(margin, Math.min(height - margin, node.y));
+  }
 }
 
 /** Which node is under a point, or null. Used for hover and drag. */
@@ -193,7 +230,7 @@ export function nodeAt(nodes: readonly SimNode[], x: number, y: number, pad = 6)
   let best: SimNode | null = null;
   let bestDistance = Infinity;
   for (const node of nodes) {
-    const radius = 4 + node.weight * 9 + pad;
+    const radius = radiusFor(node.weight) + pad;
     const distance = Math.hypot(node.x - x, node.y - y);
     if (distance <= radius && distance < bestDistance) {
       best = node;
@@ -201,6 +238,25 @@ export function nodeAt(nodes: readonly SimNode[], x: number, y: number, pad = 6)
     }
   }
   return best;
+}
+
+/**
+ * Smallest gap between any two node edges. Used by the verification to assert that no
+ * pair overlaps, which is not something a force layout guarantees on its own.
+ */
+export function minimumGap(nodes: readonly SimNode[]): number {
+  let smallest = Infinity;
+  for (let i = 0; i < nodes.length; i += 1) {
+    const a = nodes[i];
+    if (!a) continue;
+    for (let j = i + 1; j < nodes.length; j += 1) {
+      const b = nodes[j];
+      if (!b) continue;
+      const gap = Math.hypot(b.x - a.x, b.y - a.y) - radiusFor(a.weight) - radiusFor(b.weight);
+      smallest = Math.min(smallest, gap);
+    }
+  }
+  return smallest;
 }
 
 export function radiusFor(weight: number): number {

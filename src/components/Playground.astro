@@ -8,6 +8,7 @@
  * where it belongs next to the skill list.
  */
 import Terminal from './islands/Terminal';
+import F1Game from './islands/F1Game';
 import { useTranslations, type Locale } from '../i18n/ui';
 import '../styles/islands.css';
 
@@ -69,7 +70,43 @@ const index = [
       />
     </article>
 
-    <div id="game" class="layer-anchor"></div>
+    <article class="layer" id="game">
+      <header class="layer__head">
+        <h3 class="layer__title">{t.playground.game.title}</h3>
+        <p class="layer__body">{t.playground.game.description}</p>
+      </header>
+      <F1Game
+        client:visible
+        labels={{
+          title: t.game.title,
+          start: t.game.start,
+          restart: t.game.restart,
+          pause: t.game.paused,
+          resume: t.game.resume,
+          paused: t.game.paused,
+          lap: t.game.lap,
+          best: t.game.best,
+          last: t.game.last,
+          sector: t.game.sector,
+          speed: t.game.speed,
+          offTrack: t.game.offTrack,
+          sliding: t.game.sliding,
+          record: t.game.record,
+          noRecord: t.game.noRecord,
+          summary: t.game.sectors,
+          sectors: t.game.sectors,
+          delta: t.game.delta,
+          controls: t.game.controls,
+          throttle: t.game.throttle,
+          brake: t.game.brake,
+          keyboard: t.game.keyboard,
+          touch: t.game.touch,
+          countingdown: t.game.paused,
+          finished: t.game.finished,
+          clearance: t.game.clearance,
+        }}
+      />
+    </article>
   </div>
 </section>
 
@@ -114,8 +151,7 @@ const index = [
     gap: var(--space-s);
   }
 
-  .layer + .layer,
-  .layer-anchor + .layer {
+  .layer + .layer {
     margin-top: var(--space-2xl);
   }
 

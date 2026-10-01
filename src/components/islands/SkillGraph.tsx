@@ -5,14 +5,24 @@
  * page, so a reader without JavaScript, a crawler, or someone using a screen reader
  * loses the interaction and not the information.
  *
- * The graph data is fetched from an endpoint rather than passed as props. Astro
- * serialises island props into the HTML, and the node and edge data alone added 28 KB
- * of attributes to the home page — paid by every reader, including the ones who never
- * scroll this far. As a fetch it is cacheable and only happens when the island
- * actually loads.
+ * The graph data is fetched from an endpoint rather than passed as props, because
+ * Astro serialises island props into the HTML: the node and edge data alone added
+ * 28 KB of attributes to the home page, paid by every reader including the ones who
+ * never scroll this far.
  *
- * Colours come from the theme tokens and are re-read when `data-theme` changes, so the
- * graph is themed like everything else instead of keeping its own palette.
+ * Three things this component is deliberate about:
+ *
+ *   1. The simulation runs when the data arrives, when the canvas is resized, or when
+ *      the reader asks for it — and at no other time. An earlier version had the draw
+ *      function in the effect's dependencies, and since drawing depends on the hovered
+ *      node, every pointer move restarted a 320-step layout. The positions were stable
+ *      because the layout is deterministic, so nothing looked wrong; it was simply the
+ *      whole graph being recomputed sixty times a second for a highlight.
+ *   2. Filtering hides nodes, it does not rearrange them. Hiding an area used to change
+ *      the node set, which changed the layout, which moved every remaining node. A
+ *      filter should narrow what you see, not shuffle it.
+ *   3. Colours are read from the theme tokens and re-read when `data-theme` changes, so
+ *      the graph is themed like everything else instead of keeping its own palette.
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import {
@@ -42,6 +52,7 @@ interface Props {
   labels: {
     areas: string;
     reset: string;
+    showAll: string;
     hint: string;
     usedIn: string;
     empty: string;
@@ -59,6 +70,9 @@ const EDGE_ALPHA: Record<GraphEdge['kind'], number> = {
   pairs: 0.22,
 };
 
+/** Only the heaviest nodes are labelled by default; the rest appear on focus. */
+const LABEL_THRESHOLD = 0.9;
+
 const tokenName = (area: string) => `--node-${area}`;
 
 export default function SkillGraph({ dataUrl, labels }: Props) {
@@ -70,6 +84,8 @@ export default function SkillGraph({ dataUrl, labels }: Props) {
 
   const [data, setData] = useState<GraphData | null>(null);
   const [failed, setFailed] = useState(false);
+  const [size, setSize] = useState({ width: 900, height: 520 });
+  const [seed, setSeed] = useState(0x5eed);
   const [hidden, setHidden] = useState<Set<string>>(new Set());
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
@@ -98,27 +114,24 @@ export default function SkillGraph({ dataUrl, labels }: Props) {
   const areas = data?.areas ?? [];
 
   const nodeById = useMemo(() => new Map(nodes.map((node) => [node.id, node])), [nodes]);
-  const visible = useMemo(() => nodes.filter((node) => !hidden.has(node.area)), [nodes, hidden]);
   const selected = selectedId ? nodeById.get(selectedId) ?? null : null;
 
   /** Read the theme's palette so the graph is themed, not hard-coded. */
   const palette = useCallback(() => {
     const styles = getComputedStyle(document.documentElement);
-    const read = (name: string, fallback: string) => {
-      const value = styles.getPropertyValue(name).trim();
-      return value.length > 0 ? value : fallback;
-    };
+    const read = (name: string, fallback: string) => styles.getPropertyValue(name).trim() || fallback;
     return {
       fg: read('--fg-strong', '#111111'),
       muted: read('--fg-faint', '#888888'),
       border: read('--border', '#dddddd'),
       areas: Object.fromEntries(areas.map((area) => [area.id, read(tokenName(area.id), '#888888')])),
+      byId: areas.map((area) => area.id),
     };
   }, [areas]);
 
   const draw = useCallback(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || simRef.current.length === 0) return;
     const context = canvas.getContext('2d');
     if (!context) return;
 
@@ -134,7 +147,7 @@ export default function SkillGraph({ dataUrl, labels }: Props) {
     const colors = palette();
     const active = hoveredId ?? selectedId;
     const activeNode = active ? simRef.current.find((node) => node.id === active) : undefined;
-    const shown = new Set(visible.map((node) => node.id));
+    const shown = new Set(simRef.current.filter((node) => !hidden.has(node.area)).map((node) => node.id));
     const positions = new Map(simRef.current.map((node) => [node.id, node]));
 
     context.lineWidth = 1;
@@ -178,9 +191,7 @@ export default function SkillGraph({ dataUrl, labels }: Props) {
         context.stroke();
       }
 
-      // Only label the nodes that carry weight, or the ones in focus: labelling
-      // everything turns the graph into unreadable noise at this density.
-      const label = isActive || connected || (!activeNode && node.weight >= 0.85);
+      const label = isActive || connected || (!activeNode && node.weight >= LABEL_THRESHOLD);
       if (label) {
         context.globalAlpha = dim ? 0.3 : 1;
         context.fillStyle = colors.fg;
@@ -191,35 +202,51 @@ export default function SkillGraph({ dataUrl, labels }: Props) {
       }
     }
     context.globalAlpha = 1;
-  }, [edges, hoveredId, palette, selectedId, visible]);
+  }, [edges, hidden, hoveredId, palette, selectedId]);
 
-  // Size tracking. The canvas is sized by CSS and the backing store by DPR.
+  /*
+   * The draw function changes whenever the hover or selection changes, so it must not
+   * appear in the simulation effect's dependencies. This indirection is the whole
+   * difference between one repaint per pointer move and a full layout per pointer move.
+   */
+  const drawRef = useRef(draw);
+  useEffect(() => {
+    drawRef.current = draw;
+    draw();
+  }, [draw]);
+
+  /* ---------------------------------------------------------- sizing and layout */
+
   useEffect(() => {
     const wrap = wrapRef.current;
     if (!wrap) return;
     const measure = () => {
       const rect = wrap.getBoundingClientRect();
-      // A hidden or not-yet-laid-out container reports zero; fall back to something
-      // sane rather than collapsing the whole layout to a 320px square.
-      sizeRef.current = {
+      const next = {
         width: rect.width > 40 ? rect.width : 900,
         height: rect.height > 40 ? rect.height : 520,
       };
-      draw();
+      sizeRef.current = next;
+      setSize((current) =>
+        Math.abs(current.width - next.width) < 1 && Math.abs(current.height - next.height) < 1 ? current : next,
+      );
     };
     measure();
     const observer = new ResizeObserver(measure);
     observer.observe(wrap);
     return () => observer.disconnect();
-  }, [draw]);
+  }, []);
 
-  // Settle whenever the visible set changes, then stop. A graph that keeps moving is
-  // a graph you cannot click.
+  /*
+   * The only things that re-run the simulation: new data, a resize, or an explicit
+   * request. Filtering is deliberately absent.
+   */
   useEffect(() => {
     if (nodes.length === 0) return;
     const { width, height } = sizeRef.current;
-    simRef.current = initialNodes(visible, { width, height });
+    simRef.current = initialNodes(nodes, { width, height }, seed);
     setSettled(false);
+
     let frame = 0;
     let handle = 0;
     const total = 320;
@@ -228,24 +255,22 @@ export default function SkillGraph({ dataUrl, labels }: Props) {
         step(simRef.current, edges, { width, height });
         frame += 1;
       }
-      draw();
+      drawRef.current();
       if (frame < total) handle = requestAnimationFrame(tick);
       else setSettled(true);
     };
     handle = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(handle);
-  }, [draw, edges, nodes.length, visible]);
+  }, [nodes, edges, size.width, size.height, seed]);
 
   // The theme can change under us; the palette is read from the document.
   useEffect(() => {
-    const observer = new MutationObserver(() => draw());
+    const observer = new MutationObserver(() => drawRef.current());
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     return () => observer.disconnect();
-  }, [draw]);
+  }, []);
 
-  useEffect(() => {
-    draw();
-  }, [draw, settled]);
+  /* --------------------------------------------------------------- interaction */
 
   const pointer = (event: PointerEvent) => {
     const canvas = canvasRef.current;
@@ -254,6 +279,7 @@ export default function SkillGraph({ dataUrl, labels }: Props) {
     return { x: event.clientX - rect.left, y: event.clientY - rect.top };
   };
 
+  /** Only nodes that are currently visible can be hit, which matches what is drawn. */
   const interactable = () => simRef.current.filter((node) => !hidden.has(node.area));
 
   const onPointerMove = (event: PointerEvent) => {
@@ -265,7 +291,7 @@ export default function SkillGraph({ dataUrl, labels }: Props) {
         node.y = y;
         node.vx = 0;
         node.vy = 0;
-        draw();
+        drawRef.current();
       }
       return;
     }
@@ -277,12 +303,26 @@ export default function SkillGraph({ dataUrl, labels }: Props) {
   const onPointerDown = (event: PointerEvent) => {
     const { x, y } = pointer(event);
     const hit = nodeAt(interactable(), x, y);
-    if (hit) {
-      dragRef.current = { id: hit.id };
-      setSelectedId(hit.id);
-    } else {
+    if (!hit) {
       setSelectedId(null);
+      return;
     }
+    setSelectedId(hit.id);
+    /*
+     * A touch selects, it does not drag. The canvas allows vertical panning so the page
+     * can still be scrolled with a finger, and a drag that fights that leaves the reader
+     * stuck inside the graph.
+     */
+    if (event.pointerType !== 'touch') dragRef.current = { id: hit.id };
+  };
+
+  const filtersActive = hidden.size > 0;
+  const onButton = () => {
+    if (filtersActive) {
+      setHidden(new Set());
+      return;
+    }
+    setSeed((current) => (current * 1103515245 + 12345) >>> 0);
   };
 
   const toggleArea = (id: string) => {
@@ -295,13 +335,9 @@ export default function SkillGraph({ dataUrl, labels }: Props) {
     setSelectedId(null);
   };
 
-  const announce = selected
-    ? `${labels.selected}: ${selected.label}, ${selected.note}`
-    : `${labels.hint}`;
+  const announce = selected ? `${labels.selected}: ${selected.label}, ${selected.note}` : labels.hint;
 
-  if (failed) {
-    return <p class="graph__failed">{labels.failed}</p>;
-  }
+  if (failed) return <p class="graph__failed">{labels.failed}</p>;
 
   return (
     <div class="graph">
@@ -321,8 +357,12 @@ export default function SkillGraph({ dataUrl, labels }: Props) {
             </label>
           ))}
         </fieldset>
-        <button type="button" class="graph__reset" onClick={() => setHidden(new Set())} disabled={!data}>
-          {labels.reset}
+        {/*
+          One control, and its label always says what pressing it will do. It used to be
+          labelled "re-layout" while it actually cleared the filters.
+        */}
+        <button type="button" class="graph__reset" onClick={onButton} disabled={!data || settled === false}>
+          {filtersActive ? labels.showAll : labels.reset}
         </button>
       </div>
 
@@ -343,7 +383,7 @@ export default function SkillGraph({ dataUrl, labels }: Props) {
           }}
         />
         {!data && !failed && <p class="graph__empty">{labels.loading}</p>}
-        {data && visible.length === 0 && <p class="graph__empty">{labels.empty}</p>}
+        {data && interactable().length === 0 && <p class="graph__empty">{labels.empty}</p>}
         <p class="sr-only" role="status" aria-live="polite">
           {announce}
         </p>

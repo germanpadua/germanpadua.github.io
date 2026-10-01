@@ -40,16 +40,18 @@ const ROUTE_BUDGETS = [
   {
     pattern: /^\/$/,
     inlineMax: 9200,
-    totalMax: 60000,
-    scripts: ['_astro/SkillGraph.', '_astro/Terminal.', '_astro/client.'],
-    reason: 'home (es): shell plus the skill graph and terminal islands',
+    // Three islands measured at 68,030 bytes; the ceiling sits just above so the next
+    // addition fails here instead of being noticed by a reader on a slow connection.
+    totalMax: 72000,
+    scripts: ['_astro/SkillGraph.', '_astro/Terminal.', '_astro/F1Game.', '_astro/client.'],
+    reason: 'home (es): shell plus the skill graph, terminal and racing game islands',
   },
   {
     pattern: /^\/en\/$/,
     inlineMax: 9200,
-    totalMax: 60000,
-    scripts: ['_astro/SkillGraph.', '_astro/Terminal.', '_astro/client.'],
-    reason: 'home (en): shell plus the skill graph and terminal islands',
+    totalMax: 72000,
+    scripts: ['_astro/SkillGraph.', '_astro/Terminal.', '_astro/F1Game.', '_astro/client.'],
+    reason: 'home (en): shell plus the skill graph, terminal and racing game islands',
   },
   {
     pattern: /^\/lab\/$/,

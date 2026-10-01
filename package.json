@@ -14,7 +14,8 @@
     "og-image": "node scripts/make-og-image.mjs",
     "test:e2e": "node scripts/verify-theme.mjs",
     "test:layout": "node scripts/verify-layout.mjs",
-    "test:islands": "node scripts/verify-islands.mjs"
+    "test:islands": "node scripts/verify-islands.mjs",
+    "test:model": "node --experimental-strip-types scripts/verify-game-model.mjs"
   },
   "dependencies": {
     "@astrojs/preact": "^6.0.5",
