@@ -30,7 +30,6 @@ interface Props {
     title: string;
     description: string;
     inputLabel: string;
-    share: string;
     cleared: string;
     loading: string;
     failed: string;
@@ -278,9 +277,6 @@ export default function Terminal({ locale, dataUrl, labels }: Props) {
             onInput={(event) => setValue((event.currentTarget as HTMLInputElement).value)}
             onKeyDown={onKeyDown}
           />
-          <button class="sr-only" type="submit">
-            {labels.share}
-          </button>
         </form>
       </div>
 

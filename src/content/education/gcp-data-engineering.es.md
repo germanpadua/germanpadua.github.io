@@ -14,7 +14,7 @@ highlights:
   - "Coste como restricción de diseño, que es algo que en un entorno académico no se enseña y en la nube se aprende rápido."
 ---
 
-## Qué aprendí
+### Qué aprendí
 
 La ingeniería de datos en la nube es un ejercicio de restricciones, y la que más cambia las decisiones es el coste.
 
@@ -22,7 +22,7 @@ En local, procesar un terabyte es cuestión de dejarlo corriendo. En la nube es 
 
 Es una lección que arrastro a todo lo demás. Cuando diseñé la pasarela de inferencia, el presupuesto de memoria era de cuatro gigabytes para dos servicios y eso definió la arquitectura. Cuando diseñé el detector de telemetría, el presupuesto de falsas alarmas definió el umbral.
 
-## Dónde lo apliqué
+### Dónde lo apliqué
 
 En el pipeline de la exportación de datos de mi trabajo de fin de máster, que descarga, corregistra y procesa imágenes satelitales y datos meteorológicos de forma incremental en lugar de desde cero cada vez.
 

@@ -15,7 +15,7 @@ highlights:
   - "Daily use at work: documentation, professional email, meetings with distributed teams and technical writing."
 ---
 
-## What it is useful for in practice
+### What it is useful for in practice
 
 Two concrete things.
 
@@ -23,7 +23,7 @@ The first, reading. Good technical documentation is in English and so are most o
 
 The second, writing. Documenting a model, drafting an audit report or explaining an architecture decision in English forces a mental order that later carries over to work in any language. If you cannot write it clearly, you probably have not understood it.
 
-## Context
+### Context
 
 It sits in the education section and not in achievements because that is what it is: a certified competence, not an accomplishment. C2 does not make me special, it makes me able to work without the language being a barrier.
 

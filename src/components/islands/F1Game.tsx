@@ -197,7 +197,7 @@ export default function F1Game({ labels }: Props) {
       track: read('--bg-raised', '#ffffff'),
       edge: read('--border-strong', '#cccccc'),
       kerb: read('--accent-2', '#cc8800'),
-      line: read('--fg-faint', '#888888'),
+      line: read('--fg-muted', '#888888'),
       car: read('--accent', '#0088cc'),
       carAlt: read('--fg-strong', '#111111'),
       skid: read('--fg-faint', '#999999'),

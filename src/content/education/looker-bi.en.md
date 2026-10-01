@@ -14,7 +14,7 @@ highlights:
   - "The most useful lesson was a negative one: most of the dashboards that get built are never opened by anyone."
 ---
 
-## What these tools actually teach
+### What these tools actually teach
 
 That the problem of business analytics is not computing metrics, it is **agreeing on what they mean**.
 
@@ -22,7 +22,7 @@ When two departments use the same word for two different numbers, the prettiest 
 
 It is an organisational problem disguised as a technical one, and it has served me better than I expected. In credit risk, for instance, arguing about the definition of "default" before calibrating anything is half the project.
 
-## Why I include it even though it is a platform certification
+### Why I include it even though it is a platform certification
 
 Because there is a part of data work that is neither modelling nor programming: it is getting people to use what you build.
 

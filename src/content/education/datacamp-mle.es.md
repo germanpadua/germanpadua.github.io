@@ -14,7 +14,7 @@ highlights:
   - "\"Monitorización de modelos en producción: no sólo si el servicio responde, sino si la distribución del dato que entra sigue pareciéndose a la que se usó para entrenar.\""
 ---
 
-## Por qué lo hice
+### Por qué lo hice
 
 Porque sabía entrenar modelos y no sabía mantenerlos.
 
@@ -22,7 +22,7 @@ Un modelo en un cuaderno es un experimento. Un modelo en producción es un servi
 
 Ese salto —de experimento a servicio— es el que cubre esta especialización y el que después me permitió diseñar cosas como la pasarela de inferencia con trazas, o exigir que cada número publicado en un proyecto apunte a una ejecución concreta.
 
-## Qué me llevé a la práctica
+### Qué me llevé a la práctica
 
 La idea de **procedencia**. Un resultado sin su ejecución de origen no es un resultado, es una anécdota. En mis proyectos eso se traduce en ficheros de métricas commiteados y en manifiestos con hashes: la configuración de un experimento congelado se puede verificar meses después.
 

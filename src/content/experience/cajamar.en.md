@@ -24,7 +24,7 @@ stack:
   - Excel
 ---
 
-## What I actually do
+### What I actually do
 
 The team calculates how much the bank expects to lose if a customer defaults. That is called LGD, and it is one of the three parameters that feed the provisions under IFRS 9. My job is to make that number defensible.
 
@@ -32,7 +32,7 @@ I joined the sector knowing nothing about banking regulation. In a relatively sh
 
 One of the things that has served me most in this job is not a model: I introduced automated quality checks and structured logging into the calibration flows. Before, when something did not add up, the process had to be reproduced by hand to figure out where it had gone wrong. Now you read it in the logs. In an environment where traceability is not optional, that changes the way the whole team works.
 
-## Why this job changed the way I work
+### Why this job changed the way I work
 
 In a normal data project, the final metric is model quality. Here the final metric is **whether an independent auditor, six months later, can walk the path from the raw data to the published number and not find an unjustified jump**.
 
@@ -40,6 +40,6 @@ That changes the order of everything. The documentation is written while you wor
 
 When I later built the Formula 1 telemetry detector, I froze the configuration before the blind test and published the metrics with their provenance file. It was no accident: it is the same discipline, applied to a problem that has no auditor.
 
-## Tools
+### Tools
 
 R and SQL do almost all the work. Excel remains the common language with people who do not code, and I have learned that arguing about that is a waste of time: better to export well.

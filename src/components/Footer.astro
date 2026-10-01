@@ -116,7 +116,7 @@ const elsewhere = [
     font-weight: 500;
     letter-spacing: var(--tracking-caps);
     text-transform: uppercase;
-    color: var(--fg-faint);
+    color: var(--fg-muted);
     margin-bottom: var(--space-2xs);
   }
 
@@ -145,7 +145,7 @@ const elsewhere = [
   .footer__link-handle {
     font-family: var(--font-code);
     font-size: var(--step--2);
-    color: var(--fg-faint);
+    color: var(--fg-muted);
   }
 
   .footer__base {
@@ -166,7 +166,7 @@ const elsewhere = [
 
   .footer__note--soft {
     flex: 1 1 22rem;
-    color: var(--fg-faint);
+    color: var(--fg-muted);
   }
 
   .footer__top {
@@ -178,6 +178,9 @@ const elsewhere = [
     display: inline-flex;
     gap: 0.4rem;
     align-items: center;
+    /* Clears the 24px minimum target size in WCAG 2.2: the bare text was 19px tall. */
+    min-height: 1.5rem;
+    padding-block: 0.3rem;
   }
 
   .footer__top:hover {

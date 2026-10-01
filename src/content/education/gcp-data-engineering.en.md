@@ -14,7 +14,7 @@ highlights:
   - "Cost as a design constraint, which is something academic environments do not teach and the cloud teaches fast."
 ---
 
-## What I learned
+### What I learned
 
 Data engineering in the cloud is an exercise in constraints, and the one that changes decisions most is cost.
 
@@ -22,7 +22,7 @@ Locally, processing a terabyte is a matter of letting it run. In the cloud it is
 
 It is a lesson I carry into everything else. When I designed the inference gateway, the memory budget was four gigabytes for two services and that defined the architecture. When I designed the telemetry detector, the false-alarm budget defined the threshold.
 
-## Where I applied it
+### Where I applied it
 
 In the data export pipeline of my master's thesis, which downloads, coregisters and processes satellite imagery and weather data incrementally instead of from scratch every time.
 

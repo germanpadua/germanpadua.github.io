@@ -15,7 +15,7 @@ highlights:
   - "\"Uso diario en el trabajo: documentación, correo profesional, reuniones con equipos distribuidos y escritura técnica.\""
 ---
 
-## Para qué me sirve en la práctica
+### Para qué me sirve en la práctica
 
 Dos cosas concretas.
 
@@ -23,7 +23,7 @@ La primera, leer. La documentación técnica buena está en inglés y la mayorí
 
 La segunda, escribir. Documentar un modelo, redactar un informe de auditoría o explicar una decisión de arquitectura en inglés obliga a un orden mental que después se traslada al trabajo en cualquier idioma. Si no puedes escribirlo con claridad, probablemente no lo tienes claro.
 
-## Contexto
+### Contexto
 
 Está en la sección de formación y no en la de reconocimientos porque es eso: una competencia certificada, no un logro. El nivel C2 no me hace especial, me hace capaz de trabajar sin que el idioma sea una barrera.
 

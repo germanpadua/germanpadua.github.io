@@ -24,7 +24,7 @@ stack:
   - Excel
 ---
 
-## Qué hago exactamente
+### Qué hago exactamente
 
 El equipo calcula cuánto espera perder el banco si un cliente no paga. Eso se llama LGD, y es uno de los tres parámetros que alimentan las provisiones bajo IFRS 9. Mi trabajo es que ese número sea defendible.
 
@@ -32,7 +32,7 @@ Entré al sector sin saber nada de regulación bancaria. En relativamente poco t
 
 Una de las cosas que más me ha servido de este trabajo no es un modelo: introduje comprobaciones automáticas de calidad y registro estructurado en los flujos de calibración. Antes, cuando algo no cuadraba, había que reproducir el proceso a mano para averiguar dónde se había torcido. Ahora se lee en los registros. En un entorno donde la trazabilidad no es opcional, eso cambia la forma de trabajar del equipo entero.
 
-## Por qué este trabajo me cambió la forma de trabajar
+### Por qué este trabajo me cambió la forma de trabajar
 
 En un proyecto de datos normal, la métrica final es la calidad del modelo. Aquí la métrica final es **si un auditor independiente, seis meses después, puede recorrer el camino desde el dato bruto hasta el número publicado y no encontrar un salto injustificado**.
 
@@ -40,6 +40,6 @@ Eso cambia el orden de todo. La documentación se escribe mientras se trabaja, n
 
 Cuando después construí el detector de telemetría de Fórmula 1, congelé la configuración antes del test ciego y publiqué las métricas con su fichero de procedencia. No fue casualidad: es la misma disciplina, aplicada a un problema que no tiene auditor.
 
-## Herramientas
+### Herramientas
 
 R y SQL hacen casi todo el trabajo. Excel sigue siendo el idioma común con quien no programa, y he aprendido que discutir eso es perder el tiempo: mejor exportar bien.

@@ -14,7 +14,7 @@ highlights:
   - "Monitoring models in production: not just whether the service responds, but whether the distribution of incoming data still resembles the one used for training."
 ---
 
-## Why I did it
+### Why I did it
 
 Because I knew how to train models and did not know how to maintain them.
 
@@ -22,7 +22,7 @@ A model in a notebook is an experiment. A model in production is a service with 
 
 That leap — from experiment to service — is what this specialisation covers and what later let me design things like the inference gateway with traces, or require that every number published in a project points to a concrete run.
 
-## What I put into practice
+### What I put into practice
 
 The idea of **provenance**. A result without its originating run is not a result, it is an anecdote. In my projects that translates into committed metric files and manifests with hashes: the configuration of a frozen experiment can be verified months later.
 

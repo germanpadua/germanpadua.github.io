@@ -14,7 +14,7 @@ highlights:
   - "Orquestación de varios modelos dentro de un mismo flujo, que es donde aparecen los fallos que no se ven en una demo de un solo paso."
 ---
 
-## Para qué me sirvió
+### Para qué me sirvió
 
 No para aprender a llamar a una API, que eso se aprende en una tarde. Para entender **dónde no hay que dejar decidir al modelo**.
 
@@ -22,6 +22,6 @@ La idea que me llevé y que aplico en todo lo que construyo después: un agente 
 
 Eso es exactamente lo que apliqué en el proyecto de actas de visitas de obra: el modelo propone un plan, el sistema lo valida, y sólo un núcleo determinista escribe. La certificación no me dio esa arquitectura; me dio el vocabulario para explicarla y las ganas de mirar por dentro de las herramientas en lugar de usarlas a ciegas.
 
-## Contexto
+### Contexto
 
 Es una certificación de plataforma, no un título. La pongo en su sitio: lo verificable de verdad es el código que escribo, y ahí está el proyecto de actas, la pasarela de inferencia y el detector de telemetría.

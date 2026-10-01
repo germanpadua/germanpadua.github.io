@@ -14,7 +14,7 @@ highlights:
   - "\"La lección más útil fue negativa: la mayoría de los cuadros de mando que se construyen no los abre nadie.\""
 ---
 
-## Lo que de verdad enseñan estas herramientas
+### Lo que de verdad enseñan estas herramientas
 
 Que el problema de la analítica empresarial no es calcular métricas, es **acordar qué significan**.
 
@@ -22,7 +22,7 @@ Cuando dos áreas usan la misma palabra para dos números distintos, el cuadro d
 
 Es un problema de organización disfrazado de problema técnico, y me ha servido más de lo que esperaba. En riesgo de crédito, por ejemplo, discutir la definición de "impago" antes de calibrar cualquier cosa es la mitad del proyecto.
 
-## Por qué lo pongo aunque sea una certificación de plataforma
+### Por qué lo pongo aunque sea una certificación de plataforma
 
 Porque hay una parte del trabajo de datos que no es modelar ni programar: es conseguir que la gente use lo que construyes.
 

@@ -15,13 +15,13 @@ highlights:
   - "\"Las dos carreras a la vez, no una después de la otra: eso obligó a encontrar los puntos donde las dos disciplinas se tocan de verdad.\""
 ---
 
-## Qué significó
+### Qué significó
 
 Hacer informática y matemáticas en paralelo suena a dos títulos y en la práctica es una forma distinta de entender cada uno.
 
 La informática te da la herramienta: cómo se implementa, cuánto cuesta, qué escala. Las matemáticas te dan el criterio: por qué esa fórmula funciona, en qué supuestos se apoya y cuándo deja de ser válida. Separadas, cada una se queda coja. La ingeniería sin criterio produce sistemas que funcionan y no se sabe por qué. Las matemáticas sin implementación producen teoremas que nadie usa.
 
-## El trabajo de fin de grado
+### El trabajo de fin de grado
 
 Sobre redes neuronales para grafos en variedades pseudo-riemannianas. La pregunta era cómo hacer convoluciones sobre estructuras que no son una retícula, en espacios donde la distancia entre dos puntos distintos puede ser cero.
 
@@ -29,6 +29,6 @@ La parte difícil no fue programar: fue entender el problema de la conectividad 
 
 El código está disponible con licencia MIT, y en su ficha explico con precisión qué es mío y qué viene del artículo original. Es la parte de la carrera de la que estoy más orgulloso y también la que más me enseñó a separar mi aporte del de otros.
 
-## Lo que me dejó
+### Lo que me dejó
 
 La manía de preguntar de dónde sale un número. Suena pequeño y es lo que hace la diferencia entre publicar una métrica con su artefacto de procedencia y publicar una cifra que alguien te va a discutir en una entrevista.

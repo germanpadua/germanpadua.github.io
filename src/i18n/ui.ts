@@ -206,7 +206,6 @@ const es = {
   },
   terminal: {
     inputLabel: 'Entrada de la terminal',
-    share: 'Ejecutar',
     cleared: 'Pantalla limpia.',
     loading: 'Cargando los datos del sitio…',
     failed: 'No se pudieron cargar los datos del sitio.',
@@ -480,7 +479,6 @@ const en: Dictionary = {
   },
   terminal: {
     inputLabel: 'Terminal input',
-    share: 'Run',
     cleared: 'Screen cleared.',
     loading: 'Loading the site data…',
     failed: 'The site data could not be loaded.',

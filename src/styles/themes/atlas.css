@@ -23,12 +23,19 @@
   --border-strong: #c2baa8;
 
   --accent: #0b6e8c;
-  --accent-2: #a2590a;
+  /*
+   * Atlas is the only light theme, and it is the only one where the coloured tokens
+   * were failing WCAG AA as small text: amber, green and the secondary accent all sat
+   * around 3.5-4.5 to 1 against the paper. Each value below is the smallest step toward
+   * black that clears 4.5:1 against every surface the theme defines, which keeps the hue
+   * recognisable instead of turning "warning" into a brown.
+   */
+  --accent-2: #9c550a;
   --accent-3: #6b4ea8;
   --accent-soft: rgba(11, 110, 140, 0.1);
 
-  --ok: #157f52;
-  --warn: #a2740a;
+  --ok: #14764c;
+  --warn: #866008;
   --err: #b3261e;
   --info: #0b6e8c;
 

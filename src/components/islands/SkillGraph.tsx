@@ -122,7 +122,7 @@ export default function SkillGraph({ dataUrl, labels }: Props) {
     const read = (name: string, fallback: string) => styles.getPropertyValue(name).trim() || fallback;
     return {
       fg: read('--fg-strong', '#111111'),
-      muted: read('--fg-faint', '#888888'),
+      muted: read('--fg-muted', '#777777'),
       border: read('--border', '#dddddd'),
       areas: Object.fromEntries(areas.map((area) => [area.id, read(tokenName(area.id), '#888888')])),
       byId: areas.map((area) => area.id),

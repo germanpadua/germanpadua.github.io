@@ -108,7 +108,14 @@
 
   --fg: #1a1a1a;
   --fg-strong: #000000;
+  /* Text has three levels and all of them clear WCAG AA for body text. */
   --fg-muted: #666666;
+  /*
+   * NOT a text colour. It is lighter than AA allows, on purpose, and is reserved for
+   * graphical marks where the rule is 3:1 rather than 4.5:1: the game's skid marks
+   * today. An audit found it used as text in 49 places across four themes, all of them
+   * failing contrast, so all of them now use `--fg-muted`.
+   */
   --fg-faint: #999999;
   --fg-on-accent: #ffffff;
 

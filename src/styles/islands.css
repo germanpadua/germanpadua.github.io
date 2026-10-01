@@ -117,7 +117,7 @@
   position: absolute;
   inset: auto 0 50% 0;
   text-align: center;
-  color: var(--fg-faint);
+  color: var(--fg-muted);
   font-size: var(--step--1);
 }
 
@@ -157,13 +157,13 @@
 .graph__detail-projects {
   font-family: var(--font-code);
   font-size: var(--step--2);
-  color: var(--fg-faint);
+  color: var(--fg-muted);
   margin-top: var(--space-2xs);
 }
 
 .graph__detail-hint {
   font-size: var(--step--1);
-  color: var(--fg-faint);
+  color: var(--fg-muted);
 }
 
 /* The list below the graph is the accessible and indexable version of the same
@@ -174,7 +174,7 @@
   font-weight: 500;
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
-  color: var(--fg-faint);
+  color: var(--fg-muted);
   margin-top: var(--space-l);
   margin-bottom: var(--space-s);
   padding-top: var(--space-s);
@@ -206,7 +206,7 @@
   font-family: var(--font-code);
   font-size: var(--step--2);
   letter-spacing: var(--tracking-wide);
-  color: var(--fg-faint);
+  color: var(--fg-muted);
 }
 
 .terminal__dots {
@@ -260,7 +260,7 @@
 }
 
 .terminal__line[data-tone='dim'] {
-  color: var(--fg-faint);
+  color: var(--fg-muted);
 }
 
 .terminal__line[data-tone='heading'] {
@@ -360,7 +360,7 @@
 }
 
 .terminal__input::placeholder {
-  color: var(--fg-faint);
+  color: var(--fg-muted);
 }
 
 .terminal__input:disabled {
@@ -392,7 +392,7 @@
   font-size: var(--step--2);
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
-  color: var(--fg-faint);
+  color: var(--fg-muted);
 }
 
 .game__stat-value {
@@ -495,7 +495,7 @@
 }
 
 .game__overlay-hint--dim {
-  color: var(--fg-faint);
+  color: var(--fg-muted);
 }
 
 .game__record {
@@ -518,7 +518,7 @@
   font-size: var(--step--2);
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
-  color: var(--fg-faint);
+  color: var(--fg-muted);
 }
 
 .game__summary-row {
@@ -579,7 +579,7 @@
 
 .game__help {
   font-size: var(--step--2);
-  color: var(--fg-faint);
+  color: var(--fg-muted);
   max-width: var(--measure);
 }
 
