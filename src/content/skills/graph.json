@@ -1,0 +1,1112 @@
+[
+  {
+    "id": "graph",
+    "areas": [
+      {
+        "id": "math",
+        "label": {
+          "es": "Matemáticas",
+          "en": "Mathematics"
+        },
+        "blurb": {
+          "es": "El formalismo que dice cuándo un modelo está mal antes de que lo diga producción.",
+          "en": "The formalism that says a model is wrong before production does."
+        }
+      },
+      {
+        "id": "cs",
+        "label": {
+          "es": "Informática",
+          "en": "Computer science"
+        },
+        "blurb": {
+          "es": "Sistemas que corren de verdad, con tests y trazabilidad.",
+          "en": "Systems that actually run, with tests and lineage."
+        }
+      },
+      {
+        "id": "ds",
+        "label": {
+          "es": "Ciencia de datos",
+          "en": "Data science"
+        },
+        "blurb": {
+          "es": "Del dato crudo a la decisión, pasando por la validación.",
+          "en": "From raw data to a decision, through validation."
+        }
+      },
+      {
+        "id": "tools",
+        "label": {
+          "es": "Herramientas",
+          "en": "Tooling"
+        },
+        "blurb": {
+          "es": "Lo concreto: plataformas, librerías y servicios con los que construyo.",
+          "en": "The concrete layer: platforms, libraries, and services I build with."
+        }
+      },
+      {
+        "id": "lang",
+        "label": {
+          "es": "Idiomas",
+          "en": "Languages"
+        },
+        "blurb": {
+          "es": "Con quién puedo hablar.",
+          "en": "Who I can talk to."
+        }
+      }
+    ],
+    "nodes": [
+      {
+        "id": "statistics",
+        "label": "Estadística",
+        "area": "math",
+        "weight": 0.95,
+        "note": {
+          "es": "Inferencia, contrastes, bootstrap y estimación por intervalos de confianza.",
+          "en": "Inference, hypothesis testing, bootstrap, and interval estimation."
+        },
+        "projects": [
+          "telemetry-sentinel"
+        ]
+      },
+      {
+        "id": "probability",
+        "label": "Probabilidad",
+        "area": "math",
+        "weight": 0.85,
+        "note": {
+          "es": "Modelos probabilísticos y procesos estocásticos aplicados a series temporales.",
+          "en": "Probabilistic models and stochastic processes applied to time series."
+        },
+        "projects": []
+      },
+      {
+        "id": "linear-algebra",
+        "label": "Álgebra lineal",
+        "area": "math",
+        "weight": 0.9,
+        "note": {
+          "es": "Descomposiciones, PCA, análisis factorial y geometría de los espacios de representación.",
+          "en": "Decompositions, PCA, factor analysis, and the geometry of representation spaces."
+        },
+        "projects": [
+          "housing-statistics"
+        ]
+      },
+      {
+        "id": "optimisation",
+        "label": "Optimización",
+        "area": "math",
+        "weight": 0.85,
+        "note": {
+          "es": "Descenso de gradiente, regularización y ajuste de hiperparámetros con criterio.",
+          "en": "Gradient descent, regularisation, and principled hyperparameter tuning."
+        },
+        "projects": [
+          "telemetry-sentinel"
+        ]
+      },
+      {
+        "id": "differential-geometry",
+        "label": "Geometría diferencial",
+        "area": "math",
+        "weight": 0.7,
+        "note": {
+          "es": "Variedades pseudo-riemannianas y la aplicación exponencial, que fue el núcleo de mi TFG.",
+          "en": "Pseudo-Riemannian manifolds and the exponential map, the core of my thesis."
+        },
+        "projects": [
+          "pseudo-riemannian-gnn"
+        ]
+      },
+      {
+        "id": "python",
+        "label": "Python",
+        "area": "cs",
+        "weight": 0.98,
+        "note": {
+          "es": "Lenguaje principal para datos, modelos y servicios. Con tipado y tests.",
+          "en": "Primary language for data, models, and services. Typed and tested."
+        },
+        "projects": [
+          "telemetry-sentinel",
+          "inference-obs",
+          "actas-visitas-obras",
+          "almeria-isometric"
+        ]
+      },
+      {
+        "id": "typescript",
+        "label": "TypeScript",
+        "area": "cs",
+        "weight": 0.8,
+        "note": {
+          "es": "Front-end y tooling, en modo estricto.",
+          "en": "Front-end and tooling, in strict mode."
+        },
+        "projects": [
+          "gestor-inmuebles",
+          "mi-balance",
+          "agent-harness"
+        ]
+      },
+      {
+        "id": "sql",
+        "label": "SQL",
+        "area": "cs",
+        "weight": 0.9,
+        "note": {
+          "es": "Consultas analíticas sobre volúmenes grandes y modelado relacional con políticas de acceso.",
+          "en": "Analytical queries over large volumes and relational modelling with row-level policies."
+        },
+        "projects": [
+          "gestor-inmuebles"
+        ]
+      },
+      {
+        "id": "r",
+        "label": "R",
+        "area": "cs",
+        "weight": 0.85,
+        "note": {
+          "es": "Lenguaje de trabajo en riesgo de crédito: calibración, monitorización y documentación reproducible.",
+          "en": "Working language in credit risk: calibration, monitoring, and reproducible documentation."
+        },
+        "projects": []
+      },
+      {
+        "id": "algorithms",
+        "label": "Algoritmos y estructuras",
+        "area": "cs",
+        "weight": 0.8,
+        "note": {
+          "es": "Complejidad, grafos y estructuras de datos. Base del doble grado.",
+          "en": "Complexity, graphs, and data structures. Foundation of the double degree."
+        },
+        "projects": []
+      },
+      {
+        "id": "architecture",
+        "label": "Arquitectura de software",
+        "area": "cs",
+        "weight": 0.85,
+        "note": {
+          "es": "Decisiones registradas como ADR, incluidas las de abandonar una idea.",
+          "en": "Decisions recorded as ADRs, including the ones that abandon an idea."
+        },
+        "projects": [
+          "gestor-inmuebles",
+          "actas-visitas-obras",
+          "inference-obs"
+        ]
+      },
+      {
+        "id": "testing",
+        "label": "Testing",
+        "area": "cs",
+        "weight": 0.9,
+        "note": {
+          "es": "Tests como contrato: propiedad, casos límite y métricas que fallan cuando deben fallar.",
+          "en": "Tests as a contract: property, edge cases, and metrics that fail when they should."
+        },
+        "projects": [
+          "telemetry-sentinel",
+          "gestor-inmuebles",
+          "mi-balance"
+        ]
+      },
+      {
+        "id": "ci-cd",
+        "label": "Integración continua",
+        "area": "cs",
+        "weight": 0.8,
+        "note": {
+          "es": "Pipelines que lintan, tipan, testean y publican sin intervención.",
+          "en": "Pipelines that lint, typecheck, test, and publish without intervention."
+        },
+        "projects": [
+          "inference-obs",
+          "telemetry-sentinel"
+        ]
+      },
+      {
+        "id": "docker",
+        "label": "Docker",
+        "area": "cs",
+        "weight": 0.8,
+        "note": {
+          "es": "Empaquetado reproducible de servicios y entornos de evaluación.",
+          "en": "Reproducible packaging of services and evaluation environments."
+        },
+        "projects": [
+          "inference-obs",
+          "actas-visitas-obras"
+        ]
+      },
+      {
+        "id": "linux",
+        "label": "Linux y shell",
+        "area": "cs",
+        "weight": 0.8,
+        "note": {
+          "es": "Entornos de trabajo, servicios en VPS y automatización por línea de comandos.",
+          "en": "Working environments, VPS services, and command-line automation."
+        },
+        "projects": [
+          "inference-obs"
+        ]
+      },
+      {
+        "id": "git",
+        "label": "Git",
+        "area": "cs",
+        "weight": 0.9,
+        "note": {
+          "es": "Historia como documentación: commits atómicos y ramas con intención.",
+          "en": "History as documentation: atomic commits and branches with intent."
+        },
+        "projects": []
+      },
+      {
+        "id": "machine-learning",
+        "label": "Machine learning",
+        "area": "ds",
+        "weight": 0.95,
+        "note": {
+          "es": "Del problema a la métrica: particiones, validación y control de fuga de información.",
+          "en": "From problem to metric: splits, validation, and leakage control."
+        },
+        "projects": [
+          "telemetry-sentinel",
+          "gestor-inmuebles"
+        ]
+      },
+      {
+        "id": "deep-learning",
+        "label": "Deep learning",
+        "area": "ds",
+        "weight": 0.85,
+        "note": {
+          "es": "Arquitecturas y entrenamiento: difusión, convolucionales y grafos.",
+          "en": "Architectures and training: diffusion, convolutional, and graph models."
+        },
+        "projects": [
+          "diffusion-models",
+          "pseudo-riemannian-gnn"
+        ]
+      },
+      {
+        "id": "pytorch",
+        "label": "PyTorch",
+        "area": "ds",
+        "weight": 0.85,
+        "note": {
+          "es": "Framework principal para investigación y prototipos de modelos.",
+          "en": "Primary framework for research and model prototypes."
+        },
+        "projects": [
+          "diffusion-models",
+          "pseudo-riemannian-gnn"
+        ]
+      },
+      {
+        "id": "scikit-learn",
+        "label": "scikit-learn",
+        "area": "ds",
+        "weight": 0.9,
+        "note": {
+          "es": "Modelado clásico con validación cruzada y búsqueda de hiperparámetros.",
+          "en": "Classical modelling with cross-validation and hyperparameter search."
+        },
+        "projects": [
+          "telemetry-sentinel"
+        ]
+      },
+      {
+        "id": "xgboost",
+        "label": "XGBoost",
+        "area": "ds",
+        "weight": 0.75,
+        "note": {
+          "es": "Modelos de gradiente boosting para datos tabulares, con preprocesado explícito.",
+          "en": "Gradient-boosted models for tabular data, with explicit preprocessing."
+        },
+        "projects": []
+      },
+      {
+        "id": "pandas",
+        "label": "pandas",
+        "area": "ds",
+        "weight": 0.9,
+        "note": {
+          "es": "Manipulación de datos con dtypes explícitos y operaciones trazables.",
+          "en": "Data manipulation with explicit dtypes and traceable operations."
+        },
+        "projects": [
+          "telemetry-sentinel",
+          "almeria-isometric"
+        ]
+      },
+      {
+        "id": "numpy",
+        "label": "NumPy",
+        "area": "ds",
+        "weight": 0.9,
+        "note": {
+          "es": "Vectorización y cálculo numérico, incluida geometría 3D calculada a mano.",
+          "en": "Vectorisation and numerical computing, including hand-rolled 3D geometry."
+        },
+        "projects": [
+          "almeria-isometric",
+          "piso-irene"
+        ]
+      },
+      {
+        "id": "time-series",
+        "label": "Series temporales",
+        "area": "ds",
+        "weight": 0.8,
+        "note": {
+          "es": "Orden temporal, causalidad y comparaciones entre vueltas o periodos.",
+          "en": "Temporal order, causality, and comparisons across laps or periods."
+        },
+        "projects": [
+          "telemetry-sentinel",
+          "f1-data-app"
+        ]
+      },
+      {
+        "id": "anomaly-detection",
+        "label": "Detección de anomalías",
+        "area": "ds",
+        "weight": 0.9,
+        "note": {
+          "es": "Referencias robustas, umbrales con presupuesto de falsas alertas y supresión explicable.",
+          "en": "Robust references, thresholds under a false-alert budget, and explainable suppression."
+        },
+        "projects": [
+          "telemetry-sentinel"
+        ]
+      },
+      {
+        "id": "causal-inference",
+        "label": "Inferencia causal",
+        "area": "ds",
+        "weight": 0.85,
+        "note": {
+          "es": "Solo el pasado: un detector que no ve el futuro, así que sus alertas son defendibles en directo.",
+          "en": "Past only: a detector that never sees the future, so its alerts can be defended live."
+        },
+        "projects": [
+          "telemetry-sentinel"
+        ]
+      },
+      {
+        "id": "evaluation",
+        "label": "Evaluación de modelos",
+        "area": "ds",
+        "weight": 0.9,
+        "note": {
+          "es": "Particiones congeladas, test ciego y métricas con su intervalo, no un solo número.",
+          "en": "Frozen splits, a blind test, and metrics with their interval rather than one number."
+        },
+        "projects": [
+          "telemetry-sentinel",
+          "inference-obs"
+        ]
+      },
+      {
+        "id": "credit-risk",
+        "label": "Riesgo de crédito",
+        "area": "ds",
+        "weight": 0.95,
+        "note": {
+          "es": "Calibración, monitorización y proyección de la severidad de la pérdida, con gobernanza de modelo.",
+          "en": "Calibration, monitoring, and projection of loss severity, under model governance."
+        },
+        "projects": []
+      },
+      {
+        "id": "ifrs-9",
+        "label": "IFRS 9",
+        "area": "ds",
+        "weight": 0.9,
+        "note": {
+          "es": "Marco regulatorio de provisiones: el modelo tiene que pasar una auditoría externa.",
+          "en": "The provisioning framework where the model has to pass an external audit."
+        },
+        "projects": []
+      },
+      {
+        "id": "mlops",
+        "label": "MLOps",
+        "area": "ds",
+        "weight": 0.85,
+        "note": {
+          "es": "Entrenamiento, versionado y despliegue con evidencia reproducible de cada ejecución.",
+          "en": "Training, versioning, and deployment with reproducible evidence for each run."
+        },
+        "projects": [
+          "telemetry-sentinel",
+          "inference-obs"
+        ]
+      },
+      {
+        "id": "mlflow",
+        "label": "MLflow",
+        "area": "ds",
+        "weight": 0.75,
+        "note": {
+          "es": "Trazabilidad de experimentos: cada número publicado apunta a una ejecución concreta.",
+          "en": "Experiment tracking: every published number points at a specific run."
+        },
+        "projects": [
+          "telemetry-sentinel"
+        ]
+      },
+      {
+        "id": "computer-vision",
+        "label": "Visión por computador",
+        "area": "ds",
+        "weight": 0.75,
+        "note": {
+          "es": "Detección, seguimiento y segmentación sobre vídeo y fotografía aérea.",
+          "en": "Detection, tracking, and segmentation over video and aerial imagery."
+        },
+        "projects": [
+          "football-computer-vision"
+        ]
+      },
+      {
+        "id": "yolo",
+        "label": "YOLO",
+        "area": "ds",
+        "weight": 0.7,
+        "note": {
+          "es": "Detección en tiempo real, afinada con un conjunto de imágenes de dominio específico.",
+          "en": "Real-time detection, fine-tuned on a domain-specific image set."
+        },
+        "projects": [
+          "football-computer-vision"
+        ]
+      },
+      {
+        "id": "gnn",
+        "label": "Redes de grafos",
+        "area": "ds",
+        "weight": 0.7,
+        "note": {
+          "es": "Convoluciones sobre estructuras que no son una retícula, incluido el caso no euclídeo.",
+          "en": "Convolutions over structures that are not a grid, including the non-Euclidean case."
+        },
+        "projects": [
+          "pseudo-riemannian-gnn"
+        ]
+      },
+      {
+        "id": "llm",
+        "label": "LLMs",
+        "area": "ds",
+        "weight": 0.85,
+        "note": {
+          "es": "Uso con contrato estricto: validación de salidas y ningún permiso de escritura directa.",
+          "en": "Use under a strict contract: validated outputs and no direct write permission."
+        },
+        "projects": [
+          "actas-visitas-obras",
+          "inference-obs"
+        ]
+      },
+      {
+        "id": "rag",
+        "label": "RAG",
+        "area": "ds",
+        "weight": 0.7,
+        "note": {
+          "es": "Recuperación sobre documentación propia y evaluación de la calidad de la respuesta.",
+          "en": "Retrieval over first-party documentation and evaluation of answer quality."
+        },
+        "projects": []
+      },
+      {
+        "id": "fastf1",
+        "label": "FastF1",
+        "area": "tools",
+        "weight": 0.7,
+        "note": {
+          "es": "Telemetría pública de F1, con sus huecos y sus rarezas de formato asumidos.",
+          "en": "Public F1 telemetry, gaps and format quirks included."
+        },
+        "projects": [
+          "telemetry-sentinel"
+        ]
+      },
+      {
+        "id": "litellm",
+        "label": "LiteLLM",
+        "area": "tools",
+        "weight": 0.7,
+        "note": {
+          "es": "Pasarela compatible con OpenAI, con claves virtuales y presupuesto por proyecto.",
+          "en": "OpenAI-compatible gateway with virtual keys and per-project budget."
+        },
+        "projects": [
+          "inference-obs"
+        ]
+      },
+      {
+        "id": "phoenix",
+        "label": "Arize Phoenix",
+        "area": "tools",
+        "weight": 0.65,
+        "note": {
+          "es": "Trazas y evaluación de LLMs, autoalojado, sobre el protocolo abierto de trazas.",
+          "en": "LLM tracing and evaluation, self-hosted, over the open tracing protocol."
+        },
+        "projects": [
+          "inference-obs"
+        ]
+      },
+      {
+        "id": "postgres",
+        "label": "PostgreSQL",
+        "area": "tools",
+        "weight": 0.8,
+        "note": {
+          "es": "Base de datos transaccional, con migraciones versionadas y restauración probada.",
+          "en": "Transactional database with versioned migrations and a tested restore path."
+        },
+        "projects": [
+          "inference-obs",
+          "gestor-inmuebles"
+        ]
+      },
+      {
+        "id": "supabase",
+        "label": "Supabase",
+        "area": "tools",
+        "weight": 0.75,
+        "note": {
+          "es": "Postgres gestionado con autenticación, almacenamiento privado y reglas de acceso por fila.",
+          "en": "Managed Postgres with auth, private storage, and row-level access rules."
+        },
+        "projects": [
+          "gestor-inmuebles"
+        ]
+      },
+      {
+        "id": "nextjs",
+        "label": "Next.js",
+        "area": "tools",
+        "weight": 0.75,
+        "note": {
+          "es": "Aplicación web con renderizado en servidor, acciones y trabajos programados.",
+          "en": "Web application with server rendering, actions, and scheduled jobs."
+        },
+        "projects": [
+          "gestor-inmuebles"
+        ]
+      },
+      {
+        "id": "astro",
+        "label": "Astro",
+        "area": "tools",
+        "weight": 0.7,
+        "note": {
+          "es": "Sitios estáticos con islas: este portfolio, donde sólo las tres capas interactivas cargan JavaScript.",
+          "en": "Static sites with islands: this portfolio, where only the three interactive layers load JavaScript."
+        },
+        "projects": []
+      },
+      {
+        "id": "three-js",
+        "label": "Three.js",
+        "area": "tools",
+        "weight": 0.7,
+        "note": {
+          "es": "Escenas 3D en el navegador, exportación de malla y paseo en primera persona.",
+          "en": "3D scenes in the browser, mesh export, and first-person walkthrough."
+        },
+        "projects": [
+          "piso-irene"
+        ]
+      },
+      {
+        "id": "blender",
+        "label": "Blender",
+        "area": "tools",
+        "weight": 0.6,
+        "note": {
+          "es": "Render desatendido por línea de comandos dentro de un pipeline reproducible.",
+          "en": "Headless command-line rendering inside a reproducible pipeline."
+        },
+        "projects": [
+          "almeria-isometric"
+        ]
+      },
+      {
+        "id": "lidar",
+        "label": "LiDAR y datos públicos",
+        "area": "tools",
+        "weight": 0.65,
+        "note": {
+          "es": "Modelos digitales de superficie y cartografía oficial como fuente de verdad geométrica.",
+          "en": "Digital surface models and official cartography as the geometric source of truth."
+        },
+        "projects": [
+          "almeria-isometric"
+        ]
+      },
+      {
+        "id": "opencv",
+        "label": "OpenCV",
+        "area": "tools",
+        "weight": 0.7,
+        "note": {
+          "es": "Procesado de vídeo e imagen en tiempo real.",
+          "en": "Real-time video and image processing."
+        },
+        "projects": [
+          "football-computer-vision"
+        ]
+      },
+      {
+        "id": "playwright",
+        "label": "Playwright",
+        "area": "tools",
+        "weight": 0.75,
+        "note": {
+          "es": "Pruebas de interfaz en navegador real y captura de pantalla automatizada.",
+          "en": "Interface tests in a real browser and automated screenshot capture."
+        },
+        "projects": [
+          "mi-balance",
+          "gestor-inmuebles"
+        ]
+      },
+      {
+        "id": "pytest",
+        "label": "pytest",
+        "area": "tools",
+        "weight": 0.85,
+        "note": {
+          "es": "Suite de tests con fixtures, casos de propiedad y ejecución reproducible con versiones fijadas.",
+          "en": "Test suites with fixtures, property cases, and reproducible execution on pinned versions."
+        },
+        "projects": [
+          "telemetry-sentinel",
+          "actas-visitas-obras"
+        ]
+      },
+      {
+        "id": "streamlit",
+        "label": "Streamlit",
+        "area": "tools",
+        "weight": 0.7,
+        "note": {
+          "es": "Prototipos analíticos publicados en horas, no en semanas.",
+          "en": "Analytical prototypes shipped in hours rather than weeks."
+        },
+        "projects": [
+          "f1-data-app"
+        ]
+      },
+      {
+        "id": "azure",
+        "label": "Azure y Microsoft 365",
+        "area": "tools",
+        "weight": 0.6,
+        "note": {
+          "es": "Automatización en entornos corporativos: SharePoint, Power Automate y flujos internos.",
+          "en": "Automation in corporate environments: SharePoint, Power Automate, and internal flows."
+        },
+        "projects": []
+      },
+      {
+        "id": "power-automate",
+        "label": "Power Automate",
+        "area": "tools",
+        "weight": 0.6,
+        "note": {
+          "es": "Digitalización de procesos manuales sin escribir una aplicación entera.",
+          "en": "Digitising manual processes without writing a whole application."
+        },
+        "projects": []
+      },
+      {
+        "id": "gcp",
+        "label": "Google Cloud",
+        "area": "tools",
+        "weight": 0.6,
+        "note": {
+          "es": "Pipelines de datos y analítica sobre servicios gestionados.",
+          "en": "Data pipelines and analytics on managed services."
+        },
+        "projects": []
+      },
+      {
+        "id": "spanish",
+        "label": "Español",
+        "area": "lang",
+        "weight": 1,
+        "note": {
+          "es": "Nativo.",
+          "en": "Native."
+        },
+        "projects": []
+      },
+      {
+        "id": "english",
+        "label": "Inglés",
+        "area": "lang",
+        "weight": 0.9,
+        "note": {
+          "es": "C2 certificado por Cambridge. Documentación, entrevistas y escritura técnica.",
+          "en": "Cambridge C2 certified. Documentation, interviews, and technical writing."
+        },
+        "projects": []
+      },
+      {
+        "id": "french",
+        "label": "Francés",
+        "area": "lang",
+        "weight": 0.35,
+        "note": {
+          "es": "Básico.",
+          "en": "Basic."
+        },
+        "projects": []
+      }
+    ],
+    "edges": [
+      {
+        "from": "machine-learning",
+        "to": "statistics",
+        "kind": "applies"
+      },
+      {
+        "from": "machine-learning",
+        "to": "optimisation",
+        "kind": "applies"
+      },
+      {
+        "from": "machine-learning",
+        "to": "linear-algebra",
+        "kind": "applies"
+      },
+      {
+        "from": "deep-learning",
+        "to": "machine-learning",
+        "kind": "extends"
+      },
+      {
+        "from": "gnn",
+        "to": "deep-learning",
+        "kind": "extends"
+      },
+      {
+        "from": "gnn",
+        "to": "differential-geometry",
+        "kind": "applies"
+      },
+      {
+        "from": "gnn",
+        "to": "linear-algebra",
+        "kind": "applies"
+      },
+      {
+        "from": "anomaly-detection",
+        "to": "machine-learning",
+        "kind": "extends"
+      },
+      {
+        "from": "anomaly-detection",
+        "to": "time-series",
+        "kind": "applies"
+      },
+      {
+        "from": "anomaly-detection",
+        "to": "statistics",
+        "kind": "applies"
+      },
+      {
+        "from": "causal-inference",
+        "to": "statistics",
+        "kind": "applies"
+      },
+      {
+        "from": "causal-inference",
+        "to": "probability",
+        "kind": "applies"
+      },
+      {
+        "from": "time-series",
+        "to": "probability",
+        "kind": "applies"
+      },
+      {
+        "from": "evaluation",
+        "to": "statistics",
+        "kind": "applies"
+      },
+      {
+        "from": "evaluation",
+        "to": "testing",
+        "kind": "pairs"
+      },
+      {
+        "from": "credit-risk",
+        "to": "ifrs-9",
+        "kind": "uses"
+      },
+      {
+        "from": "credit-risk",
+        "to": "statistics",
+        "kind": "applies"
+      },
+      {
+        "from": "credit-risk",
+        "to": "r",
+        "kind": "uses"
+      },
+      {
+        "from": "credit-risk",
+        "to": "sql",
+        "kind": "uses"
+      },
+      {
+        "from": "xgboost",
+        "to": "machine-learning",
+        "kind": "extends"
+      },
+      {
+        "from": "scikit-learn",
+        "to": "machine-learning",
+        "kind": "extends"
+      },
+      {
+        "from": "pytorch",
+        "to": "deep-learning",
+        "kind": "extends"
+      },
+      {
+        "from": "computer-vision",
+        "to": "deep-learning",
+        "kind": "extends"
+      },
+      {
+        "from": "yolo",
+        "to": "computer-vision",
+        "kind": "extends"
+      },
+      {
+        "from": "llm",
+        "to": "deep-learning",
+        "kind": "extends"
+      },
+      {
+        "from": "rag",
+        "to": "llm",
+        "kind": "extends"
+      },
+      {
+        "from": "mlops",
+        "to": "evaluation",
+        "kind": "applies"
+      },
+      {
+        "from": "mlops",
+        "to": "docker",
+        "kind": "uses"
+      },
+      {
+        "from": "mlops",
+        "to": "ci-cd",
+        "kind": "uses"
+      },
+      {
+        "from": "python",
+        "to": "pandas",
+        "kind": "uses"
+      },
+      {
+        "from": "python",
+        "to": "numpy",
+        "kind": "uses"
+      },
+      {
+        "from": "python",
+        "to": "pytorch",
+        "kind": "uses"
+      },
+      {
+        "from": "python",
+        "to": "scikit-learn",
+        "kind": "uses"
+      },
+      {
+        "from": "python",
+        "to": "pytest",
+        "kind": "pairs"
+      },
+      {
+        "from": "sql",
+        "to": "postgres",
+        "kind": "pairs"
+      },
+      {
+        "from": "postgres",
+        "to": "supabase",
+        "kind": "pairs"
+      },
+      {
+        "from": "typescript",
+        "to": "astro",
+        "kind": "uses"
+      },
+      {
+        "from": "typescript",
+        "to": "nextjs",
+        "kind": "uses"
+      },
+      {
+        "from": "typescript",
+        "to": "three-js",
+        "kind": "uses"
+      },
+      {
+        "from": "typescript",
+        "to": "playwright",
+        "kind": "pairs"
+      },
+      {
+        "from": "testing",
+        "to": "pytest",
+        "kind": "uses"
+      },
+      {
+        "from": "testing",
+        "to": "playwright",
+        "kind": "uses"
+      },
+      {
+        "from": "ci-cd",
+        "to": "git",
+        "kind": "pairs"
+      },
+      {
+        "from": "ci-cd",
+        "to": "docker",
+        "kind": "uses"
+      },
+      {
+        "from": "docker",
+        "to": "linux",
+        "kind": "pairs"
+      },
+      {
+        "from": "architecture",
+        "to": "testing",
+        "kind": "pairs"
+      },
+      {
+        "from": "fastf1",
+        "to": "time-series",
+        "kind": "applies"
+      },
+      {
+        "from": "fastf1",
+        "to": "python",
+        "kind": "uses"
+      },
+      {
+        "from": "litellm",
+        "to": "python",
+        "kind": "uses"
+      },
+      {
+        "from": "litellm",
+        "to": "llm",
+        "kind": "applies"
+      },
+      {
+        "from": "phoenix",
+        "to": "litellm",
+        "kind": "pairs"
+      },
+      {
+        "from": "phoenix",
+        "to": "evaluation",
+        "kind": "applies"
+      },
+      {
+        "from": "mlflow",
+        "to": "evaluation",
+        "kind": "applies"
+      },
+      {
+        "from": "mlflow",
+        "to": "python",
+        "kind": "uses"
+      },
+      {
+        "from": "three-js",
+        "to": "blender",
+        "kind": "pairs"
+      },
+      {
+        "from": "lidar",
+        "to": "blender",
+        "kind": "pairs"
+      },
+      {
+        "from": "lidar",
+        "to": "python",
+        "kind": "uses"
+      },
+      {
+        "from": "numpy",
+        "to": "linear-algebra",
+        "kind": "applies"
+      },
+      {
+        "from": "opencv",
+        "to": "computer-vision",
+        "kind": "applies"
+      },
+      {
+        "from": "streamlit",
+        "to": "pandas",
+        "kind": "uses"
+      },
+      {
+        "from": "power-automate",
+        "to": "azure",
+        "kind": "extends"
+      },
+      {
+        "from": "nextjs",
+        "to": "supabase",
+        "kind": "pairs"
+      },
+      {
+        "from": "gcp",
+        "to": "sql",
+        "kind": "uses"
+      },
+      {
+        "from": "algorithms",
+        "to": "python",
+        "kind": "pairs"
+      },
+      {
+        "from": "astro",
+        "to": "playwright",
+        "kind": "pairs"
+      }
+    ]
+  }
+]
