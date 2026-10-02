@@ -180,6 +180,22 @@ export function sectorOf(track: Track, progress: number): number {
   return 1;
 }
 
+/** Collision against both circuit barriers, leaving a small run-off strip. */
+export function constrainToTrack(track: Track, car: Vec & { speed: number; heading: number }, hint?: number): boolean {
+  const position = locate(track, car, hint);
+  const limit = track.halfWidth + 10;
+  if (position.distance <= limit) return false;
+  const centre = track.centreline[position.index]!;
+  const dx = car.x - centre.x, dy = car.y - centre.y;
+  const length = Math.hypot(dx, dy) || 1;
+  car.x = centre.x + dx / length * limit;
+  car.y = centre.y + dy / length * limit;
+  // Remove outward velocity while retaining motion along the barrier.
+  const outward = Math.cos(car.heading) * dx / length + Math.sin(car.heading) * dy / length;
+  if (outward > 0) car.speed *= Math.max(.15, 1 - outward);
+  return true;
+}
+
 /** Curve radius at a sample, from the turn between its neighbours. */
 export function curvatureAt(track: Track, index: number): number {
   const count = track.centreline.length;

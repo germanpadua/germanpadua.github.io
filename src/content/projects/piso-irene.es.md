@@ -2,7 +2,8 @@
 locale: es
 slug: piso-irene
 title: Editor de planos y reforma en 3D
-summary: "Editor de vivienda que corre en el navegador sin conexión: plano en 2D, levantamiento en 3D con mobiliario, luz natural hora a hora y recorrido en primera persona. Todo en un solo archivo HTML."
+summary: 'Editor de vivienda que corre en el navegador sin conexión: plano en 2D, levantamiento en 3D con mobiliario, luz natural hora a hora
+  y recorrido en primera persona. Todo en un solo archivo HTML.'
 role: Diseño e implementación completos
 period: septiembre 2026
 year: 2026
@@ -11,42 +12,38 @@ status: in-progress
 visibility: case-study
 confidentiality: Contiene el plano de una vivienda real. No se publica hasta sustituirlo por un plano sintético.
 domains:
-  - gráficos 3D
-  - herramientas locales
-  - geometría computacional
-  - PWA
+- gráficos 3D
+- herramientas locales
+- geometría computacional
+- PWA
 stack:
-  - JavaScript ESM
-  - Three.js
-  - esbuild
-  - Cloudflare Workers
-  - happy-dom
-  - PWA
-metrics:
-  - value: 11
-    label: Archivos de test
-    basis: artifact
-    source: tests/
-  - value: 38,046
-    label: Puntos PDF por metro en la escala del plano
-    basis: artifact
-    source: LEEME.md
-  - value: 1
-    label: Archivo HTML portátil con editor y plano dentro
-    basis: artifact
-    source: "Piso Irene 3D.html"
+- JavaScript ESM
+- Three.js
+- esbuild
+- Cloudflare Workers
+- happy-dom
+- PWA
+metrics: []
 highlights:
-  - "\"El editor entero cabe en un único archivo HTML que se abre con doble clic, sin instalación y sin conexión. Ese requisito condicionó toda la arquitectura y fue el correcto: la herramienta tenía que funcionar en una obra sin cobertura.\""
-  - La orientación solar se calcula por hora, así que se puede ver si la reforma deja la cocina a oscuras a las nueve de la mañana antes de mover un tabique.
-  - "\"El modo de recorrido es en primera persona y con colisión, no una órbita alrededor de la maqueta: se entra y se camina.\""
-  - El despliegue público va detrás de un Worker de Cloudflare con contraseña y una cookie firmada con HMAC, precisamente porque el contenido es privado.
-  - La escala del plano está derivada de los puntos del PDF, no estimada a ojo, y la discrepancia de 6,99 puntos entre las dos versiones del plano está documentada como tal.
+- '"El editor entero cabe en un único archivo HTML que se abre con doble clic, sin instalación y sin conexión. Ese requisito condicionó toda la
+  arquitectura y fue el correcto: la herramienta tenía que funcionar en una obra sin cobertura."'
+- La orientación solar se calcula por hora, así que se puede ver si la reforma deja la cocina a oscuras a las nueve de la mañana antes de mover
+  un tabique.
+- '"El modo de recorrido es en primera persona y con colisión, no una órbita alrededor de la maqueta: se entra y se camina."'
+- El despliegue público va detrás de un Worker de Cloudflare con contraseña y una cookie firmada con HMAC, precisamente porque el contenido es
+  privado.
+- La escala del plano está derivada de los puntos del PDF, no estimada a ojo, y la discrepancia de 6,99 puntos entre las dos versiones del plano
+  está documentada como tal.
 limits:
-  - "\"No se puede publicar tal como está. Los planos de origen, las capturas de estado actual y reformado, y el proyecto exportado llevan la vivienda real dentro, con la dirección en el nombre del archivo de partida. Un plano real no se anonimiza desplazando una coordenada: hay que rehacer los assets.\""
-  - El plan para publicarlo es sustituir la vivienda por un plano sintético de distribuciones equivalentes y regenerar todas las capturas. Está pendiente.
-  - "\"No es un plano técnico de ejecución: no comprueba escaleras, puertas ni habitabilidad, y no vale para pedir licencia de obra.\""
-  - Los suelos y las paredes se colocan por separado, así que hay que ajustar los dos.
-  - Los datos viven en el almacenamiento local del navegador, sin servidor. iOS puede vaciarlo, y la copia de seguridad es un archivo JSON que hay que exportar a mano.
+- '"No se puede publicar tal como está. Los planos de origen, las capturas de estado actual y reformado, y el proyecto exportado llevan la vivienda
+  real dentro, con la dirección en el nombre del archivo de partida. Un plano real no se anonimiza desplazando una coordenada: hay que rehacer
+  los assets."'
+- El plan para publicarlo es sustituir la vivienda por un plano sintético de distribuciones equivalentes y regenerar todas las capturas. Está
+  pendiente.
+- '"No es un plano técnico de ejecución: no comprueba escaleras, puertas ni habitabilidad, y no vale para pedir licencia de obra."'
+- Los suelos y las paredes se colocan por separado, así que hay que ajustar los dos.
+- Los datos viven en el almacenamiento local del navegador, sin servidor. iOS puede vaciarlo, y la copia de seguridad es un archivo JSON que hay
+  que exportar a mano.
 ---
 
 ## El problema

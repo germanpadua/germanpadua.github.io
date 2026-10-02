@@ -1,15 +1,7 @@
 ---
-import { Picture } from 'astro:assets';
 import { useTranslations, type Locale } from '../i18n/ui';
-import type { ImageMetadata } from 'astro';
-
-interface Props {
-  locale: Locale;
-  /** Resolved from `src/assets`, so Astro can emit the responsive variants. */
-  portrait?: ImageMetadata | null;
-}
-
-const { locale, portrait = null } = Astro.props;
+interface Props { locale: Locale }
+const { locale } = Astro.props;
 const t = useTranslations(locale);
 const p = t.profile;
 ---
@@ -28,24 +20,6 @@ const p = t.profile;
       </div>
 
       <div class="about__aside reveal reveal--last">
-        {
-          portrait && (
-            <figure class="portrait">
-              <Picture
-                src={portrait}
-                alt={
-                  locale === 'es' ? 'Retrato de German Padua' : 'Portrait of German Padua'
-                }
-                widths={[240, 400, 760]}
-                sizes="(max-width: 44rem) 22rem, 26rem"
-                formats={['avif', 'webp']}
-                loading="lazy"
-                decoding="async"
-              />
-            </figure>
-          )
-        }
-
         <ul class="pillars" role="list">
           {
             p.pillars.map((pillar) => (
@@ -142,7 +116,7 @@ const p = t.profile;
 
     .about__aside {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+      grid-template-columns: 1fr;
       gap: var(--space-l);
       align-items: start;
     }

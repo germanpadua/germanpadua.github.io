@@ -92,8 +92,8 @@
   border-radius: var(--radius-md);
   background-color: var(--bg-inset);
   overflow: hidden;
-  /* A drag on the canvas must not scroll the page on a phone. */
-  touch-action: none;
+  /* Touch scrolling remains available; dragging nodes is a mouse interaction. */
+  touch-action: pan-y;
 }
 
 .graph__canvas {
@@ -160,6 +160,15 @@
   color: var(--fg-muted);
   margin-top: var(--space-2xs);
 }
+
+.graph__picker { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; font-size: var(--step--1); color: var(--fg-muted); }
+.graph__picker select { max-width: 100%; min-height: 44px; padding: .5rem .75rem; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-raised); }
+.graph__detail-projects { display: flex; flex-wrap: wrap; align-items: baseline; gap: .4rem 1rem; }
+.graph__coursework { margin-top: .75rem; color: var(--fg-muted); font-size: var(--step--2); }
+.graph__coursework summary { cursor: pointer; color: var(--fg-strong); font-size: var(--step--1); }
+.graph__coursework ul { margin-top: .5rem; display: grid; gap: .25rem; }
+.graph__coursework li { display: flex; gap: .5rem; align-items: baseline; }
+.graph__coursework li span { flex: none; color: var(--accent); }
 
 .graph__detail-hint {
   font-size: var(--step--1);
@@ -603,3 +612,18 @@
   pointer-events: none;
   text-shadow: 0 2px 24px var(--bg);
 }
+
+/* Saved thesis experiment comparison. */
+.thesis-explorer { border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; margin-block: 1.5rem 3rem; background: var(--bg-raised); }
+.thesis-explorer__toolbar { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem; }
+.thesis-explorer select { background: var(--bg); border: 1px solid var(--border-strong); padding: .6rem 1rem; border-radius: 6px; }
+.thesis-explorer__views { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.thesis-explorer figure { margin: 0; min-width: 0; }
+.thesis-explorer figcaption { font-size: .9rem; font-weight: 600; }
+.thesis-explorer figure p { font-size: .85rem; }
+.thesis-explorer figure strong { margin-left: .5rem; }
+.thesis-explorer__note, .thesis-explorer details { font-size: .8rem; color: var(--fg-muted); margin-top: 1rem; }
+.thesis-explorer summary { cursor: pointer; }
+@media (max-width: 35rem) { .thesis-explorer__views { grid-template-columns: 1fr; } }
+.game__actions { display: flex; justify-content: flex-end; gap: .6rem; padding: .8rem 1rem; border-top: 1px solid var(--border); }
+.game__stage { border-radius: 8px; }

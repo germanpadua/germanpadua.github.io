@@ -2,7 +2,8 @@
 locale: es
 slug: inference-obs
 title: inference-obs
-summary: Pasarela de inferencia LLM autoalojada y observable. Un operador sirve a varios proyectos con claves virtuales, presupuesto por proyecto y cada llamada trazada hasta el proyecto y el usuario final que la hizo.
+summary: Pasarela de inferencia LLM autoalojada y observable. Un operador sirve a varios proyectos con claves virtuales, presupuesto por proyecto
+  y cada llamada trazada hasta el proyecto y el usuario final que la hizo.
 role: Diseño, implementación y operación
 period: agosto - octubre 2026
 year: 2026
@@ -11,48 +12,37 @@ status: shipped
 visibility: case-study
 confidentiality: Repositorio privado. Las trazas contienen prompts y respuestas completas, así que la operación es deliberadamente cerrada.
 domains:
-  - LLMOps
-  - observabilidad
-  - plataforma
-  - seguridad
+- LLMOps
+- observabilidad
+- plataforma
+- seguridad
 stack:
-  - Python
-  - LiteLLM
-  - PostgreSQL 16
-  - Arize Phoenix
-  - OpenTelemetry
-  - Docker Compose
-  - supervisord
-  - GitHub Actions
-metrics:
-  - value: 13 + 10
-    label: Suites de test unitario y de integración con Docker
-    basis: artifact
-    source: scripts/**/test_*.py y test-*-local.sh
-  - value: 3,75 / 4 GiB
-    label: Envolvente de memoria de los dos servicios juntos
-    basis: artifact
-    source: docs/superpowers/plans/2026-09-04-core-runtime-memory.md
-  - value: 200
-    label: Código de respuesta de una inferencia con el servicio de trazas caído
-    basis: artifact
-    source: docs/design.md §9, docs/runbook.md:554
-  - value: 0
-    label: Puntuaciones de evaluación commiteadas
-    basis: artifact
-    source: los resultados viven en Phoenix, no en el repositorio
+- Python
+- LiteLLM
+- PostgreSQL 16
+- Arize Phoenix
+- OpenTelemetry
+- Docker Compose
+- supervisord
+- GitHub Actions
+metrics: []
 highlights:
-  - "\"La degradación está probada, no supuesta: con Phoenix caído una petición sigue devolviendo 200, la traza de esa ventana se pierde y no se reexporta. Es un test de integración con Docker, no una intención.\""
-  - "\"Un proyecto, una clave virtual: las claves llevan metadatos que enrutan cada traza a su proyecto en Phoenix, así que la atribución no depende de que el cliente se identifique bien.\""
-  - Cuatro suites de análisis estático en integración continua —secretos, shell, Dockerfile y dependencias— más un bloqueo de dependencias con hashes, porque una pasarela con acceso a todos los modelos es un objetivo interesante.
-  - El informe de evaluación separa los fallos del modelo, los del juez y los juicios que faltan, en lugar de meterlos todos en un promedio.
+- '"La degradación está probada, no supuesta: con Phoenix caído una petición sigue devolviendo 200, la traza de esa ventana se pierde y no se
+  reexporta. Es un test de integración con Docker, no una intención."'
+- '"Un proyecto, una clave virtual: las claves llevan metadatos que enrutan cada traza a su proyecto en Phoenix, así que la atribución no depende
+  de que el cliente se identifique bien."'
+- Cuatro suites de análisis estático en integración continua —secretos, shell, Dockerfile y dependencias— más un bloqueo de dependencias con hashes,
+  porque una pasarela con acceso a todos los modelos es un objetivo interesante.
+- El informe de evaluación separa los fallos del modelo, los del juez y los juicios que faltan, en lugar de meterlos todos en un promedio.
 limits:
-  - "\"No hay puntuaciones de evaluación commiteadas: los resultados viven en Phoenix y no en el repositorio, así que no puedo publicar ninguna.\""
-  - El despliegue en un VPS genérico no está soportado en esta versión; está pensado para una plataforma concreta de aplicaciones con HTTPS público.
-  - El gasto es contabilidad sintética, no la facturación real del proveedor. Sirve para atribuir coste por proyecto, no para cuadrar una factura.
-  - La base de datos de trazas es mono usuario. Con varios operadores simultáneos no aguanta.
-  - La clave de sistema puede leer las trazas de todos los proyectos. Es una concesión real de seguridad que asumí para que un operador pueda depurar, y está documentada como tal.
-  - Las trazas guardan prompts y respuestas completas, así que el manual exige identificadores seudónimos. Es una dependencia de disciplina humana, no de diseño.
+- '"No hay puntuaciones de evaluación commiteadas: los resultados viven en Phoenix y no en el repositorio, así que no puedo publicar ninguna."'
+- El despliegue en un VPS genérico no está soportado en esta versión; está pensado para una plataforma concreta de aplicaciones con HTTPS público.
+- El gasto es contabilidad sintética, no la facturación real del proveedor. Sirve para atribuir coste por proyecto, no para cuadrar una factura.
+- La base de datos de trazas es mono usuario. Con varios operadores simultáneos no aguanta.
+- La clave de sistema puede leer las trazas de todos los proyectos. Es una concesión real de seguridad que asumí para que un operador pueda depurar,
+  y está documentada como tal.
+- Las trazas guardan prompts y respuestas completas, así que el manual exige identificadores seudónimos. Es una dependencia de disciplina humana,
+  no de diseño.
 ---
 
 ## El problema

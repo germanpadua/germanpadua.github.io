@@ -19,10 +19,8 @@ import Experience from './Experience.astro';
 import Skills from './Skills.astro';
 import Education from './Education.astro';
 import Playground from './Playground.astro';
-import OffTheClock from './OffTheClock.astro';
 import Contact from './Contact.astro';
 import { useTranslations, type Locale } from '../i18n/ui';
-import portraitImage from '../assets/portrait.jpg';
 
 interface Props {
   locale: Locale;
@@ -37,7 +35,6 @@ const navLinks = [
   { href: '#work', label: t.nav.work },
   { href: '#skills', label: t.nav.skills },
   { href: '#education', label: t.nav.education },
-  { href: '#playground', label: t.nav.playground },
   { href: '#contact', label: t.nav.contact },
 ];
 
@@ -45,13 +42,12 @@ const navLinks = [
 
 <Base locale={locale} alternate={{ es: '/', en: '/en/' }} navLinks={navLinks}>
   <Hero locale={locale} primaryHref="#projects" secondaryHref="#work" />
-  <Profile locale={locale} portrait={portraitImage} />
+  <Profile locale={locale} />
   <Projects locale={locale} />
   <Highlights locale={locale} />
   <Experience locale={locale} />
   <Skills locale={locale} />
   <Education locale={locale} />
   <Playground locale={locale} />
-  <OffTheClock locale={locale} />
   <Contact locale={locale} />
 </Base>

@@ -29,16 +29,16 @@ const es = {
   meta: {
     title: 'German Padua · Ingeniero informático y matemático',
     description:
-      'Ingeniero informático y matemático. Construyo modelos y sistemas de datos que aguantan una auditoría: riesgo de crédito bajo IFRS 9, detección causal de anomalías y plataformas de IA en producción.',
+      'Matemático, ingeniero informático y científico de datos. Modelos de riesgo, aprendizaje sobre grafos, telemetría y aplicaciones de inteligencia artificial.',
   },
   nav: {
     label: 'Navegación principal',
     about: 'Perfil',
     work: 'Experiencia',
     projects: 'Proyectos',
-    skills: 'Skills',
+    skills: 'Conocimientos',
     education: 'Formación',
-    playground: 'Playground',
+    playground: 'Circuito',
     contact: 'Contacto',
     menu: 'Menú',
     closeMenu: 'Cerrar menú',
@@ -50,42 +50,25 @@ const es = {
   hero: {
     eyebrow: 'Matemáticas · Ingeniería · Ciencia de datos',
     greeting: 'Hola, soy',
-    headline: 'Construyo modelos y sistemas que aguantan una auditoría.',
+    headline: 'De las matemáticas a los productos de datos.',
     support:
-      'Doble grado en Ingeniería Informática y Matemáticas, máster en Ciencia de Datos. Hoy trabajo en riesgo de crédito bajo IFRS 9 y, fuera del banco, en detección causal de anomalías y plataformas de IA autoalojadas.',
+      'Soy matemático, ingeniero informático y científico de datos. Trabajo en modelos de riesgo de crédito y desarrollo proyectos de aprendizaje automático, IA y visualización. Me interesa entender el problema y construir algo que lo resuelva.',
     primaryAction: 'Ver los proyectos',
     secondaryAction: 'Experiencia',
-    stats: [
-      { value: '9,9/10', label: 'TFG en redes neuronales sobre variedades pseudo-riemannianas' },
-      { value: '8,59/10', label: 'Máster en Ciencia de Datos, Universidad de Granada' },
-      { value: '90/105.000', label: 'Santander AI Experience @ IE, julio 2026' },
-    ],
   },
   profile: {
     eyebrow: 'Perfil',
-    title: 'matemáticas + informática + datos',
-    lead: 'Los tres ejes, y por qué juntos valen más que por separado.',
+    title: 'Entender, experimentar, construir.',
+    lead: 'Una base matemática y una forma práctica de trabajar.',
     paragraphs: [
-      'Estudié Matemáticas e Informática porque me atraen los problemas que hay que entender de verdad antes de resolverlos, no los que se resuelven aplicando algo que ya sabes. Hice las dos carreras a la vez, después un máster en Ciencia de Datos, y de ahí me quedó una manía útil: cuando un resultado me gusta demasiado, lo vuelvo a mirar.',
-      'Trabajo en riesgo de crédito bajo el marco IFRS 9, donde soy responsable de la calibración, la monitorización y la proyección del parámetro LGD. Es un entorno donde un modelo no vale por su métrica en validación, sino por lo que aguanta cuando alguien de fuera audita el dato, los supuestos y la documentación seis meses después.',
-      'Lo que me interesa no es modelar en aislamiento: es el proceso completo. Entender el problema, diseñar, iterar y hacer que el resultado sirva para algo. Fuera del banco construyo lo mismo por gusto: detección causal de anomalías sobre telemetría pública de Fórmula 1, pasarelas de inferencia autoalojadas con evaluación instrumentada, y flujos que convierten notas de voz en documentos revisables. Si algo no se puede reproducir, no está terminado.',
+      'Elegí el doble grado en Matemáticas e Ingeniería Informática porque me gusta entender cómo funcionan las cosas y tener las herramientas para construirlas. El máster en Ciencia de Datos me permitió conectar ambas partes con problemas reales.',
+      'En BCC · Grupo Cajamar trabajo en la calibración y seguimiento de modelos de riesgo de crédito. Me ocupo del recorrido completo: preparar los datos, desarrollar el modelo, analizar sus resultados y explicarlos a los equipos de riesgo y validación.',
+      'En mis proyectos exploro esa misma conexión entre ideas y aplicaciones: redes neuronales con geometría no euclídea, olivares vistos desde un satélite y agentes que convierten una conversación en acciones. Disfruto tanto del análisis como de hacer que el resultado se pueda usar.',
     ],
     pillars: [
-      {
-        label: 'Matemáticas',
-        detail:
-          'Estadística, álgebra lineal, optimización y geometría diferencial. El formalismo no decora: es lo que te dice cuándo un modelo está mal antes de que lo diga producción.',
-      },
-      {
-        label: 'Informática',
-        detail:
-          'Sistemas que corren de verdad: pipelines, contenedores, integración continua y tests. Un cuaderno de Jupyter no es un producto.',
-      },
-      {
-        label: 'Ciencia de datos',
-        detail:
-          'Del dato crudo a la decisión, con trazabilidad. Modelos de riesgo, detección de anomalías, visión por computador y LLMs en producción.',
-      },
+      { label: 'Fundamentos', detail: 'Estadística, optimización y geometría para comprender los modelos y sus supuestos.' },
+      { label: 'Experimentación', detail: 'Comparar alternativas, revisar los datos e interpretar lo que muestran los resultados.' },
+      { label: 'Aplicaciones', detail: 'Pipelines, interfaces y automatizaciones que acercan el modelo a quien lo necesita.' },
     ],
   },
   sections: {
@@ -94,13 +77,13 @@ const es = {
     projects: {
       eyebrow: 'Trabajo',
       title: 'Proyectos',
-      lead: 'Sistemas que he diseñado, construido y medido.',
+      lead: 'Una selección de investigación, ingeniería y aplicaciones.',
     },
-    skills: { eyebrow: 'Herramientas', title: 'Skills', lead: '' },
+    skills: { eyebrow: 'Herramientas', title: 'Conocimientos en práctica', lead: 'Del fundamento a la herramienta, y de la herramienta al proyecto.' },
     highlights: {
       eyebrow: 'Reconocimientos',
       title: 'Selecciones y competiciones',
-      lead: 'Cosas que no son un trabajo ni un título y que, sin embargo, explican bastante.',
+      lead: 'Experiencias que amplían mi formación y me acercan a otros equipos.',
     },
     offClock: {
       eyebrow: 'Fuera del reloj',
@@ -109,9 +92,9 @@ const es = {
     },
     education: { eyebrow: 'Formación', title: 'Formación y certificaciones', lead: '' },
     playground: {
-      eyebrow: 'Playground',
-      title: 'Playground',
-      lead: 'Tres formas de tocar el sitio: una terminal, un grafo de skills y una vuelta de clasificación.',
+      eyebrow: 'Una pausa',
+      title: 'Una vuelta más',
+      lead: 'También me gusta la Fórmula 1. Aquí puedes probar una vuelta de clasificación.',
     },
     contact: {
       eyebrow: 'Contacto',
@@ -145,7 +128,7 @@ const es = {
   footer: {
     nav: 'Navegación',
     elsewhere: 'En otros sitios',
-    built: 'Hecho con Astro. Sin JavaScript en el documento: solo las tres capas interactivas lo cargan.',
+    built: 'Diseñado y desarrollado por Germán Padua.',
     themeNote: 'Cuatro temas, un solo diseño.',
     rights: 'Contenido y diseño',
     backToTop: 'Volver arriba',
@@ -166,7 +149,7 @@ const es = {
     period: 'Periodo',
     status: 'Estado',
     stack: 'Tecnologías',
-    limits: 'Lo que no reclamo',
+    limits: 'Alcance y limitaciones',
     metrics: 'Números',
     team: 'Equipo',
     contribution: 'Mi aporte',
@@ -223,9 +206,9 @@ const es = {
   graph: {
     title: 'Grafo de skills',
     areas: 'Filtrar por área',
-    reset: 'Reorganizar',
+    reset: 'Restablecer',
     showAll: 'Mostrar todas',
-    hint: 'Pasá el cursor por encima de un nodo para ver qué conecta, y hacé clic para leer la nota. Podés arrastrarlos.',
+    hint: 'Selecciona un conocimiento para ver dónde lo aplico.',
     usedIn: 'Usado en',
     empty: 'No queda ninguna área seleccionada.',
     canvasLabel: 'Grafo de skills: nodos agrupados por área y unidos por relaciones de uso, aplicación, extensión y afinidad.',
@@ -237,7 +220,7 @@ const es = {
   game: {
     title: 'Vuelta de clasificación',
     start: 'Salir a pista',
-    restart: 'Otra vuelta',
+    restart: 'Reiniciar',
     resume: 'Continuar',
     paused: 'En pausa',
     lap: 'Vuelta',
@@ -251,7 +234,7 @@ const es = {
     noRecord: 'Todavía no hay ninguna vuelta registrada.',
     sectors: 'Análisis por sector',
     delta: 'Delta',
-    controls: 'Acelerá, frená y trazás. Frená antes de la curva o perderás el agarre.',
+    controls: 'Acelera, frena y gira. Reduce la velocidad antes de las curvas para mantener el agarre.',
     throttle: 'Acelerar',
     brake: 'Frenar',
     keyboard: 'Teclado: ↑ acelerar · ↓ frenar · ← → trazar · espacio pausa · R reinicia',
@@ -307,7 +290,7 @@ const en: Dictionary = {
   meta: {
     title: 'German Padua · Computer engineer and mathematician',
     description:
-      'Computer engineer and mathematician. I build models and data systems that survive an audit: IFRS 9 credit risk, causal anomaly detection, and self-hosted AI platforms.',
+      'Mathematician, computer engineer and data scientist. Credit risk models, graph learning, telemetry and AI applications.',
   },
   nav: {
     label: 'Main navigation',
@@ -328,53 +311,36 @@ const en: Dictionary = {
   hero: {
     eyebrow: 'Mathematics · Engineering · Data science',
     greeting: "Hi, I'm",
-    headline: 'I build models and systems that survive an audit.',
+    headline: 'From mathematics to data products.',
     support:
-      'Double degree in Computer Engineering and Mathematics, MSc in Data Science. Today I work on IFRS 9 credit risk and, outside the bank, on causal anomaly detection and self-hosted AI platforms.',
+      'I’m a mathematician, computer engineer and data scientist. I work on credit risk models and build machine learning, AI and visualisation projects. I like understanding a problem and building something that solves it.',
     primaryAction: 'See the projects',
     secondaryAction: 'Experience',
-    stats: [
-      { value: '9.9/10', label: 'Thesis on graph neural networks on pseudo-Riemannian manifolds' },
-      { value: '8.59/10', label: 'MSc in Data Science, University of Granada' },
-      { value: '90/105,000', label: 'Santander AI Experience @ IE, July 2026' },
-    ],
   },
   profile: {
     eyebrow: 'Profile',
-    title: 'mathematics + computer science + data',
-    lead: 'Three axes, and why together they are worth more than separately.',
+    title: 'Understand, experiment, build.',
+    lead: 'A mathematical foundation and a practical approach.',
     paragraphs: [
-      'I studied Mathematics and Computer Science because I am drawn to problems you have to genuinely understand before you can solve them, not problems you solve by applying something you already know. I took both degrees at once, then an MSc in Data Science, and it left me with a useful habit: when a result looks too good, I check it again.',
-      'I work on credit risk under the IFRS 9 framework, where I own the calibration, monitoring, and projection of the LGD parameter. It is an environment where a model is not worth its validation metric, but what it withstands when someone outside audits the data, the assumptions, and the documentation six months later.',
-      'What interests me is not modelling in isolation: it is the whole process. Understanding the problem, designing a solution, iterating, and making the result useful. Outside the bank I build the same kind of thing for the pleasure of it: causal anomaly detection over public Formula 1 telemetry, self-hosted inference gateways with instrumented evaluation, and flows that turn voice notes into reviewable documents. If it cannot be reproduced, it is not finished.',
+      'I chose Mathematics and Computer Engineering because I enjoy understanding how things work and having the tools to build them. A master’s in Data Science connected those interests to real problems.',
+      'At BCC · Grupo Cajamar I work on credit risk model calibration and monitoring. I cover the full process: preparing data, developing the model, analysing results and explaining them to risk and validation teams.',
+      'My projects explore the same link between ideas and applications: neural networks with non-Euclidean geometry, olive groves viewed from a satellite and agents that turn conversations into actions. I enjoy the analysis as much as making the result useful.',
     ],
     pillars: [
-      {
-        label: 'Mathematics',
-        detail:
-          'Statistics, linear algebra, optimisation, and differential geometry. Formalism is not decoration: it is what tells you a model is wrong before production does.',
-      },
-      {
-        label: 'Computer science',
-        detail:
-          'Systems that actually run: pipelines, containers, continuous integration, and tests. A Jupyter notebook is not a product.',
-      },
-      {
-        label: 'Data science',
-        detail:
-          'From raw data to a decision, with lineage. Risk models, anomaly detection, computer vision, and LLMs in production.',
-      },
+      { label: 'Foundations', detail: 'Statistics, optimisation and geometry to understand models and their assumptions.' },
+      { label: 'Experiments', detail: 'Comparing alternatives, reviewing data and interpreting the results.' },
+      { label: 'Applications', detail: 'Pipelines, interfaces and automations that bring models to the people who need them.' },
     ],
   },
   sections: {
     about: { eyebrow: 'Profile', title: 'Profile', lead: '' },
     work: { eyebrow: 'Track record', title: 'Experience', lead: '' },
-    projects: { eyebrow: 'Work', title: 'Projects', lead: 'Systems I designed, built, and measured.' },
-    skills: { eyebrow: 'Toolbox', title: 'Skills', lead: '' },
+    projects: { eyebrow: 'Work', title: 'Projects', lead: 'Selected research, engineering and applications.' },
+    skills: { eyebrow: 'Toolbox', title: 'Knowledge in practice', lead: 'From foundations to tools, and from tools to projects.' },
     highlights: {
       eyebrow: 'Recognition',
       title: 'Selections and competitions',
-      lead: 'Things that are neither a job nor a degree, and that still explain a fair amount.',
+      lead: 'Experiences that broaden my learning and connect me with other teams.',
     },
     offClock: {
       eyebrow: 'Off the clock',
@@ -383,9 +349,9 @@ const en: Dictionary = {
     },
     education: { eyebrow: 'Background', title: 'Education and certifications', lead: '' },
     playground: {
-      eyebrow: 'Playground',
-      title: 'Playground',
-      lead: 'Three ways to touch this site: a terminal, a skill graph, and a qualifying lap.',
+      eyebrow: 'A short break',
+      title: 'One more lap',
+      lead: 'I also enjoy Formula 1. Try a qualifying lap here.',
     },
     contact: {
       eyebrow: 'Contact',
@@ -418,7 +384,7 @@ const en: Dictionary = {
   footer: {
     nav: 'Navigation',
     elsewhere: 'Elsewhere',
-    built: 'Built with Astro. The document ships no JavaScript: only the three interactive layers load it.',
+    built: 'Designed and built by Germán Padua.',
     themeNote: 'Four themes, one design.',
     rights: 'Content and design',
     backToTop: 'Back to top',
@@ -439,7 +405,7 @@ const en: Dictionary = {
     period: 'Period',
     status: 'Status',
     stack: 'Stack',
-    limits: 'What I do not claim',
+    limits: 'Scope and limitations',
     metrics: 'Numbers',
     team: 'Team',
     contribution: 'My contribution',
@@ -496,7 +462,7 @@ const en: Dictionary = {
   graph: {
     title: 'Skill graph',
     areas: 'Filter by area',
-    reset: 'Re-layout',
+    reset: 'Reset',
     showAll: 'Show all',
     hint: 'Hover a node to see what it connects to, and click to read the note. You can drag them.',
     usedIn: 'Used in',
@@ -510,7 +476,7 @@ const en: Dictionary = {
   game: {
     title: 'Qualifying lap',
     start: 'Take to the track',
-    restart: 'Another lap',
+    restart: 'Restart',
     resume: 'Resume',
     paused: 'Paused',
     lap: 'Lap',

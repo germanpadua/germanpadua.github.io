@@ -1,0 +1,55 @@
+---
+import evidence from '../assets/data/telemetry-preview.json';
+const { locale = 'es' } = Astro.props;
+const es = locale === 'es';
+const alert = evidence.records.find(record => record.record_kind === 'emitted')!;
+const trace = evidence.trace.filter(point => point.t_s <= alert.available_at_s + 6);
+const now = trace[trace.length - 1]!;
+const x = (distance: number) => 44 + distance / evidence.length_m * 556;
+const y = (speed: number) => 270 - speed / 340 * 230;
+const path = (points: number[][]) => points.map(([px, py], i) => `${i ? 'L' : 'M'}${px!.toFixed(1)},${py!.toFixed(1)}`).join(' ');
+const reference = evidence.reference.filter(point => point.reference_kmh !== null);
+const referencePath = path(reference.map(point => [x(point.s_m + evidence.bin_width_m / 2), y(point.reference_kmh!)]));
+const floorPath = path(reference.filter(point => point.threshold_kmh !== null).map(point => [x(point.s_m + evidence.bin_width_m / 2), y(Math.max(0, point.reference_kmh! - point.threshold_kmh!))]));
+const speedPath = path(trace.map(point => [x(point.s_m), y(point.speed_kmh)]));
+---
+<figure class="telemetry-preview">
+  <div class="telemetry-preview__header"><strong>Telemetry Sentinel</strong><span>{es ? 'Leclerc · Baréin 2023' : 'Leclerc · Bahrain 2023'}</span></div>
+  <svg viewBox="0 0 620 310" role="img" aria-label={es ? 'Vuelta 40 de Leclerc en Baréin 2023: velocidad frente a distancia, referencia, umbral y alerta emitida. El futuro de la vuelta queda sin dibujar.' : 'Leclerc’s lap 40 in Bahrain 2023: speed against distance, reference, alert floor and emitted alert. Future lap data is not drawn.'}>
+    {[0,100,200,300].map(speed => <g><line x1="44" y1={y(speed)} x2="600" y2={y(speed)} stroke="var(--border)" /><text x="32" y={y(speed)+4} text-anchor="end">{speed}</text></g>)}
+    <text x="44" y="22">km/h</text>
+    {[0,1000,2000,3000,4000,5000].map(distance => <text x={x(distance)} y="295" text-anchor="middle">{distance === 0 ? '0 m' : `${distance/1000} km`}</text>)}
+    <path d={referencePath} class="telemetry-preview__reference" />
+    <path d={floorPath} class="telemetry-preview__floor" />
+    <rect x={x(now.s_m)} y="40" width={600-x(now.s_m)} height="230" fill="var(--bg-hover)" opacity=".65" />
+    <path d={speedPath} class="telemetry-preview__speed" />
+    <line x1={x(now.s_m)} x2={x(now.s_m)} y1="40" y2="270" stroke="var(--fg-muted)" />
+    <circle cx={x(now.s_m)} cy={y(now.speed_kmh)} r="4" fill="var(--fg-strong)" />
+    <circle cx={x(alert.s_m!)} cy={y(alert.speed_kmh!)} r="8" fill="#f47728" stroke="var(--fg-strong)" stroke-width="4" />
+    <text x={x(now.s_m)+8} y="257" class="telemetry-preview__future">{es ? 'Aún sin datos' : 'Not known yet'}</text>
+  </svg>
+  <figcaption>
+    <span><i class="reference"></i>{es ? 'Referencia' : 'Reference'}</span>
+    <span><i class="floor"></i>{es ? 'Umbral' : 'Alert floor'}</span>
+    <span><i></i>{es ? 'Coche 16' : 'Car 16'}</span>
+    <span><i class="alert"></i>{es ? 'Alerta' : 'Alert'}</span>
+  </figcaption>
+</figure>
+<style>
+ .telemetry-preview { width: 100%; height: 100%; background: var(--bg-raised); padding: clamp(.8rem, 2vw, 1.25rem); margin: 0; display: flex; flex-direction: column; }
+ .telemetry-preview__header { display: flex; align-items: baseline; justify-content: space-between; font-size: clamp(.65rem, 1vw, .85rem); gap: .5rem; }
+ .telemetry-preview__header strong { color: var(--fg-strong); }
+ .telemetry-preview__header span { color: var(--fg-muted); }
+ .telemetry-preview svg { width: 100%; flex: 1; min-height: 0; }
+ svg text { fill: var(--fg-muted); font-family: var(--font-code); font-size: 12px; }
+ .telemetry-preview__reference { fill: none; stroke: #6a8eae; stroke-width: 1.7; }
+ .telemetry-preview__floor { fill: none; stroke: #6a8eae; stroke-width: 1.2; stroke-dasharray: 4 4; }
+ .telemetry-preview__speed { fill: none; stroke: var(--fg-strong); stroke-width: 2.8; stroke-linejoin: round; stroke-linecap: round; }
+ .telemetry-preview__future { font-style: italic; font-size: 11px; }
+ figcaption { display: flex; flex-wrap: wrap; gap: .4rem 1rem; font-size: clamp(.6rem, .9vw, .7rem); color: var(--fg-muted); }
+ figcaption span { display: flex; align-items: center; gap: .35rem; }
+ i { display: inline-block; width: 1rem; height: 2px; background: var(--fg-strong); }
+ .reference { background: #6a8eae; }
+ .floor { background: none; border-top: 1px dashed #6a8eae; }
+ .alert { width: .55rem; height: .55rem; border-radius: 50%; background: #f47728; border: 1px solid var(--fg-strong); }
+</style>

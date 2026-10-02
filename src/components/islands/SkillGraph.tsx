@@ -45,6 +45,7 @@ interface GraphData {
   areas: Area[];
   nodes: GraphNode[];
   edges: GraphEdge[];
+  projectIndex: Record<string, { title: string; path: string }>;
 }
 
 interface Props {
@@ -71,7 +72,7 @@ const EDGE_ALPHA: Record<GraphEdge['kind'], number> = {
 };
 
 /** Only the heaviest nodes are labelled by default; the rest appear on focus. */
-const LABEL_THRESHOLD = 0.9;
+const LABEL_THRESHOLD = 0.82;
 
 const tokenName = (area: string) => `--node-${area}`;
 
@@ -85,11 +86,9 @@ export default function SkillGraph({ dataUrl, labels }: Props) {
   const [data, setData] = useState<GraphData | null>(null);
   const [failed, setFailed] = useState(false);
   const [size, setSize] = useState({ width: 900, height: 520 });
-  const [seed, setSeed] = useState(0x5eed);
   const [hidden, setHidden] = useState<Set<string>>(new Set());
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const [settled, setSettled] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -124,8 +123,8 @@ export default function SkillGraph({ dataUrl, labels }: Props) {
       fg: read('--fg-strong', '#111111'),
       muted: read('--fg-muted', '#777777'),
       border: read('--border', '#dddddd'),
+      background: read('--bg-inset', '#f4f6fa'),
       areas: Object.fromEntries(areas.map((area) => [area.id, read(tokenName(area.id), '#888888')])),
-      byId: areas.map((area) => area.id),
     };
   }, [areas]);
 
@@ -160,14 +159,16 @@ export default function SkillGraph({ dataUrl, labels }: Props) {
       const touchesActive = activeNode && (edge.from === activeNode.id || edge.to === activeNode.id);
       const dim = activeNode && !touchesActive;
       context.strokeStyle = touchesActive ? colors.areas[a.area] ?? colors.fg : colors.border;
-      context.globalAlpha = dim ? 0.08 : touchesActive ? 0.85 : EDGE_ALPHA[edge.kind] * 0.6;
+      context.globalAlpha = dim ? 0.16 : touchesActive ? 0.85 : EDGE_ALPHA[edge.kind] * 1.5;
       context.beginPath();
       context.moveTo(a.x, a.y);
       context.lineTo(b.x, b.y);
       context.stroke();
     }
 
-    for (const node of simRef.current) {
+    const labelBoxes: { left: number; top: number; right: number; bottom: number }[] = [];
+    const orderedNodes = [...simRef.current].sort((a, b) => (b.id === active ? 1 : 0) - (a.id === active ? 1 : 0) || b.weight - a.weight);
+    for (const node of orderedNodes) {
       if (!shown.has(node.id)) continue;
       const isActive = activeNode?.id === node.id;
       const connected =
@@ -198,7 +199,19 @@ export default function SkillGraph({ dataUrl, labels }: Props) {
         context.font = `${isActive ? '600 ' : ''}13px ui-sans-serif, system-ui, sans-serif`;
         context.textAlign = 'center';
         context.textBaseline = 'top';
-        context.fillText(node.label, node.x, node.y + radiusFor(node.weight) + 4);
+        const textWidth = context.measureText(node.label).width;
+        const tx = Math.max(textWidth / 2 + 8, Math.min(width - textWidth / 2 - 8, node.x));
+        const ty = Math.min(height - 20, node.y + radiusFor(node.weight) + 5);
+        const box = { left: tx - textWidth / 2 - 4, right: tx + textWidth / 2 + 4, top: ty - 2, bottom: ty + 17 };
+        if (isActive || !labelBoxes.some(b => box.left < b.right && box.right > b.left && box.top < b.bottom && box.bottom > b.top)) {
+          labelBoxes.push(box);
+          context.globalAlpha = .94;
+          context.fillStyle = colors.background;
+          context.fillRect(box.left, box.top, box.right - box.left, box.bottom - box.top);
+          context.globalAlpha = 1;
+          context.fillStyle = colors.fg;
+          context.fillText(node.label, tx, ty);
+        }
       }
     }
     context.globalAlpha = 1;
@@ -238,18 +251,22 @@ export default function SkillGraph({ dataUrl, labels }: Props) {
   }, []);
 
   /*
-   * The only things that re-run the simulation: new data, a resize, or an explicit
-   * request. Filtering is deliberately absent.
+   * The only things that re-run the simulation: new data or a resize.
+   * Selection and filtering do not change node positions.
    */
   useEffect(() => {
     if (nodes.length === 0) return;
     const { width, height } = sizeRef.current;
-    simRef.current = initialNodes(nodes, { width, height }, seed);
-    setSettled(false);
+    simRef.current = initialNodes(nodes, { width, height });
 
     let frame = 0;
     let handle = 0;
     const total = 320;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      for (let i = 0; i < total; i++) step(simRef.current, edges, { width, height });
+      drawRef.current();
+      return;
+    }
     const tick = () => {
       for (let i = 0; i < 4 && frame < total; i += 1) {
         step(simRef.current, edges, { width, height });
@@ -257,11 +274,10 @@ export default function SkillGraph({ dataUrl, labels }: Props) {
       }
       drawRef.current();
       if (frame < total) handle = requestAnimationFrame(tick);
-      else setSettled(true);
     };
     handle = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(handle);
-  }, [nodes, edges, size.width, size.height, seed]);
+  }, [nodes, edges, size.width, size.height]);
 
   // The theme can change under us; the palette is read from the document.
   useEffect(() => {
@@ -318,11 +334,8 @@ export default function SkillGraph({ dataUrl, labels }: Props) {
 
   const filtersActive = hidden.size > 0;
   const onButton = () => {
-    if (filtersActive) {
-      setHidden(new Set());
-      return;
-    }
-    setSeed((current) => (current * 1103515245 + 12345) >>> 0);
+    setHidden(new Set());
+    setSelectedId(null);
   };
 
   const toggleArea = (id: string) => {
@@ -332,7 +345,7 @@ export default function SkillGraph({ dataUrl, labels }: Props) {
       else next.add(id);
       return next;
     });
-    setSelectedId(null);
+    if (selected && selected.area === id) setSelectedId(null);
   };
 
   const announce = selected ? `${labels.selected}: ${selected.label}, ${selected.note}` : labels.hint;
@@ -361,13 +374,26 @@ export default function SkillGraph({ dataUrl, labels }: Props) {
           One control, and its label always says what pressing it will do. It used to be
           labelled "re-layout" while it actually cleared the filters.
         */}
-        <button type="button" class="graph__reset" onClick={onButton} disabled={!data || settled === false}>
+        <button type="button" class="graph__reset" onClick={onButton} disabled={!data}>
           {filtersActive ? labels.showAll : labels.reset}
         </button>
       </div>
 
+      <label class="graph__picker">
+        <span>{dataUrl.includes('/es/') ? 'Explorar un conocimiento' : 'Explore a skill'}</span>
+        <select value={selectedId ?? ''} disabled={!data} onChange={(event) => {
+          const id = event.currentTarget.value;
+          setSelectedId(id || null);
+          const area = nodeById.get(id)?.area;
+          if (area) setHidden(current => new Set([...current].filter(entry => entry !== area)));
+        }}>
+          <option value="">{dataUrl.includes('/es/') ? 'Selecciona un nodo del grafo' : 'Select a graph node'}</option>
+          {areas.map(area => <optgroup label={area.label}>{nodes.filter(node => node.area === area.id).map(node => <option value={node.id}>{node.label}</option>)}</optgroup>)}
+        </select>
+      </label>
       <div class="graph__stage" ref={wrapRef}>
         <canvas
+          data-selected={selectedId ?? ""}
           ref={canvasRef}
           class="graph__canvas"
           role="img"
@@ -397,9 +423,13 @@ export default function SkillGraph({ dataUrl, labels }: Props) {
             </p>
             <h3 class="graph__detail-title">{selected.label}</h3>
             <p class="graph__detail-note">{selected.note}</p>
+            {selected.courses?.length ? <details class="graph__coursework" open>
+              <summary>{dataUrl.includes('/es/') ? 'Formación relacionada' : 'Related coursework'}</summary>
+              <ul role="list">{selected.courses.map(course => <li><span>{course.program === 'master' ? (dataUrl.includes('/es/') ? 'Máster' : 'Master’s') : (dataUrl.includes('/es/') ? 'Doble grado' : 'Double degree')}</span>{course.title}</li>)}</ul>
+            </details> : null}
             {selected.projects.length > 0 && (
               <p class="graph__detail-projects">
-                <span>{labels.usedIn}:</span> {selected.projects.join(' · ')}
+                <span>{labels.usedIn}:</span> {selected.projects.map(slug => { const project = data?.projectIndex[slug]; return project && <a href={project.path}>{project.title}</a>; })}
               </p>
             )}
           </>

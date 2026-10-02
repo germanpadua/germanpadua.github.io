@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
-import { getSkillGraph } from '../../../lib/content';
+import { getSkillGraph, getProjects, projectPath } from '../../../lib/content';
 import { locales, type Locale } from '../../../i18n/ui';
+import { skillLabel } from '../../../lib/skillLabels';
 
 /*
  * The skill graph, one locale at a time. Same reasoning as the terminal endpoint:
@@ -14,7 +15,9 @@ export function getStaticPaths() {
 export const GET: APIRoute = async ({ params }) => {
   const locale = (params.locale ?? 'es') as Locale;
   const graph = await getSkillGraph();
+  const projects = await getProjects(locale);
   const payload = {
+    projectIndex: Object.fromEntries(projects.map(({ data }) => [data.slug, { title: data.title, path: projectPath(locale, data.slug) }])),
     areas: graph.areas.map((area) => ({
       id: area.id,
       label: area.label[locale],
@@ -22,11 +25,12 @@ export const GET: APIRoute = async ({ params }) => {
     })),
     nodes: graph.nodes.map((node) => ({
       id: node.id,
-      label: node.label,
+      label: skillLabel(node.label, locale),
       area: node.area,
       weight: node.weight,
       note: node.note[locale],
       projects: [...node.projects],
+      courses: node.courses,
     })),
     edges: graph.edges.map((edge) => ({ from: edge.from, to: edge.to, kind: edge.kind })),
   };

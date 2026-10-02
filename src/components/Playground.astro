@@ -7,7 +7,6 @@
  * themselves plus a short index that also points at the graph over in `#skills`,
  * where it belongs next to the skill list.
  */
-import Terminal from './islands/Terminal';
 import F1Game from './islands/F1Game';
 import { useTranslations, type Locale } from '../i18n/ui';
 import '../styles/islands.css';
@@ -19,11 +18,6 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 
-const index = [
-  { href: '#terminal', label: t.playground.terminal.title },
-  { href: '#skills', label: t.playground.graph.title },
-  { href: '#game', label: t.playground.game.title },
-];
 ---
 
 <section id="playground" class="section section--gridded">
@@ -33,41 +27,6 @@ const index = [
       <h2>{t.sections.playground.title}</h2>
       <p class="section-head__lead">{t.sections.playground.lead}</p>
     </header>
-
-    <ul class="index" role="list">
-      {
-        index.map((item, position) => (
-          <li class="index__item">
-            <a href={item.href}>
-              <span class="index__num tabular" aria-hidden="true">
-                {String(position + 1).padStart(2, '0')}
-              </span>
-              <span class="index__label">{item.label}</span>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-
-    <article class="layer" id="terminal">
-      <header class="layer__head">
-        <h3 class="layer__title">{t.playground.terminal.title}</h3>
-        <p class="layer__body">{t.playground.terminal.description}</p>
-      </header>
-      <Terminal
-        client:idle
-        locale={locale}
-        dataUrl={`/data/${locale}/terminal.json`}
-        labels={{
-          title: t.playground.terminal.title,
-          description: t.playground.terminal.description,
-          inputLabel: t.terminal.inputLabel,
-          cleared: t.terminal.cleared,
-          loading: t.terminal.loading,
-          failed: t.terminal.failed,
-        }}
-      />
-    </article>
 
     <article class="layer" id="game">
       <header class="layer__head">
@@ -80,7 +39,7 @@ const index = [
           title: t.game.title,
           start: t.game.start,
           restart: t.game.restart,
-          pause: t.game.paused,
+          pause: locale === 'es' ? 'Pausar' : 'Pause',
           resume: t.game.resume,
           paused: t.game.paused,
           lap: t.game.lap,

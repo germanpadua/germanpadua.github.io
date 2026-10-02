@@ -13,7 +13,7 @@
  *     The lap is still a lap; it is the decoration that goes.
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks';
-import { buildTrack, curvatureAhead, locate, sectorOf, type Track } from './game/track';
+import { buildTrack, constrainToTrack, curvatureAhead, locate, sectorOf, type Track } from './game/track';
 import { createCar, stepCar, type CarState, type Controls } from './game/physics';
 
 interface Props {
@@ -54,7 +54,7 @@ interface Records {
   bestSectors: [number | null, number | null, number | null];
 }
 
-const STORAGE_KEY = 'gp.f1.records.v1';
+const STORAGE_KEY = 'gp.f1.records.v2';
 
 /** Class list join. `class:list` is an Astro-only directive, so Preact needs this. */
 const cx = (...parts: (string | false | null | undefined)[]): string =>
@@ -170,6 +170,7 @@ export default function F1Game({ labels }: Props) {
     touchRef.current = { throttle: 0, brake: 0, steer: 0 };
     skidRef.current = [];
     lastProgressRef.current = 0;
+    positionIndexRef.current = 0;
     timingRef.current = {
       ...timingRef.current,
       lapStart: 0,
@@ -186,6 +187,8 @@ export default function F1Game({ labels }: Props) {
     timingRef.current.lapStart = performance.now() + COUNTDOWN_MS;
     timingRef.current.sectorStart = timingRef.current.lapStart;
     setPhaseBoth('countdown');
+    setHud(current => ({ ...current, speed: 0, lapMs: 0, sector: 1, sectorSplits: [null, null, null], delta: null, offTrack: false, sliding: false }));
+    canvasRef.current?.focus({ preventScroll: true });
   }, [resetCar, setPhaseBoth]);
 
   /* ------------------------------------------------------------------- drawing */
@@ -194,7 +197,7 @@ export default function F1Game({ labels }: Props) {
     const styles = getComputedStyle(document.documentElement);
     const read = (name: string, fallback: string) => styles.getPropertyValue(name).trim() || fallback;
     return {
-      track: read('--bg-raised', '#ffffff'),
+      track: '#37434b',
       edge: read('--border-strong', '#cccccc'),
       kerb: read('--accent-2', '#cc8800'),
       line: read('--fg-muted', '#888888'),
@@ -223,13 +226,15 @@ export default function F1Game({ labels }: Props) {
       context.setTransform(dpr, 0, 0, dpr, 0, 0);
       context.clearRect(0, 0, width, height);
       const colors = palette();
+      context.fillStyle = '#dde6dd';
+      context.fillRect(0, 0, width, height);
 
       // The track surface: a thick stroke along the centreline, then a lighter inner
       // stroke so the edge reads as an edge.
       context.lineCap = 'round';
       context.lineJoin = 'round';
-      context.strokeStyle = colors.track;
-      context.lineWidth = track.halfWidth * 2;
+      context.strokeStyle = '#aab4ad';
+      context.lineWidth = track.halfWidth * 2 + 30;
       context.beginPath();
       track.centreline.forEach((point, index) => {
         if (index === 0) context.moveTo(point.x, point.y);
@@ -238,7 +243,23 @@ export default function F1Game({ labels }: Props) {
       context.closePath();
       context.stroke();
 
-      context.strokeStyle = colors.edge;
+      context.strokeStyle = '#d6dbd7';
+      context.lineWidth = track.halfWidth * 2 + 26;
+      context.stroke();
+      context.strokeStyle = '#f6f5f0';
+      context.lineWidth = track.halfWidth * 2 + 8;
+      context.stroke();
+      context.strokeStyle = '#ba514c';
+      context.lineCap = 'butt';
+      context.setLineDash([10, 10]);
+      context.stroke();
+      context.setLineDash([]);
+      context.lineCap = 'round';
+      context.strokeStyle = colors.track;
+      context.lineWidth = track.halfWidth * 2;
+      context.stroke();
+
+      context.strokeStyle = '#f2f4f2';
       context.lineWidth = 1;
       for (const side of [-1, 1]) {
         context.beginPath();
@@ -310,21 +331,30 @@ export default function F1Game({ labels }: Props) {
         context.globalAlpha = 1;
       }
 
-      // The car: a body and a nose, so its heading is unmistakable.
+      // A top-down single-seater, with exposed wheels and a visible front wing.
       context.save();
       context.translate(car.x, car.y);
       context.rotate(car.heading);
-      const length = 20;
-      const bodyWidth = 11.5;
-      context.fillStyle = car.offTrack ? colors.warn : colors.car;
+      context.fillStyle = '#171d22';
+      for (const x of [-7, 7]) for (const y of [-7, 4]) context.fillRect(x - 3, y, 6, 4);
+      context.fillStyle = '#d45248';
+      context.fillRect(-11, -7, 4, 14);
+      context.fillRect(9, -8, 3, 16);
       context.beginPath();
-      context.moveTo(length / 2, 0);
-      context.lineTo(-length / 2, -bodyWidth / 2);
-      context.lineTo(-length / 2, bodyWidth / 2);
+      context.moveTo(12, -2);
+      context.lineTo(2, -3);
+      context.lineTo(-2, -5);
+      context.lineTo(-9, -4);
+      context.lineTo(-9, 4);
+      context.lineTo(-2, 5);
+      context.lineTo(2, 3);
+      context.lineTo(12, 2);
       context.closePath();
       context.fill();
-      context.fillStyle = colors.carAlt;
-      context.fillRect(-length / 2 + 2, -bodyWidth / 4, 4, bodyWidth / 2);
+      context.fillStyle = '#17252c';
+      context.fillRect(-3, -2.5, 5, 5);
+      context.fillStyle = '#f1e8d5';
+      context.beginPath(); context.arc(-1, 0, 1.7, 0, Math.PI * 2); context.fill();
       context.restore();
 
       // A short trail behind the car, which reads as speed without a speedometer.
@@ -356,12 +386,19 @@ export default function F1Game({ labels }: Props) {
       const rect = wrap.getBoundingClientRect();
       const width = rect.width > 60 ? rect.width : 900;
       const height = rect.height > 60 ? rect.height : 520;
+      const previous = sizeRef.current;
       sizeRef.current = { width, height };
       const rebuilt = buildTrack(width, height);
       trackRef.current = rebuilt;
       if (!initialisedRef.current) {
         initialisedRef.current = true;
         carRef.current = createCar(rebuilt.start.x, rebuilt.start.y, rebuilt.startHeading);
+      } else if (carRef.current) {
+        carRef.current.x *= width / previous.width;
+        carRef.current.y *= height / previous.height;
+        const position = locate(rebuilt, carRef.current);
+        positionIndexRef.current = position.index;
+        constrainToTrack(rebuilt, carRef.current, position.index);
       }
       draw();
     };
@@ -377,7 +414,8 @@ export default function F1Game({ labels }: Props) {
 
     const frame = (now: number) => {
       handle = requestAnimationFrame(frame);
-      const dt = Math.min(0.05, (now - previous) / 1000);
+      const elapsed = now - previous;
+      const dt = Math.min(0.05, elapsed / 1000);
       previous = now;
 
       const track = trackRef.current;
@@ -399,6 +437,10 @@ export default function F1Game({ labels }: Props) {
       }
 
       if (phaseRef.current !== 'running' || paused) {
+        if (paused) {
+          timingRef.current.lapStart += elapsed;
+          timingRef.current.sectorStart += elapsed;
+        }
         draw();
         return;
       }
@@ -412,10 +454,13 @@ export default function F1Game({ labels }: Props) {
           : controlsRef.current.steer,
       };
 
-      const position = locate(track, { x: car.x, y: car.y }, positionIndexRef.current);
+      let position = locate(track, { x: car.x, y: car.y }, positionIndexRef.current);
       positionIndexRef.current = position.index;
 
       stepCar(car, controls, dt, position.onTrack);
+      constrainToTrack(track, car, position.index);
+      position = locate(track, car, position.index);
+      positionIndexRef.current = position.index;
       if (car.sliding && !reducedMotion) {
         skidRef.current.push({ x: car.x, y: car.y });
         if (skidRef.current.length > 240) skidRef.current.shift();
@@ -427,7 +472,8 @@ export default function F1Game({ labels }: Props) {
       const previousProgress = lastProgressRef.current;
       if (previousProgress > 0.75 && progress < 0.25) {
         const lapMs = now - timingRef.current.lapStart;
-        const sectors = timingRef.current.sectorTimes;
+        const sectors: [number | null, number | null, number | null] = [...timingRef.current.sectorTimes];
+        sectors[2] = now - timingRef.current.sectorStart;
         if (sectors[0] !== null && sectors[1] !== null && sectors[2] !== null) {
           const lapSectors: [number, number, number] = [sectors[0], sectors[1], sectors[2]];
           const current = readRecords();
@@ -497,7 +543,11 @@ export default function F1Game({ labels }: Props) {
   /* ------------------------------------------------------- pause on blur / hidden */
 
   useEffect(() => {
-    const pause = () => setPaused(true);
+    const pause = () => {
+      controlsRef.current = { throttle: 0, brake: 0, steer: 0 };
+      touchRef.current = { throttle: 0, brake: 0, steer: 0 };
+      if (phaseRef.current === 'running') setPaused(true);
+    };
     const onVisibility = () => {
       if (document.hidden) pause();
     };
@@ -532,9 +582,11 @@ export default function F1Game({ labels }: Props) {
     };
 
     const onDown = (event: KeyboardEvent) => {
+      if (!wrapRef.current?.closest('.game')?.contains(document.activeElement)) return;
+      if (document.activeElement?.matches('input, textarea, select')) return;
       if (keyMap[event.code] || steerMap[event.code]) {
         // Only swallow the keys the game actually uses, so the page still scrolls.
-        if (canvasRef.current && document.activeElement === canvasRef.current) event.preventDefault();
+        event.preventDefault();
         held.add(event.code);
         apply();
       }
@@ -548,23 +600,24 @@ export default function F1Game({ labels }: Props) {
       held.delete(event.code);
       apply();
     };
+    const clearHeld = () => { held.clear(); apply(); };
     window.addEventListener('keydown', onDown);
     window.addEventListener('keyup', onUp);
+    window.addEventListener('blur', clearHeld);
     return () => {
       window.removeEventListener('keydown', onDown);
       window.removeEventListener('keyup', onUp);
+      window.removeEventListener('blur', clearHeld);
     };
   }, [startRun]);
 
   const holdTouch = (key: 'throttle' | 'brake' | 'steer', value: number) => ({
     onPointerDown: (event: PointerEvent) => {
       event.preventDefault();
+      (event.currentTarget as HTMLButtonElement).setPointerCapture(event.pointerId);
       touchRef.current = { ...touchRef.current, [key]: value };
     },
     onPointerUp: () => {
-      touchRef.current = { ...touchRef.current, [key]: 0 };
-    },
-    onPointerLeave: () => {
       touchRef.current = { ...touchRef.current, [key]: 0 };
     },
     onPointerCancel: () => {
@@ -690,11 +743,15 @@ export default function F1Game({ labels }: Props) {
         {phase === 'running' && !hud.offTrack && hud.sliding && <p class="game__flag">{labels.sliding}</p>}
       </div>
 
-      <div class="game__touch" aria-hidden="true">
-        <button type="button" class="game__pad" {...holdTouch('steer', -1)}>
+      <div class="game__actions">
+        <button type="button" class="btn" onClick={startRun}>{labels.restart}</button>
+        {phase === 'running' && <button type="button" class="btn" onClick={() => setPaused(current => !current)}>{paused ? labels.resume : labels.pause}</button>}
+      </div>
+      <div class="game__touch">
+        <button type="button" class="game__pad" aria-label={labels.brake === 'Frenar' ? 'Girar a la izquierda' : 'Steer left'} {...holdTouch('steer', -1)}>
           ◀
         </button>
-        <button type="button" class="game__pad" {...holdTouch('steer', 1)}>
+        <button type="button" class="game__pad" aria-label={labels.brake === 'Frenar' ? 'Girar a la derecha' : 'Steer right'} {...holdTouch('steer', 1)}>
           ▶
         </button>
         <button type="button" class="game__pad game__pad--wide" {...holdTouch('brake', 1)}>

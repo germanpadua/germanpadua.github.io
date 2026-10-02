@@ -1,0 +1,24 @@
+---
+import experiments from '../../public/data/research/gnn.json';
+const { compact = false, locale = "es" } = Astro.props;
+const experiment = experiments[0]!;
+const colors = ['#3981b9','#cb725a','#8981c6','#4e9f86','#c59740','#ca719d','#677c92','#87a456'];
+const points = experiment.comparison;
+const xs = points.map(p => p[0]!), ys = points.map(p => p[1]!);
+const minX = Math.min(...xs), minY = Math.min(...ys);
+const scale = Math.min(420/(Math.max(...xs)-minX),300/(Math.max(...ys)-minY));
+const offset = (480-(Math.max(...xs)-minX)*scale)/2;
+---
+<figure class:list={['research-preview', { 'research-preview--compact': compact }]}>
+  <svg viewBox="0 0 480 360" role="img" aria-label="Proyección 2D de representaciones de nodos del dataset Photo, QGCN. El color indica la clase.">
+    {points.filter((_,i) => i % 3 === 0).map((p,i) => <circle cx={offset+(p[0]!-minX)*scale} cy={330-(p[1]!-minY)*scale} r="2.1" fill={colors[(experiment.labels[i * 3] ?? 0)%colors.length]} opacity=".72" />)}
+  </svg>
+  <figcaption>Photo · QGCN <span>{locale === "es" ? "Proyección 2D" : "2D projection"}</span></figcaption>
+</figure>
+<style>
+ .research-preview { margin: 0; background: var(--bg-raised); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+ .research-preview svg { width: 100%; height: auto; padding: 1rem; }
+ .research-preview figcaption { display: flex; justify-content: space-between; gap: 1rem; padding: 1rem 1.5rem; border-top: 1px solid var(--border); color: var(--fg-strong); font-size: .8rem; }
+ .research-preview figcaption span { color: var(--fg-muted); }
+ .research-preview--compact { border: none; border-radius: 0; }
+</style>

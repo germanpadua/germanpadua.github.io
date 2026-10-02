@@ -2,7 +2,8 @@
 locale: en
 slug: football-computer-vision
 title: Football analysis with computer vision
-summary: Player, referee and ball detection on match video with YOLOv8, team identification, trajectory tracking with distance and speed, and position heat maps.
+summary: Player, referee and ball detection on match video with YOLOv8, team identification, trajectory tracking with distance and speed, and
+  position heat maps.
 role: Author
 period: September 2024
 year: 2024
@@ -10,36 +11,30 @@ order: 11
 status: shipped
 visibility: public
 domains:
-  - computer vision
-  - multi-object tracking
-  - sport
+- computer vision
+- multi-object tracking
+- sport
 stack:
-  - Python
-  - YOLOv8
-  - OpenCV
-  - supervision
-  - Roboflow
-  - Jupyter
+- Python
+- YOLOv8
+- OpenCV
+- supervision
+- Roboflow
+- Jupyter
 links:
   repo: https://github.com/germanpadua/Football-Computer-Vision
-metrics:
-  - value: 2
-    label: "Trained detectors: players and pitch keypoints"
-    basis: artifact
-    source: train_player_detector.ipynb, train_pitch_keypoint_detector.ipynb
-  - value: 3
-    label: Notebooks, not packaged into modules
-    basis: artifact
-    source: repository
+metrics: []
 highlights:
-  - The homography from the pitch keypoints is what turns pixels into metres, and without it distances and speeds mean nothing. It is the step that separates a demo from an analysis.
-  - I trained the pitch keypoint detector because a generic object model cannot tell the lines of a football pitch apart from any other lines.
-  - "Per-player position heat maps are the view that makes the tracking legible: a table of coordinates says nothing, a map says where each one plays."
+- The homography from the pitch keypoints is what turns pixels into metres, and without it distances and speeds mean nothing. It is the step that
+  separates a demo from an analysis.
+- I trained the pitch keypoint detector because a generic object model cannot tell the lines of a football pitch apart from any other lines.
+- 'Per-player position heat maps are the view that makes the tracking legible: a table of coordinates says nothing, a map says where each one
+  plays.'
 limits:
-  - It is three notebooks, not a system. There are no tests, no continuous integration and no installable package.
-  - There is no committed accuracy metric. The trained weights are not in the repository either, so the result cannot be reproduced without retraining.
-  - The README explains nothing. A visitor who opens the repository has no idea what to look at.
-  - Tracking works well on wide shots and degrades as soon as there is heavy occlusion, which in a match happens constantly.
+- It is three notebooks, not a system. There are no tests, no continuous integration and no installable package.
+- There is no committed accuracy metric. The trained weights are not in the repository either, so the result cannot be reproduced without retraining.
+- The README explains nothing. A visitor who opens the repository has no idea what to look at.
+- Tracking works well on wide shots and degrades as soon as there is heavy occlusion, which in a match happens constantly.
 ---
 
 ## What it does

@@ -9,8 +9,8 @@
           "en": "Mathematics"
         },
         "blurb": {
-          "es": "El formalismo que dice cuándo un modelo está mal antes de que lo diga producción.",
-          "en": "The formalism that says a model is wrong before production does."
+          "es": "Álgebra, análisis, geometría, probabilidad y métodos de modelización.",
+          "en": "Algebra, analysis, geometry, probability and modelling methods."
         }
       },
       {
@@ -20,8 +20,8 @@
           "en": "Computer science"
         },
         "blurb": {
-          "es": "Sistemas que corren de verdad, con tests y trazabilidad.",
-          "en": "Systems that actually run, with tests and lineage."
+          "es": "Algoritmos, computación, software, sistemas, redes e interacción.",
+          "en": "Algorithms, computation, software, systems, networks and interaction."
         }
       },
       {
@@ -31,8 +31,8 @@
           "en": "Data science"
         },
         "blurb": {
-          "es": "Del dato crudo a la decisión, pasando por la validación.",
-          "en": "From raw data to a decision, through validation."
+          "es": "Estadística aplicada, aprendizaje automático y análisis de distintos tipos de datos.",
+          "en": "Applied statistics, machine learning and analysis across data types."
         }
       },
       {
@@ -70,6 +70,24 @@
         },
         "projects": [
           "telemetry-sentinel"
+        ],
+        "courses": [
+          {
+            "title": "Estadística Descriptiva e Introducción a la Probabilidad",
+            "program": "degree"
+          },
+          {
+            "title": "Inferencia Estadística",
+            "program": "degree"
+          },
+          {
+            "title": "Estadística Computacional",
+            "program": "degree"
+          },
+          {
+            "title": "Estadística Multivariante",
+            "program": "degree"
+          }
         ]
       },
       {
@@ -81,7 +99,17 @@
           "es": "Modelos probabilísticos y procesos estocásticos aplicados a series temporales.",
           "en": "Probabilistic models and stochastic processes applied to time series."
         },
-        "projects": []
+        "projects": [],
+        "courses": [
+          {
+            "title": "Estadística Descriptiva e Introducción a la Probabilidad",
+            "program": "degree"
+          },
+          {
+            "title": "Probabilidad",
+            "program": "degree"
+          }
+        ]
       },
       {
         "id": "linear-algebra",
@@ -93,7 +121,21 @@
           "en": "Decompositions, PCA, factor analysis, and the geometry of representation spaces."
         },
         "projects": [
-          "housing-statistics"
+          "estadistica-vivienda"
+        ],
+        "courses": [
+          {
+            "title": "Geometría I",
+            "program": "degree"
+          },
+          {
+            "title": "Geometría II",
+            "program": "degree"
+          },
+          {
+            "title": "Geometría III",
+            "program": "degree"
+          }
         ]
       },
       {
@@ -120,6 +162,16 @@
         },
         "projects": [
           "pseudo-riemannian-gnn"
+        ],
+        "courses": [
+          {
+            "title": "Curvas y Superficies",
+            "program": "degree"
+          },
+          {
+            "title": "Taller de Geometría y Topología",
+            "program": "degree"
+          }
         ]
       },
       {
@@ -136,6 +188,12 @@
           "inference-obs",
           "actas-visitas-obras",
           "almeria-isometric"
+        ],
+        "courses": [
+          {
+            "title": "Introducción a la Programación para Ciencia de Datos",
+            "program": "master"
+          }
         ]
       },
       {
@@ -148,7 +206,7 @@
           "en": "Front-end and tooling, in strict mode."
         },
         "projects": [
-          "gestor-inmuebles",
+          "atruno",
           "mi-balance",
           "agent-harness"
         ]
@@ -163,7 +221,7 @@
           "en": "Analytical queries over large volumes and relational modelling with row-level policies."
         },
         "projects": [
-          "gestor-inmuebles"
+          "atruno"
         ]
       },
       {
@@ -175,7 +233,17 @@
           "es": "Lenguaje de trabajo en riesgo de crédito: calibración, monitorización y documentación reproducible.",
           "en": "Working language in credit risk: calibration, monitoring, and reproducible documentation."
         },
-        "projects": []
+        "projects": [],
+        "courses": [
+          {
+            "title": "Estadística Computacional",
+            "program": "degree"
+          },
+          {
+            "title": "Introducción a la Programación para Ciencia de Datos",
+            "program": "master"
+          }
+        ]
       },
       {
         "id": "algorithms",
@@ -186,7 +254,17 @@
           "es": "Complejidad, grafos y estructuras de datos. Base del doble grado.",
           "en": "Complexity, graphs, and data structures. Foundation of the double degree."
         },
-        "projects": []
+        "projects": [],
+        "courses": [
+          {
+            "title": "Estructura de Datos",
+            "program": "degree"
+          },
+          {
+            "title": "Algoritmica",
+            "program": "degree"
+          }
+        ]
       },
       {
         "id": "architecture",
@@ -198,9 +276,19 @@
           "en": "Decisions recorded as ADRs, including the ones that abandon an idea."
         },
         "projects": [
-          "gestor-inmuebles",
+          "atruno",
           "actas-visitas-obras",
           "inference-obs"
+        ],
+        "courses": [
+          {
+            "title": "Ingeniería del Software",
+            "program": "degree"
+          },
+          {
+            "title": "Diseño y Desarrollo de Sistemas de Información",
+            "program": "degree"
+          }
         ]
       },
       {
@@ -214,7 +302,7 @@
         },
         "projects": [
           "telemetry-sentinel",
-          "gestor-inmuebles",
+          "atruno",
           "mi-balance"
         ]
       },
@@ -281,7 +369,21 @@
         },
         "projects": [
           "telemetry-sentinel",
-          "gestor-inmuebles"
+          "atruno"
+        ],
+        "courses": [
+          {
+            "title": "Aprendizaje Automático",
+            "program": "degree"
+          },
+          {
+            "title": "Introducción a la Ciencia de Datos",
+            "program": "master"
+          },
+          {
+            "title": "Minería de Datos. Preprocesamiento y Clasificación",
+            "program": "master"
+          }
         ]
       },
       {
@@ -296,6 +398,20 @@
         "projects": [
           "diffusion-models",
           "pseudo-riemannian-gnn"
+        ],
+        "courses": [
+          {
+            "title": "Visión por Computador",
+            "program": "degree"
+          },
+          {
+            "title": "Minería de Datos. Aspectos Avanzados",
+            "program": "master"
+          },
+          {
+            "title": "Visión por Computador",
+            "program": "master"
+          }
         ]
       },
       {
@@ -323,6 +439,12 @@
         },
         "projects": [
           "telemetry-sentinel"
+        ],
+        "courses": [
+          {
+            "title": "Introducción a la Programación para Ciencia de Datos",
+            "program": "master"
+          }
         ]
       },
       {
@@ -348,6 +470,12 @@
         "projects": [
           "telemetry-sentinel",
           "almeria-isometric"
+        ],
+        "courses": [
+          {
+            "title": "Introducción a la Programación para Ciencia de Datos",
+            "program": "master"
+          }
         ]
       },
       {
@@ -376,6 +504,12 @@
         "projects": [
           "telemetry-sentinel",
           "f1-data-app"
+        ],
+        "courses": [
+          {
+            "title": "Series Temporales y Minería de Flujos de Datos",
+            "program": "master"
+          }
         ]
       },
       {
@@ -389,6 +523,12 @@
         },
         "projects": [
           "telemetry-sentinel"
+        ],
+        "courses": [
+          {
+            "title": "Minería de Datos. Aprendizaje No Supervisado y Detección de Anomalías",
+            "program": "master"
+          }
         ]
       },
       {
@@ -478,6 +618,20 @@
         },
         "projects": [
           "football-computer-vision"
+        ],
+        "courses": [
+          {
+            "title": "Visión por Computador",
+            "program": "degree"
+          },
+          {
+            "title": "Extracción de Características en Imagenes",
+            "program": "master"
+          },
+          {
+            "title": "Visión por Computador",
+            "program": "master"
+          }
         ]
       },
       {
@@ -581,7 +735,7 @@
         },
         "projects": [
           "inference-obs",
-          "gestor-inmuebles"
+          "atruno"
         ]
       },
       {
@@ -594,7 +748,7 @@
           "en": "Managed Postgres with auth, private storage, and row-level access rules."
         },
         "projects": [
-          "gestor-inmuebles"
+          "atruno"
         ]
       },
       {
@@ -607,7 +761,7 @@
           "en": "Web application with server rendering, actions, and scheduled jobs."
         },
         "projects": [
-          "gestor-inmuebles"
+          "atruno"
         ]
       },
       {
@@ -684,7 +838,7 @@
         },
         "projects": [
           "mi-balance",
-          "gestor-inmuebles"
+          "atruno"
         ]
       },
       {
@@ -779,6 +933,731 @@
           "en": "Basic."
         },
         "projects": []
+      },
+      {
+        "id": "analysis",
+        "label": "Cálculo y análisis",
+        "area": "math",
+        "weight": 0.65,
+        "note": {
+          "es": "Límites, series, cálculo diferencial e integral en una y varias variables.",
+          "en": "Limits, series, differential and integral calculus in one and several variables."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Cálculo I",
+            "program": "degree"
+          },
+          {
+            "title": "Cálculo II",
+            "program": "degree"
+          },
+          {
+            "title": "Análisis Matematico I",
+            "program": "degree"
+          },
+          {
+            "title": "Análisis Matematico II",
+            "program": "degree"
+          }
+        ]
+      },
+      {
+        "id": "abstract-algebra",
+        "label": "Álgebra abstracta",
+        "area": "math",
+        "weight": 0.65,
+        "note": {
+          "es": "Grupos, anillos, cuerpos, extensiones y teoría de Galois.",
+          "en": "Groups, rings, fields, extensions and Galois theory."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Álgebra I",
+            "program": "degree"
+          },
+          {
+            "title": "Álgebra II",
+            "program": "degree"
+          },
+          {
+            "title": "Álgebra III",
+            "program": "degree"
+          }
+        ]
+      },
+      {
+        "id": "functional-analysis",
+        "label": "Análisis funcional",
+        "area": "math",
+        "weight": 0.65,
+        "note": {
+          "es": "Espacios normados, Banach y Hilbert, dualidad y operadores.",
+          "en": "Normed, Banach and Hilbert spaces, duality and operators."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Análisis Funcional",
+            "program": "degree"
+          }
+        ]
+      },
+      {
+        "id": "complex-analysis",
+        "label": "Variable compleja",
+        "area": "math",
+        "weight": 0.65,
+        "note": {
+          "es": "Funciones holomorfas, integración compleja y residuos.",
+          "en": "Holomorphic functions, complex integration and residues."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Variable Compleja I",
+            "program": "degree"
+          }
+        ]
+      },
+      {
+        "id": "topology",
+        "label": "Topología",
+        "area": "math",
+        "weight": 0.65,
+        "note": {
+          "es": "Espacios topológicos, continuidad, compacidad, grupo fundamental y recubrimientos.",
+          "en": "Topological spaces, continuity, compactness, fundamental groups and coverings."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Topología I",
+            "program": "degree"
+          },
+          {
+            "title": "Topología II",
+            "program": "degree"
+          },
+          {
+            "title": "Taller de Geometría y Topología",
+            "program": "degree"
+          }
+        ]
+      },
+      {
+        "id": "numerical-methods",
+        "label": "Métodos numéricos",
+        "area": "math",
+        "weight": 0.65,
+        "note": {
+          "es": "Error y estabilidad, resolución de sistemas, interpolación e integración numérica.",
+          "en": "Error and stability, systems of equations, interpolation and numerical integration."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Métodos Numericos I",
+            "program": "degree"
+          },
+          {
+            "title": "Métodos Numericos II",
+            "program": "degree"
+          }
+        ]
+      },
+      {
+        "id": "differential-equations",
+        "label": "Ecuaciones diferenciales",
+        "area": "math",
+        "weight": 0.65,
+        "note": {
+          "es": "Ecuaciones ordinarias, sistemas y métodos para estudiar su evolución.",
+          "en": "Ordinary differential equations, systems and methods for studying their evolution."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Ecuaciones Diferenciales I",
+            "program": "degree"
+          },
+          {
+            "title": "Ecuaciones Diferenciales II",
+            "program": "degree"
+          }
+        ]
+      },
+      {
+        "id": "mathematical-modelling",
+        "label": "Modelización matemática",
+        "area": "math",
+        "weight": 0.65,
+        "note": {
+          "es": "Ecuaciones en diferencias, modelos de población, cálculo de variaciones y reacción-difusión.",
+          "en": "Difference equations, population models, calculus of variations and reaction-diffusion."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Modelos Matematicos I",
+            "program": "degree"
+          },
+          {
+            "title": "Modelos Matematicos II",
+            "program": "degree"
+          }
+        ]
+      },
+      {
+        "id": "statistical-inference",
+        "label": "Inferencia estadística",
+        "area": "math",
+        "weight": 0.65,
+        "note": {
+          "es": "Estimación, intervalos de confianza y contraste de hipótesis.",
+          "en": "Estimation, confidence intervals and hypothesis testing."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Inferencia Estadística",
+            "program": "degree"
+          }
+        ]
+      },
+      {
+        "id": "multivariate-statistics",
+        "label": "Estadística multivariante",
+        "area": "math",
+        "weight": 0.65,
+        "note": {
+          "es": "Dependencia entre variables, reducción de dimensionalidad y análisis multivariante.",
+          "en": "Dependencies between variables, dimensionality reduction and multivariate analysis."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Estadística Multivariante",
+            "program": "degree"
+          }
+        ]
+      },
+      {
+        "id": "computational-algebra",
+        "label": "Álgebra computacional",
+        "area": "math",
+        "weight": 0.65,
+        "note": {
+          "es": "Ideales de polinomios, bases de Gröbner y cálculo simbólico.",
+          "en": "Polynomial ideals, Gröbner bases and symbolic computation."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Álgebra Conmutativa Computacional",
+            "program": "degree"
+          }
+        ]
+      },
+      {
+        "id": "discrete-math",
+        "label": "Lógica y matemática discreta",
+        "area": "cs",
+        "weight": 0.65,
+        "note": {
+          "es": "Lógica, demostraciones, combinatoria y estructuras discretas.",
+          "en": "Logic, proofs, combinatorics and discrete structures."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Lógica y Métodos Discretos",
+            "program": "degree"
+          }
+        ]
+      },
+      {
+        "id": "computation-theory",
+        "label": "Computabilidad y complejidad",
+        "area": "cs",
+        "weight": 0.65,
+        "note": {
+          "es": "Autómatas, lenguajes, máquinas de Turing y clases de complejidad.",
+          "en": "Automata, languages, Turing machines and complexity classes."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Modelos de Computación",
+            "program": "degree"
+          },
+          {
+            "title": "Modelos Avanzados de Computación",
+            "program": "degree"
+          }
+        ]
+      },
+      {
+        "id": "object-oriented-programming",
+        "label": "Programación orientada a objetos",
+        "area": "cs",
+        "weight": 0.65,
+        "note": {
+          "es": "Abstracción, encapsulamiento, memoria dinámica y diseño orientado a objetos.",
+          "en": "Abstraction, encapsulation, dynamic memory and object-oriented design."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Fundamentos de Programación",
+            "program": "degree"
+          },
+          {
+            "title": "Metodología de la Programación",
+            "program": "degree"
+          },
+          {
+            "title": "Programación y Diseño Orientado a Objetos",
+            "program": "degree"
+          }
+        ]
+      },
+      {
+        "id": "computer-architecture",
+        "label": "Arquitectura de computadores",
+        "area": "cs",
+        "weight": 0.65,
+        "note": {
+          "es": "Organización del procesador, ensamblador, jerarquía de memoria y prestaciones.",
+          "en": "Processor organization, assembly, memory hierarchy and performance."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Tecnología y Organización de Computadores",
+            "program": "degree"
+          },
+          {
+            "title": "Estructura de Computadores",
+            "program": "degree"
+          },
+          {
+            "title": "Arquitectura de Computadores",
+            "program": "degree"
+          }
+        ]
+      },
+      {
+        "id": "operating-systems",
+        "label": "Sistemas operativos",
+        "area": "cs",
+        "weight": 0.65,
+        "note": {
+          "es": "Procesos, memoria, archivos, entrada/salida y servicios del sistema.",
+          "en": "Processes, memory, files, input/output and system services."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Fundamentos del Software",
+            "program": "degree"
+          },
+          {
+            "title": "Sistemas Operativos",
+            "program": "degree"
+          }
+        ]
+      },
+      {
+        "id": "networks",
+        "label": "Redes de computadores",
+        "area": "cs",
+        "weight": 0.65,
+        "note": {
+          "es": "Arquitectura de redes, protocolos y comunicación entre sistemas.",
+          "en": "Network architecture, protocols and communication between systems."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Fundamentos de Redes",
+            "program": "degree"
+          }
+        ]
+      },
+      {
+        "id": "concurrency-distributed",
+        "label": "Concurrencia y sistemas distribuidos",
+        "area": "cs",
+        "weight": 0.65,
+        "note": {
+          "es": "Sincronización, coordinación de procesos y computación distribuida.",
+          "en": "Synchronization, process coordination and distributed computing."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Sistemas Concurrentes y Distribuidos",
+            "program": "degree"
+          }
+        ]
+      },
+      {
+        "id": "databases",
+        "label": "Bases de datos",
+        "area": "cs",
+        "weight": 0.65,
+        "note": {
+          "es": "Modelado relacional, consultas, diseño de datos y sistemas de información.",
+          "en": "Relational modelling, queries, data design and information systems."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Fundamentos de Bases de Datos",
+            "program": "degree"
+          },
+          {
+            "title": "Diseño y Desarrollo de Sistemas de Información",
+            "program": "degree"
+          }
+        ]
+      },
+      {
+        "id": "server-engineering",
+        "label": "Ingeniería de servidores",
+        "area": "cs",
+        "weight": 0.65,
+        "note": {
+          "es": "Configuración, evaluación de prestaciones y disponibilidad de servidores web.",
+          "en": "Configuration, performance evaluation and availability of web servers."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Ingeniería de Servidores",
+            "program": "degree"
+          },
+          {
+            "title": "Servidores Web de Altas Prestaciones",
+            "program": "degree"
+          }
+        ]
+      },
+      {
+        "id": "computer-graphics",
+        "label": "Informática gráfica",
+        "area": "cs",
+        "weight": 0.65,
+        "note": {
+          "es": "Transformaciones geométricas, representación y visualización de escenas.",
+          "en": "Geometric transformations, scene representation and visualization."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Informática Grafica",
+            "program": "degree"
+          }
+        ]
+      },
+      {
+        "id": "hci",
+        "label": "Interacción persona-ordenador",
+        "area": "cs",
+        "weight": 0.65,
+        "note": {
+          "es": "Interacción móvil, gestos, movimiento y entornos de realidad virtual.",
+          "en": "Mobile interaction, gestures, motion and virtual reality environments."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Nuevos Paradigmas de Interacción",
+            "program": "degree"
+          }
+        ]
+      },
+      {
+        "id": "electronics",
+        "label": "Fundamentos físicos y electrónicos",
+        "area": "cs",
+        "weight": 0.65,
+        "note": {
+          "es": "Electromagnetismo, teoría de circuitos y dispositivos que sustentan el computador.",
+          "en": "Electromagnetism, circuit theory and the devices underlying computers."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Fundamentos Fisicos y Tecnologicos",
+            "program": "degree"
+          }
+        ]
+      },
+      {
+        "id": "heuristic-search",
+        "label": "Búsqueda y planificación en IA",
+        "area": "ds",
+        "weight": 0.65,
+        "note": {
+          "es": "Búsqueda heurística, satisfacción de restricciones, agentes y planificación.",
+          "en": "Heuristic search, constraint satisfaction, agents and planning."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Inteligencia Artificial",
+            "program": "degree"
+          },
+          {
+            "title": "Técnicas de los Sistemas Inteligentes",
+            "program": "degree"
+          }
+        ]
+      },
+      {
+        "id": "metaheuristics",
+        "label": "Metaheurísticas",
+        "area": "ds",
+        "weight": 0.65,
+        "note": {
+          "es": "Búsqueda por trayectorias y poblaciones, algoritmos genéticos y evolución diferencial.",
+          "en": "Trajectory and population search, genetic algorithms and differential evolution."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Metaheurísticas",
+            "program": "degree"
+          }
+        ]
+      },
+      {
+        "id": "clustering",
+        "label": "Clustering y reglas de asociación",
+        "area": "ds",
+        "weight": 0.65,
+        "note": {
+          "es": "Agrupamiento por centroides y jerarquías, validación y patrones de asociación.",
+          "en": "Centroid and hierarchical clustering, validation and association patterns."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Minería de Datos. Aprendizaje No Supervisado y Detección de Anomalías",
+            "program": "master"
+          }
+        ]
+      },
+      {
+        "id": "preprocessing",
+        "label": "Preprocesamiento de datos",
+        "area": "ds",
+        "weight": 0.65,
+        "note": {
+          "es": "Datos ausentes, discretización, selección de variables, regularización y PCA.",
+          "en": "Missing data, discretization, feature selection, regularization and PCA."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Minería de Datos. Preprocesamiento y Clasificación",
+            "program": "master"
+          }
+        ]
+      },
+      {
+        "id": "advanced-learning",
+        "label": "Aprendizaje avanzado",
+        "area": "ds",
+        "weight": 0.65,
+        "note": {
+          "es": "Clases desbalanceadas, aprendizaje multisalida, semi y autosupervisado, transferencia y AutoML.",
+          "en": "Imbalanced classes, multi-output, semi and self-supervised learning, transfer learning and AutoML."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Minería de Datos. Aspectos Avanzados",
+            "program": "master"
+          }
+        ]
+      },
+      {
+        "id": "text-mining",
+        "label": "Minería de texto y PLN",
+        "area": "ds",
+        "weight": 0.65,
+        "note": {
+          "es": "Preprocesamiento de texto, representaciones, opiniones y análisis de sentimientos.",
+          "en": "Text preprocessing, representations, opinions and sentiment analysis."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Minería de Medios Sociales",
+            "program": "master"
+          }
+        ]
+      },
+      {
+        "id": "social-network-analysis",
+        "label": "Análisis de redes sociales",
+        "area": "ds",
+        "weight": 0.65,
+        "note": {
+          "es": "Centralidad, comunidades, difusión y modelado basado en agentes.",
+          "en": "Centrality, communities, diffusion and agent-based modelling."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Minería de Medios Sociales",
+            "program": "master"
+          }
+        ]
+      },
+      {
+        "id": "big-data",
+        "label": "Big Data y procesamiento distribuido",
+        "area": "ds",
+        "weight": 0.65,
+        "note": {
+          "es": "Almacenamiento masivo, MapReduce, Spark, analítica distribuida y aprendizaje federado.",
+          "en": "Large-scale storage, MapReduce, Spark, distributed analytics and federated learning."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Big Data I",
+            "program": "master"
+          },
+          {
+            "title": "Big Data II",
+            "program": "master"
+          }
+        ]
+      },
+      {
+        "id": "bioinformatics",
+        "label": "Bioinformática y datos ómicos",
+        "area": "ds",
+        "weight": 0.65,
+        "note": {
+          "es": "Datos genómicos y de proteínas, alineamiento y computación para aplicaciones biomédicas.",
+          "en": "Genomic and protein data, alignment and computing for biomedical applications."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Biología Computacional con Big Data-Omics e Ingeniería Biomédica",
+            "program": "master"
+          }
+        ]
+      },
+      {
+        "id": "business-intelligence",
+        "label": "Inteligencia de negocio",
+        "area": "ds",
+        "weight": 0.65,
+        "note": {
+          "es": "Almacenes de datos, analítica y sistemas de apoyo a decisiones.",
+          "en": "Data warehouses, analytics and decision support systems."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Inteligencia de Negocio",
+            "program": "degree"
+          },
+          {
+            "title": "Aplicaciones de Ciencias de Datos y Tecnologías Inteligentes",
+            "program": "master"
+          }
+        ]
+      },
+      {
+        "id": "knowledge-transfer",
+        "label": "Transferencia de conocimiento",
+        "area": "ds",
+        "weight": 0.65,
+        "note": {
+          "es": "Comunicación de resultados, modelos de negocio y desarrollo de aplicaciones de ciencia de datos.",
+          "en": "Communicating results, business models and developing data science applications."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Aplicaciones de Ciencias de Datos y Tecnologías Inteligentes",
+            "program": "master"
+          },
+          {
+            "title": "Emprendimiento y Transferencia de Conocimiento",
+            "program": "master"
+          }
+        ]
+      },
+      {
+        "id": "spark",
+        "label": "Apache Spark",
+        "area": "tools",
+        "weight": 0.65,
+        "note": {
+          "es": "Formación en procesamiento distribuido, Spark SQL y analítica de datos masivos.",
+          "en": "Coursework in distributed processing, Spark SQL and large-scale analytics."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Big Data I",
+            "program": "master"
+          },
+          {
+            "title": "Big Data II",
+            "program": "master"
+          }
+        ]
+      },
+      {
+        "id": "hadoop",
+        "label": "Hadoop y MapReduce",
+        "area": "tools",
+        "weight": 0.65,
+        "note": {
+          "es": "Ecosistema Hadoop y diseño de algoritmos bajo el paradigma MapReduce.",
+          "en": "The Hadoop ecosystem and algorithm design under the MapReduce paradigm."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Big Data I",
+            "program": "master"
+          },
+          {
+            "title": "Big Data II",
+            "program": "master"
+          }
+        ]
+      },
+      {
+        "id": "mongodb",
+        "label": "MongoDB y NoSQL",
+        "area": "tools",
+        "weight": 0.65,
+        "note": {
+          "es": "Formación en almacenamiento NoSQL y prácticas con MongoDB.",
+          "en": "Coursework in NoSQL storage and MongoDB exercises."
+        },
+        "projects": [],
+        "courses": [
+          {
+            "title": "Big Data I",
+            "program": "master"
+          }
+        ]
       }
     ],
     "edges": [
@@ -1105,6 +1984,411 @@
       {
         "from": "astro",
         "to": "playwright",
+        "kind": "pairs"
+      },
+      {
+        "from": "analysis",
+        "to": "optimisation",
+        "kind": "pairs"
+      },
+      {
+        "from": "analysis",
+        "to": "numerical-methods",
+        "kind": "pairs"
+      },
+      {
+        "from": "abstract-algebra",
+        "to": "computational-algebra",
+        "kind": "pairs"
+      },
+      {
+        "from": "abstract-algebra",
+        "to": "linear-algebra",
+        "kind": "pairs"
+      },
+      {
+        "from": "functional-analysis",
+        "to": "analysis",
+        "kind": "pairs"
+      },
+      {
+        "from": "functional-analysis",
+        "to": "linear-algebra",
+        "kind": "pairs"
+      },
+      {
+        "from": "complex-analysis",
+        "to": "analysis",
+        "kind": "pairs"
+      },
+      {
+        "from": "topology",
+        "to": "differential-geometry",
+        "kind": "pairs"
+      },
+      {
+        "from": "topology",
+        "to": "abstract-algebra",
+        "kind": "pairs"
+      },
+      {
+        "from": "numerical-methods",
+        "to": "linear-algebra",
+        "kind": "pairs"
+      },
+      {
+        "from": "numerical-methods",
+        "to": "optimisation",
+        "kind": "pairs"
+      },
+      {
+        "from": "numerical-methods",
+        "to": "python",
+        "kind": "pairs"
+      },
+      {
+        "from": "differential-equations",
+        "to": "analysis",
+        "kind": "pairs"
+      },
+      {
+        "from": "differential-equations",
+        "to": "mathematical-modelling",
+        "kind": "pairs"
+      },
+      {
+        "from": "mathematical-modelling",
+        "to": "differential-equations",
+        "kind": "pairs"
+      },
+      {
+        "from": "mathematical-modelling",
+        "to": "time-series",
+        "kind": "pairs"
+      },
+      {
+        "from": "statistical-inference",
+        "to": "statistics",
+        "kind": "pairs"
+      },
+      {
+        "from": "statistical-inference",
+        "to": "probability",
+        "kind": "pairs"
+      },
+      {
+        "from": "statistical-inference",
+        "to": "evaluation",
+        "kind": "pairs"
+      },
+      {
+        "from": "multivariate-statistics",
+        "to": "statistics",
+        "kind": "pairs"
+      },
+      {
+        "from": "multivariate-statistics",
+        "to": "linear-algebra",
+        "kind": "pairs"
+      },
+      {
+        "from": "multivariate-statistics",
+        "to": "clustering",
+        "kind": "pairs"
+      },
+      {
+        "from": "computational-algebra",
+        "to": "abstract-algebra",
+        "kind": "pairs"
+      },
+      {
+        "from": "computational-algebra",
+        "to": "algorithms",
+        "kind": "pairs"
+      },
+      {
+        "from": "discrete-math",
+        "to": "algorithms",
+        "kind": "pairs"
+      },
+      {
+        "from": "discrete-math",
+        "to": "computation-theory",
+        "kind": "pairs"
+      },
+      {
+        "from": "computation-theory",
+        "to": "algorithms",
+        "kind": "pairs"
+      },
+      {
+        "from": "computation-theory",
+        "to": "discrete-math",
+        "kind": "pairs"
+      },
+      {
+        "from": "object-oriented-programming",
+        "to": "architecture",
+        "kind": "pairs"
+      },
+      {
+        "from": "object-oriented-programming",
+        "to": "algorithms",
+        "kind": "pairs"
+      },
+      {
+        "from": "computer-architecture",
+        "to": "operating-systems",
+        "kind": "pairs"
+      },
+      {
+        "from": "computer-architecture",
+        "to": "concurrency-distributed",
+        "kind": "pairs"
+      },
+      {
+        "from": "operating-systems",
+        "to": "linux",
+        "kind": "pairs"
+      },
+      {
+        "from": "operating-systems",
+        "to": "concurrency-distributed",
+        "kind": "pairs"
+      },
+      {
+        "from": "networks",
+        "to": "server-engineering",
+        "kind": "pairs"
+      },
+      {
+        "from": "networks",
+        "to": "concurrency-distributed",
+        "kind": "pairs"
+      },
+      {
+        "from": "concurrency-distributed",
+        "to": "operating-systems",
+        "kind": "pairs"
+      },
+      {
+        "from": "concurrency-distributed",
+        "to": "big-data",
+        "kind": "pairs"
+      },
+      {
+        "from": "databases",
+        "to": "sql",
+        "kind": "pairs"
+      },
+      {
+        "from": "databases",
+        "to": "postgres",
+        "kind": "pairs"
+      },
+      {
+        "from": "databases",
+        "to": "business-intelligence",
+        "kind": "pairs"
+      },
+      {
+        "from": "server-engineering",
+        "to": "linux",
+        "kind": "pairs"
+      },
+      {
+        "from": "server-engineering",
+        "to": "docker",
+        "kind": "pairs"
+      },
+      {
+        "from": "server-engineering",
+        "to": "networks",
+        "kind": "pairs"
+      },
+      {
+        "from": "computer-graphics",
+        "to": "linear-algebra",
+        "kind": "pairs"
+      },
+      {
+        "from": "computer-graphics",
+        "to": "three-js",
+        "kind": "pairs"
+      },
+      {
+        "from": "computer-graphics",
+        "to": "blender",
+        "kind": "pairs"
+      },
+      {
+        "from": "hci",
+        "to": "computer-graphics",
+        "kind": "pairs"
+      },
+      {
+        "from": "hci",
+        "to": "architecture",
+        "kind": "pairs"
+      },
+      {
+        "from": "electronics",
+        "to": "computer-architecture",
+        "kind": "pairs"
+      },
+      {
+        "from": "heuristic-search",
+        "to": "algorithms",
+        "kind": "pairs"
+      },
+      {
+        "from": "heuristic-search",
+        "to": "metaheuristics",
+        "kind": "pairs"
+      },
+      {
+        "from": "metaheuristics",
+        "to": "optimisation",
+        "kind": "pairs"
+      },
+      {
+        "from": "metaheuristics",
+        "to": "heuristic-search",
+        "kind": "pairs"
+      },
+      {
+        "from": "clustering",
+        "to": "machine-learning",
+        "kind": "pairs"
+      },
+      {
+        "from": "clustering",
+        "to": "anomaly-detection",
+        "kind": "pairs"
+      },
+      {
+        "from": "clustering",
+        "to": "multivariate-statistics",
+        "kind": "pairs"
+      },
+      {
+        "from": "preprocessing",
+        "to": "machine-learning",
+        "kind": "pairs"
+      },
+      {
+        "from": "preprocessing",
+        "to": "linear-algebra",
+        "kind": "pairs"
+      },
+      {
+        "from": "preprocessing",
+        "to": "pandas",
+        "kind": "pairs"
+      },
+      {
+        "from": "advanced-learning",
+        "to": "machine-learning",
+        "kind": "pairs"
+      },
+      {
+        "from": "advanced-learning",
+        "to": "deep-learning",
+        "kind": "pairs"
+      },
+      {
+        "from": "advanced-learning",
+        "to": "evaluation",
+        "kind": "pairs"
+      },
+      {
+        "from": "text-mining",
+        "to": "machine-learning",
+        "kind": "pairs"
+      },
+      {
+        "from": "text-mining",
+        "to": "llm",
+        "kind": "pairs"
+      },
+      {
+        "from": "social-network-analysis",
+        "to": "gnn",
+        "kind": "pairs"
+      },
+      {
+        "from": "social-network-analysis",
+        "to": "discrete-math",
+        "kind": "pairs"
+      },
+      {
+        "from": "big-data",
+        "to": "concurrency-distributed",
+        "kind": "pairs"
+      },
+      {
+        "from": "big-data",
+        "to": "spark",
+        "kind": "pairs"
+      },
+      {
+        "from": "big-data",
+        "to": "hadoop",
+        "kind": "pairs"
+      },
+      {
+        "from": "big-data",
+        "to": "mongodb",
+        "kind": "pairs"
+      },
+      {
+        "from": "bioinformatics",
+        "to": "big-data",
+        "kind": "pairs"
+      },
+      {
+        "from": "bioinformatics",
+        "to": "machine-learning",
+        "kind": "pairs"
+      },
+      {
+        "from": "business-intelligence",
+        "to": "databases",
+        "kind": "pairs"
+      },
+      {
+        "from": "business-intelligence",
+        "to": "statistics",
+        "kind": "pairs"
+      },
+      {
+        "from": "knowledge-transfer",
+        "to": "business-intelligence",
+        "kind": "pairs"
+      },
+      {
+        "from": "spark",
+        "to": "big-data",
+        "kind": "pairs"
+      },
+      {
+        "from": "spark",
+        "to": "sql",
+        "kind": "pairs"
+      },
+      {
+        "from": "hadoop",
+        "to": "big-data",
+        "kind": "pairs"
+      },
+      {
+        "from": "mongodb",
+        "to": "databases",
+        "kind": "pairs"
+      },
+      {
+        "from": "mongodb",
+        "to": "big-data",
         "kind": "pairs"
       }
     ]

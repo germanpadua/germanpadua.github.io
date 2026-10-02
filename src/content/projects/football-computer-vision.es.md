@@ -2,7 +2,8 @@
 locale: es
 slug: football-computer-vision
 title: Análisis de fútbol con visión por computador
-summary: Detección de jugadores, árbitros y balón sobre vídeo de partidos con YOLOv8, identificación de equipos, seguimiento de trayectorias con distancia y velocidad, y mapas de calor de posición.
+summary: Detección de jugadores, árbitros y balón sobre vídeo de partidos con YOLOv8, identificación de equipos, seguimiento de trayectorias con
+  distancia y velocidad, y mapas de calor de posición.
 role: Autor
 period: septiembre 2024
 year: 2024
@@ -10,36 +11,31 @@ order: 11
 status: shipped
 visibility: public
 domains:
-  - visión por computador
-  - seguimiento multiobjeto
-  - deporte
+- visión por computador
+- seguimiento multiobjeto
+- deporte
 stack:
-  - Python
-  - YOLOv8
-  - OpenCV
-  - supervision
-  - Roboflow
-  - Jupyter
+- Python
+- YOLOv8
+- OpenCV
+- supervision
+- Roboflow
+- Jupyter
 links:
   repo: https://github.com/germanpadua/Football-Computer-Vision
-metrics:
-  - value: 2
-    label: "Detectores entrenados: jugadores y puntos de referencia del campo"
-    basis: artifact
-    source: train_player_detector.ipynb, train_pitch_keypoint_detector.ipynb
-  - value: 3
-    label: Cuadernos, sin empaquetar en módulos
-    basis: artifact
-    source: repositorio
+metrics: []
 highlights:
-  - La homografía desde los puntos de referencia del campo es lo que convierte píxeles en metros, y sin ella las distancias y velocidades no significan nada. Es el paso que separa una demo de un análisis.
-  - Entrené el detector de puntos de referencia del campo porque un modelo genérico de objetos no distingue las líneas de un campo de fútbol.
-  - "\"Los mapas de calor de posición por jugador son la vista que hace legible el seguimiento: una tabla de coordenadas no dice nada, un mapa dice dónde juega cada uno.\""
+- La homografía desde los puntos de referencia del campo es lo que convierte píxeles en metros, y sin ella las distancias y velocidades no significan
+  nada. Es el paso que separa una demo de un análisis.
+- Entrené el detector de puntos de referencia del campo porque un modelo genérico de objetos no distingue las líneas de un campo de fútbol.
+- '"Los mapas de calor de posición por jugador son la vista que hace legible el seguimiento: una tabla de coordenadas no dice nada, un mapa dice
+  dónde juega cada uno."'
 limits:
-  - Son tres cuadernos, no un sistema. No hay tests, no hay integración continua y no hay paquete instalable.
-  - No hay ninguna métrica de precisión commiteada. Los pesos entrenados tampoco están en el repositorio, así que el resultado no se puede reproducir sin reentrenar.
-  - El README no explica nada. Un visitante que abre el repositorio no sabe qué mirar.
-  - El seguimiento funciona bien en planos amplios y se degrada en cuanto hay oclusión fuerte, que en un partido ocurre constantemente.
+- Son tres cuadernos, no un sistema. No hay tests, no hay integración continua y no hay paquete instalable.
+- No hay ninguna métrica de precisión commiteada. Los pesos entrenados tampoco están en el repositorio, así que el resultado no se puede reproducir
+  sin reentrenar.
+- El README no explica nada. Un visitante que abre el repositorio no sabe qué mirar.
+- El seguimiento funciona bien en planos amplios y se degrada en cuanto hay oclusión fuerte, que en un partido ocurre constantemente.
 ---
 
 ## Qué hace

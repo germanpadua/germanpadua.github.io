@@ -11,11 +11,6 @@
 import '../styles/global.css';
 import { identity } from '../i18n/ui';
 
-const stats = [
-  { value: '9,9/10', label: 'TFG · GNN en variedades pseudo-riemannianas' },
-  { value: '8,59/10', label: 'Máster en Ciencia de Datos · UGR' },
-  { value: '90/105.000', label: 'Santander AI Experience @ IE' },
-];
 ---
 
 <html lang="es" data-theme="atlas">
@@ -34,20 +29,11 @@ const stats = [
 
     <div class="og__body">
       <h1 class="og__name">{identity.name}</h1>
-      <p class="og__claim">Construyo modelos y sistemas que aguantan una auditoría.</p>
+      <p class="og__claim">De las matemáticas a los productos de datos.</p>
       <p class="og__url">{identity.site.replace('https://', '')}</p>
     </div>
 
-    <footer class="og__stats">
-      {
-        stats.map((stat) => (
-          <div class="og__stat">
-            <span class="og__stat-value tabular">{stat.value}</span>
-            <span class="og__stat-label">{stat.label}</span>
-          </div>
-        ))
-      }
-    </footer>
+    <footer class="og__stats"><p>Aprendizaje automático · Ingeniería de IA · Visualización</p></footer>
   </body>
 </html>
 

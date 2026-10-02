@@ -18,6 +18,7 @@ export interface GraphNode {
   weight: number;
   note: string;
   projects: string[];
+  courses?: { title: string; program: "degree" | "master" }[];
 }
 
 export interface GraphEdge {
@@ -82,23 +83,6 @@ export function initialNodes(
   });
 }
 
-function centroids(nodes: SimNode[], areas: readonly string[]): Map<string, { x: number; y: number }> {
-  const sum = new Map<string, { x: number; y: number; n: number }>();
-  for (const area of areas) sum.set(area, { x: 0, y: 0, n: 0 });
-  for (const node of nodes) {
-    const entry = sum.get(node.area);
-    if (!entry) continue;
-    entry.x += node.x;
-    entry.y += node.y;
-    entry.n += 1;
-  }
-  const out = new Map<string, { x: number; y: number }>();
-  for (const [area, entry] of sum) {
-    out.set(area, entry.n === 0 ? { x: 0, y: 0 } : { x: entry.x / entry.n, y: entry.y / entry.n });
-  }
-  return out;
-}
-
 /**
  * One simulation step. Forces are applied and then positions are clamped inside
  * the canvas, because a node that escapes the viewport is a node the reader
@@ -109,16 +93,15 @@ export function step(
   edges: readonly GraphEdge[],
   options: LayoutOptions & { areaAttraction?: number; repulsion?: number; damping?: number },
 ): void {
-  const { width, height, radius = 34, areaAttraction = 0.02, repulsion = 5200, damping = 0.82 } = options;
+  const { width, height, radius = 34, areaAttraction = 0.022, repulsion = 1600, damping = 0.82 } = options;
   const margin = 26;
 
   const byId = new Map(nodes.map((node) => [node.id, node]));
-  const areas = [...new Set(nodes.map((node) => node.area))];
-  const centers = centroids(nodes, areas);
+  const anchors: Record<string, [number, number]> = { math: [.22, .25], cs: [.22, .75], ds: [.51, .46], tools: [.8, .4], lang: [.83, .85] };
   for (const node of nodes) {
-    const center = centers.get(node.area);
-    node.cx = center ? center.x : width / 2;
-    node.cy = center ? center.y : height / 2;
+    const [x, y] = anchors[node.area] ?? [.5, .5];
+    node.cx = x * width;
+    node.cy = y * height;
   }
 
   // Repulsion. O(n^2) is fine at this size and avoids a spatial index nobody needs.
@@ -160,7 +143,7 @@ export function step(
     const dy = b.y - a.y;
     const dist = Math.max(0.01, Math.sqrt(dx * dx + dy * dy));
     const rest = radius * (1.5 - 0.5 * Math.min(a.weight, b.weight));
-    const force = (dist - rest) * 0.02;
+    const force = (dist - rest) * 0.006;
     const fx = (dx / dist) * force;
     const fy = (dy / dist) * force;
     a.vx += fx;

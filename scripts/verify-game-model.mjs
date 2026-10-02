@@ -11,7 +11,7 @@
  * Run with type stripping so the TypeScript modules load directly:
  *   pnpm test:model
  */
-import { buildTrack, curvatureAhead, locate, sectorOf } from '../src/components/islands/game/track.ts';
+import { buildTrack, constrainToTrack, curvatureAhead, locate, sectorOf } from '../src/components/islands/game/track.ts';
 import { brakingDistance, createCar, DEFAULT_PHYSICS, stepCar } from '../src/components/islands/game/physics.ts';
 
 const failures = [];
@@ -25,6 +25,22 @@ const check = (ok, label, detail = '') => {
 
 const track = buildTrack(900, 520);
 const dt = 1 / 60;
+
+// A player holding the accelerator into a wall must stay inside the circuit.
+for (const [width, height] of [[900,520],[360,400]]) {
+  const boundedTrack = buildTrack(width, height);
+  const boundedCar = createCar(boundedTrack.start.x, boundedTrack.start.y, -Math.PI / 2);
+  let hint = 0, collisions = 0;
+  for (let frame = 0; frame < 1800; frame++) {
+    const position = locate(boundedTrack, boundedCar, hint);
+    stepCar(boundedCar, { throttle: 1, brake: 0, steer: 0 }, dt, position.onTrack);
+    if (constrainToTrack(boundedTrack, boundedCar, position.index)) collisions++;
+    hint = locate(boundedTrack, boundedCar, position.index).index;
+  }
+  const distance = locate(boundedTrack, boundedCar, hint).distance;
+  check(collisions > 0 && distance <= boundedTrack.halfWidth + 10.01, `barriers: contain a sustained collision at ${width}px`, `${collisions} collisions, ${distance.toFixed(2)}px from centreline`);
+}
+
 
 /* ------------------------------------------------------------------ geometry */
 
@@ -163,6 +179,7 @@ function driveLap() {
     const throttle = brake === 1 ? 0 : car.speed < safeSpeed ? 1 : 0;
 
     stepCar(car, { throttle, brake, steer }, dt, position.onTrack);
+    constrainToTrack(track, car, position.index);
   }
   return { laps: lapsCompleted, splits, lapTime, time };
 }

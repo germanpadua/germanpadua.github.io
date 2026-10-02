@@ -88,7 +88,7 @@ const t = (locale: 'es' | 'en', es: string, en: string) => (locale === 'es' ? es
 export const BANNER: Record<'es' | 'en', string[]> = {
   es: [
     'Terminal del portfolio de German Padua.',
-    "Escribí `help` para ver los comandos, o usá el tabulador para completar.",
+    "Escribe `help` para ver los comandos, o usa el tabulador para completar.",
   ],
   en: [
     "German Padua's portfolio terminal.",
@@ -155,8 +155,8 @@ export const COMMANDS: Command[] = [
           {
             text: t(
               locale,
-              'Construyo modelos y sistemas que aguantan una auditoría.',
-              'I build models and systems that survive an audit.',
+              'Conecto matemáticas, aprendizaje automático y desarrollo de productos.',
+              'I connect mathematics, machine learning and product development.',
             ),
             tone: 'accent',
           },

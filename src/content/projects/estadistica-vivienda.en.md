@@ -2,7 +2,8 @@
 locale: en
 slug: estadistica-vivienda
 title: Foundations of statistics and classical learning
-summary: "Four assignments from the statistics part of my double degree: classification, segmentation of a real survey, housing price regression and multivariate analysis with principal components and factor analysis in R."
+summary: 'Four assignments from the statistics part of my double degree: classification, segmentation of a real survey, housing price regression
+  and multivariate analysis with principal components and factor analysis in R.'
 role: Author
 period: 2023 - 2024
 year: 2024
@@ -10,42 +11,34 @@ order: 14
 status: shipped
 visibility: public
 domains:
-  - applied statistics
-  - classical learning
-  - exploratory analysis
+- applied statistics
+- classical learning
+- exploratory analysis
 stack:
-  - R
-  - R Markdown
-  - Python
-  - scikit-learn
-  - KNIME
-  - Jupyter
+- R
+- R Markdown
+- Python
+- scikit-learn
+- KNIME
+- Jupyter
 links:
   repo: https://github.com/germanpadua/IN-P2
-metrics:
-  - value: 4
-    label: Independent assignments, one per family of problem
-    basis: artifact
-    source: IN-P1, IN-P2, IN-P3, Evaluable-Practice-Multivariate-Statistics
-  - value: 122 MB
-    label: Size of the multivariate analysis repository
-    basis: artifact
-    source: GitHub API
-  - value: 0
-    label: Tests, because the deliverable is a report
-    basis: artifact
-    source: repositories
+metrics: []
 highlights:
-  - "They are the four classic problems, one each: supervised classification, unsupervised segmentation, regression and dimensionality reduction. Each technique was applied to a different dataset and defended with its own report."
-  - For the segmentation I worked on a real voting-intention survey, which forces every clustering to be justified in terms that can be explained, not only in a cohesion metric.
-  - In the multivariate analysis I used R to study normality, outliers and latent structure with principal components and factor analysis, which is the part of statistics that holds up everything else.
-  - "They are here precisely because they are the foundations: without this, the rest of the projects would be models with no criteria to tell whether they are right."
+- 'They are the four classic problems, one each: supervised classification, unsupervised segmentation, regression and dimensionality reduction.
+  Each technique was applied to a different dataset and defended with its own report.'
+- For the segmentation I worked on a real voting-intention survey, which forces every clustering to be justified in terms that can be explained,
+  not only in a cohesion metric.
+- In the multivariate analysis I used R to study normality, outliers and latent structure with principal components and factor analysis, which
+  is the part of statistics that holds up everything else.
+- 'They are here precisely because they are the foundations: without this, the rest of the projects would be models with no criteria to tell whether
+  they are right.'
 limits:
-  - "It is coursework, and I do not dress it up: they are academic deliverables with their problem statement, not projects with a user behind them."
-  - One of them is only KNIME visual workflows, with no code that can be read. It is a legitimate tool and a far less verifiable deliverable.
-  - The multivariate analysis repository weighs 122 MB because of versioned input data. Same flaw as F1 Data App.
-  - There are no tests, because the deliverable is a report in HTML or PDF, not a library.
-  - The notebooks have no useful README; the context is in the attached PDFs.
+- 'It is coursework, and I do not dress it up: they are academic deliverables with their problem statement, not projects with a user behind them.'
+- One of them is only KNIME visual workflows, with no code that can be read. It is a legitimate tool and a far less verifiable deliverable.
+- The multivariate analysis repository weighs 122 MB because of versioned input data. Same flaw as F1 Data App.
+- There are no tests, because the deliverable is a report in HTML or PDF, not a library.
+- The notebooks have no useful README; the context is in the attached PDFs.
 ---
 
 ## What they are

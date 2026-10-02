@@ -11,7 +11,7 @@ const themes = [
     id: 'atlas',
     label: 'Atlas',
     hint: 'Paper and ink, scientific editorial',
-    bg: '#f6f4ee',
+    bg: '#f4f6fa',
     accent: '#0b6e8c',
     accent2: '#a2590a',
     colorScheme: 'light',
@@ -172,23 +172,18 @@ const themes = [
     color: var(--fg-strong);
   }
 
-  /*
-   * Below this width the swatches alone carry the choice. The threshold is wide
-   * because the theme control shares a bar with seven section links: at 1440px the
-   * labelled buttons made the nav overflow into the brand.
-   */
-  @media (max-width: 100rem) {
-    .theme-switch__label {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      clip-path: inset(50%);
-      white-space: nowrap;
-    }
-
-    .theme-switch__option {
-      padding: 0.4rem;
-    }
+  /* Swatches keep the theme control compact within the navigation bar. */
+  .theme-switch__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .theme-switch__option { padding: .4rem; }
+  @media (max-width: 30rem) {
+    .theme-switch__option { padding: .25rem; min-height: 1.65rem; }
+    .theme-switch__swatch { width: .85rem; height: .85rem; }
   }
 </style>

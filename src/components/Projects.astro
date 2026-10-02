@@ -1,429 +1,60 @@
 ---
 import { Picture } from 'astro:assets';
-import Metric from './Metric.astro';
+import ResearchPreview from './ResearchPreview.astro';
+import TelemetryPreview from './TelemetryPreview.astro';
 import { projectImage } from '../lib/projectImages';
-import {
-  getFeaturedProjects,
-  getSupportingProjects,
-  projectPath,
-  projectsIndexPath,
-} from '../lib/content';
+import { getFeaturedProjects, getSupportingProjects, projectPath, projectsIndexPath } from '../lib/content';
 import { useTranslations, type Locale } from '../i18n/ui';
-
-interface Props {
-  locale: Locale;
-}
-
+interface Props { locale: Locale }
 const { locale } = Astro.props;
 const t = useTranslations(locale);
-
 const featured = await getFeaturedProjects(locale);
 const supporting = await getSupportingProjects(locale);
-
-const index = projectsIndexPath(locale);
-const pad = (value: number) => String(value).padStart(2, '0');
 ---
-
-<section id="projects" class="section section--gridded">
+<section id="projects" class="section">
   <div class="container">
-    <header class="section-head reveal">
-      <p class="eyebrow">{t.sections.projects.eyebrow}</p>
-      <h2>{t.sections.projects.title}</h2>
-      <p class="section-head__lead">{t.sections.projects.lead}</p>
-    </header>
-
-    <ol class="plates" role="list">
-      {
-        featured.map((entry, position) => {
-          const { data } = entry;
-          return (
-            <li class:list={['plate', `plate--${data.accent ?? 'accent'}`]}>
-              <div class="plate__rail">
-                <span class="plate__index tabular">{pad(position + 1)}</span>
-                <span class="plate__status">{t.projects.statuses[data.status]}</span>
-              </div>
-
-              <div class="plate__body">
-                <h3 class="plate__title">
-                  <a href={projectPath(locale, data.slug)}>{data.title}</a>
-                </h3>
-
-                <p class="plate__meta">
-                  <span>{data.role}</span>
-                  <span class="plate__sep" aria-hidden="true">
-                    ·
-                  </span>
-                  <span class="tabular">{data.period}</span>
-                </p>
-
-                {data.team && (
-                  <p class="plate__team">
-                    <strong>{t.projects.team}:</strong> {data.team.name}
-                    {data.team.size ? ` (${data.team.size})` : ''} — {data.team.contribution}
-                  </p>
-                )}
-
-                <p class="plate__summary">{data.summary}</p>
-
-                {data.images[0] && (
-                  <figure class="plate__figure">
-                    <Picture
-                      src={projectImage(data.images[0].file)}
-                      alt={data.images[0].alt}
-                      widths={[480, 900, 1600]}
-                      sizes="(max-width: 52rem) 92vw, 58rem"
-                      formats={['avif', 'webp']}
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </figure>
-                )}
-
-                {data.metrics.length > 0 && (
-                  <div class="plate__metrics">
-                    {data.metrics.slice(0, 3).map((metric) => (
-                      <Metric
-                        locale={locale}
-                        value={metric.value}
-                        label={metric.label}
-                        basis={metric.basis}
-                        source={metric.source}
-                        variant="plate"
-                      />
-                    ))}
-                  </div>
-                )}
-
-                <div class="cluster plate__stack">
-                  {data.stack.slice(0, 6).map((item) => (
-                    <span class="chip">{item}</span>
-                  ))}
-                </div>
-
-                <div class="cluster plate__actions">
-                  <a class="btn btn--primary" href={projectPath(locale, data.slug)}>
-                    {t.projects.caseStudy}
-                  </a>
-                  {data.links.repo && (
-                    <a class="btn" href={data.links.repo} rel="noopener noreferrer" target="_blank">
-                      {t.projects.repo}
-                    </a>
-                  )}
-                  {!data.links.repo && data.links.demo && (
-                    <a class="btn" href={data.links.demo} rel="noopener noreferrer" target="_blank">
-                      {t.projects.demo}
-                    </a>
-                  )}
-                </div>
-
-                {data.confidentiality && (
-                  <p class="plate__confidential">{data.confidentiality}</p>
-                )}
-              </div>
-            </li>
-          );
-        })
-      }
-    </ol>
-
-    <h3 class="more-label">{t.projects.more}</h3>
-    <ul class="cards" role="list">
-      {
-        supporting.map((entry) => {
-          const { data } = entry;
-          // Bind once: `data.metrics[0]` re-evaluated inside JSX does not narrow.
-          const lead = data.metrics[0];
-          return (
-            <li class="project-card card reveal">
-              <div class="project-card__top">
-                <h4 class="project-card__title">
-                  <a href={projectPath(locale, data.slug)}>{data.title}</a>
-                </h4>
-                <span class="project-card__status">{t.projects.statuses[data.status]}</span>
-              </div>
-
-              <p class="project-card__summary">{data.summary}</p>
-
-              {lead && (
-                <div class="project-card__metric">
-                  <Metric
-                    locale={locale}
-                    value={lead.value}
-                    label={lead.label}
-                    basis={lead.basis}
-                    source={lead.source}
-                    variant="card"
-                  />
-                </div>
-              )}
-
-              <div class="cluster project-card__stack">
-                {data.stack.slice(0, 4).map((item) => (
-                  <span class="chip">{item}</span>
-                ))}
-              </div>
-
-              <div class="cluster project-card__actions">
-                <a href={projectPath(locale, data.slug)}>{t.projects.caseStudy}</a>
-                {data.links.repo && (
-                  <a href={data.links.repo} rel="noopener noreferrer" target="_blank">
-                    {t.projects.repo}
-                  </a>
-                )}
-                {!data.links.repo && data.links.demo && (
-                  <a href={data.links.demo} rel="noopener noreferrer" target="_blank">
-                    {t.projects.demo}
-                  </a>
-                )}
-              </div>
-            </li>
-          );
-        })
-      }
+    <header class="section-head"><h2>{t.sections.projects.title}</h2><p class="section-head__lead">{t.sections.projects.lead}</p></header>
+    <ul class="selected-projects" role="list">
+      {featured.map(({data}) => <li class="selected-project">
+        <a class="selected-project__visual" href={projectPath(locale,data.slug)} aria-label={data.title}>
+          {data.slug === 'pseudo-riemannian-gnn' ? <ResearchPreview compact locale={locale} /> : data.slug === 'telemetry-sentinel' ? <TelemetryPreview locale={locale} /> : data.images[0] ? <Picture src={projectImage(data.images[0].file)} alt={data.images[0].alt} widths={[480,900]} sizes="(max-width: 48rem) 92vw, 42vw" formats={['avif','webp']} loading="lazy" decoding="async" /> : <div class="selected-project__plain"><span>{data.domains[0]}</span><strong>{data.title}</strong><p>{data.stack.slice(0,3).join(' / ')}</p></div>}
+        </a>
+        {data.images[0]?.caption && <p class="selected-project__image-note">{locale === "es" ? "Vista ilustrativa" : "Illustrative view"}</p>}
+        <div class="selected-project__heading"><h3><a href={projectPath(locale,data.slug)}>{data.title}</a></h3><span>{t.projects.statuses[data.status]}</span></div>
+        <p class="selected-project__summary">{data.summary}</p>
+        <p class="selected-project__stack">{data.stack.slice(0,4).join(' · ')}</p>
+        <div class="cluster selected-project__links"><a href={projectPath(locale,data.slug)}>{locale === 'es' ? 'Explorar proyecto' : 'Explore project'}</a>{data.links.demo ? <a href={data.links.demo} target="_blank" rel="noopener noreferrer">{t.projects.demo}</a> : data.links.repo && <a href={data.links.repo} target="_blank" rel="noopener noreferrer">GitHub</a>}</div>
+      </li>)}
     </ul>
-
-    <p class="projects__all">
-      <a class="btn" href={index}>
-        {locale === 'es' ? 'Ver todos los proyectos' : 'See all projects'}
-      </a>
-    </p>
+    <details class="other-projects"><summary>{t.projects.more}</summary><ul role="list">{supporting.map(({data}) => <li><a href={projectPath(locale,data.slug)}>{data.title}</a><p>{data.summary}</p></li>)}</ul></details>
+    <p class="projects__all"><a class="btn" href={projectsIndexPath(locale)}>{locale === 'es' ? 'Ver todos los proyectos' : 'See all projects'}</a></p>
   </div>
 </section>
-
 <style>
-  .plates {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    border-top: var(--rule) var(--border-style) var(--border);
-  }
-
-  .plate {
-    display: grid;
-    grid-template-columns: 8rem minmax(0, 1fr);
-    gap: var(--space-m) var(--space-l);
-    padding-block: var(--space-xl);
-    border-bottom: var(--rule) var(--border-style) var(--border);
-  }
-
-  .plate__rail {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    align-items: flex-start;
-    position: sticky;
-    top: 5rem;
-    align-self: start;
-  }
-
-  .plate__index {
-    font-family: var(--font-display);
-    font-size: var(--step-3);
-    line-height: 0.9;
-    color: var(--border-strong);
-  }
-
-  .plate__status {
-    font-family: var(--font-code);
-    font-size: var(--step--2);
-    letter-spacing: var(--tracking-caps);
-    text-transform: uppercase;
-    color: var(--fg-muted);
-  }
-
-  .plate__body {
-    display: grid;
-    gap: var(--space-2xs);
-    max-width: 60rem;
-  }
-
-  .plate__title {
-    font-family: var(--font-display);
-    font-size: var(--step-4);
-    line-height: 1.05;
-    letter-spacing: var(--tracking-tight);
-  }
-
-  .plate__title a {
-    color: var(--fg-strong);
-    text-decoration: none;
-  }
-
-  .plate__title a:hover {
-    color: var(--accent);
-  }
-
-  .plate__meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    font-family: var(--font-code);
-    font-size: var(--step--2);
-    letter-spacing: var(--tracking-wide);
-    color: var(--fg-muted);
-    max-width: none;
-  }
-
-  .plate__sep {
-    color: var(--border-strong);
-  }
-
-  .plate__team {
-    font-size: var(--step--1);
-    color: var(--fg-muted);
-    border-left: var(--rule-strong) var(--border-style) var(--accent-2);
-    padding-left: var(--space-2xs);
-    max-width: 62ch;
-  }
-
-  .plate__team strong {
-    color: var(--fg);
-  }
-
-  .plate__summary {
-    font-size: var(--step-1);
-    line-height: var(--leading-snug);
-    color: var(--fg);
-    max-width: 62ch;
-  }
-
-  /* A hairline frame and a slightly desaturated treatment so a screenshot sits inside
-     the palette instead of fighting it. */
-  .plate__figure {
-    margin: var(--space-2xs) 0 0;
-    border: var(--rule) var(--border-style) var(--border);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    background-color: var(--bg-inset);
-  }
-
-  .plate__figure :global(img) {
-    width: 100%;
-    height: auto;
-    filter: saturate(0.96);
-  }
-
-  .plate__metrics {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
-    gap: var(--space-s);
-    margin-top: var(--space-2xs);
-    padding-block: var(--space-s);
-    border-block: var(--rule) var(--border-style) var(--border);
-  }
-
-  .plate__stack {
-    margin-top: var(--space-2xs);
-  }
-
-  .plate__actions {
-    margin-top: var(--space-2xs);
-  }
-
-  .plate__confidential {
-    font-size: var(--step--2);
-    color: var(--fg-muted);
-    border-left: var(--rule-strong) var(--border-style) var(--border-strong);
-    padding-left: var(--space-2xs);
-    max-width: 62ch;
-  }
-
-  .more-label {
-    font-family: var(--font-code);
-    font-size: var(--step--2);
-    font-weight: 500;
-    letter-spacing: var(--tracking-caps);
-    text-transform: uppercase;
-    color: var(--fg-muted);
-    margin-top: var(--space-xl);
-    margin-bottom: var(--space-s);
-  }
-
-  .cards {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-    gap: var(--space-s);
-  }
-
-  .project-card {
-    display: grid;
-    align-content: start;
-    gap: var(--space-2xs);
-    padding: var(--space-s);
-  }
-
-  .project-card__top {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--space-2xs);
-  }
-
-  .project-card__title {
-    font-family: var(--font-display);
-    font-size: var(--step-1);
-  }
-
-  .project-card__title a {
-    color: var(--fg-strong);
-    text-decoration: none;
-  }
-
-  .project-card__title a:hover {
-    color: var(--accent);
-  }
-
-  .project-card__status {
-    font-family: var(--font-code);
-    font-size: var(--step--2);
-    letter-spacing: var(--tracking-wide);
-    color: var(--fg-muted);
-    white-space: nowrap;
-  }
-
-  .project-card__summary {
-    font-size: var(--step--1);
-    line-height: var(--leading-normal);
-    color: var(--fg-muted);
-  }
-
-  .project-card__metric {
-    margin-top: var(--space-2xs);
-    padding-top: var(--space-2xs);
-    border-top: var(--rule) var(--border-style) var(--border);
-  }
-
-  .project-card__stack {
-    margin-top: var(--space-2xs);
-  }
-
-  .project-card__actions {
-    margin-top: var(--space-2xs);
-    font-size: var(--step--1);
-  }
-
-  .projects__all {
-    margin-top: var(--space-l);
-  }
-
-  @media (max-width: 52rem) {
-    .plate {
-      grid-template-columns: 1fr;
-      gap: var(--space-2xs);
-    }
-
-    .plate__rail {
-      position: static;
-      flex-direction: row;
-      align-items: baseline;
-      gap: var(--space-2xs);
-    }
-
-    .plate__index {
-      font-size: var(--step-2);
-    }
-  }
+ .selected-projects { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 3.5rem 2.5rem; }
+ .selected-project { min-width: 0; }
+ .selected-project__visual { display: flex; align-items: center; justify-content: center; aspect-ratio: 1.55; background: var(--bg-inset); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; text-decoration: none; margin-bottom: 1.2rem; }
+ .selected-project__visual :global(picture) { width: 100%; height: 100%; }
+ .selected-project__visual :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+ .selected-project__visual :global(.research-preview) { width: 100%; height: 100%; }
+ .selected-project__visual :global(.research-preview svg) { height: calc(100% - 3rem); width: 100%; }
+ .selected-project__plain { width: 100%; padding: clamp(1.5rem,4vw,3rem); }
+ .selected-project__plain span { font-size: .8rem; color: var(--fg-muted); }
+ .selected-project__plain strong { display: block; font-family: var(--font-display); font-size: clamp(1.7rem,2.5vw,2.7rem); line-height: 1.15; color: var(--fg-strong); max-width: 17ch; margin-block: .75rem; }
+ .selected-project__plain p { font-size: .8rem; color: var(--fg-muted); }
+ .selected-project__image-note { font-size: .7rem; color: var(--fg-muted); margin-top: -.7rem; margin-bottom: .8rem; }
+ .selected-project__heading { display: flex; align-items: baseline; justify-content: space-between; gap: .75rem; }
+ .selected-project__heading h3 { font-size: var(--step-2); line-height: 1.25; }
+ .selected-project__heading h3 a { text-decoration: none; color: var(--fg-strong); }
+ .selected-project__heading span { font-size: .75rem; color: var(--fg-muted); flex: none; }
+ .selected-project__summary { color: var(--fg); font-size: var(--step--1); line-height: 1.65; margin-top: .75rem; }
+ .selected-project__stack { font-size: .75rem; color: var(--fg-muted); margin-top: .75rem; }
+ .selected-project__links { margin-top: 1rem; font-size: var(--step--1); gap: 1.5rem; }
+ .other-projects { margin-top: 3rem; border-block: 1px solid var(--border); padding-block: 1rem; }
+ .other-projects summary { cursor: pointer; font-size: var(--step-1); }
+ .other-projects ul { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem 2.5rem; margin-block: 1.5rem; }
+ .other-projects li p { font-size: .85rem; color: var(--fg-muted); margin-top: .4rem; }
+ .projects__all { margin-top: 1.5rem; }
+ @media(max-width:48rem) { .selected-projects,.other-projects ul { grid-template-columns: 1fr; } .selected-project__image-note { font-size: .7rem; color: var(--fg-muted); margin-top: -.7rem; margin-bottom: .8rem; }
+ .selected-project__heading { flex-wrap: wrap; } }
 </style>

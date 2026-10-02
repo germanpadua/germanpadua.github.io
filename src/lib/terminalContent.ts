@@ -88,11 +88,11 @@ export async function buildTerminalContent(locale: Locale): Promise<TerminalCont
     areas: graph.areas.map((area) => ({ id: area.id, label: area.label[locale] })),
     paths: {
       projects: projectsIndexPath(locale),
-      skills: '#skills',
-      work: '#work',
-      education: '#education',
-      contact: '#contact',
-      playground: '#playground',
+      skills: `${locale === 'es' ? '/' : '/en/'}#skills`,
+      work: `${locale === 'es' ? '/' : '/en/'}#work`,
+      education: `${locale === 'es' ? '/' : '/en/'}#education`,
+      contact: `${locale === 'es' ? '/' : '/en/'}#contact`,
+      playground: `${locale === 'es' ? '/' : '/en/'}#game`,
     },
     themes: [...themeIds],
     otherLocale: {

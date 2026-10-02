@@ -254,6 +254,8 @@ const skillsGraph = defineCollection({
             note: localized,
             /** Slugs of the projects where this was actually used. */
             projects: z.array(slug).default([]),
+            /** Public course titles supporting academic knowledge. */
+            courses: z.array(z.object({ title: z.string().min(2), program: z.enum(['degree', 'master']) })).default([]),
           }),
         )
         .min(1),

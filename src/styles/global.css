@@ -503,3 +503,5 @@ blockquote {
     color var(--dur-fast) var(--ease-standard),
     box-shadow var(--dur-fast) var(--ease-standard) !important;
 }
+
+@media (max-width: 68rem) { html { scroll-padding-top: 7rem; } }

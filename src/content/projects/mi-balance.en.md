@@ -2,7 +2,8 @@
 locale: en
 slug: mi-balance
 title: Mi Balance
-summary: A PWA for iPhone that records income and expenses and calculates the monthly savings rate. The data never leaves the device, backups are encrypted and it works offline.
+summary: A PWA for iPhone that records income and expenses and calculates the monthly savings rate. The data never leaves the device, backups
+  are encrypted and it works offline.
 role: Design, implementation and testing
 period: August 2026
 year: 2026
@@ -11,53 +12,41 @@ status: shipped
 visibility: case-study
 confidentiality: Private repository. There is no server and no account, so there is nothing to publish.
 domains:
-  - local-first
-  - web applications
-  - applied cryptography
-  - accessibility
+- local-first
+- web applications
+- applied cryptography
+- accessibility
 stack:
-  - React
-  - TypeScript
-  - Vite
-  - Dexie / IndexedDB
-  - Zod
-  - Recharts
-  - Web Crypto
-  - Vitest
-  - Playwright
-metrics:
-  - value: 0
-    label: Network requests carrying user data
-    basis: artifact
-    source: content security policy with connect-src none
-  - value: 600 000
-    label: PBKDF2-HMAC-SHA-256 iterations in the backup
-    basis: artifact
-    source: src/domain/backup/crypto.ts
-  - value: ≥ 80 %
-    label: Global coverage required by the project's contract
-    basis: target
-    source: QUALITY_GATES.md
-  - value: 35
-    label: Unit and component test files
-    basis: artifact
-    source: src/**/*.test.ts(x)
-  - value: 9
-    label: End-to-end specifications in the browser
-    basis: artifact
-    source: e2e/
+- React
+- TypeScript
+- Vite
+- Dexie / IndexedDB
+- Zod
+- Recharts
+- Web Crypto
+- Vitest
+- Playwright
+metrics: []
 highlights:
-  - "No backend, no account, no sync and no telemetry. The content security policy blocks every outgoing connection, so the guarantee does not rest on my word: the browser enforces it."
-  - The backup is encrypted on the device with AES-256-GCM and a key derived with 600 000 iterations, and it carries authenticated additional data so a file from another version cannot be restored by mistake.
-  - "Restoration is atomic: it validates, shows a preview and only then replaces, all inside a single transaction. A corrupt backup cannot leave you with half your data."
-  - Money is stored as whole cents. No floating decimals in a ledger.
-  - What has been done and what is planned are derived from the device's local date and are never persisted, so there is no state that can fall out of sync when the day or the time zone changes.
+- 'No backend, no account, no sync and no telemetry. The content security policy blocks every outgoing connection, so the guarantee does not rest
+  on my word: the browser enforces it.'
+- The backup is encrypted on the device with AES-256-GCM and a key derived with 600 000 iterations, and it carries authenticated additional data
+  so a file from another version cannot be restored by mistake.
+- 'Restoration is atomic: it validates, shows a preview and only then replaces, all inside a single transaction. A corrupt backup cannot leave
+  you with half your data.'
+- Money is stored as whole cents. No floating decimals in a ledger.
+- What has been done and what is planned are derived from the device's local date and are never persisted, so there is no state that can fall
+  out of sync when the day or the time zone changes.
 limits:
-  - The 80 % and 90 % coverage figures are contractual thresholds of the project, not measurements. I have no coverage report to publish, so I list them as targets.
-  - There is no CSV export or import, no multi-currency, no sync between devices. It is out of scope, on purpose.
-  - Validation on a physical iPhone is still pending and I am not going to take it as done.
-  - "An internal review of the code itself documented a critical failure in the full data wipe: the settings screen received the database as null and the operation did nothing. It is written in the project's log. I do not present it as resolved until I have verified it with the tests in hand."
-  - The references folder includes a screenshot of another application I used as visual inspiration. Its own documentation forbids reusing it as an image, so it does not appear in this portfolio.
+- The 80 % and 90 % coverage figures are contractual thresholds of the project, not measurements. I have no coverage report to publish, so I list
+  them as targets.
+- There is no CSV export or import, no multi-currency, no sync between devices. It is out of scope, on purpose.
+- Validation on a physical iPhone is still pending and I am not going to take it as done.
+- 'An internal review of the code itself documented a critical failure in the full data wipe: the settings screen received the database as null
+  and the operation did nothing. It is written in the project''s log. I do not present it as resolved until I have verified it with the tests
+  in hand.'
+- The references folder includes a screenshot of another application I used as visual inspiration. Its own documentation forbids reusing it as
+  an image, so it does not appear in this portfolio.
 ---
 
 ## The problem

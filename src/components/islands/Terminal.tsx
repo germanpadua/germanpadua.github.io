@@ -100,8 +100,10 @@ export default function Terminal({ locale, dataUrl, labels }: Props) {
       return;
     }
     if (action.kind === 'scroll') {
+      document.querySelector<HTMLDialogElement>('#terminal-mode')?.close();
       const target = document.querySelector(action.selector);
-      target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (target) target.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' });
+      else window.location.href = `${locale === 'es' ? '/' : '/en/'}${action.selector}`;
       return;
     }
     if (action.kind === 'navigate') {
@@ -124,7 +126,7 @@ export default function Terminal({ locale, dataUrl, labels }: Props) {
         document.documentElement.setAttribute('data-theme', action.value);
       }
     }
-  }, []);
+  }, [locale]);
 
   const run = useCallback(
     (raw: string) => {

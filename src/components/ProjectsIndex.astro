@@ -19,10 +19,10 @@ const t = useTranslations(locale);
 const projects = await getProjects(locale);
 
 const navLinks = [
-  { href: '/#about', label: t.nav.about },
-  { href: '/#work', label: t.nav.work },
-  { href: '/#skills', label: t.nav.skills },
-  { href: '/#contact', label: t.nav.contact },
+  { href: `${locale === 'es' ? '/' : '/en/'}#about`, label: t.nav.about },
+  { href: `${locale === 'es' ? '/' : '/en/'}#work`, label: t.nav.work },
+  { href: `${locale === 'es' ? '/' : '/en/'}#skills`, label: t.nav.skills },
+  { href: `${locale === 'es' ? '/' : '/en/'}#contact`, label: t.nav.contact },
 ];
 
 const byDomain = new Map<string, number>();

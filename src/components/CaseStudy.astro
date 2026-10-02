@@ -4,6 +4,8 @@ import { Picture } from 'astro:assets';
 import { projectImage } from '../lib/projectImages';
 import Base from '../layouts/Base.astro';
 import Metric from './Metric.astro';
+import ThesisExplorer from './islands/ThesisExplorer';
+import '../styles/islands.css';
 import { getProject, getProjects, projectPath, projectsIndexPath } from '../lib/content';
 import { useTranslations, type Locale } from '../i18n/ui';
 
@@ -25,8 +27,8 @@ const next = position >= 0 && position < all.length - 1 ? all[position + 1] : un
 
 const navLinks = [
   { href: `${projectsIndexPath(locale)}`, label: t.nav.projects },
-  { href: '/#skills', label: t.nav.skills },
-  { href: '/#contact', label: t.nav.contact },
+  { href: `${locale === 'es' ? '/' : '/en/'}#skills`, label: t.nav.skills },
+  { href: `${locale === 'es' ? '/' : '/en/'}#contact`, label: t.nav.contact },
 ];
 ---
 
@@ -90,7 +92,7 @@ const navLinks = [
       }
 
       {
-        data.metrics.length > 0 && (
+        data.slug === 'pseudo-riemannian-gnn' && data.metrics.length > 0 && (
           <section class="case__metrics">
             <h2 class="case__section-label">{t.projects.metrics}</h2>
             <ul class="case__metric-list" role="list">
@@ -137,6 +139,7 @@ const navLinks = [
 
     <div class="case__body container">
       <div class="case__prose">
+        {slug === 'pseudo-riemannian-gnn' && <ThesisExplorer client:visible locale={locale} />}
         <Content />
 
         {data.images.length > 0 && (

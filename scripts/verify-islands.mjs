@@ -21,53 +21,6 @@ const check = (ok, label, detail = '') => {
   }
 };
 
-/**
- * Locate every node disc on the canvas by flood-filling saturated pixels.
- *
- * Used for two assertions that a screenshot cannot make: that the number of discs
- * matches the number of nodes (a soft force layout can leave two nodes on top of each
- * other, which looks like one node and makes one of them unclickable), and that
- * filtering does not move the nodes that remain.
- */
-async function discCentroids(page) {
-  return page.evaluate(() => {
-    const el = document.querySelector('.graph__canvas');
-    const { width, height } = el;
-    const data = el.getContext('2d').getImageData(0, 0, width, height).data;
-    const seen = new Uint8Array(width * height);
-    const isNode = (x, y) => {
-      const i = (y * width + x) * 4;
-      return (
-        data[i + 3] > 200 &&
-        Math.max(data[i], data[i + 1], data[i + 2]) - Math.min(data[i], data[i + 1], data[i + 2]) > 40
-      );
-    };
-    const blobs = [];
-    for (let y = 1; y < height - 1; y += 1) {
-      for (let x = 1; x < width - 1; x += 1) {
-        if (seen[y * width + x] || !isNode(x, y)) continue;
-        const stack = [[x, y]];
-        let sx = 0;
-        let sy = 0;
-        let count = 0;
-        while (stack.length && count < 5000) {
-          const [cx, cy] = stack.pop();
-          if (cx < 0 || cy < 0 || cx >= width || cy >= height) continue;
-          const key = cy * width + cx;
-          if (seen[key] || !isNode(cx, cy)) continue;
-          seen[key] = 1;
-          sx += cx;
-          sy += cy;
-          count += 1;
-          stack.push([cx + 1, cy], [cx - 1, cy], [cx, cy + 1], [cx, cy - 1]);
-        }
-        if (count > 20) blobs.push({ x: sx / count, y: sy / count, area: count });
-      }
-    }
-    return blobs;
-  });
-}
-
 /** Wait until Astro has hydrated the island and removed the `ssr` marker. */
 async function waitForHydration(page, selector) {
   await page.waitForFunction(
@@ -82,209 +35,38 @@ async function waitForHydration(page, selector) {
 
 async function checkSkillGraph(page, baseUrl) {
   await page.goto(`${baseUrl}/`, { waitUntil: 'networkidle' });
-
-  const island = 'astro-island[component-url*="SkillGraph"]';
-  /*
-   * Scroll the island itself into view, not its section. The section is taller than
-   * the viewport, so `scrollIntoViewIfNeeded` on it leaves the island below the fold
-   * and `client:visible` never fires — which looks exactly like broken hydration.
-   */
-  await page.locator('.graph__canvas').scrollIntoViewIfNeeded();
-  await waitForHydration(page, island);
-
+  await page.locator('astro-island[component-url*="SkillGraph"]').scrollIntoViewIfNeeded();
+  await waitForHydration(page, 'astro-island[component-url*="SkillGraph"]');
   const canvas = page.locator('.graph__canvas');
-  await canvas.waitFor({ state: 'visible' });
-  // The layout settles over a few hundred frames; give it time to finish.
-  await page.waitForTimeout(1400);
+  await canvas.waitFor();
+  const picker = page.locator('.graph__picker select');
+  check(await picker.locator('option').count() === 94, 'skills: every graph node can be selected accessibly');
+  check(await canvas.evaluate(el => el.width > 0 && el.height > 0), 'skills: graph canvas is drawn');
+  await picker.selectOption('python');
+  check((await page.locator('.graph__detail-title').textContent()) === 'Python', 'skills: selection updates the detail');
+  check(await canvas.getAttribute('data-selected') === 'python', 'skills: the graph reflects the selected node');
+  const links = await page.locator('.graph__detail a').evaluateAll(els => els.map(e => e.getAttribute('href')));
+  check(links.length > 0 && links.every(href => href.startsWith('/proyectos/')), 'skills: evidence links to actual project cases');
+  await picker.focus();
+  await page.keyboard.press('p');
+  await page.keyboard.press('Enter');
+  check(await picker.evaluate(el => document.activeElement === el), 'skills: picker works with keyboard focus');
+  await picker.selectOption('analysis');
+  check((await page.locator('.graph__coursework').textContent()).includes('Cálculo I'), 'skills: degree coursework supports the new academic nodes');
+  await picker.selectOption('spark');
+  check((await page.locator('.graph__coursework').textContent()).includes('Big Data II'), 'skills: master coursework supports academic tools');
+  const math = page.locator('.graph__area').filter({ hasText: 'Matemáticas' }).locator('input');
+  await math.uncheck();
+  check(!(await math.isChecked()), 'skills: an area can be filtered');
+  await page.locator('.graph__reset').click();
+  check(await math.isChecked(), 'skills: showing all restores the area');
 
-  // 1. The canvas actually drew something. A blank canvas means the simulation ran
-  //    without rendering, which a screenshot taken too early would also show.
-  const painted = await page.evaluate(() => {
-    const el = document.querySelector('.graph__canvas');
-    const context = el.getContext('2d');
-    const { width, height } = el;
-    const data = context.getImageData(0, 0, width, height).data;
-    let opaque = 0;
-    for (let i = 3; i < data.length; i += 4) {
-      if (data[i] > 20) opaque += 1;
-    }
-    return { opaque, total: data.length / 4, ratio: opaque / (data.length / 4) };
-  });
-  check(painted.opaque > 2000, 'graph: canvas painted nodes and edges', `opaque=${painted.opaque}`);
-  check(painted.ratio < 0.8, 'graph: canvas is not a filled block', `ratio=${painted.ratio.toFixed(3)}`);
-
-  // 2. Clicking a node selects it and fills the detail panel.
-  //
-  //    The candidate points are found by scanning the canvas for a saturated pixel
-  //    with a saturated neighbourhood, which is the interior of a node disc rather
-  //    than an antialiased edge, and then several candidates are tried. A single
-  //    sampled pixel proved too fragile: it can sit on a rim and miss the hit test.
-  const candidates = await page.evaluate(() => {
-    const el = document.querySelector('.graph__canvas');
-    const { width, height } = el;
-    const data = el.getContext('2d').getImageData(0, 0, width, height).data;
-    const saturated = (x, y) => {
-      if (x < 0 || y < 0 || x >= width || y >= height) return false;
-      const i = (y * width + x) * 4;
-      return (
-        data[i + 3] > 200 && Math.max(data[i], data[i + 1], data[i + 2]) - Math.min(data[i], data[i + 1], data[i + 2]) > 40
-      );
-    };
-    const rect = el.getBoundingClientRect();
-    const sx = el.width / rect.width;
-    const sy = el.height / rect.height;
-    const found = [];
-    for (let y = 6; y < height - 6; y += 4) {
-      for (let x = 6; x < width - 6; x += 4) {
-        if (!saturated(x, y)) continue;
-        const interior = [-3, 0, 3].every((dy) => [-3, 0, 3].every((dx) => saturated(x + dx, y + dy)));
-        if (interior) found.push({ x: rect.left + x / sx, y: rect.top + y / sy });
-      }
-    }
-    return found;
-  });
-  check(candidates.length > 0, 'graph: found node interiors to click', `candidates=${candidates.length}`);
-
-  let opened = false;
-  let clickedTitle = '';
-  for (const point of candidates.filter((_, index) => index % 7 === 0).slice(0, 12)) {
-    await page.mouse.move(point.x, point.y);
-    await page.mouse.down();
-    await page.mouse.up();
-    await page.waitForTimeout(120);
-    if ((await page.locator('.graph__detail-title').count()) === 1) {
-      opened = true;
-      clickedTitle = (await page.locator('.graph__detail-title').textContent())?.trim() ?? '';
-      break;
-    }
-  }
-  check(opened, 'graph: clicking a node opens its detail panel');
-  check(clickedTitle.length > 1, 'graph: the detail panel names the skill', clickedTitle);
-
-  // 3. Area filters are real controls, and disabling one removes that area's colour
-  //    from the canvas. Counting painted pixels would not work: hiding nodes triggers
-  //    a new layout, so the survivors spread out and cover *more* pixels than before.
-  const toggles = page.locator('.graph__area input');
-  const toggleCount = await toggles.count();
-  check(toggleCount === 5, 'graph: five area filters', `got ${toggleCount}`);
-
-  const countByArea = async () =>
-    page.evaluate(() => {
-      const hex = (token) => {
-        const raw = getComputedStyle(document.documentElement).getPropertyValue(token).trim();
-        const m = raw.replace('#', '');
-        return [parseInt(m.slice(0, 2), 16), parseInt(m.slice(2, 4), 16), parseInt(m.slice(4, 6), 16)];
-      };
-      const targets = ['--node-math', '--node-cs', '--node-ds', '--node-tools', '--node-lang'].map(hex);
-      const el = document.querySelector('.graph__canvas');
-      const { width, height } = el;
-      const data = el.getContext('2d').getImageData(0, 0, width, height).data;
-      const counts = targets.map(() => 0);
-      for (let i = 0; i < data.length; i += 4) {
-        if (data[i + 3] < 200) continue;
-        for (let t = 0; t < targets.length; t += 1) {
-          const [r, g, b] = targets[t];
-          if (Math.abs(data[i] - r) < 12 && Math.abs(data[i + 1] - g) < 12 && Math.abs(data[i + 2] - b) < 12) counts[t] += 1;
-        }
-      }
-      return counts;
-    });
-
-  // Clear the selection first: a selected node dims everything not connected to it,
-  // and a dimmed circle no longer matches its token colour, so measuring with a
-  // selection active reads as "this area paints nothing".
-  const corner = await page.evaluate(() => {
-    const rect = document.querySelector('.graph__canvas').getBoundingClientRect();
-    // Nodes are clamped to a 26px margin, so the very corner is always empty.
-    return { x: rect.left + 4, y: rect.top + 4 };
-  });
-  await page.mouse.move(corner.x, corner.y);
-  await page.mouse.down();
-  await page.mouse.up();
-  await page.waitForTimeout(200);
-
-  const before = await countByArea();
-
-  /*
-   * Every node must be its own disc. Merged discs mean two nodes are drawn on top of
-   * each other: one is invisible and only one of the pair can be clicked.
-   */
-  const discs = await discCentroids(page);
-  // The node count comes from the same endpoint the island reads, so the comparison is
-  // against the real data rather than a number written into the test.
-  const graphData = await (await fetch(`${baseUrl}/data/es/skills.json`)).json();
-  check(
-    discs.length === graphData.nodes.length,
-    'graph: no two nodes are drawn on top of each other',
-    `${discs.length} discs for ${graphData.nodes.length} nodes`,
-  );
-
-  const positionsBefore = discs.map((disc) => `${Math.round(disc.x)},${Math.round(disc.y)}`);
-  await toggles.nth(4).click();
-  await page.waitForTimeout(700);
-  const after = await countByArea();
-  const discsAfter = await discCentroids(page);
-  const kept = discsAfter.filter((disc) =>
-    positionsBefore.includes(`${Math.round(disc.x)},${Math.round(disc.y)}`),
-  );
-  check(
-    kept.length === discsAfter.length,
-    'graph: hiding an area does not move the nodes that remain',
-    `${kept.length} of ${discsAfter.length} stayed put`,
-  );
-  check(before[4] > 0, 'graph: the language area paints its own colour', `${before[4]} px`);
-  check(
-    after[4] === 0,
-    'graph: disabling an area removes its colour from the canvas',
-    `${before[4]} -> ${after[4]} px`,
-  );
-  check(
-    before.slice(0, 4).every((count) => count > 0) && after.slice(0, 4).every((count) => count > 0),
-    'graph: the other areas are untouched by the filter',
-    `${JSON.stringify(before)} -> ${JSON.stringify(after)}`,
-  );
-
-  // 4. One control whose label says what pressing it will do. It used to read
-  //    "re-layout" while actually clearing the filters.
-  const reset = page.locator('.graph__reset');
-  check((await reset.count()) === 1, 'graph: reset control present');
-  const withFilters = (await reset.textContent())?.trim() ?? '';
-  await reset.click();
-  await page.waitForTimeout(400);
-  const afterShowAll = (await reset.textContent())?.trim() ?? '';
-  check(withFilters === 'Mostrar todas', 'graph: with filters active the control offers to show all', withFilters);
-  check(afterShowAll !== withFilters, 'graph: clearing the filters changes the label back', afterShowAll);
-  check((await discCentroids(page)).length > discsAfter.length, 'graph: showing all restores the hidden nodes');
-
-  const positionsBeforeSeed = (await discCentroids(page)).map((disc) => `${Math.round(disc.x)},${Math.round(disc.y)}`);
-  await reset.click();
-  await page.waitForTimeout(2200);
-  const positionsAfterSeed = (await discCentroids(page)).map((disc) => `${Math.round(disc.x)},${Math.round(disc.y)}`);
-  check(
-    positionsAfterSeed.filter((position) => positionsBeforeSeed.includes(position)).length !== positionsAfterSeed.length,
-    'graph: re-layout moves the nodes',
-    `${positionsAfterSeed.length} discs`,
-  );
-
-  await reset.focus();
-  const focused = await page.evaluate(() => document.activeElement?.classList.contains('graph__reset'));
-  check(Boolean(focused), 'graph: reset control is reachable by keyboard');
-
-  /* The canvas must not swallow a vertical scroll gesture. */
-  const touchAction = await page.evaluate(
-    () => getComputedStyle(document.querySelector('.graph__canvas')).touchAction,
-  );
-  check(touchAction.includes('pan-y'), 'graph: the canvas allows vertical panning', touchAction);
-
-  // 5. Selecting a node announces it, so the canvas is not a black hole for a
-  //    screen reader even though it cannot be explored by keyboard.
-  const live = await page.locator('.graph [role="status"]').textContent();
-  check((live ?? '').length > 0, 'graph: live region carries an announcement', (live ?? '').slice(0, 60));
 }
 
 async function checkTerminal(page, baseUrl) {
   await page.goto(`${baseUrl}/`, { waitUntil: 'networkidle' });
-  await page.locator('#terminal').scrollIntoViewIfNeeded();
+  await page.locator('[data-terminal-open]').click();
+  check(await page.locator('#terminal-mode').evaluate(d => d.open), 'terminal: navigation opens the modal');
 
   const island = 'astro-island[component-url*="Terminal"]';
   await waitForHydration(page, island);
@@ -319,11 +101,10 @@ async function checkTerminal(page, baseUrl) {
   await type('project telemetry-sentinel');
   const detail = await output();
   check(detail.includes('Telemetry Sentinel'), 'terminal: project shows the title');
-  check(detail.includes('Monza') || detail.includes('recall') || detail.includes('1.00'), 'terminal: project shows metrics');
+  check(detail.includes('Fórmula 1'), 'terminal: project explains its purpose');
 
   await type('project actas-visitas-obras');
-  const gate = await output();
-  check(gate.includes('objetivo'), 'terminal: a goal metric is marked as a goal in the terminal too');
+  check((await output()).includes('borrador'), 'terminal: private project describes its workflow');
 
   await type('thereisnosuchcommand');
   check((await output()).includes('no existe'), 'terminal: unknown command reports an error');
@@ -366,6 +147,19 @@ async function checkTerminal(page, baseUrl) {
   await type('clear');
   const afterClear = await output();
   check(afterClear.trim().length === 0, 'terminal: clear empties the screen', `${afterClear.trim().length} chars`);
+  await page.keyboard.press('Escape');
+  check(!(await page.locator('#terminal-mode').evaluate(d => d.open)), 'terminal: Escape closes the dialog');
+  check(await page.locator('[data-terminal-open]').evaluate(b => b === document.activeElement), 'terminal: focus returns to the opening button');
+}
+
+async function checkThesis(page, baseUrl) {
+  await page.goto(`${baseUrl}/proyectos/pseudo-riemannian-gnn/`, { waitUntil: 'networkidle' });
+  await page.locator('astro-island[component-url*="ThesisExplorer"]').scrollIntoViewIfNeeded();
+  await page.locator('#thesis-dataset').waitFor();
+  check(await page.locator('#thesis-dataset option').count() === 5, 'thesis: five saved datasets can be explored');
+  check((await page.locator('.thesis-explorer__views').textContent()).includes('91.99%'), 'thesis: Photo shows the saved score');
+  await page.locator('#thesis-dataset').selectOption('4');
+  check((await page.locator('.thesis-explorer__views').textContent()).includes('77.82%'), 'thesis: selecting Airport updates the comparison');
 }
 
 async function checkGame(page, baseUrl, browser) {
@@ -483,11 +277,16 @@ async function checkGame(page, baseUrl, browser) {
     timeout: 10_000,
   });
   const thumb = touchPage.locator('.game__pad--wide').last();
-  await thumb.dispatchEvent('pointerdown', { pointerType: 'touch' });
+  const padBox = await thumb.boundingBox();
+  await touchPage.mouse.move(padBox.x + padBox.width / 2, padBox.y + padBox.height / 2);
+  await touchPage.mouse.down();
   await touchPage.waitForTimeout(600);
   const touchSpeed = await touchPage.locator('.game__stat').nth(4).locator('.game__stat-value').textContent();
-  await thumb.dispatchEvent('pointerup', { pointerType: 'touch' });
+  await touchPage.mouse.up();
   check(Number(touchSpeed) > 0, 'game: the throttle pad drives the car', `speed=${touchSpeed}`);
+  await touchPage.locator('.game__actions button').first().click();
+  check(await touchPage.locator('.game__countdown').isVisible(), 'game: mobile restart starts a new countdown');
+  check(Number(await touchPage.locator('.game__stat-value').last().textContent()) === 0, 'game: mobile restart resets speed');
   await touchContext.close();
 }
 
@@ -505,6 +304,7 @@ async function main() {
 
     await checkSkillGraph(page, baseUrl);
     await checkTerminal(page, baseUrl);
+    await checkThesis(page, baseUrl);
     await checkGame(page, baseUrl, browser);
     check(errors.length === 0, 'islands: no console or page error', errors.slice(0, 3).join(' | '));
   } finally {

@@ -2,7 +2,8 @@
 locale: en
 slug: piso-irene
 title: Floor plan and renovation editor in 3D
-summary: "Apartment editor that runs in the browser offline: 2D floor plan, 3D build-up with furniture, natural light hour by hour and first-person walkthrough. All in a single HTML file."
+summary: 'Apartment editor that runs in the browser offline: 2D floor plan, 3D build-up with furniture, natural light hour by hour and first-person
+  walkthrough. All in a single HTML file.'
 role: Complete design and implementation
 period: September 2026
 year: 2026
@@ -11,42 +12,35 @@ status: in-progress
 visibility: case-study
 confidentiality: It contains the floor plan of a real home. It will not be published until it is replaced with a synthetic plan.
 domains:
-  - 3D graphics
-  - local tools
-  - computational geometry
-  - PWA
+- 3D graphics
+- local tools
+- computational geometry
+- PWA
 stack:
-  - JavaScript ESM
-  - Three.js
-  - esbuild
-  - Cloudflare Workers
-  - happy-dom
-  - PWA
-metrics:
-  - value: 11
-    label: Test files
-    basis: artifact
-    source: tests/
-  - value: 38.046
-    label: PDF points per metre at the plan's scale
-    basis: artifact
-    source: LEEME.md
-  - value: 1
-    label: Portable HTML file with the editor and the plan inside
-    basis: artifact
-    source: "Piso Irene 3D.html"
+- JavaScript ESM
+- Three.js
+- esbuild
+- Cloudflare Workers
+- happy-dom
+- PWA
+metrics: []
 highlights:
-  - "The whole editor fits in a single HTML file that opens with a double click, no installation and no connection. That requirement shaped the entire architecture and it was the right one: the tool had to work on a construction site with no signal."
-  - Solar orientation is computed hour by hour, so you can see whether the renovation leaves the kitchen in the dark at nine in the morning before moving a wall.
-  - "The walkthrough mode is first-person and with collision, not an orbit around a model: you go in and you walk."
-  - The public deployment sits behind a Cloudflare Worker with a password and an HMAC-signed cookie, precisely because the content is private.
-  - The plan's scale is derived from the PDF points, not eyeballed, and the discrepancy of 6.99 points between the two versions of the plan is documented as such.
+- 'The whole editor fits in a single HTML file that opens with a double click, no installation and no connection. That requirement shaped the
+  entire architecture and it was the right one: the tool had to work on a construction site with no signal.'
+- Solar orientation is computed hour by hour, so you can see whether the renovation leaves the kitchen in the dark at nine in the morning before
+  moving a wall.
+- 'The walkthrough mode is first-person and with collision, not an orbit around a model: you go in and you walk.'
+- The public deployment sits behind a Cloudflare Worker with a password and an HMAC-signed cookie, precisely because the content is private.
+- The plan's scale is derived from the PDF points, not eyeballed, and the discrepancy of 6.99 points between the two versions of the plan is documented
+  as such.
 limits:
-  - "It cannot be published as it is. The source plans, the screenshots of current state and renovation, and the exported project carry the real home inside, with the address in the starting file's name. A real floor plan is not anonymised by shifting one coordinate: the assets have to be redone."
-  - The plan to publish it is to replace the apartment with a synthetic plan of equivalent layouts and regenerate every screenshot. It is pending.
-  - "It is not a technical execution plan: it does not check stairs, doors or habitability, and it is not valid for applying for a building permit."
-  - Floors and walls are placed separately, so both have to be adjusted.
-  - The data lives in the browser's local storage, with no server. iOS can wipe it, and the backup is a JSON file that has to be exported by hand.
+- 'It cannot be published as it is. The source plans, the screenshots of current state and renovation, and the exported project carry the real
+  home inside, with the address in the starting file''s name. A real floor plan is not anonymised by shifting one coordinate: the assets have
+  to be redone.'
+- The plan to publish it is to replace the apartment with a synthetic plan of equivalent layouts and regenerate every screenshot. It is pending.
+- 'It is not a technical execution plan: it does not check stairs, doors or habitability, and it is not valid for applying for a building permit.'
+- Floors and walls are placed separately, so both have to be adjusted.
+- The data lives in the browser's local storage, with no server. iOS can wipe it, and the backup is a JSON file that has to be exported by hand.
 ---
 
 ## The problem

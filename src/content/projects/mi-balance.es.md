@@ -2,7 +2,8 @@
 locale: es
 slug: mi-balance
 title: Mi Balance
-summary: PWA para iPhone que registra ingresos y gastos y calcula la tasa de ahorro mensual. Los datos nunca salen del dispositivo, las copias de seguridad van cifradas y funciona sin conexión.
+summary: PWA para iPhone que registra ingresos y gastos y calcula la tasa de ahorro mensual. Los datos nunca salen del dispositivo, las copias
+  de seguridad van cifradas y funciona sin conexión.
 role: Diseño, implementación y pruebas
 period: agosto 2026
 year: 2026
@@ -11,53 +12,41 @@ status: shipped
 visibility: case-study
 confidentiality: Repositorio privado. No hay servidor ni cuenta, así que no existe nada que publicar.
 domains:
-  - local-first
-  - aplicaciones web
-  - criptografía aplicada
-  - accesibilidad
+- local-first
+- aplicaciones web
+- criptografía aplicada
+- accesibilidad
 stack:
-  - React
-  - TypeScript
-  - Vite
-  - Dexie / IndexedDB
-  - Zod
-  - Recharts
-  - Web Crypto
-  - Vitest
-  - Playwright
-metrics:
-  - value: 0
-    label: Peticiones de red con datos del usuario
-    basis: artifact
-    source: política de seguridad de contenido con connect-src none
-  - value: 600 000
-    label: Iteraciones de PBKDF2-HMAC-SHA-256 en la copia de seguridad
-    basis: artifact
-    source: src/domain/backup/crypto.ts
-  - value: ≥ 80 %
-    label: Cobertura global exigida por el contrato del proyecto
-    basis: target
-    source: QUALITY_GATES.md
-  - value: 35
-    label: Archivos de test unitario y de componente
-    basis: artifact
-    source: src/**/*.test.ts(x)
-  - value: 9
-    label: Especificaciones de extremo a extremo en navegador
-    basis: artifact
-    source: e2e/
+- React
+- TypeScript
+- Vite
+- Dexie / IndexedDB
+- Zod
+- Recharts
+- Web Crypto
+- Vitest
+- Playwright
+metrics: []
 highlights:
-  - "\"Sin backend, sin cuenta, sin sincronización y sin telemetría. La política de seguridad de contenido bloquea toda conexión saliente, así que la garantía no depende de mi palabra: el navegador la impone.\""
-  - La copia de seguridad se cifra en el dispositivo con AES-256-GCM y una clave derivada con 600 000 iteraciones, y lleva datos adicionales autenticados para que un archivo de otra versión no se pueda restaurar por error.
-  - "\"La restauración es atómica: valida, muestra una previsualización y sólo entonces reemplaza, todo dentro de una sola transacción. Una copia corrupta no puede dejarte con la mitad de los datos.\""
-  - El dinero se guarda en céntimos enteros. Nada de decimales flotantes en un registro de cuentas.
-  - Lo realizado y lo previsto se derivan de la fecha local del dispositivo y nunca se persisten, así que no hay estado que pueda quedar desincronizado al cambiar de día o de zona horaria.
+- '"Sin backend, sin cuenta, sin sincronización y sin telemetría. La política de seguridad de contenido bloquea toda conexión saliente, así que
+  la garantía no depende de mi palabra: el navegador la impone."'
+- La copia de seguridad se cifra en el dispositivo con AES-256-GCM y una clave derivada con 600 000 iteraciones, y lleva datos adicionales autenticados
+  para que un archivo de otra versión no se pueda restaurar por error.
+- '"La restauración es atómica: valida, muestra una previsualización y sólo entonces reemplaza, todo dentro de una sola transacción. Una copia
+  corrupta no puede dejarte con la mitad de los datos."'
+- El dinero se guarda en céntimos enteros. Nada de decimales flotantes en un registro de cuentas.
+- Lo realizado y lo previsto se derivan de la fecha local del dispositivo y nunca se persisten, así que no hay estado que pueda quedar desincronizado
+  al cambiar de día o de zona horaria.
 limits:
-  - Las coberturas del 80 % y el 90 % son umbrales contractuales del proyecto, no mediciones. No tengo un informe de cobertura que publicar, así que las pongo como objetivos.
-  - No hay exportación ni importación de CSV, ni multidivisa, ni sincronización entre dispositivos. Está fuera del alcance, a propósito.
-  - La validación en iPhone físico quedó pendiente y no la voy a dar por hecha.
-  - "\"Una revisión interna del propio código documentó un fallo crítico en el borrado total: la pantalla de ajustes recibía la base de datos como nula y la operación no hacía nada. Está escrito en el registro del proyecto. No lo presento como resuelto hasta verificarlo con los tests en mano.\""
-  - La carpeta de referencias incluye una captura de otra aplicación que usé como inspiración visual. Su propia documentación prohíbe reutilizarla como imagen, así que no aparece en este portfolio.
+- Las coberturas del 80 % y el 90 % son umbrales contractuales del proyecto, no mediciones. No tengo un informe de cobertura que publicar, así
+  que las pongo como objetivos.
+- No hay exportación ni importación de CSV, ni multidivisa, ni sincronización entre dispositivos. Está fuera del alcance, a propósito.
+- La validación en iPhone físico quedó pendiente y no la voy a dar por hecha.
+- '"Una revisión interna del propio código documentó un fallo crítico en el borrado total: la pantalla de ajustes recibía la base de datos como
+  nula y la operación no hacía nada. Está escrito en el registro del proyecto. No lo presento como resuelto hasta verificarlo con los tests en
+  mano."'
+- La carpeta de referencias incluye una captura de otra aplicación que usé como inspiración visual. Su propia documentación prohíbe reutilizarla
+  como imagen, así que no aparece en este portfolio.
 ---
 
 ## El problema

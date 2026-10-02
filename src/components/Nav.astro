@@ -17,7 +17,7 @@ const otherLocale: Locale = locale === 'es' ? 'en' : 'es';
 
 <header class="nav">
   <div class="container nav__inner">
-    <a class="nav__brand" href="#top">
+    <a class="nav__brand" href={locale === 'es' ? '/' : '/en/'}>
       <span class="nav__brand-mark" aria-hidden="true"></span>
       <span class="nav__brand-text">
         <span class="nav__brand-name">{identity.name}</span>
@@ -38,6 +38,9 @@ const otherLocale: Locale = locale === 'es' ? 'en' : 'es';
     </nav>
 
     <div class="nav__tools">
+      <button type="button" class="nav__terminal" data-terminal-open hidden aria-haspopup="dialog" aria-controls="terminal-mode" aria-expanded="false" title={locale === 'es' ? 'Abrir modo terminal' : 'Open terminal mode'}>
+        <span aria-hidden="true">&gt;_</span><span class="sr-only">{locale === 'es' ? 'Abrir modo terminal' : 'Open terminal mode'}</span>
+      </button>
       <ThemeSwitch />
       <a
         class="nav__lang"
@@ -51,9 +54,26 @@ const otherLocale: Locale = locale === 'es' ? 'en' : 'es';
       </a>
     </div>
   </div>
+  <details class="nav__mobile container">
+    <summary>{locale === 'es' ? 'Secciones' : 'Sections'}</summary>
+    <nav aria-label={t.nav.label}>
+      <ul role="list">{links.map(link => <li><a href={link.href}>{link.label}</a></li>)}</ul>
+    </nav>
+  </details>
 </header>
 
+<script is:inline>
+  document.querySelector('.nav__mobile')?.addEventListener('click',function(e){if(e.target.closest('a'))this.open=false});
+</script>
+
 <style>
+  .nav__mobile { display: none; }
+  .nav__mobile summary { cursor: pointer; padding-block: .45rem; font-size: .8rem; color: var(--fg-muted); }
+  .nav__mobile ul { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; padding-block: .5rem 1rem; }
+  .nav__mobile a { font-size: .9rem; text-decoration: none; }
+  .nav__terminal { display: inline-flex; align-items: center; justify-content: center; width: 2.25rem; height: 2.25rem; flex: none; border: var(--rule) var(--border-style) var(--border); border-radius: var(--radius-pill); background: var(--bg-inset); font-family: var(--font-code); font-size: .85rem; color: var(--fg-muted); }
+  .nav__terminal:hover, .nav__terminal[aria-expanded="true"] { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+  .nav__terminal[hidden] { display: none; }
   .nav {
     position: sticky;
     top: 0;
@@ -76,9 +96,8 @@ const otherLocale: Locale = locale === 'es' ? 'en' : 'es';
     gap: var(--space-2xs);
     margin-right: auto;
     text-decoration: none;
-    /* Bounded and shrinkable: with seven sections plus the theme control in the
-       bar, an unconstrained brand pushed into the links and overlapped them. */
-    flex: 0 1 auto;
+    /* Keep each control at its actual width; switch to mobile navigation early. */
+    flex: none;
     min-width: 0;
     max-width: 20rem;
   }
@@ -131,6 +150,7 @@ const otherLocale: Locale = locale === 'es' ? 'en' : 'es';
   }
 
   .nav__brand-role {
+    display: none;
     font-family: var(--font-code);
     font-size: var(--step--2);
     color: var(--fg-muted);
@@ -150,8 +170,7 @@ const otherLocale: Locale = locale === 'es' ? 'en' : 'es';
   }
 
   .nav__links {
-    flex: 0 1 auto;
-    min-width: 0;
+    flex: none;
   }
 
   .nav__links a {
@@ -175,7 +194,7 @@ const otherLocale: Locale = locale === 'es' ? 'en' : 'es';
   .nav__tools {
     display: flex;
     align-items: center;
-    gap: var(--space-2xs);
+    gap: .5rem;
     flex: none;
   }
 
@@ -195,21 +214,20 @@ const otherLocale: Locale = locale === 'es' ? 'en' : 'es';
     border-color: var(--border-strong);
   }
 
-  /*
-   * Two thresholds, both chosen from the real content width rather than a round
-   * number: the role subtitle and the theme labels go first, then the section
-   * links. Below the second one the nav keeps identity, theme and language, and the
-   * sections live in the page body.
-   */
-  @media (max-width: 100rem) {
-    .nav__brand-role {
-      display: none;
-    }
-  }
-
-  @media (max-width: 80rem) {
+  /* Leave room for the brand and all tools before revealing section links. */
+  @media (max-width: 75rem) {
+    .nav__mobile { display: block; }
     .nav__links {
       display: none;
     }
+  }
+  @media (max-width: 30rem) {
+    .nav__inner { gap: .5rem; }
+    .nav__brand-mark { display: none; }
+    .nav__brand-name { font-size: .85rem; }
+    .nav__brand-name { white-space: nowrap; }
+    .nav__tools { gap: .3rem; }
+    .nav__lang { padding-inline: .4rem; }
+    .nav__terminal { width: 2rem; height: 2rem; }
   }
 </style>

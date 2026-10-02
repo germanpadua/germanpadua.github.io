@@ -17,15 +17,23 @@ import { chromium } from 'playwright';
 import { withPreview } from './lib/preview-server.mjs';
 
 const VIEWPORTS = [
+  { name: 'desktop-wide', width: 1920, height: 1080 },
+  { name: 'theme-breakpoint', width: 1640, height: 900 },
   { name: 'desktop-xl', width: 1600, height: 900 },
   { name: 'desktop', width: 1440, height: 900 },
   { name: 'laptop', width: 1280, height: 800 },
+  { name: 'nav-breakpoint', width: 1201, height: 900 },
+  { name: 'compact-laptop', width: 1100, height: 800 },
+  { name: 'small-mobile', width: 320, height: 700 },
   { name: 'tablet', width: 768, height: 1024 },
   { name: 'mobile', width: 390, height: 844 },
 ];
 
 /** Pairs that must never overlap, with the container they sit in. */
 const NO_OVERLAP = [
+  { label: 'terminal vs themes', a: '.nav__terminal', b: '.theme-switch' },
+  { label: 'themes vs language', a: '.theme-switch', b: '.nav__lang' },
+  { label: 'last nav link vs terminal', a: '.nav__links li:last-child a', b: '.nav__terminal' },
   { label: 'nav brand vs links', container: '.nav__inner', a: '.nav__brand', b: '.nav__links' },
   { label: 'nav links vs tools', container: '.nav__inner', a: '.nav__links', b: '.nav__tools' },
   { label: 'nav brand vs tools', container: '.nav__inner', a: '.nav__brand', b: '.nav__tools' },
@@ -51,6 +59,7 @@ async function geometry(page, viewport) {
       const a = document.querySelector(pair.a);
       const b = document.querySelector(pair.b);
       if (!a || !b) continue;
+      if (!a.checkVisibility() || !b.checkVisibility()) continue;
       const ra = a.getBoundingClientRect();
       const rb = b.getBoundingClientRect();
       // Elements hidden by a media query report a zero box; that is not a collision.
@@ -82,8 +91,8 @@ async function geometry(page, viewport) {
 
 async function content(page, locale, label) {
   const stats = await page.evaluate(() => ({
-    plates: document.querySelectorAll('#projects .plate').length,
-    cards: document.querySelectorAll('#projects .project-card').length,
+    plates: document.querySelectorAll('#projects .selected-project').length,
+    cards: document.querySelectorAll('#projects .other-projects li').length,
     highlights: document.querySelectorAll('#highlights .highlight').length,
     roles: document.querySelectorAll('#work .role').length,
     degrees: document.querySelectorAll('#education .degree').length,
@@ -94,15 +103,15 @@ async function content(page, locale, label) {
     softMetrics: document.querySelectorAll('.metric--soft').length,
   }));
 
-  check(stats.plates === 7, `${label}: 7 featured project plates`, `got ${stats.plates}`);
-  check(stats.cards === 8, `${label}: 8 supporting project cards`, `got ${stats.cards}`);
+  check(stats.plates === 6, `${label}: 6 featured projects`, `got ${stats.plates}`);
+  check(stats.cards === 9, `${label}: 9 supporting projects`, `got ${stats.cards}`);
   check(stats.highlights === 3, `${label}: 3 highlight cards`, `got ${stats.highlights}`);
   check(stats.roles === 3, `${label}: 3 experience roles`, `got ${stats.roles}`);
   check(stats.degrees === 2, `${label}: 2 degrees`, `got ${stats.degrees}`);
   check(stats.credentials === 5, `${label}: 5 certifications and languages`, `got ${stats.credentials}`);
   check(stats.areas === 5, `${label}: 5 skill areas`, `got ${stats.areas}`);
-  check(stats.interests === 5, `${label}: 5 interest groups`, `got ${stats.interests}`);
-  check(stats.softMetrics >= 2, `${label}: goal metrics styled as goals`, `got ${stats.softMetrics}`);
+  check(stats.interests === 0, `${label}: no off-the-clock section`, `got ${stats.interests}`);
+  check(stats.softMetrics === 0, `${label}: no decorative project metrics`, `got ${stats.softMetrics}`);
 }
 
 async function caseStudy(page, baseUrl) {
@@ -125,8 +134,8 @@ async function caseStudy(page, baseUrl) {
   }));
 
   check(data.h1 === 'Telemetry Sentinel', 'case study: title rendered', String(data.h1));
-  check(data.metrics === 5, 'case study: all metrics rendered', `got ${data.metrics}`);
-  check(data.limits >= 5, 'case study: limits block rendered', `got ${data.limits}`);
+  check(data.metrics === 0, 'case study: no decorative metrics', `got ${data.metrics}`);
+  check(data.limits >= 2, 'case study: limits block rendered', `got ${data.limits}`);
   check(
     data.externalRepoLinks.length === 0,
     'case study: no repository link on a private project',

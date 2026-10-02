@@ -1,0 +1,32 @@
+---
+import Terminal from './islands/Terminal';
+import { useTranslations, type Locale } from '../i18n/ui';
+import '../styles/islands.css';
+const { locale } = Astro.props as { locale: Locale };
+const t = useTranslations(locale);
+---
+
+<dialog id="terminal-mode" class="terminal-mode" aria-labelledby="terminal-mode-title">
+  <header class="terminal-mode__head">
+    <h2 id="terminal-mode-title">{locale === 'es' ? 'Modo terminal' : 'Terminal mode'}</h2>
+    <form method="dialog"><button class="btn" aria-label={locale === 'es' ? 'Cerrar terminal' : 'Close terminal'}>{locale === 'es' ? 'Cerrar' : 'Close'} <kbd>Esc</kbd></button></form>
+  </header>
+  <Terminal client:visible locale={locale} dataUrl={`/data/${locale}/terminal.json`} labels={{
+    title: t.playground.terminal.title, description: t.playground.terminal.description,
+    inputLabel: t.terminal.inputLabel, cleared: t.terminal.cleared,
+    loading: t.terminal.loading, failed: t.terminal.failed,
+  }} />
+</dialog>
+
+<script is:inline>
+  (()=>{const d=document.getElementById('terminal-mode'),b=document.querySelector('[data-terminal-open]');if(!d||!b)return;b.hidden=false;b.addEventListener('click',()=>{d.showModal();b.setAttribute('aria-expanded','true')});d.addEventListener('close',()=>{b.setAttribute('aria-expanded','false');b.focus()});d.addEventListener('click',e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close()}if(e.target.closest('a'))d.close()})})();
+</script>
+
+<style>
+  .terminal-mode { width: min(58rem, calc(100% - 2rem)); max-height: 85svh; margin: auto; padding: var(--space-m); border: 1px solid var(--border-strong); border-radius: 12px; background: var(--bg); color: var(--fg); overflow: auto; }
+  .terminal-mode::backdrop { background: var(--bg-overlay); backdrop-filter: blur(6px); }
+  .terminal-mode__head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+  .terminal-mode__head h2 { font-size: var(--step-1); }
+  kbd { font-size: .7rem; color: var(--fg-muted); }
+  :global(body:has(.terminal-mode[open])) { overflow: hidden; }
+</style>
