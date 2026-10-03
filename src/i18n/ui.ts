@@ -79,7 +79,16 @@ const es = {
       title: 'Proyectos',
       lead: 'Una selección de investigación, ingeniería y aplicaciones.',
     },
-    skills: { eyebrow: 'Herramientas', title: 'Conocimientos en práctica', lead: 'Del fundamento a la herramienta, y de la herramienta al proyecto.' },
+    skills: {
+      eyebrow: 'Herramientas',
+      title: 'Conocimientos en práctica',
+      lead: 'Del fundamento a la herramienta, y de la herramienta al proyecto.',
+      cta: 'Abrir el mapa interactivo',
+      previewDescription:
+        'Vista previa del mapa de conocimientos: un punto por área, con el tamaño según cuántos conocimientos reúne. Es solo un avance; el mapa completo, con nivel y frescura, está en su propia página.',
+      areas: 'áreas',
+      skills: 'conocimientos',
+    },
     highlights: {
       eyebrow: 'Reconocimientos',
       title: 'Selecciones y competiciones',
@@ -371,7 +380,16 @@ const en: Dictionary = {
     about: { eyebrow: 'Profile', title: 'Profile', lead: '' },
     work: { eyebrow: 'Track record', title: 'Experience', lead: '' },
     projects: { eyebrow: 'Work', title: 'Projects', lead: 'Selected research, engineering and applications.' },
-    skills: { eyebrow: 'Toolbox', title: 'Knowledge in practice', lead: 'From foundations to tools, and from tools to projects.' },
+    skills: {
+      eyebrow: 'Toolbox',
+      title: 'Knowledge in practice',
+      lead: 'From foundations to tools, and from tools to projects.',
+      cta: 'Open the interactive map',
+      previewDescription:
+        'A preview of the knowledge map: one dot per area, sized by how many skills it holds. It is only a preview; the full map, with level and freshness, has its own page.',
+      areas: 'areas',
+      skills: 'skills',
+    },
     highlights: {
       eyebrow: 'Recognition',
       title: 'Selections and competitions',

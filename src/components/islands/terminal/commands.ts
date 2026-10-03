@@ -55,7 +55,7 @@ export interface TerminalContent {
   interests: { group: string; items: string[] }[];
   skills: { id: string; label: string; area: string; weight: number; note: string }[];
   areas: { id: string; label: string }[];
-  paths: { projects: string; skills: string; work: string; education: string; contact: string; playground: string };
+  paths: { projects: string; skills: string; work: string; education: string; contact: string; playground: string; map: string };
   themes: string[];
   otherLocale: { code: string; href: string };
   skillCount: number;
@@ -300,7 +300,7 @@ export const COMMANDS: Command[] = [
       }
       lines.push(
         { text: '', tone: 'dim' },
-        { text: t(locale, 'El grafo interactivo está en la sección de skills.', 'The interactive graph is in the skills section.'), tone: 'dim' },
+        { text: t(locale, 'El mapa interactivo está en su propia página: escribe `graph`.', 'The interactive map has its own page: type `graph`.'), tone: 'dim' },
       );
       return { lines, action: { kind: 'scroll', selector: '#skills' } };
     },
@@ -484,10 +484,10 @@ export const COMMANDS: Command[] = [
   {
     name: 'graph',
     aliases: ['grafo'],
-    summary: { es: 'el grafo de skills', en: 'the skill graph' },
+    summary: { es: 'el mapa de conocimientos', en: 'the knowledge map' },
     run: (_args, ctx) => ({
-      lines: [{ text: t(ctx.locale, 'Bajando al grafo.', 'Scrolling to the graph.'), tone: 'ok' }],
-      action: { kind: 'scroll', selector: '#skills' },
+      lines: [{ text: t(ctx.locale, 'Abriendo el mapa de conocimientos.', 'Opening the knowledge map.'), tone: 'ok' }],
+      action: { kind: 'navigate', href: ctx.content.paths.map },
     }),
   },
   {
