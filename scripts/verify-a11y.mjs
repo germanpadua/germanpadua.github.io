@@ -24,6 +24,8 @@ const ROUTES = [
   { path: '/proyectos/telemetry-sentinel/', label: 'case study (es)' },
   { path: '/proyectos/actas-visitas-obras/', label: 'case study with limits (es)' },
   { path: '/en/projects/hackspain-prosper/', label: 'case study (en)' },
+  { path: '/mapa/', label: 'skill map (es)' },
+  { path: '/en/map/', label: 'skill map (en)' },
   { path: '/404.html', label: 'not found' },
 ];
 

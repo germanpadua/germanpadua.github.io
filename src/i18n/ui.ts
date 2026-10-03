@@ -114,6 +114,14 @@ const es = {
       linkedinLabel: 'LinkedIn',
     },
   },
+  map: {
+    eyebrow: 'Mapa de conocimientos',
+    title: 'Todo lo que sé, y de dónde viene',
+    lead: 'Un mapa radial: cinco áreas, cada conocimiento con su nivel, su frescura y las asignaturas o proyectos que lo sostienen.',
+    metaTitle: 'Mapa de conocimientos · Germán Padua',
+    metaDescription:
+      'Mapa radial de 93 conocimientos en cinco áreas, con nivel, frescura y la formación o los proyectos que los respaldan.',
+  },
   playground: {
     terminal: {
       title: 'Terminal',
@@ -415,6 +423,14 @@ const en: Dictionary = {
       githubLabel: 'GitHub',
       linkedinLabel: 'LinkedIn',
     },
+  },
+  map: {
+    eyebrow: 'Knowledge map',
+    title: 'Everything I know, and where it comes from',
+    lead: 'A radial map: five areas, every skill with its level, its freshness and the coursework or projects that support it.',
+    metaTitle: 'Knowledge map · Germán Padua',
+    metaDescription:
+      'A radial map of 93 skills in five areas, with level, freshness and the coursework or projects behind them.',
   },
   playground: {
     terminal: {

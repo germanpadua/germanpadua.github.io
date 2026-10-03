@@ -73,6 +73,20 @@ const ROUTE_BUDGETS = [
     reason: 'thesis case: terminal dialog and saved experiment explorer',
   },
   {
+    pattern: /^\/mapa\/$/,
+    inlineMax: 8500,
+    totalMax: 64000,
+    scripts: ['_astro/SkillGraph.', '_astro/Terminal.', '_astro/client.'],
+    reason: 'skill map (es): the graph island with the WU-C2 HUD, the terminal behind the nav button and the shell bootstrap',
+  },
+  {
+    pattern: /^\/en\/map\/$/,
+    inlineMax: 8500,
+    totalMax: 64000,
+    scripts: ['_astro/SkillGraph.', '_astro/Terminal.', '_astro/client.'],
+    reason: 'skill map (en): the graph island with the WU-C2 HUD, the terminal behind the nav button and the shell bootstrap',
+  },
+  {
     pattern: /.*/,
     inlineMax: SHELL_ROUTE_INLINE,
     totalMax: 42000,
