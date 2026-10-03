@@ -23,7 +23,6 @@ const t = useTranslations(locale);
 const graph = await getSkillGraph();
 
 const navLinks = [
-  { href: `${locale === 'es' ? '/' : '/en/'}#about`, label: t.nav.about },
   { href: `${locale === 'es' ? '/' : '/en/'}#work`, label: t.nav.work },
   { href: `${locale === 'es' ? '/' : '/en/'}#skills`, label: t.nav.skills },
   { href: `${locale === 'es' ? '/' : '/en/'}#contact`, label: t.nav.contact },

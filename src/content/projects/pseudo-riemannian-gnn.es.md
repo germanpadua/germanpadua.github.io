@@ -2,8 +2,8 @@
 locale: es
 slug: pseudo-riemannian-gnn
 title: Geometría para aprender sobre grafos
-summary: 'Mi TFG conecta geometría diferencial y deep learning: estudio cómo cambia lo que aprende una red al representar un grafo en espacios
-  no euclídeos.'
+summary: 'Mi TFG conecta geometría diferencial y redes neuronales para grafos. Es un estudio de cómo cambia lo que aprende una red al representar un grafo
+  en espacios no euclídeos.'
 role: Autor del TFG completo
 period: septiembre 2023 - junio 2024
 year: 2024

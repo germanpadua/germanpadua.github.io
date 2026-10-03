@@ -33,7 +33,6 @@ const es = {
   },
   nav: {
     label: 'Navegación principal',
-    about: 'Perfil',
     work: 'Experiencia',
     projects: 'Proyectos',
     skills: 'Conocimientos',
@@ -52,27 +51,11 @@ const es = {
     greeting: 'Hola, soy',
     headline: 'De las matemáticas a los productos de datos.',
     support:
-      'Soy matemático, ingeniero informático y científico de datos. Trabajo en modelos de riesgo de crédito y desarrollo proyectos de aprendizaje automático, IA y visualización. Me interesa entender el problema y construir algo que lo resuelva.',
+      'Matemático, ingeniero informático y científico de datos. Trabajo en modelos de riesgo de crédito y desarrollo proyectos de IA y aprendizaje automático.',
     primaryAction: 'Ver los proyectos',
     secondaryAction: 'Experiencia',
   },
-  profile: {
-    eyebrow: 'Perfil',
-    title: 'Entender, experimentar, construir.',
-    lead: 'Una base matemática y una forma práctica de trabajar.',
-    paragraphs: [
-      'Elegí el doble grado en Matemáticas e Ingeniería Informática porque me gusta entender cómo funcionan las cosas y tener las herramientas para construirlas. El máster en Ciencia de Datos me permitió conectar ambas partes con problemas reales.',
-      'En BCC · Grupo Cajamar trabajo en la calibración y seguimiento de modelos de riesgo de crédito. Me ocupo del recorrido completo: preparar los datos, desarrollar el modelo, analizar sus resultados y explicarlos a los equipos de riesgo y validación.',
-      'En mis proyectos exploro esa misma conexión entre ideas y aplicaciones: redes neuronales con geometría no euclídea, olivares vistos desde un satélite y agentes que convierten una conversación en acciones. Disfruto tanto del análisis como de hacer que el resultado se pueda usar.',
-    ],
-    pillars: [
-      { label: 'Fundamentos', detail: 'Estadística, optimización y geometría para comprender los modelos y sus supuestos.' },
-      { label: 'Experimentación', detail: 'Comparar alternativas, revisar los datos e interpretar lo que muestran los resultados.' },
-      { label: 'Aplicaciones', detail: 'Pipelines, interfaces y automatizaciones que acercan el modelo a quien lo necesita.' },
-    ],
-  },
   sections: {
-    about: { eyebrow: 'Perfil', title: 'Perfil', lead: '' },
     work: { eyebrow: 'Trayectoria', title: 'Experiencia', lead: '' },
     projects: {
       eyebrow: 'Trabajo',
@@ -347,7 +330,6 @@ const en: Dictionary = {
   },
   nav: {
     label: 'Main navigation',
-    about: 'Profile',
     work: 'Experience',
     projects: 'Projects',
     skills: 'Skills',
@@ -366,27 +348,11 @@ const en: Dictionary = {
     greeting: "Hi, I'm",
     headline: 'From mathematics to data products.',
     support:
-      'I’m a mathematician, computer engineer and data scientist. I work on credit risk models and build machine learning, AI and visualisation projects. I like understanding a problem and building something that solves it.',
+      'Mathematician, computer scientist and data scientist. I work on credit risk models and build AI and machine learning projects.',
     primaryAction: 'See the projects',
     secondaryAction: 'Experience',
   },
-  profile: {
-    eyebrow: 'Profile',
-    title: 'Understand, experiment, build.',
-    lead: 'A mathematical foundation and a practical approach.',
-    paragraphs: [
-      'I chose Mathematics and Computer Engineering because I enjoy understanding how things work and having the tools to build them. A master’s in Data Science connected those interests to real problems.',
-      'At BCC · Grupo Cajamar I work on credit risk model calibration and monitoring. I cover the full process: preparing data, developing the model, analysing results and explaining them to risk and validation teams.',
-      'My projects explore the same link between ideas and applications: neural networks with non-Euclidean geometry, olive groves viewed from a satellite and agents that turn conversations into actions. I enjoy the analysis as much as making the result useful.',
-    ],
-    pillars: [
-      { label: 'Foundations', detail: 'Statistics, optimisation and geometry to understand models and their assumptions.' },
-      { label: 'Experiments', detail: 'Comparing alternatives, reviewing data and interpreting the results.' },
-      { label: 'Applications', detail: 'Pipelines, interfaces and automations that bring models to the people who need them.' },
-    ],
-  },
   sections: {
-    about: { eyebrow: 'Profile', title: 'Profile', lead: '' },
     work: { eyebrow: 'Track record', title: 'Experience', lead: '' },
     projects: { eyebrow: 'Work', title: 'Projects', lead: 'Selected research, engineering and applications.' },
     skills: {

@@ -2,8 +2,8 @@
 locale: en
 slug: hackspain-prosper
 title: KermitPanic at HackSpain 2026
-summary: A voice agent for medical appointments. In the KermitPanic team I built the evaluation environment and integration with the hackathon
-  platform.
+summary: A voice agent to manage medical appointments, notify the corresponding doctor and keep track of everything that happens. Project developed
+  for HackSpain.
 role: Evaluation harness and integration
 period: 18-20 September 2026
 year: 2026

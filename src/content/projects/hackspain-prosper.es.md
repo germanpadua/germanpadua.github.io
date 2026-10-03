@@ -2,8 +2,8 @@
 locale: es
 slug: hackspain-prosper
 title: KermitPanic · Agentes de voz
-summary: Un agente de voz para gestionar citas médicas. En el equipo KermitPanic construí el entorno de evaluación y la integración con la plataforma
-  del hackathon.
+summary: Un agente de voz para gestionar citas médicas, avisar al doctor correspondiente y controlar todo lo que pasa. Proyecto desarrollado para
+  HackSpain.
 role: Arnés de evaluación e integración
 period: 18-20 septiembre 2026
 year: 2026

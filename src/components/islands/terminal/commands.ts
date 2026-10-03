@@ -166,20 +166,6 @@ export const COMMANDS: Command[] = [
     },
   },
   {
-    name: 'about',
-    aliases: ['perfil'],
-    summary: { es: 'el perfil completo, en la página', en: 'the full profile, on the page' },
-    run: (_args, ctx) => ({
-      lines: [
-        {
-          text: t(ctx.locale, 'Te llevo a la sección de perfil.', 'Taking you to the profile section.'),
-          tone: 'ok',
-        },
-      ],
-      action: { kind: 'scroll', selector: '#about' },
-    }),
-  },
-  {
     name: 'projects',
     aliases: ['proyectos', 'ls'],
     summary: { es: 'lista los proyectos, o filtra por año', en: 'list the projects, or filter by year' },
@@ -460,8 +446,6 @@ export const COMMANDS: Command[] = [
         playground: '#playground',
         contact: '#contact',
         contacto: '#contact',
-        about: '#about',
-        perfil: '#about',
       };
       const wanted = args[0]?.toLowerCase();
       const target = wanted ? sections[wanted] : undefined;
