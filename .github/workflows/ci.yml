@@ -41,6 +41,12 @@ jobs:
       - name: Assert the document shell ships no external JavaScript
         run: node scripts/assert-shell-payload.mjs
 
+      - name: Skill derivation rules
+        run: pnpm run test:skills
+
+      - name: Skill map layout invariants
+        run: pnpm run test:skill-layout
+
       - name: Install Chromium
         run: pnpm exec playwright install --with-deps chromium
 

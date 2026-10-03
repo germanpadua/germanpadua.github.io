@@ -86,6 +86,8 @@ export const projectsIndexPath = (locale: Locale): string =>
 export const projectPath = (locale: Locale, slug: string): string =>
   locale === 'en' ? `/en/projects/${slug}/` : `/proyectos/${slug}/`;
 
+export const skillMapPath = (locale: Locale): string => (locale === 'es' ? '/mapa/' : '/en/map/');
+
 /* ------------------------------------------------------------- provenance */
 
 export type MetricBasis = 'artifact' | 'measured' | 'record' | 'target' | 'unverified';

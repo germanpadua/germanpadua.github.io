@@ -39,19 +39,17 @@ const SHELL_ROUTE_INLINE = 8500;
 const ROUTE_BUDGETS = [
   {
     pattern: /^\/$/,
-    inlineMax: 9200,
-    // Three islands, including the restored graph, accessible skill picker and
-    // coursework evidence. Keep a bounded ceiling for these explicit interactions.
-    totalMax: 74000,
-    scripts: ['_astro/SkillGraph.', '_astro/Terminal.', '_astro/F1Game.', '_astro/client.'],
-    reason: 'home (es): shell plus the skill graph, terminal and racing game islands',
+    inlineMax: 8200,
+    totalMax: 63000,
+    scripts: ['_astro/Terminal.', '_astro/F1Game.', '_astro/client.'],
+    reason: 'home (es): shell plus the terminal and racing game islands, static skill preview',
   },
   {
     pattern: /^\/en\/$/,
-    inlineMax: 9200,
-    totalMax: 74000,
-    scripts: ['_astro/SkillGraph.', '_astro/Terminal.', '_astro/F1Game.', '_astro/client.'],
-    reason: 'home (en): shell plus the skill graph, terminal and racing game islands',
+    inlineMax: 8200,
+    totalMax: 63000,
+    scripts: ['_astro/Terminal.', '_astro/F1Game.', '_astro/client.'],
+    reason: 'home (en): shell plus the terminal and racing game islands, static skill preview',
   },
   {
     pattern: /^\/lab\/$/,
@@ -73,6 +71,20 @@ const ROUTE_BUDGETS = [
     totalMax: 48000,
     scripts: ['_astro/Terminal.', '_astro/ThesisExplorer.', '_astro/client.'],
     reason: 'thesis case: terminal dialog and saved experiment explorer',
+  },
+  {
+    pattern: /^\/mapa\/$/,
+    inlineMax: 8500,
+    totalMax: 64000,
+    scripts: ['_astro/SkillGraph.', '_astro/Terminal.', '_astro/client.'],
+    reason: 'skill map (es): the graph island with the WU-C2 HUD, the terminal behind the nav button and the shell bootstrap',
+  },
+  {
+    pattern: /^\/en\/map\/$/,
+    inlineMax: 8500,
+    totalMax: 64000,
+    scripts: ['_astro/SkillGraph.', '_astro/Terminal.', '_astro/client.'],
+    reason: 'skill map (en): the graph island with the WU-C2 HUD, the terminal behind the nav button and the shell bootstrap',
   },
   {
     pattern: /.*/,

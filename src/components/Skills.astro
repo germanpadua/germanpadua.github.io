@@ -1,9 +1,8 @@
 ---
-import SkillGraph from './islands/SkillGraph';
-import { getSkillGraph } from '../lib/content';
-import { skillLabel } from '../lib/skillLabels';
+import AreaPreview from './AreaPreview.astro';
+import SkillDirectory from './SkillDirectory.astro';
+import { skillMapPath } from '../lib/content';
 import { useTranslations, type Locale } from '../i18n/ui';
-import '../styles/islands.css';
 
 interface Props {
   locale: Locale;
@@ -11,19 +10,6 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = useTranslations(locale);
-const graph = await getSkillGraph();
-
-/*
- * The no-JavaScript version of the skill graph, and the accessible fallback for
- * the island above it. Same data, same grouping, no interaction: a reader with
- * JavaScript disabled should lose the picture, not the information.
- */
-const byArea = graph.areas.map((area) => ({
-  ...area,
-  nodes: graph.nodes
-    .filter((node) => node.area === area.id)
-    .sort((a, b) => b.weight - a.weight || a.label.localeCompare(b.label)),
-}));
 
 ---
 
@@ -35,185 +21,16 @@ const byArea = graph.areas.map((area) => ({
       <p class="section-head__lead">{t.sections.skills.lead}</p>
     </header>
 
+    <AreaPreview locale={locale} />
+
+    <p class="skills__cta"><a class="btn" href={skillMapPath(locale)}>{t.sections.skills.cta}</a></p>
     <p class="skills__context">{locale === 'es' ? 'Un mapa de lo que he estudiado y de lo que utilizo. Cada nodo enlaza con su formación y, cuando corresponde, con proyectos donde lo he aplicado.' : 'A map of what I have studied and what I use. Each node shows its coursework and, where applicable, projects where I have applied it.'}</p>
-    <SkillGraph
-      client:visible
-      dataUrl={`/data/${locale}/skills.json`}
-      labels={{
-        areas: t.graph.areas,
-        reset: t.graph.reset,
-        showAll: t.graph.showAll,
-        hint: t.graph.hint,
-        usedIn: t.graph.usedIn,
-        empty: t.graph.empty,
-        loading: t.graph.loading,
-        failed: t.graph.failed,
-        canvasLabel: t.graph.canvasLabel,
-        selected: t.graph.selected,
-      }}
-    />
 
-    <details class="skills-directory">
-    <summary>{locale === "es" ? "Explorar todos los conocimientos" : "Explore all skills"}</summary>
-
-    <div class="areas">
-      {
-        byArea.map((area) => (
-          <article class:list={['area', `area--${area.id}`]}>
-            <header class="area__head">
-              <h3 class="area__label">{area.label[locale]}</h3>
-              <p class="area__blurb">{area.blurb[locale]}</p>
-            </header>
-
-            <ul class="nodes" role="list">
-              {area.nodes.map((node) => (
-                <li class="node">
-                  <span class="node__dot" aria-hidden="true" />
-                  <span class="node__label">{skillLabel(node.label, locale)}</span>
-                  <span class="node__note">{node.note[locale]}</span>
-                  {node.courses.length > 0 && <span class="node__origin">{locale === 'es' ? 'Formación: ' : 'Coursework: '}{[...new Set(node.courses.map(course => course.program === 'master' ? (locale === 'es' ? 'máster' : 'master’s') : (locale === 'es' ? 'doble grado' : 'double degree')))].join(' · ')}</span>}
-                </li>
-              ))}
-            </ul>
-          </article>
-        ))
-      }
-    </div>
-
-    </details>
+    <SkillDirectory locale={locale} />
   </div>
 </section>
 
 <style>
+  .skills__cta { margin-bottom: 1.25rem; }
   .skills__context { max-width: 68ch; font-size: var(--step--1); color: var(--fg-muted); margin-bottom: 1.5rem; }
-  .node__origin { grid-column: 2; color: var(--accent); font-size: var(--step--2); margin-top: .3rem; }
-  .skills-directory { margin-top: 2rem; }
-  .skills-directory summary { cursor: pointer; color: var(--accent); padding-block: 1rem; }
-  .areas {
-    display: grid;
-    gap: var(--space-l);
-  }
-
-  .area {
-    display: grid;
-    grid-template-columns: 14rem minmax(0, 1fr);
-    gap: var(--space-2xs) var(--space-l);
-    padding-bottom: var(--space-l);
-    border-bottom: var(--rule) var(--border-style) var(--border);
-  }
-
-  .area:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-  }
-
-  .area__label {
-    font-family: var(--font-display);
-    font-size: var(--step-2);
-    color: var(--fg-strong);
-  }
-
-  .area__blurb {
-    font-size: var(--step--1);
-    line-height: var(--leading-snug);
-    color: var(--fg-muted);
-    margin-top: var(--space-3xs);
-  }
-
-  .nodes {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
-    gap: var(--space-2xs) var(--space-s);
-  }
-
-  .node {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    gap: 0 0.5rem;
-    align-items: baseline;
-    padding-block: 0.35rem;
-    border-bottom: var(--rule) var(--border-style) var(--border);
-  }
-
-  .node__dot {
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: var(--radius-pill);
-    flex: none;
-    align-self: center;
-    /* Each area tints its own nodes, using the graph palette the themes define. */
-    background-color: var(--node-color);
-  }
-
-  .area--math {
-    --node-color: var(--node-math);
-  }
-
-  .area--cs {
-    --node-color: var(--node-cs);
-  }
-
-  .area--ds {
-    --node-color: var(--node-ds);
-  }
-
-  .area--tools {
-    --node-color: var(--node-tools);
-  }
-
-  .area--lang {
-    --node-color: var(--node-lang);
-  }
-
-  .node__label {
-    color: var(--fg-strong);
-    font-size: var(--step-0);
-  }
-
-  .node__note {
-    grid-column: 2;
-    font-size: var(--step--2);
-    line-height: var(--leading-snug);
-    color: var(--fg-muted);
-  }
-
-  /* Depth reads from the dot and the weight, not from a printed number. */
-  .node--low .node__dot {
-    opacity: 0.45;
-  }
-
-  .node--low .node__label {
-    color: var(--fg-muted);
-  }
-
-  .node--low .node__note {
-    display: none;
-  }
-
-  .node--high .node__label {
-    font-weight: 600;
-  }
-
-  .skills__note {
-    margin-top: var(--space-l);
-    padding-top: var(--space-s);
-    border-top: var(--rule) var(--border-style) var(--border);
-    font-size: var(--step--1);
-    color: var(--fg-muted);
-    max-width: var(--measure);
-  }
-
-  @media (max-width: 52rem) {
-    .area {
-      grid-template-columns: 1fr;
-      gap: var(--space-2xs);
-    }
-
-    .nodes {
-      grid-template-columns: 1fr;
-    }
-  }
 </style>

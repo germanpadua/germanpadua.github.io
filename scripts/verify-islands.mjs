@@ -33,8 +33,26 @@ async function waitForHydration(page, selector) {
   );
 }
 
-async function checkSkillGraph(page, baseUrl) {
-  await page.goto(`${baseUrl}/`, { waitUntil: 'networkidle' });
+/**
+ * Wait for a page-side condition, reporting false instead of throwing.
+ *
+ * The HUD renders from island state, so an interaction's effect lands on the next
+ * render rather than inside the same round trip as the click or key press that
+ * caused it. Reading the DOM immediately afterwards is a race: every one of these
+ * passed locally and one of them, Escape closing the legend, failed on the slower
+ * CI runner. Waiting is the fix, and it keeps the guarantee identical — the
+ * assertion still fails if the state never arrives.
+ */
+async function eventually(page, fn, arg = null, timeout = 2_000) {
+  return page.waitForFunction(fn, arg, { timeout }).then(() => true, () => false);
+}
+
+async function checkSkillGraph(page, baseUrl, browser) {
+  // The map route hosts the graph island since skills-map-v3 WU-C1; the home
+  // section renders a static preview, and WU-C2 rebuilt the island as a radial
+  // map with a HUD. The checks below keep every pre-existing guarantee and add
+  // the HUD, legend, search, layers and scroll behaviour on top.
+  await page.goto(`${baseUrl}/mapa/`, { waitUntil: 'networkidle' });
   await page.locator('astro-island[component-url*="SkillGraph"]').scrollIntoViewIfNeeded();
   await waitForHydration(page, 'astro-island[component-url*="SkillGraph"]');
   const canvas = page.locator('.graph__canvas');
@@ -43,24 +61,102 @@ async function checkSkillGraph(page, baseUrl) {
   check(await picker.locator('option').count() === 94, 'skills: every graph node can be selected accessibly');
   check(await canvas.evaluate(el => el.width > 0 && el.height > 0), 'skills: graph canvas is drawn');
   await picker.selectOption('python');
-  check((await page.locator('.graph__detail-title').textContent()) === 'Python', 'skills: selection updates the detail');
-  check(await canvas.getAttribute('data-selected') === 'python', 'skills: the graph reflects the selected node');
+  check(await eventually(page, () => document.querySelector('.graph__detail-title')?.textContent === 'Python'), 'skills: selection updates the detail');
+  check(await eventually(page, () => document.querySelector('.graph__canvas')?.getAttribute('data-selected') === 'python'), 'skills: the graph reflects the selected node');
   const links = await page.locator('.graph__detail a').evaluateAll(els => els.map(e => e.getAttribute('href')));
   check(links.length > 0 && links.every(href => href.startsWith('/proyectos/')), 'skills: evidence links to actual project cases');
+
+  // WU-C2: level and freshness travel as text, straight from the derivation.
+  // Python is weight 0.98 (strong) with 2025 project years (current).
+  check(await eventually(page, () => document.querySelector('[data-detail="level"]')?.textContent === 'Sólido'), 'skills: the detail shows the level as text');
+  check(await eventually(page, () => document.querySelector('[data-detail="freshness"]')?.textContent === 'Al día'), 'skills: the detail shows freshness as text');
+  check(await page.locator('[data-detail="year"]').count() === 1, 'skills: the detail shows the last activity year');
+
+  // WU-C2: the legend lists every area, every level, and only the freshness
+  // states the data actually has (current 47, warming 34, unknown 12, stale 0).
+  await page.locator('.graph__dockLegend').click();
+  const legend = page.locator('.graph__panel--legend');
+  await legend.waitFor();
+  check(await legend.locator('[data-legend="area"]').count() === 5, 'skills: the legend lists the five areas');
+  check(await legend.locator('[data-legend="level"]').count() === 3, 'skills: the legend lists the three levels');
+  check(await legend.locator('[data-legend="freshness"]').count() === 3, 'skills: the legend lists only the freshness states present in the data');
+  const legendText = await legend.textContent();
+  check(legendText.includes('Antiguo') === false, 'skills: the legend omits the empty stale state');
+  check(legendText.includes('2026-10'), 'skills: the legend shows the last-reviewed date');
+  check(legendText.includes('sólido ≥ 0,85'), 'skills: the legend states the level rule');
+  await page.keyboard.press('Escape');
+  check(await eventually(page, () => !document.querySelector('.graph__panel--legend')), 'skills: Escape closes the legend panel');
+
+  // WU-C2: search filters and selects through the same selection path.
+  await page.locator('.graph__dockSearch').click();
+  const searchInput = page.locator('.graph__searchInput');
+  await searchInput.fill('pytorch');
+  await page.keyboard.press('Enter');
+  check(await eventually(page, () => document.querySelector('.graph__canvas')?.getAttribute('data-selected') === 'pytorch'), 'skills: search finds and selects a node');
+  await page.locator('.graph__searchClear').click();
+  await page.keyboard.press('Escape');
+
+  // WU-C2: a layer toggle is reflected on the wrapper's data-layers list.
+  const wrapper = page.locator('.graph');
+  const layersBefore = await wrapper.getAttribute('data-layers');
+  await page.locator('.graph__dockLayers').click();
+  await page.locator('.graph__layer', { hasText: 'Relaciones' }).locator('input').uncheck();
+  const linesOff = await eventually(page, () => {
+    const list = document.querySelector('.graph')?.getAttribute('data-layers') ?? '';
+    return !list.split(' ').includes('lines');
+  });
+  const layersAfter = await wrapper.getAttribute('data-layers');
+  check(
+    layersBefore.includes('lines') && linesOff,
+    'skills: a layer toggle updates the wrapper data-layers',
+    `${layersBefore} -> ${layersAfter}`,
+  );
+  await page.locator('.graph__layer', { hasText: 'Relaciones' }).locator('input').check();
+  await page.keyboard.press('Escape');
+
   await picker.focus();
   await page.keyboard.press('p');
   await page.keyboard.press('Enter');
-  check(await picker.evaluate(el => document.activeElement === el), 'skills: picker works with keyboard focus');
+  check(await eventually(page, () => document.activeElement?.matches('.graph__picker select') === true), 'skills: picker works with keyboard focus');
   await picker.selectOption('analysis');
-  check((await page.locator('.graph__coursework').textContent()).includes('Cálculo I'), 'skills: degree coursework supports the new academic nodes');
+  check(await eventually(page, () => (document.querySelector('.graph__coursework')?.textContent ?? '').includes('Cálculo I')), 'skills: degree coursework supports the new academic nodes');
   await picker.selectOption('spark');
-  check((await page.locator('.graph__coursework').textContent()).includes('Big Data II'), 'skills: master coursework supports academic tools');
+  check(await eventually(page, () => (document.querySelector('.graph__coursework')?.textContent ?? '').includes('Big Data II')), 'skills: master coursework supports academic tools');
   const math = page.locator('.graph__area').filter({ hasText: 'Matemáticas' }).locator('input');
   await math.uncheck();
-  check(!(await math.isChecked()), 'skills: an area can be filtered');
+  check(await eventually(page, () => {
+    const area = [...document.querySelectorAll('.graph__area')].find((el) => el.textContent.includes('Matemáticas'));
+    return Boolean(area) && area.querySelector('input').checked === false;
+  }), 'skills: an area can be filtered');
   await page.locator('.graph__reset').click();
-  check(await math.isChecked(), 'skills: showing all restores the area');
+  check(await eventually(page, () => {
+    const area = [...document.querySelectorAll('.graph__area')].find((el) => el.textContent.includes('Matemáticas'));
+    return Boolean(area) && area.querySelector('input').checked === true;
+  }), 'skills: showing all restores the area');
 
+  // WU-C2 mobile: the stage keeps its comfortable width inside a horizontally
+  // scrollable container, so the radial geometry never compresses to overlap.
+  const mobile = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+  const mobilePage = await mobile.newPage();
+  const mobileErrors = [];
+  mobilePage.on('pageerror', (error) => mobileErrors.push(error.message));
+  await mobilePage.goto(`${baseUrl}/mapa/`, { waitUntil: 'networkidle' });
+  await mobilePage.locator('astro-island[component-url*="SkillGraph"]').scrollIntoViewIfNeeded();
+  await waitForHydration(mobilePage, 'astro-island[component-url*="SkillGraph"]');
+  const scrollContainer = mobilePage.locator('.graph__scroll');
+  await scrollContainer.waitFor();
+  const scrollMetrics = await scrollContainer.evaluate((el) => ({
+    scrollWidth: el.scrollWidth,
+    clientWidth: el.clientWidth,
+    scrollLeft: el.scrollLeft,
+  }));
+  check(scrollMetrics.scrollWidth > scrollMetrics.clientWidth, 'skills (390px): the stage container scrolls horizontally', JSON.stringify(scrollMetrics));
+  const canvasWidth = await mobilePage.locator('.graph__canvas').evaluate((el) => el.getBoundingClientRect().width);
+  check(canvasWidth >= 700, 'skills (390px): the canvas keeps its minimum width', `${canvasWidth}px`);
+  await scrollContainer.evaluate((el) => { el.scrollLeft = 150; });
+  check(await scrollContainer.evaluate((el) => el.scrollLeft > 0), 'skills (390px): the container pans the map into view');
+  check(mobileErrors.length === 0, 'skills (390px): no page error on mobile', mobileErrors.slice(0, 2).join(' | '));
+  await mobile.close();
 }
 
 async function checkTerminal(page, baseUrl) {
@@ -302,7 +398,7 @@ async function main() {
       if (msg.type() === 'error') errors.push(msg.text());
     });
 
-    await checkSkillGraph(page, baseUrl);
+    await checkSkillGraph(page, baseUrl, browser);
     await checkTerminal(page, baseUrl);
     await checkThesis(page, baseUrl);
     await checkGame(page, baseUrl, browser);

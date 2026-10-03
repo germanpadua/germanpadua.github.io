@@ -234,6 +234,14 @@ const skillsGraph = defineCollection({
   schema: z
     .object({
       id: z.string(),
+      /*
+       * Authored and frozen on purpose. Deriving it from `max(content dates)`
+       * would make the map incapable of ever reporting staleness: the newest
+       * project would always define "now", so nothing could ever drift out of
+       * the current band. Staleness only exists if the reference point is a
+       * human decision to re-review the map.
+       */
+      asOf: isoMonth,
       areas: z
         .array(
           z.object({

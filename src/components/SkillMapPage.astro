@@ -1,0 +1,125 @@
+---
+/**
+ * The skill map route body (`/mapa/` · `/en/map/`).
+ *
+ * The same island the home section hosts, on a stage the viewport can actually
+ * fill, over the full text directory so the page carries its information without
+ * JavaScript. Composed like `ProjectsIndex.astro`: a `Base` shell plus one
+ * section, with the home's sections as the nav anchors.
+ */
+import Base from '../layouts/Base.astro';
+import SkillGraph from './islands/SkillGraph';
+import SkillDirectory from './SkillDirectory.astro';
+import { getSkillGraph } from '../lib/content';
+import { useTranslations, type Locale } from '../i18n/ui';
+import '../styles/islands.css';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const graph = await getSkillGraph();
+
+const navLinks = [
+  { href: `${locale === 'es' ? '/' : '/en/'}#about`, label: t.nav.about },
+  { href: `${locale === 'es' ? '/' : '/en/'}#work`, label: t.nav.work },
+  { href: `${locale === 'es' ? '/' : '/en/'}#skills`, label: t.nav.skills },
+  { href: `${locale === 'es' ? '/' : '/en/'}#contact`, label: t.nav.contact },
+];
+
+---
+
+<Base
+  locale={locale}
+  title={t.map.metaTitle}
+  description={t.map.metaDescription}
+  alternate={{ es: '/mapa/', en: '/en/map/' }}
+  navLinks={navLinks}
+>
+  <section class="index section">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow">{t.map.eyebrow}</p>
+        <h1 class="index__title">{t.map.title}</h1>
+        <p class="section-head__lead">{t.map.lead}</p>
+      </header>
+
+      <p class="map__summary tabular">
+        {graph.nodes.length} {locale === 'es' ? 'conocimientos' : 'skills'} · {graph.areas.length} {locale === 'es' ? 'áreas' : 'areas'} · {t.graph.lastReviewed}: {graph.asOf}
+      </p>
+
+      {/*
+        A deliberately generous stage. The island sizes its own canvas (comfortable
+        minimum width, scroll container for panning, zoom steps); this wrapper only
+        offers it the room and keeps the page from jumping while the island loads.
+      */}
+      <div class="map__stage">
+        <SkillGraph
+          client:visible
+          dataUrl={`/data/${locale}/skills.json`}
+          labels={{
+            areas: t.graph.areas,
+            reset: t.graph.reset,
+            showAll: t.graph.showAll,
+            hint: t.graph.hint,
+            usedIn: t.graph.usedIn,
+            empty: t.graph.empty,
+            noMatches: t.graph.noMatches,
+            loading: t.graph.loading,
+            failed: t.graph.failed,
+            canvasLabel: t.graph.canvasLabel,
+            selected: t.graph.selected,
+            search: t.graph.search,
+            searchPlaceholder: t.graph.searchPlaceholder,
+            jumpTo: t.graph.jumpTo,
+            clear: t.graph.clear,
+            layers: t.graph.layers,
+            legend: t.graph.legend,
+            hud: t.graph.hud,
+            core: t.graph.core,
+            close: t.graph.close,
+            zoom: t.graph.zoom,
+            levelLabel: t.graph.levelLabel,
+            levelLabels: t.graph.level,
+            freshnessLabel: t.graph.freshnessLabel,
+            freshnessLabels: t.graph.freshness,
+            lastActivity: t.graph.lastActivity,
+            lastReviewed: t.graph.lastReviewed,
+            levelRule: t.graph.levelRule,
+            freshnessRule: t.graph.freshnessRule,
+            layerNames: t.graph.layerNames,
+          }}
+        />
+      </div>
+
+      {/*
+        The directory's area names are h3 elements (shared with the home
+        section, where the section heading is an h2). Without an h2 here the
+        heading tree would jump from h1 to h3, so the directory carries its own.
+      */}
+      <h2 class="sr-only">{t.graph.listLabel}</h2>
+      <SkillDirectory locale={locale} />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .index__title {
+    font-family: var(--font-display);
+    font-size: var(--step-4);
+    color: var(--fg-strong);
+  }
+
+  .map__summary {
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+    margin-bottom: var(--space-m);
+  }
+
+  .map__stage {
+    /* The island owns its stage height (islands.css); keep the slot reserved. */
+    min-height: 26rem;
+  }
+</style>

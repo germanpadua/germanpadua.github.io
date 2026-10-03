@@ -1,6 +1,6 @@
 # germanpadua.github.io
 
-Personal portfolio of **German Padua** — computer engineer and mathematician
+Personal portfolio of **Germán Padua** — computer engineer and mathematician
 working on applied machine learning, data science, and data-driven systems.
 
 Live site: <https://germanpadua.github.io>
@@ -47,7 +47,7 @@ pnpm dev              # dev server on http://localhost:4321
 pnpm check            # astro check: TypeScript + content schema validation
 pnpm build            # static build into dist/
 pnpm preview          # serve dist/ locally
-pnpm verify           # check + build + payload guard (what CI runs)
+pnpm verify           # check + build + payload guard + the skill verifiers
 pnpm shot             # screenshot routes and report Web Vitals
 pnpm icons            # rebuild the PNG icon set from public/favicon.svg
 pnpm og-image         # re-render public/og-default.png from the /og/ route
@@ -169,12 +169,13 @@ served by Pages for any unknown path.
   cannot reach a page
 - the payload guard — no undeclared script, no third-party script, and a per-route
   JavaScript ceiling
+- the skill derivation rules and the skill map's layout invariants
 - theme behaviour, layout and content across five viewports, island behaviour, the game
   model, and the accessibility audit
 
-That is five separate verification scripts, all of them runnable locally with
-`pnpm verify`, `pnpm test:e2e`, `pnpm test:layout`, `pnpm test:islands`,
-`pnpm test:model` and `pnpm test:a11y`.
+All of them are runnable locally: `pnpm verify` covers the first three, and the rest are
+`pnpm test:e2e`, `pnpm test:layout`, `pnpm test:islands`, `pnpm test:model`,
+`pnpm test:skills`, `pnpm test:skill-layout` and `pnpm test:a11y`.
 
 ## Content
 
@@ -199,7 +200,7 @@ and `/og/` is the social card that `pnpm og-image` screenshots. Both are
 ## License and provenance
 
 The code in this repository is available for reference. Written content, project
-descriptions, and images are © German Padua and are not licensed for reuse.
+descriptions, and images are © Germán Padua and are not licensed for reuse.
 
 This site was previously built on the **devfolio** theme, distributed under
 Creative Commons Attribution 3.0. No part of that theme remains: the markup, styles,

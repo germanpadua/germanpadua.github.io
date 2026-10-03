@@ -5,14 +5,21 @@
    components, and only the routes that host them should pay for the CSS.
    ========================================================================== */
 
-/* ---------------------------------------------------------- skill graph === */
+/* ============================================================================
+   Skill map
+   ----------------------------------------------------------------------------
+   The radial canvas and its HUD. Everything themed comes from tokens; the
+   canvas re-reads them on `data-theme` change, the panels restyle for free.
+   ========================================================================== */
 
 .graph {
   display: grid;
   gap: var(--space-s);
 }
 
-.graph__controls {
+/* The accessible path to the canvas: area chips and the skill picker, both
+   keyboard-operable without going near the floating dock. */
+.graph__filters {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -69,48 +76,61 @@
   flex: none;
 }
 
-.graph__reset {
-  font-family: var(--font-code);
-  font-size: var(--step--2);
-  letter-spacing: var(--tracking-wide);
+.graph__picker {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  font-size: var(--step--1);
   color: var(--fg-muted);
-  border: var(--rule) var(--border-style) var(--border);
-  border-radius: var(--radius-pill);
-  padding: 0.3rem 0.65rem;
-  background: none;
 }
 
-.graph__reset:hover {
-  color: var(--fg-strong);
-  border-color: var(--border-strong);
+.graph__picker select {
+  max-width: 100%;
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-raised);
+}
+
+/*
+ * Scroll and zoom. The scroll container owns horizontal panning and keeps the
+ * browser's pinch-zoom and vertical page scroll available (`touch-action: pan-y
+ * pinch-zoom`, never `none`); the zoom wrapper scales the canvas in steps, and
+ * the stage keeps a comfortable minimum width so the radial geometry is never
+ * squeezed down to its 390px overlap.
+ */
+.graph__scroll {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  touch-action: pan-y pinch-zoom;
+  scrollbar-width: thin;
+}
+
+.graph__zoom {
+  --stage-height: clamp(26rem, 82vh, 56rem);
+  width: calc(100% * var(--graph-zoom, 1));
+  min-width: calc(720px * var(--graph-zoom, 1));
+  height: calc(var(--stage-height) * var(--graph-zoom, 1));
 }
 
 .graph__stage {
   position: relative;
-  height: clamp(24rem, 52vh, 34rem);
+  height: 100%;
   border: var(--rule) var(--border-style) var(--border);
   border-radius: var(--radius-md);
   background-color: var(--bg-inset);
   overflow: hidden;
-  /* Touch scrolling remains available; dragging nodes is a mouse interaction. */
-  touch-action: pan-y;
+  touch-action: pan-y pinch-zoom;
 }
 
 .graph__canvas {
   display: block;
   width: 100%;
   height: 100%;
-  cursor: grab;
-  /*
-   * Vertical panning stays available so a finger can scroll past the graph. With
-   * `touch-action: none` the canvas swallowed the gesture and a reader on a phone could
-   * get stuck inside it. Dragging a node is a mouse affordance: a touch selects.
-   */
-  touch-action: pan-y;
-}
-
-.graph__canvas:active {
-  cursor: grabbing;
+  /* Hover and click only: no drag, no gestures captured. */
+  touch-action: pan-y pinch-zoom;
 }
 
 .graph__empty {
@@ -120,6 +140,231 @@
   color: var(--fg-muted);
   font-size: var(--step--1);
 }
+
+/* --- HUD: a floating bottom-centre dock, panels stacked above it ---------- */
+
+.graph__hud {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding-inline: 0.75rem;
+  pointer-events: none;
+  z-index: var(--z-island);
+}
+
+.graph__panel {
+  pointer-events: auto;
+  width: min(24rem, 100%);
+  max-height: min(30rem, 70vh);
+  overflow-y: auto;
+  background-color: color-mix(in srgb, var(--bg-raised) 94%, transparent);
+  backdrop-filter: blur(6px);
+  border: var(--rule) var(--border-style) var(--border-strong);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: var(--space-s);
+  font-size: var(--step--1);
+}
+
+.graph__panelTitle {
+  font-family: var(--font-code);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin: 0 0 var(--space-2xs);
+  padding: 0;
+}
+
+.graph__dock {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  max-width: 100%;
+  overflow-x: auto;
+  background-color: color-mix(in srgb, var(--bg-raised) 90%, transparent);
+  backdrop-filter: blur(6px);
+  border: var(--rule) var(--border-style) var(--border-strong);
+  border-radius: var(--radius-pill);
+  padding: 0.3rem 0.4rem;
+  box-shadow: var(--shadow);
+}
+
+.graph__dockBtn {
+  font-family: var(--font-code);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-wide);
+  color: var(--fg-muted);
+  background: none;
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 0.4rem 0.7rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.graph__dockBtn:hover {
+  color: var(--fg-strong);
+  background: var(--bg-hover);
+}
+
+.graph__dockBtn[aria-pressed='true'] {
+  color: var(--fg-strong);
+  background: var(--accent-soft);
+}
+
+.graph__dockBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.graph__dockClose {
+  font-size: var(--step-0);
+  line-height: 1;
+  padding: 0.2rem 0.55rem;
+}
+
+.graph__dockSep {
+  width: 1px;
+  align-self: stretch;
+  margin-block: 0.25rem;
+  background: var(--border);
+  flex: none;
+}
+
+.graph__zoomGroup {
+  display: flex;
+  gap: 0.15rem;
+}
+
+/* --- legend ---------------------------------------------------------------- */
+
+.graph__legendList {
+  list-style: none;
+  margin: 0 0 var(--space-2xs);
+  padding: 0;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.graph__legendRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.graph__legendRow .graph__swatch {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+/* The legend marks mirror the canvas encoding: a ring drawn solid, dashed, or
+   not at all for level; dot, ring, square, or nothing for freshness. */
+.graph__legend-mark {
+  width: 1.1rem;
+  height: 1.1rem;
+  color: var(--fg);
+  flex: none;
+}
+
+.graph__legend-mark--none {
+  color: var(--fg-muted);
+}
+
+.graph__legendLabel {
+  flex: 1;
+  color: var(--fg);
+}
+
+.graph__legendCount {
+  font-family: var(--font-code);
+  font-size: var(--step--2);
+  color: var(--fg-muted);
+  font-feature-settings: "tnum" 1;
+}
+
+.graph__legendRule {
+  font-size: var(--step--2);
+  color: var(--fg-muted);
+  margin: var(--space-3xs) 0 0;
+  line-height: var(--leading-snug);
+}
+
+/* --- layers panel ----------------------------------------------------------- */
+
+.graph__layers {
+  border: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.graph__layer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 24px;
+  cursor: pointer;
+  color: var(--fg);
+}
+
+/* --- search panel ------------------------------------------------------------ */
+
+.graph__search {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.graph__searchInput {
+  flex: 1 1 8rem;
+  min-height: 44px;
+  padding: 0.4rem 0.6rem;
+  border: var(--rule) var(--border-style) var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-inset);
+  color: var(--fg-strong);
+  font-size: var(--step--1);
+}
+
+.graph__searchInput:focus-visible {
+  outline: var(--rule-strong) var(--border-style) var(--accent);
+  outline-offset: 1px;
+}
+
+.graph__searchSubmit,
+.graph__searchClear {
+  font-family: var(--font-code);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-wide);
+  color: var(--fg-muted);
+  border: var(--rule) var(--border-style) var(--border);
+  border-radius: var(--radius-pill);
+  padding: 0.35rem 0.7rem;
+  background: none;
+  cursor: pointer;
+}
+
+.graph__searchSubmit:hover,
+.graph__searchClear:hover {
+  color: var(--fg-strong);
+  border-color: var(--border-strong);
+}
+
+.graph__searchCount {
+  margin: var(--space-2xs) 0 0;
+  font-family: var(--font-code);
+  font-size: var(--step--2);
+  color: var(--fg-muted);
+}
+
+/* --- detail panel ------------------------------------------------------------- */
 
 .graph__detail {
   min-height: 5.5rem;
@@ -146,36 +391,90 @@
   margin-top: 0.15rem;
 }
 
+.graph__detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs) var(--space-s);
+  margin: var(--space-2xs) 0 0;
+  padding: 0;
+}
+
+.graph__detail-fact {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+}
+
+.graph__detail-fact dt {
+  font-family: var(--font-code);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.graph__detail-fact dd {
+  margin: 0;
+  font-family: var(--font-code);
+  font-size: var(--step--1);
+  color: var(--fg-strong);
+  font-feature-settings: "tnum" 1;
+}
+
 .graph__detail-note {
   font-size: var(--step--1);
   line-height: var(--leading-snug);
   color: var(--fg-muted);
-  margin-top: var(--space-3xs);
+  margin-top: var(--space-2xs);
   max-width: 68ch;
 }
 
 .graph__detail-projects {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 1rem;
   font-family: var(--font-code);
   font-size: var(--step--2);
   color: var(--fg-muted);
   margin-top: var(--space-2xs);
 }
 
-.graph__picker { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; font-size: var(--step--1); color: var(--fg-muted); }
-.graph__picker select { max-width: 100%; min-height: 44px; padding: .5rem .75rem; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-raised); }
-.graph__detail-projects { display: flex; flex-wrap: wrap; align-items: baseline; gap: .4rem 1rem; }
-.graph__coursework { margin-top: .75rem; color: var(--fg-muted); font-size: var(--step--2); }
-.graph__coursework summary { cursor: pointer; color: var(--fg-strong); font-size: var(--step--1); }
-.graph__coursework ul { margin-top: .5rem; display: grid; gap: .25rem; }
-.graph__coursework li { display: flex; gap: .5rem; align-items: baseline; }
-.graph__coursework li span { flex: none; color: var(--accent); }
-
 .graph__detail-hint {
   font-size: var(--step--1);
   color: var(--fg-muted);
 }
 
-/* The list below the graph is the accessible and indexable version of the same
+.graph__coursework {
+  margin-top: 0.75rem;
+  color: var(--fg-muted);
+  font-size: var(--step--2);
+}
+
+.graph__coursework summary {
+  cursor: pointer;
+  color: var(--fg-strong);
+  font-size: var(--step--1);
+}
+
+.graph__coursework ul {
+  margin-top: 0.5rem;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.graph__coursework li {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+
+.graph__coursework li span {
+  flex: none;
+  color: var(--accent);
+}
+
+/* The list below the map is the accessible and indexable version of the same
    information, so it is labelled rather than hidden. */
 .graph-list__label {
   font-family: var(--font-code);

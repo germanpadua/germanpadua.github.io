@@ -1,0 +1,134 @@
+---
+/**
+ * The home section's static stand-in for the skill map.
+ *
+ * Exactly five dots, one per area — never one per node — with the dot's size
+ * proportional to how many skills the area holds. The colours come from the
+ * `--node-*` tokens every theme defines, so the figure follows the active theme
+ * like the rest of the page. All of the information is also real text: the dots
+ * are decoration (`aria-hidden`), the labels and counts are not.
+ *
+ * Zero client JavaScript: no `client:` directive, no `<script>`. The interactive
+ * map this previews lives at `skillMapPath(locale)`, and the full text directory
+ * stays below this figure in the section.
+ */
+import { getSkillGraph, skillMapPath } from '../lib/content';
+import { useTranslations, type Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const graph = await getSkillGraph();
+const mapHref = skillMapPath(locale);
+
+// Largest area sets the scale, so the figure reads the same whatever the counts.
+const maxCount = Math.max(...graph.areas.map((area) => graph.nodes.filter((node) => node.area === area.id).length));
+
+const areas = graph.areas.map((area) => {
+  const count = graph.nodes.filter((node) => node.area === area.id).length;
+  return {
+    id: area.id,
+    label: area.label[locale],
+    count,
+    // Diameter, not area, tracks the count: three nodes still has to read as a dot,
+    // not as a speck. Sizes are inline custom properties; colour comes from tokens.
+    dotSize: `${(0.4 + (count / maxCount) * 1.1).toFixed(2)}rem`,
+  };
+});
+
+---
+
+<figure class="preview">
+  <ul class="preview__list" role="list">
+    {
+      areas.map((area) => (
+        <li class="preview__item" style={`--dot-size: ${area.dotSize}; --node-color: var(--node-${area.id});`}>
+          <a href={mapHref}>
+            <span class="preview__dot" aria-hidden="true" />
+            <span class="preview__label">{area.label}</span>
+            <span class="preview__count tabular">{area.count}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+  <figcaption class="preview__caption">
+    <span class="tabular">
+      {graph.areas.length} {t.sections.skills.areas} · {graph.nodes.length} {t.sections.skills.skills}
+    </span>
+    <span class="preview__note">{t.sections.skills.previewDescription}</span>
+  </figcaption>
+</figure>
+
+<style>
+  .preview {
+    margin-block: var(--space-s) var(--space-m);
+    padding: var(--space-s);
+    border: var(--rule) var(--border-style) var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-raised);
+  }
+
+  .preview__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    /* Wraps to two rows and then a column on narrow viewports: nothing overflows
+       at 390 px, because every item is text that can wrap inside itself. */
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs) var(--space-m);
+  }
+
+  .preview__item a {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: inherit;
+    text-decoration: none;
+    padding-block: 0.25rem;
+  }
+
+  .preview__item a:hover .preview__label,
+  .preview__item a:focus-visible .preview__label {
+    color: var(--accent);
+  }
+
+  /* Decorative mark: round in every theme because `--radius-pill` is never zero,
+     but meaning never depends on the roundness — the text carries it. */
+  .preview__dot {
+    width: var(--dot-size);
+    height: var(--dot-size);
+    flex: none;
+    border-radius: var(--radius-pill);
+    background-color: var(--node-color);
+  }
+
+  .preview__label {
+    color: var(--fg-strong);
+    font-size: var(--step--1);
+  }
+
+  .preview__count {
+    color: var(--fg-muted);
+    font-size: var(--step--2);
+  }
+
+  .preview__caption {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3xs) var(--space-s);
+    margin-top: var(--space-xs);
+    padding-top: var(--space-2xs);
+    border-top: var(--rule) var(--border-style) var(--border);
+    font-size: var(--step--2);
+    color: var(--fg-muted);
+  }
+
+  .preview__note {
+    max-width: var(--measure-narrow);
+  }
+</style>

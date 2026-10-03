@@ -12,8 +12,8 @@ export type Locale = (typeof locales)[number];
 export const defaultLocale: Locale = 'es';
 
 export const identity = {
-  name: 'German Padua',
-  shortName: 'German Padua',
+  name: 'Germán Padua',
+  shortName: 'Germán Padua',
   email: 'german.padua@outlook.es',
   github: 'https://github.com/germanpadua',
   githubHandle: 'germanpadua',
@@ -27,7 +27,7 @@ const es = {
   htmlLang: 'es-ES',
   ogLocale: 'es_ES',
   meta: {
-    title: 'German Padua · Ingeniero informático y matemático',
+    title: 'Germán Padua · Ingeniero informático y matemático',
     description:
       'Matemático, ingeniero informático y científico de datos. Modelos de riesgo, aprendizaje sobre grafos, telemetría y aplicaciones de inteligencia artificial.',
   },
@@ -79,7 +79,16 @@ const es = {
       title: 'Proyectos',
       lead: 'Una selección de investigación, ingeniería y aplicaciones.',
     },
-    skills: { eyebrow: 'Herramientas', title: 'Conocimientos en práctica', lead: 'Del fundamento a la herramienta, y de la herramienta al proyecto.' },
+    skills: {
+      eyebrow: 'Herramientas',
+      title: 'Conocimientos en práctica',
+      lead: 'Del fundamento a la herramienta, y de la herramienta al proyecto.',
+      cta: 'Abrir el mapa interactivo',
+      previewDescription:
+        'Vista previa del mapa de conocimientos: un punto por área, con el tamaño según cuántos conocimientos reúne. Es solo un avance; el mapa completo, con nivel y frescura, está en su propia página.',
+      areas: 'áreas',
+      skills: 'conocimientos',
+    },
     highlights: {
       eyebrow: 'Reconocimientos',
       title: 'Selecciones y competiciones',
@@ -104,6 +113,14 @@ const es = {
       githubLabel: 'GitHub',
       linkedinLabel: 'LinkedIn',
     },
+  },
+  map: {
+    eyebrow: 'Mapa de conocimientos',
+    title: 'Todo lo que sé, y de dónde viene',
+    lead: 'Un mapa radial: cinco áreas, cada conocimiento con su nivel, su frescura y las asignaturas o proyectos que lo sostienen.',
+    metaTitle: 'Mapa de conocimientos · Germán Padua',
+    metaDescription:
+      'Mapa radial de 93 conocimientos en cinco áreas, con nivel, frescura y la formación o los proyectos que los respaldan.',
   },
   playground: {
     terminal: {
@@ -207,11 +224,47 @@ const es = {
     title: 'Grafo de skills',
     areas: 'Filtrar por área',
     reset: 'Restablecer',
+    noMatches: 'Ninguna skill coincide con la búsqueda.',
     showAll: 'Mostrar todas',
     hint: 'Selecciona un conocimiento para ver dónde lo aplico.',
     usedIn: 'Usado en',
     empty: 'No queda ninguna área seleccionada.',
     canvasLabel: 'Grafo de skills: nodos agrupados por área y unidos por relaciones de uso, aplicación, extensión y afinidad.',
+    level: {
+      strong: 'Sólido',
+      working: 'En práctica',
+      basic: 'Básico',
+    },
+    freshness: {
+      current: 'Al día',
+      warming: 'Enfriando',
+      stale: 'Antiguo',
+      unknown: 'Sin señal',
+    },
+    layers: 'Capas',
+    legend: 'Leyenda',
+    search: 'Buscar',
+    searchPlaceholder: 'Buscar una skill…',
+    jumpTo: 'Ir a un conocimiento',
+    clear: 'Limpiar',
+    lastReviewed: 'Última revisión',
+    levelRule: 'Nivel: sólido ≥ 0,85 · en práctica ≥ 0,70 · básico por debajo.',
+    freshnessRule:
+      'Frescura: al día 2025-2026 · enfriando 2023-2024 · sin señal si no hay proyecto ni formación.',
+    hud: 'Controles del mapa',
+    core: 'Conocimientos',
+    close: 'Cerrar panel',
+    zoom: 'Zoom',
+    levelLabel: 'Nivel',
+    freshnessLabel: 'Frescura',
+    lastActivity: 'Última actividad',
+    layerNames: {
+      lines: 'Relaciones',
+      areaLabels: 'Etiquetas de área',
+      skillLabels: 'Etiquetas de skill',
+      levels: 'Anillos de nivel',
+      grid: 'Cuadrícula de fondo',
+    },
     selected: 'Seleccionado',
     listLabel: 'Las mismas skills, en texto',
     loading: 'Cargando el grafo…',
@@ -288,7 +341,7 @@ const en: Dictionary = {
   htmlLang: 'en-GB',
   ogLocale: 'en_GB',
   meta: {
-    title: 'German Padua · Computer engineer and mathematician',
+    title: 'Germán Padua · Computer engineer and mathematician',
     description:
       'Mathematician, computer engineer and data scientist. Credit risk models, graph learning, telemetry and AI applications.',
   },
@@ -336,7 +389,16 @@ const en: Dictionary = {
     about: { eyebrow: 'Profile', title: 'Profile', lead: '' },
     work: { eyebrow: 'Track record', title: 'Experience', lead: '' },
     projects: { eyebrow: 'Work', title: 'Projects', lead: 'Selected research, engineering and applications.' },
-    skills: { eyebrow: 'Toolbox', title: 'Knowledge in practice', lead: 'From foundations to tools, and from tools to projects.' },
+    skills: {
+      eyebrow: 'Toolbox',
+      title: 'Knowledge in practice',
+      lead: 'From foundations to tools, and from tools to projects.',
+      cta: 'Open the interactive map',
+      previewDescription:
+        'A preview of the knowledge map: one dot per area, sized by how many skills it holds. It is only a preview; the full map, with level and freshness, has its own page.',
+      areas: 'areas',
+      skills: 'skills',
+    },
     highlights: {
       eyebrow: 'Recognition',
       title: 'Selections and competitions',
@@ -361,6 +423,14 @@ const en: Dictionary = {
       githubLabel: 'GitHub',
       linkedinLabel: 'LinkedIn',
     },
+  },
+  map: {
+    eyebrow: 'Knowledge map',
+    title: 'Everything I know, and where it comes from',
+    lead: 'A radial map: five areas, every skill with its level, its freshness and the coursework or projects that support it.',
+    metaTitle: 'Knowledge map · Germán Padua',
+    metaDescription:
+      'A radial map of 93 skills in five areas, with level, freshness and the coursework or projects behind them.',
   },
   playground: {
     terminal: {
@@ -463,11 +533,47 @@ const en: Dictionary = {
     title: 'Skill graph',
     areas: 'Filter by area',
     reset: 'Reset',
+    noMatches: 'No skill matches the search.',
     showAll: 'Show all',
     hint: 'Hover a node to see what it connects to, and click to read the note. You can drag them.',
     usedIn: 'Used in',
     empty: 'No area is selected.',
     canvasLabel: 'Skill graph: nodes grouped by area and joined by relationships of use, application, extension and affinity.',
+    level: {
+      strong: 'Strong',
+      working: 'Working',
+      basic: 'Basic',
+    },
+    freshness: {
+      current: 'Current',
+      warming: 'Warming',
+      stale: 'Stale',
+      unknown: 'No signal',
+    },
+    layers: 'Layers',
+    legend: 'Legend',
+    search: 'Search',
+    searchPlaceholder: 'Search a skill…',
+    jumpTo: 'Jump to a skill',
+    clear: 'Clear',
+    lastReviewed: 'Last reviewed',
+    levelRule: 'Level: strong ≥ 0.85 · working ≥ 0.70 · basic below.',
+    freshnessRule:
+      'Freshness: current 2025-2026 · warming 2023-2024 · no signal when there is neither a project nor coursework.',
+    hud: 'Map controls',
+    core: 'Skills',
+    close: 'Close panel',
+    zoom: 'Zoom',
+    levelLabel: 'Level',
+    freshnessLabel: 'Freshness',
+    lastActivity: 'Last activity',
+    layerNames: {
+      lines: 'Edges',
+      areaLabels: 'Area labels',
+      skillLabels: 'Skill labels',
+      levels: 'Level rings',
+      grid: 'Background grid',
+    },
     selected: 'Selected',
     listLabel: 'The same skills, in text',
     loading: 'Loading the graph…',

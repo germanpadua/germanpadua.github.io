@@ -15,6 +15,7 @@ import {
   getSkillGraph,
   projectPath,
   projectsIndexPath,
+  skillMapPath,
   type MetricBasis,
 } from './content';
 import { identity, themeIds, type Locale } from '../i18n/ui';
@@ -93,6 +94,7 @@ export async function buildTerminalContent(locale: Locale): Promise<TerminalCont
       education: `${locale === 'es' ? '/' : '/en/'}#education`,
       contact: `${locale === 'es' ? '/' : '/en/'}#contact`,
       playground: `${locale === 'es' ? '/' : '/en/'}#game`,
+      map: skillMapPath(locale),
     },
     themes: [...themeIds],
     otherLocale: {
