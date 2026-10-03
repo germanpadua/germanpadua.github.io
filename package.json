@@ -9,7 +9,7 @@
     "preview": "astro preview",
     "check": "astro check",
     "shot": "node scripts/screenshot.mjs",
-    "verify": "pnpm run check && pnpm run build && node scripts/assert-shell-payload.mjs",
+    "verify": "pnpm run check && pnpm run build && node scripts/assert-shell-payload.mjs && pnpm run test:skills && pnpm run test:skill-layout",
     "icons": "node scripts/make-icons.mjs",
     "og-image": "node scripts/make-og-image.mjs",
     "test:skills": "node --experimental-strip-types scripts/verify-skill-meta.mjs",
