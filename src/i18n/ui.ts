@@ -12,8 +12,8 @@ export type Locale = (typeof locales)[number];
 export const defaultLocale: Locale = 'es';
 
 export const identity = {
-  name: 'German Padua',
-  shortName: 'German Padua',
+  name: 'Germán Padua',
+  shortName: 'Germán Padua',
   email: 'german.padua@outlook.es',
   github: 'https://github.com/germanpadua',
   githubHandle: 'germanpadua',
@@ -27,7 +27,7 @@ const es = {
   htmlLang: 'es-ES',
   ogLocale: 'es_ES',
   meta: {
-    title: 'German Padua · Ingeniero informático y matemático',
+    title: 'Germán Padua · Ingeniero informático y matemático',
     description:
       'Matemático, ingeniero informático y científico de datos. Modelos de riesgo, aprendizaje sobre grafos, telemetría y aplicaciones de inteligencia artificial.',
   },
@@ -288,7 +288,7 @@ const en: Dictionary = {
   htmlLang: 'en-GB',
   ogLocale: 'en_GB',
   meta: {
-    title: 'German Padua · Computer engineer and mathematician',
+    title: 'Germán Padua · Computer engineer and mathematician',
     description:
       'Mathematician, computer engineer and data scientist. Credit risk models, graph learning, telemetry and AI applications.',
   },

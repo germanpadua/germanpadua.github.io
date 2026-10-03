@@ -87,11 +87,11 @@ const t = (locale: 'es' | 'en', es: string, en: string) => (locale === 'es' ? es
 
 export const BANNER: Record<'es' | 'en', string[]> = {
   es: [
-    'Terminal del portfolio de German Padua.',
+    'Terminal del portfolio de Germán Padua.',
     "Escribe `help` para ver los comandos, o usa el tabulador para completar.",
   ],
   en: [
-    "German Padua's portfolio terminal.",
+    "Germán Padua's portfolio terminal.",
     'Type `help` for the command list, or press tab to complete.',
   ],
 };

@@ -1,6 +1,6 @@
 # germanpadua.github.io
 
-Personal portfolio of **German Padua** — computer engineer and mathematician
+Personal portfolio of **Germán Padua** — computer engineer and mathematician
 working on applied machine learning, data science, and data-driven systems.
 
 Live site: <https://germanpadua.github.io>
@@ -199,7 +199,7 @@ and `/og/` is the social card that `pnpm og-image` screenshots. Both are
 ## License and provenance
 
 The code in this repository is available for reference. Written content, project
-descriptions, and images are © German Padua and are not licensed for reuse.
+descriptions, and images are © Germán Padua and are not licensed for reuse.
 
 This site was previously built on the **devfolio** theme, distributed under
 Creative Commons Attribution 3.0. No part of that theme remains: the markup, styles,
