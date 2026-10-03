@@ -2,8 +2,8 @@
 locale: en
 slug: pseudo-riemannian-gnn
 title: Graph Neural Networks on Pseudo-Riemannian Manifolds
-summary: 'My bachelor’s thesis connects differential geometry and deep learning: how does a network change when a graph is represented in non-Euclidean
-  spaces?'
+summary: 'My bachelor’s thesis connects differential geometry and neural networks for graphs. It is a study of how what a network learns changes when a
+  graph is represented in non-Euclidean spaces.'
 role: Author of the entire bachelor's thesis
 period: September 2023 - June 2024
 year: 2024

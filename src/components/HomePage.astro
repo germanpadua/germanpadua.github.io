@@ -12,7 +12,6 @@
  */
 import Base from '../layouts/Base.astro';
 import Hero from './Hero.astro';
-import Profile from './Profile.astro';
 import Projects from './Projects.astro';
 import Highlights from './Highlights.astro';
 import Experience from './Experience.astro';
@@ -30,7 +29,6 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 
 const navLinks = [
-  { href: '#about', label: t.nav.about },
   { href: '#projects', label: t.nav.projects },
   { href: '#work', label: t.nav.work },
   { href: '#skills', label: t.nav.skills },
@@ -42,7 +40,6 @@ const navLinks = [
 
 <Base locale={locale} alternate={{ es: '/', en: '/en/' }} navLinks={navLinks}>
   <Hero locale={locale} primaryHref="#projects" secondaryHref="#work" />
-  <Profile locale={locale} />
   <Projects locale={locale} />
   <Highlights locale={locale} />
   <Experience locale={locale} />
