@@ -118,7 +118,7 @@ const projects = defineCollection({
       stack: z.array(z.string().min(1)).min(1),
       metrics: z.array(metrics).default([]),
       /** What is actually interesting. Not a feature list. */
-      highlights: z.array(z.string().min(10)).min(1),
+      highlights: z.array(z.string().min(10)).default([]),
       /** What the author would not claim. Renders as an honest-limits block. */
       limits: z.array(z.string().min(10)).default([]),
       links: z

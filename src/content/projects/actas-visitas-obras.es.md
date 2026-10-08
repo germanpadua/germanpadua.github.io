@@ -8,7 +8,7 @@ role: Diseño e implementación completos
 period: septiembre 2026
 year: 2026
 order: 7
-status: shipped
+status: in-progress
 visibility: case-study
 featured: true
 confidentiality: Repositorio privado. Contiene actas y fotografías de una obra y un cliente reales.

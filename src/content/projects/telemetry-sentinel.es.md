@@ -2,8 +2,7 @@
 locale: es
 slug: telemetry-sentinel
 title: Telemetry Sentinel
-summary: 'Detección de pérdidas de velocidad en Fórmula 1: cruza telemetría y contexto de carrera para distinguir un problema del coche de una
-  parada en boxes.'
+summary: 'Detección de pérdidas de velocidad en Fórmula 1. Cruza telemetría y contexto de carrera para distinguir un problema del coche de una parada en boxes o banderas amarillas.'
 role: Diseño, implementación y evaluación
 period: septiembre - octubre 2026
 year: 2026
@@ -32,8 +31,8 @@ highlights:
 - Supresión contextual de boxes, banderas y coches de seguridad.
 - Reproducción causal y evidencia asociada a cada alerta.
 limits:
-- Pocos episodios reales etiquetados; las tasas deben interpretarse junto con sus recuentos.
-- El sitio reproduce ejecuciones guardadas; no es un servicio de alertas conectado en directo.
+- Pocos episodios reales etiquetados.
+- El sitio reproduce ejecuciones guardadas, no es un servicio de alertas en directo.
 links:
   demo: https://telemetry-sentinel.vercel.app/
 ---
@@ -44,12 +43,12 @@ Una pérdida de velocidad puede indicar una avería, una parada en boxes o una b
 
 ## Cómo funciona
 
-Procesa los eventos en el orden en que se publicaron. Para cada tramo de pista calcula una referencia robusta con las vueltas limpias anteriores. Si el déficit persiste y el contexto no lo explica, genera una alerta con una instantánea de la evidencia. Las pruebas comprueban que cambiar el futuro no modifica las decisiones anteriores.
+Procesa los eventos en el orden en que se publicaron. Para cada tramo de pista calcula una referencia robusta con las vueltas limpias anteriores. Si el déficit persiste y el contexto no lo explica, genera una alerta con una instantánea de la evidencia.
 
 ## Qué construí
 
-La preparación de datos, el detector, las reglas de contexto, la evaluación y una interfaz para reproducir carreras y revisar alertas. Los experimentos comparan una referencia robusta con un modelo de cuantiles; la configuración se congela antes de evaluar las carreras reservadas.
+La preparación de datos, el detector, las reglas de contexto, la evaluación y una interfaz para reproducir carreras y revisar alertas. Los experimentos comparan una referencia robusta con un modelo de cuantiles.
 
 ## Lo que muestran los experimentos
 
-El informe actual incluye Monza, Japón y Singapur como carreras de test, además de España para validación y Baréin para desarrollo. El número de episodios reales es pequeño y existen falsas alertas en Singapur: los resultados son evidencia inicial, con limitaciones explícitas. La presentación pública permite explorar las ejecuciones y consultar su procedencia.
+El informe actual incluye Monza, Japón y Singapur como carreras de test, además de España para validación y Baréin para desarrollo. El número de episodios reales es pequeño y existen falsas alertas en Singapur. La web pública permite explorar las ejecuciones y consultar su procedencia.

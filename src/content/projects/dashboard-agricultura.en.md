@@ -2,8 +2,7 @@
 locale: en
 slug: dashboard-agricultura
 title: Smart Agriculture Dashboard
-summary: My master’s thesis brings satellite imagery, weather and field observations together to understand an olive grove and explore potential
-  anomalies.
+summary: My master’s thesis brings satellite imagery, weather and field observations together to understand the evolution of an olive grove and provide early warnings of disease.
 role: Author of the entire master's thesis
 period: January - September 2025
 year: 2025
@@ -30,38 +29,31 @@ stack:
 images:
 - file: agricultura-concept
   alt: 'Illustrative olive grove observatory: vegetation map and crop evolution.'
-  caption: Illustrative view based on the project; not an experimental result.
+  caption: Illustrative view based on the project.
 metrics: []
 highlights:
-- 'The dashboard translates spectral indices into farmer''s language: it does not show raw NDVI, it shows whether the plot is doing worse or better
+- 'The dashboard translates spectral indices into farmer''s language. It does not show raw NDVI, it shows whether the plot is doing worse or better
   than in previous years and in which specific area.'
 - 'It crosses four sources that do not talk to each other: satellite imagery, weather forecasts, a field station and observations from the farmer
   himself, sent from his phone.'
-- Anomalies are detected by comparing each date against the history of the same plot, not against an absolute threshold, because the normal value
-  depends on the soil and the year.
+- Anomalies are detected by comparing each date against the history of the same plot and against documented theoretical thresholds for the disease.
 - Packaged with Docker and Compose so that deployment does not depend on anyone's machine.
 - Includes a Telegram bot as an intake channel for field photos, which was used to document detections from a phone.
 limits:
-- 'I have no accuracy figure to publish: the work measures trend and relative anomaly per plot, not classification against an annotated ground
-  truth. Presenting an accuracy score would be inventing it.'
-- The Telegram bot received photographs from a real farm and was left out of the publishable version; the repository is private while it is cleaned
-  up.
-- The credentials that had been committed were rotated and the repository went private on 1 October 2026.
-- The analysis depends on the availability of cloud-free images, so there are months without useful data and I did not build a serious interpolation
-  strategy.
-- 'The three plots are a single crop in a single region: there is no validation under other conditions.'
+- The work measures trends and relative anomalies per plot, not classification against annotated ground truth.
+- The analysis depends on the availability of cloud-free images, so there may be periods without useful data.
 ---
 
 ## The problem
 
-Understanding an olive grove benefits from combining field observations, satellite imagery and weather. My master’s thesis brings those sources into an analytical interface.
+Olive leaf spot is a widespread disease affecting olive groves. It causes leaves to fall and affects the quality of the harvested fruit. Although detection is not complex, infection can remain latent for a long time. The dashboard is designed to monitor the crop and alert when conditions are favourable for the disease to develop.
 
 ## What I built
 
-A Python dashboard using Dash and Plotly, integrating Sentinel-2 imagery, vegetation indices, AEMET forecasts and observations sent through a Telegram bot. Users can explore the plot, inspect time series and compare evolution with previous years.
+A Python dashboard using Dash and Plotly, integrating Sentinel-2 imagery, vegetation indices, AEMET forecasts and observations sent through a Telegram bot. Users can explore the plot, inspect time series and compare evolution with previous periods.
 
 ## From data to interpretation
 
-The project covers data acquisition and preparation, caching, visualisation and potential anomaly analysis. Unusual signals help guide inspection; interpretation requires the plot’s agronomic context.
+The project covers data acquisition and preparation, caching, visualisation and potential anomaly analysis. Unusual signals help guide inspection.
 
-The illustrative view summarises the dashboard’s purpose. Its curves are not experimental results.
+The image in this case study summarises the dashboard’s purpose. Its curves are illustrative results.

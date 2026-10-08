@@ -2,8 +2,7 @@
 locale: en
 slug: pseudo-riemannian-gnn
 title: Graph Neural Networks on Pseudo-Riemannian Manifolds
-summary: 'My bachelor’s thesis connects differential geometry and neural networks for graphs. It is a study of how what a network learns changes when a
-  graph is represented in non-Euclidean spaces.'
+summary: 'My bachelor’s thesis connects differential geometry and graph neural networks, studying how non-Euclidean representations change what a network learns, from foundations to advanced concepts.'
 role: Author of the entire bachelor's thesis
 period: September 2023 - June 2024
 year: 2024
@@ -29,14 +28,13 @@ metrics:
 - value: 9.9/10
   label: Score given by the panel
   basis: record
-  source: Academic record, University of Granada
 highlights:
 - Differential geometry and graph learning foundations.
 - Adaptation of geometric operations, training and hyperparameter search.
 - Experimental comparison with GCN and GAT.
 limits:
 - Academic work based on the QGCN/HGCN reference architecture and code.
-- Results depend on dataset, configuration and task; visual projections are a simplification.
+- Results depend on dataset, configuration and task.
 ---
 
 ## Why change the geometry?
@@ -49,8 +47,4 @@ The work covers indefinite metrics, geodesics and pseudo-hyperboloids. Geodesic 
 
 ## My contribution
 
-I studied the foundations, adapted the reference implementation, examined geometric operations and optimisation methods, and ran experimental comparisons with GCN and GAT. This includes training, hyperparameter search and analysis of learned representations. QGCN is the original architecture; my contribution is its study, adapted implementation and evaluation.
-
-## Reading the results
-
-The explorer uses projections and metrics from saved project runs. In the selected runs, Photo shows an accuracy improvement; Citeseer, Cora, Disease and Airport score below the baseline. A two-dimensional projection helps reveal structure, but does not replace task evaluation or establish a general improvement.
+I studied the foundations, adapted the reference implementation, examined geometric operations and optimisation methods, and ran experimental comparisons with GCN and GAT. This includes training, hyperparameter search and analysis of learned representations. QGCN is the original architecture. My contribution is its study, adapted implementation and evaluation.

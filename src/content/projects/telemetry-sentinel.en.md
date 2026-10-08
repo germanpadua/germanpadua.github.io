@@ -2,7 +2,7 @@
 locale: en
 slug: telemetry-sentinel
 title: Telemetry Sentinel
-summary: 'Detecting speed losses in Formula 1: combines telemetry and race context to distinguish a car problem from a pit stop.'
+summary: 'Detecting speed losses in Formula 1. Combines telemetry and race context to distinguish a car problem from a pit stop or yellow flags.'
 role: Design, implementation and evaluation
 period: September - October 2026
 year: 2026
@@ -31,8 +31,8 @@ highlights:
 - Contextual suppression for pits, flags and safety cars.
 - Causal replay and evidence attached to every alert.
 limits:
-- Few real labelled episodes; rates must be read alongside their counts.
-- The site replays saved runs; it is not a live connected alerting service.
+- Few real labelled episodes.
+- The site replays saved runs, it is not a live alerting service.
 links:
   demo: https://telemetry-sentinel.vercel.app/
 ---
@@ -43,12 +43,12 @@ A speed loss can mean a mechanical problem, a pit stop or a yellow flag. I built
 
 ## How it works
 
-Events are processed in their publication order. A robust reference is computed from previous clean laps for each part of the circuit. A persistent unexplained deficit produces an alert and an evidence snapshot. Tests verify that changing future events does not affect earlier decisions.
+Events are processed in their publication order. A robust reference is computed from previous clean laps for each part of the circuit. A persistent unexplained deficit produces an alert and an evidence snapshot.
 
 ## What I built
 
-Data preparation, detection, context rules, evaluation and a race replay interface. Experiments compare a robust reference with a quantile model; configuration is frozen before held-out evaluation.
+Data preparation, detection, context rules, evaluation and a race replay interface. Experiments compare a robust reference with a quantile model.
 
 ## Experimental evidence
 
-The current report includes Monza, Japan and Singapore as test races, Spain for validation and Bahrain for development. Real episodes are scarce and Singapore contains false alerts. The public presentation lets readers explore saved runs and their provenance.
+The current report includes Monza, Japan and Singapore as test races, Spain for validation and Bahrain for development. Real episodes are scarce and Singapore contains false alerts. The public website lets readers explore saved runs and their provenance.

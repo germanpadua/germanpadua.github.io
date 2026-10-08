@@ -13,9 +13,6 @@ headline:
   source: comunicación oficial del programa
 summary: Fui uno de los 90 seleccionados entre más de 105.000 candidaturas para dos semanas en Madrid sobre innovación, emprendimiento y aplicaciones de la IA, con 89 personas de otros países y áreas.
 contribution: Aprendimos a identificar necesidades reales, cuestionar nuestras propias ideas antes de defenderlas, construir prototipos y plantear un modelo de negocio alrededor de ellos.
-limits:
-  - No es un título académico ni una certificación técnica. Es una selección competitiva y un programa de dos semanas, y lo presento como eso.
-  - Las 105.000 candidaturas y los 90 puestos son datos de la organización, no una medición mía.
 links:
   url: https://www.santanderopenacademy.com
   label: Santander Open Academy
@@ -26,8 +23,6 @@ links:
 Dos semanas en Madrid, en el programa **Innovation & AI Experience** de IE University y Santander Open Academy. Fui uno de los 90 seleccionados entre más de 105.000 candidaturas.
 
 La parte académica cubrió innovación, emprendimiento y aplicaciones de la inteligencia artificial: cómo identificar una necesidad de verdad, cómo cuestionar tu propia idea antes de enamorarte de ella, cómo pasar de la idea al prototipo y cómo se sostiene eso con un modelo de negocio.
-
-Los profesores fueron Rafael Salazar Novo y Alberto Levy.
 
 ## Lo que me llevo
 

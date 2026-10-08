@@ -7,7 +7,7 @@ role: Complete design and implementation
 period: September 2026
 year: 2026
 order: 7
-status: shipped
+status: in-progress
 visibility: case-study
 featured: true
 confidentiality: Private repository. It contains minutes and photographs from a real construction site and client.

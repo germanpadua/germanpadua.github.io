@@ -1,7 +1,7 @@
 ---
 locale: en
 slug: hackspain-prosper
-title: KermitPanic at HackSpain 2026
+title: KermitPanic · Voice Agents
 summary: A voice agent to manage medical appointments, notify the corresponding doctor and keep track of everything that happens. Project developed
   for HackSpain.
 role: Evaluation harness and integration
@@ -28,18 +28,13 @@ stack:
 links:
   repo: https://github.com/rh45-one/hackspain-kermit-prosper
   demo: https://kermitpanic-hackspain.vercel.app/
-team:
-  name: KermitPanic
-  size: 5
-  contribution: The complete evaluation harness, the integration between the agent and the challenge platform, and the technical documentation.
 metrics: []
 highlights:
-- A simulated WebSocket clinic to test without consuming challenge minutes.
+- A simulated clinic to test without consuming challenge minutes.
 - Scenarios for bookings, changes, cancellations and interruptions.
 - Deterministic verification of final bookings and an integration contract with the agent.
 limits:
-- Local evaluation with a simulated clinic; not the official judge.
-- The live event leaderboard is not an official final ranking.
+- Local evaluation with a simulated clinic that is not equivalent to the official judge.
 images:
 - file: kermitpanic-concept
   alt: Illustrative voice agent view and appointment confirmation.
@@ -48,14 +43,8 @@ images:
 
 ## The challenge
 
-At HackSpain 2026, the KermitPanic team built a voice agent to handle calls and manage appointments in a fictional clinic. The agent had to converse with the patient and execute the operation against the challenge platform.
+At HackSpain 2026, my team built a voice agent to handle calls and manage appointments in a fictional clinic. The agent had to converse with the patient and execute the operation against the Prosper AI challenge platform.
 
 ## My contribution
 
-I built the evaluation environment: a simulated WebSocket clinic, a scenario catalogue and a comparator that verifies each field of the final booking. This let us test changes without consuming the platform’s limited minutes.
-
-I also worked on agent integration, using an interface contract so the agent and evaluator could be developed in parallel. Scenarios included changes of mind, interruptions, silence and availability conflicts.
-
-## Teamwork
-
-The public chronicle documents the team’s route from the initial idea to the prototype and tests. It gives context for the complete project, division of work and decisions during the event.
+I built the evaluation environment, a scenario catalogue and a comparator that verifies each field of the final booking. This let us test changes without consuming the official platform’s limited minutes and evaluate our agent’s performance.

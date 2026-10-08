@@ -13,9 +13,6 @@ headline:
   source: official communication from the programme
 summary: I was one of the 90 selected from more than 105,000 applications for two weeks in Madrid on innovation, entrepreneurship and applications of AI, together with 89 people from other countries and fields.
 contribution: We learned to identify real needs, to question our own ideas before defending them, to build prototypes and to frame a business model around them.
-limits:
-  - "It is not an academic degree nor a technical certification. It is a competitive selection and a two-week programme, and I present it as that."
-  - "The 105,000 applications and the 90 places are figures from the organisation, not a measurement of mine."
 links:
   url: https://www.santanderopenacademy.com
   label: Santander Open Academy
@@ -26,8 +23,6 @@ links:
 Two weeks in Madrid, in the **Innovation & AI Experience** programme by IE University and Santander Open Academy. I was one of the 90 selected from more than 105,000 applications.
 
 The academic part covered innovation, entrepreneurship and applications of artificial intelligence: how to identify a real need, how to question your own idea before falling in love with it, how to go from idea to prototype, and how all of that is sustained by a business model.
-
-The professors were Rafael Salazar Novo and Alberto Levy.
 
 ## What I take with me
 
