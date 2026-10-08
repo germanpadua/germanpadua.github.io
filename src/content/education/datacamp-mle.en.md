@@ -13,9 +13,3 @@ highlights:
   - "Packaging and deployment with Docker, and continuous integration pipelines applied to models rather than to applications."
   - Monitoring models in production.
 ---
-
-### Why I did it
-
-Because I knew how to train models and did not know how to maintain them.
-
-A model in a notebook is an experiment. A model in production is a service with dependencies, versions, a record of what data it was trained with, and an alert for when the world changes and the predictions stop making sense.

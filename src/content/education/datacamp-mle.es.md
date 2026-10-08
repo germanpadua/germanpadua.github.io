@@ -13,9 +13,3 @@ highlights:
   - Empaquetado y despliegue con Docker, y pipelines de integración continua aplicados a modelos en lugar de a aplicaciones.
   - Monitorización de modelos en producción.
 ---
-
-### Por qué lo hice
-
-Porque sabía entrenar modelos y no sabía mantenerlos.
-
-Un modelo en un cuaderno es un experimento. Un modelo en producción es un servicio con dependencias, versiones, un registro de con qué datos se entrenó y una alerta para cuando el mundo cambia y las predicciones dejan de tener sentido.
