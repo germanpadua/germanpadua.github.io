@@ -9,13 +9,10 @@ period: septiembre 2025 — hoy
 start: 2025-09
 end: present
 accent: accent-2
-summary: Diseño y construyo automatizaciones y herramientas de IA a medida para procesos internos de empresa, casi siempre para gente que lleva
-  años haciendo lo mismo a mano con una hoja de cálculo.
+summary: Diseño y construyo automatizaciones y herramientas de IA a medida para procesos internos de empresa, casi siempre para gente que lleva años haciendo lo mismo a mano con una hoja de cálculo.
 responsibilities:
-- '"Desarrollo de flujos automatizados en el ecosistema de Microsoft: SharePoint, Power Automate y servicios de Azure."'
-- Integración de herramientas de IA dentro de procesos empresariales que ya existían, en lugar de sustituirlos.
-- '"Digitalización de procesos manuales: desde el diagnóstico con quien lo hace a diario hasta la puesta en marcha."'
-- Trato directo con el cliente, incluida la parte incómoda de decir que lo que pedía no es lo que necesita.
+- 'Desarrollo de flujos automatizados en el ecosistema de Microsoft: SharePoint, Power Automate y servicios de Azure.'
+- Digitalización de procesos manuales.
 stack:
 - Azure
 - SharePoint

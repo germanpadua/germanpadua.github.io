@@ -6,11 +6,6 @@ issuer: IE University y Santander Open Academy
 kind: program
 period: julio 2026
 order: 1
-headline:
-  value: 90/105.000
-  label: Seleccionados sobre candidaturas presentadas
-  basis: record
-  source: comunicación oficial del programa
 summary: Fui uno de los 90 seleccionados entre más de 105.000 candidaturas para dos semanas en Madrid sobre innovación, emprendimiento y aplicaciones de la IA, con 89 personas de otros países y áreas.
 contribution: Aprendimos a identificar necesidades reales, cuestionar nuestras propias ideas antes de defenderlas, construir prototipos y plantear un modelo de negocio alrededor de ellos.
 links:

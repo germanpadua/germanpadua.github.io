@@ -13,9 +13,7 @@ summary: I design and build bespoke AI automations and tools for internal compan
   same thing by hand in a spreadsheet for years.
 responsibilities:
 - 'Development of automated flows within the Microsoft ecosystem: SharePoint, Power Automate and Azure services.'
-- Integrating AI tools into business processes that already existed, rather than replacing them.
-- 'Digitising manual processes: from the diagnosis with the person who does it daily to the rollout.'
-- Direct dealing with the client, including the awkward part of saying that what they asked for is not what they need.
+- Digitising manual processes.
 stack:
 - Azure
 - SharePoint

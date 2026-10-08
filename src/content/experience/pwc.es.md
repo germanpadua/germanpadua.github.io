@@ -3,19 +3,17 @@ locale: es
 order: 2
 title: Data Scientist
 organisation: PwC, área Deals
-location: Málaga
+location: Granada
 employment: full-time
 period: octubre 2024 — febrero 2025
 start: 2024-10
 end: 2025-02
 accent: accent-3
-summary: Proyecto de analítica avanzada y optimización de precios para un operador de transporte español, dentro de un equipo de consultoría con
-  impacto directo en negocio.
+summary: Proyecto de analítica avanzada y optimización de precios para un operador de transporte español.
 responsibilities:
 - Construcción de la base de datos del proyecto y de los primeros pipelines, uniendo fuentes heterogéneas que no hablaban entre ellas.
 - Desarrollo de modelos de previsión de demanda y de prototipos de precio dinámico.
 - Optimización del ratio de compras por visita mediante modelado predictivo sobre el comportamiento de los usuarios.
-- Traducción de resultados a un lenguaje que el cliente pudiera discutir, que es la mitad del trabajo en consultoría.
 stack:
 - Python
 - pandas

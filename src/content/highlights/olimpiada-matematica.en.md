@@ -6,11 +6,6 @@ issuer: Sociedad Andaluza de Educación Matemática Thales
 kind: award
 period: 2018 - 2019
 order: 3
-headline:
-  value: Top 5
-  label: In the province of Almería
-  basis: record
-  source: pre-university academic record
 summary: I qualified among the five best students of Almería for the Mathematical Olympiad of Andalusia. It was the first time I competed solving problems that were nothing like the ones at school.
 limits:
   - The qualification is provincial, not Andalusian.

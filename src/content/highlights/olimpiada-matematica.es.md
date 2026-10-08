@@ -6,11 +6,6 @@ issuer: Sociedad Andaluza de Educación Matemática Thales
 kind: award
 period: 2018 - 2019
 order: 3
-headline:
-  value: Top 5
-  label: En la provincia de Almería
-  basis: record
-  source: expediente académico previo a la universidad
 summary: Me clasifiqué entre los cinco mejores estudiantes de Almería para la Olimpiada Matemática de Andalucía. Fue la primera vez que competí resolviendo problemas que no se parecían a los del instituto.
 limits:
   - La clasificación es provincial, no andaluza.

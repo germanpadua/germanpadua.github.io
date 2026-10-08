@@ -6,11 +6,6 @@ issuer: IE University and Santander Open Academy
 kind: program
 period: July 2026
 order: 1
-headline:
-  value: 90/105,000
-  label: Selected out of submitted applications
-  basis: record
-  source: official communication from the programme
 summary: I was one of the 90 selected from more than 105,000 applications for two weeks in Madrid on innovation, entrepreneurship and applications of AI, together with 89 people from other countries and fields.
 contribution: We learned to identify real needs, to question our own ideas before defending them, to build prototypes and to frame a business model around them.
 links:
