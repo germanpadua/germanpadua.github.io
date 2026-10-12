@@ -49,7 +49,7 @@ const es = {
   hero: {
     eyebrow: 'Matemáticas · Ingeniería · Ciencia de datos',
     greeting: 'Hola, soy',
-    headline: 'De las matemáticas a los productos de datos.',
+    headline: 'IA, matemáticas, datos y curiosidad.',
     support:
       'Matemático, ingeniero informático y científico de datos. Trabajo en modelos de riesgo de crédito y desarrollo proyectos de IA y aprendizaje automático.',
     primaryAction: 'Ver los proyectos',
@@ -346,7 +346,7 @@ const en: Dictionary = {
   hero: {
     eyebrow: 'Mathematics · Engineering · Data science',
     greeting: "Hi, I'm",
-    headline: 'From mathematics to data products.',
+    headline: 'AI, mathematics, data and curiosity.',
     support:
       'Mathematician, computer scientist and data scientist. I work on credit risk models and build AI and machine learning projects.',
     primaryAction: 'See the projects',
