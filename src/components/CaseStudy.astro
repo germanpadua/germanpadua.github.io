@@ -48,7 +48,6 @@ const navLinks = [
         <a href={projectsIndexPath(locale)}>← {t.nav.projects}</a>
       </p>
 
-      <p class="eyebrow">{data.domains.join(' · ')}</p>
       <h1 class="case__title">{data.title}</h1>
       <p class="case__summary">{data.summary}</p>
 
@@ -168,11 +167,7 @@ const navLinks = [
       <aside class="case__aside">
         <section>
           <h2 class="case__section-label">{t.projects.stack}</h2>
-          <ul class="case__tags" role="list">
-            {data.stack.map((item) => (
-              <li class="chip">{item}</li>
-            ))}
-          </ul>
+          <p class="case__stack">{data.stack.join(' · ')}</p>
         </section>
 
         {
@@ -273,17 +268,15 @@ const navLinks = [
   }
 
   .case__facts dt {
-    font-family: var(--font-code);
-    font-size: var(--step--2);
-    letter-spacing: var(--tracking-caps);
-    text-transform: uppercase;
+    font-size: var(--text-sm);
+    font-weight: 600;
     color: var(--fg-muted);
   }
 
   .case__facts dd {
     margin: 0.25rem 0 0;
-    color: var(--fg);
-    font-size: var(--step--1);
+    color: var(--fg-strong);
+    font-size: var(--text-body);
   }
 
   .case__team {
@@ -293,28 +286,30 @@ const navLinks = [
   }
 
   .case__team-title {
-    font-family: var(--font-code);
-    font-size: var(--step--2);
-    font-weight: 500;
-    letter-spacing: var(--tracking-caps);
-    text-transform: uppercase;
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 600;
     color: var(--accent-2);
   }
 
   .case__team p {
-    font-size: var(--step--1);
+    font-size: var(--text-body);
     color: var(--fg-muted);
     margin-top: var(--space-3xs);
   }
 
   .case__section-label {
-    font-family: var(--font-code);
-    font-size: var(--step--2);
-    font-weight: 500;
-    letter-spacing: var(--tracking-caps);
-    text-transform: uppercase;
-    color: var(--fg-muted);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--fg-strong);
     margin-bottom: var(--space-2xs);
+  }
+
+  .case__stack {
+    font-size: var(--text-sm);
+    color: var(--fg-muted);
+    line-height: var(--leading-normal);
   }
 
   .case__metric-list {

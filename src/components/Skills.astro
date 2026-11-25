@@ -16,14 +16,13 @@ const t = useTranslations(locale);
 <section id="skills" class="section">
   <div class="container">
     <header class="section-head reveal">
-      <p class="eyebrow">{t.sections.skills.eyebrow}</p>
       <h2>{t.sections.skills.title}</h2>
       <p class="section-head__lead">{t.sections.skills.lead}</p>
     </header>
 
     <AreaPreview locale={locale} />
 
-    <p class="skills__cta"><a class="btn" href={skillMapPath(locale)}>{t.sections.skills.cta}</a></p>
+    <p class="skills__cta"><a class="btn btn--primary" href={skillMapPath(locale)}>{t.sections.skills.cta}</a></p>
     <p class="skills__context">{locale === 'es' ? 'Un mapa de lo que he estudiado y de lo que utilizo. Cada nodo enlaza con su formación y, cuando corresponde, con proyectos donde lo he aplicado.' : 'A map of what I have studied and what I use. Each node shows its coursework and, where applicable, projects where I have applied it.'}</p>
 
     <SkillDirectory locale={locale} />
@@ -31,6 +30,6 @@ const t = useTranslations(locale);
 </section>
 
 <style>
-  .skills__cta { margin-bottom: 1.25rem; }
-  .skills__context { max-width: 68ch; font-size: var(--step--1); color: var(--fg-muted); margin-bottom: 1.5rem; }
+  .skills__cta { margin-bottom: var(--space-s); }
+  .skills__context { max-width: var(--measure); font-size: var(--text-body); color: var(--fg-muted); margin-bottom: var(--space-m); }
 </style>

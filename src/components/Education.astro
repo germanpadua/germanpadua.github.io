@@ -26,7 +26,6 @@ const languages = entries.filter((entry) => entry.data.kind === 'language');
 <section id="education" class="section">
   <div class="container">
     <header class="section-head reveal">
-      <p class="eyebrow">{t.sections.education.eyebrow}</p>
       <h2>{t.sections.education.title}</h2>
     </header>
 
@@ -96,11 +95,9 @@ const languages = entries.filter((entry) => entry.data.kind === 'language');
 
 <style>
   .group-label {
-    font-family: var(--font-code);
-    font-size: var(--step--2);
-    font-weight: 500;
-    letter-spacing: var(--tracking-caps);
-    text-transform: uppercase;
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 600;
     color: var(--fg-muted);
     margin-bottom: var(--space-s);
   }
@@ -132,55 +129,48 @@ const languages = entries.filter((entry) => entry.data.kind === 'language');
   }
 
   .degree__period {
-    font-family: var(--font-code);
-    font-size: var(--step--1);
-    letter-spacing: var(--tracking-wide);
+    font-size: var(--text-sm);
+    font-variant-numeric: tabular-nums;
     color: var(--fg-muted);
-  }
-
-  .degree__grade {
-    font-family: var(--font-display);
-    font-size: var(--step-1);
-    color: var(--accent);
-    line-height: 1;
   }
 
   .degree__body {
     display: grid;
-    gap: var(--space-2xs);
+    gap: var(--space-xs);
     max-width: var(--measure);
   }
 
   .degree__title {
     font-family: var(--font-display);
-    font-size: var(--step-2);
+    font-size: var(--text-body);
+    font-weight: 600;
     color: var(--fg-strong);
   }
 
   .degree__institution {
     color: var(--fg-muted);
-    font-size: var(--step--1);
+    font-size: var(--text-sm);
     max-width: none;
   }
 
   .degree__summary {
-    font-size: var(--step-0);
-    line-height: var(--leading-snug);
+    font-size: var(--text-body);
+    line-height: var(--leading-normal);
     color: var(--fg);
   }
 
   .degree__points {
     list-style: none;
-    margin: var(--space-2xs) 0 0;
+    margin: var(--space-3xs) 0 0;
     padding: 0;
     display: grid;
-    gap: 0.45rem;
+    gap: 0.5rem;
   }
 
   .degree__points li {
     position: relative;
-    padding-left: 1.1rem;
-    font-size: var(--step--1);
+    padding-left: 1.15rem;
+    font-size: var(--text-body);
     color: var(--fg-muted);
   }
 
@@ -188,26 +178,26 @@ const languages = entries.filter((entry) => entry.data.kind === 'language');
     content: "";
     position: absolute;
     left: 0;
-    top: 0.62em;
+    top: 0.72em;
     width: 0.45rem;
     height: var(--rule);
     background-color: var(--border-strong);
   }
 
   .degree__more {
-    margin-top: var(--space-2xs);
+    margin-top: var(--space-3xs);
   }
 
   .degree__more summary {
-    font-family: var(--font-code);
-    font-size: var(--step--2);
-    letter-spacing: var(--tracking-wide);
+    font-size: var(--text-sm);
+    font-weight: 500;
     color: var(--fg-muted);
     cursor: pointer;
     list-style: none;
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
+    transition: color var(--dur-fast) var(--ease-out);
   }
 
   .degree__more summary::-webkit-details-marker {
@@ -238,7 +228,7 @@ const languages = entries.filter((entry) => entry.data.kind === 'language');
   }
 
   .degree__prose :global(p) {
-    font-size: var(--step--1);
+    font-size: var(--text-body);
     color: var(--fg-muted);
   }
 
@@ -260,17 +250,18 @@ const languages = entries.filter((entry) => entry.data.kind === 'language');
 
   .credential__title {
     color: var(--fg-strong);
-    font-size: var(--step-0);
+    font-size: var(--text-body);
+    font-weight: 500;
   }
 
   .credential__issuer {
     color: var(--fg-muted);
-    font-size: var(--step--1);
+    font-size: var(--text-sm);
   }
 
   .credential__period {
-    font-family: var(--font-code);
-    font-size: var(--step--2);
+    font-size: var(--text-sm);
+    font-variant-numeric: tabular-nums;
     color: var(--fg-muted);
     text-align: right;
   }

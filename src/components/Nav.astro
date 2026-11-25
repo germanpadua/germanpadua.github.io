@@ -15,7 +15,7 @@ const t = useTranslations(locale);
 const otherLocale: Locale = locale === 'es' ? 'en' : 'es';
 ---
 
-<header class="nav">
+<header class="nav" data-nav>
   <div class="container nav__inner">
     <a class="nav__brand" href={locale === 'es' ? '/' : '/en/'}>
       <span class="nav__brand-text">
@@ -49,7 +49,7 @@ const otherLocale: Locale = locale === 'es' ? 'en' : 'es';
         title={t.nav.languageLabel}
       >
         {t.nav.languageShort}
-        <span class="sr-only"> — {t.nav.languageLabel}</span>
+        <span class="sr-only"> · {t.nav.languageLabel}</span>
       </a>
     </div>
   </div>
@@ -62,31 +62,39 @@ const otherLocale: Locale = locale === 'es' ? 'en' : 'es';
 </header>
 
 <script is:inline>
-  document.querySelector('.nav__mobile')?.addEventListener('click',function(e){if(e.target.closest('a'))this.open=false});
+  (()=>{const m=document.querySelector('.nav__mobile');m?.addEventListener('click',e=>{if(e.target.closest('a'))m.open=false});const h=document.querySelector('[data-nav]');if(!h)return;const s=()=>h.toggleAttribute('data-scrolled',window.scrollY>12);s();window.addEventListener('scroll',s,{passive:true})})();
 </script>
 
 <style>
   .nav__mobile { display: none; }
-  .nav__mobile summary { cursor: pointer; padding-block: .45rem; font-size: .8rem; color: var(--fg-muted); }
+  .nav__mobile summary { cursor: pointer; padding-block: .5rem; font-size: var(--text-sm); color: var(--fg-muted); }
   .nav__mobile ul { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; padding-block: .5rem 1rem; }
-  .nav__mobile a { font-size: .9rem; text-decoration: none; }
-  .nav__terminal { display: inline-flex; align-items: center; justify-content: center; width: 2.25rem; height: 2.25rem; flex: none; border: var(--rule) var(--border-style) var(--border); border-radius: var(--radius-pill); background: var(--bg-inset); font-family: var(--font-code); font-size: .85rem; color: var(--fg-muted); }
+  .nav__mobile a { font-size: var(--text-sm); text-decoration: none; }
+  .nav__terminal { display: inline-flex; align-items: center; justify-content: center; width: 2.25rem; height: 2.25rem; flex: none; border: var(--rule) var(--border-style) var(--border); border-radius: var(--radius-pill); background: var(--bg-inset); font-family: var(--font-code); font-size: var(--text-sm); color: var(--fg-muted); transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out); }
   .nav__terminal:hover, .nav__terminal[aria-expanded="true"] { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
   .nav__terminal[hidden] { display: none; }
   .nav {
     position: sticky;
     top: 0;
     z-index: var(--z-nav);
-    background-color: color-mix(in srgb, var(--bg) 88%, transparent);
-    backdrop-filter: blur(12px) saturate(140%);
-    border-bottom: var(--rule) var(--border-style) var(--border);
+    background-color: transparent;
+    border-bottom: var(--rule) var(--border-style) transparent;
+    transition:
+      background-color var(--dur) var(--ease-out),
+      border-color var(--dur) var(--ease-out);
+  }
+
+  .nav[data-scrolled] {
+    background-color: color-mix(in srgb, var(--bg) 90%, transparent);
+    backdrop-filter: blur(14px) saturate(140%);
+    border-bottom-color: var(--border);
   }
 
   .nav__inner {
     display: flex;
     align-items: center;
     gap: var(--space-m);
-    min-height: 4rem;
+    min-height: 4.5rem;
   }
 
   .nav__brand {
@@ -95,7 +103,6 @@ const otherLocale: Locale = locale === 'es' ? 'en' : 'es';
     min-height: 2.75rem;
     margin-right: auto;
     text-decoration: none;
-    /* Keep each control at its actual width; switch to mobile navigation early. */
     flex: none;
     min-width: 0;
     max-width: 20rem;
@@ -105,24 +112,20 @@ const otherLocale: Locale = locale === 'es' ? 'en' : 'es';
     display: flex;
     flex-direction: column;
     min-width: 0;
-    line-height: 1.15;
+    line-height: 1.1;
   }
 
   .nav__brand-name {
+    font-family: var(--font-display);
     color: var(--fg-strong);
     font-weight: 600;
-    font-size: var(--step-0);
-    letter-spacing: var(--tracking-tight);
+    font-size: 1.35rem;
+    letter-spacing: -0.025em;
+    white-space: nowrap;
   }
 
   .nav__brand-role {
     display: none;
-    font-family: var(--font-code);
-    font-size: var(--step--2);
-    color: var(--fg-muted);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   .nav__links ul {
@@ -141,15 +144,16 @@ const otherLocale: Locale = locale === 'es' ? 'en' : 'es';
 
   .nav__links a {
     display: block;
-    padding: 0.45rem 0.6rem;
+    padding: 0.45rem 0.65rem;
     border-radius: var(--radius-sm);
-    font-size: var(--step--1);
+    font-size: var(--text-sm);
+    font-weight: 500;
     color: var(--fg-muted);
     text-decoration: none;
     white-space: nowrap;
     transition:
-      color var(--dur-fast) var(--ease-standard),
-      background-color var(--dur-fast) var(--ease-standard);
+      color var(--dur-fast) var(--ease-out),
+      background-color var(--dur-fast) var(--ease-out);
   }
 
   .nav__links a:hover {
@@ -165,14 +169,21 @@ const otherLocale: Locale = locale === 'es' ? 'en' : 'es';
   }
 
   .nav__lang {
-    font-family: var(--font-code);
-    font-size: var(--step--2);
-    letter-spacing: var(--tracking-wide);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.25rem;
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 500;
     color: var(--fg-muted);
     text-decoration: none;
-    padding: 0.35rem 0.55rem;
+    padding: 0.25rem 0.65rem;
     border: var(--rule) var(--border-style) var(--border);
     border-radius: var(--radius-pill);
+    transition:
+      color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out);
   }
 
   .nav__lang:hover {
@@ -188,11 +199,10 @@ const otherLocale: Locale = locale === 'es' ? 'en' : 'es';
     }
   }
   @media (max-width: 30rem) {
-    .nav__inner { gap: .5rem; }
-    .nav__brand-name { font-size: .85rem; }
-    .nav__brand-name { white-space: nowrap; }
-    .nav__tools { gap: .3rem; }
-    .nav__lang { padding-inline: .4rem; }
+    .nav__inner { gap: .4rem; min-height: 3.75rem; }
+    .nav__brand-name { font-size: 1.05rem; }
+    .nav__tools { gap: .25rem; }
+    .nav__lang { padding-inline: .45rem; min-height: 2rem; font-size: 0.8125rem; }
     .nav__terminal { width: 2rem; height: 2rem; }
   }
 </style>

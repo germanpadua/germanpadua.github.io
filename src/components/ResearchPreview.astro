@@ -1,24 +1,131 @@
 ---
 import experiments from '../../public/data/research/gnn.json';
-const { compact = false, locale = "es" } = Astro.props;
+const { compact = false, wide = false, locale = 'es' } = Astro.props;
 const experiment = experiments[0]!;
-const colors = ['#3981b9','#cb725a','#8981c6','#4e9f86','#c59740','#ca719d','#677c92','#87a456'];
+const colors = ['#3981b9', '#cb725a', '#8981c6', '#4e9f86', '#c59740', '#ca719d', '#677c92', '#87a456'];
 const points = experiment.comparison;
-const xs = points.map(p => p[0]!), ys = points.map(p => p[1]!);
-const minX = Math.min(...xs), minY = Math.min(...ys);
-const scale = Math.min(420/(Math.max(...xs)-minX),300/(Math.max(...ys)-minY));
-const offset = (480-(Math.max(...xs)-minX)*scale)/2;
+const xs = points.map((p) => p[0]!);
+const ys = points.map((p) => p[1]!);
+const minX = Math.min(...xs);
+const minY = Math.min(...ys);
+const spanX = Math.max(...xs) - minX;
+const spanY = Math.max(...ys) - minY;
+
+const vbWidth = wide ? 960 : 480;
+const vbHeight = wide ? 250 : 360;
+const padX = wide ? 64 : 30;
+const padY = wide ? 22 : 30;
+const scaleX = (vbWidth - padX * 2) / spanX;
+const scaleY = (vbHeight - padY * 2) / spanY;
+const scale = wide ? Math.min(scaleX, scaleY * 1.45) : Math.min(scaleX, scaleY);
+const offsetX = (vbWidth - spanX * (wide ? scaleX * 0.82 : scale)) / 2;
+const drawScaleX = wide ? scaleX * 0.82 : scale;
+const drawScaleY = wide ? scaleY : scale;
+const stride = wide ? 2 : 3;
 ---
-<figure class:list={['research-preview', { 'research-preview--compact': compact }]}>
-  <svg viewBox="0 0 480 360" role="img" aria-label="Proyección 2D de representaciones de nodos del dataset Photo, QGCN. El color indica la clase.">
-    {points.filter((_,i) => i % 3 === 0).map((p,i) => <circle cx={offset+(p[0]!-minX)*scale} cy={330-(p[1]!-minY)*scale} r="2.1" fill={colors[(experiment.labels[i * 3] ?? 0)%colors.length]} opacity=".72" />)}
+<figure class:list={['research-preview', { 'research-preview--compact': compact, 'research-preview--wide': wide }]}>
+  <svg
+    viewBox={`0 0 ${vbWidth} ${vbHeight}`}
+    role="img"
+    aria-label={
+      locale === 'es'
+        ? 'Proyección 2D de representaciones de nodos del dataset Photo, QGCN. El color indica la clase.'
+        : '2D projection of node representations from the Photo dataset, QGCN. Colour indicates class.'
+    }
+  >
+    {wide && (
+      <g class="research-preview__axes" aria-hidden="true">
+        <line x1={padX} y1={vbHeight / 2} x2={vbWidth - padX} y2={vbHeight / 2} />
+        <line x1={vbWidth / 2} y1={padY} x2={vbWidth / 2} y2={vbHeight - padY} />
+        <line x1={padX} y1={padY + (vbHeight - padY * 2) * 0.25} x2={vbWidth - padX} y2={padY + (vbHeight - padY * 2) * 0.25} />
+        <line x1={padX} y1={padY + (vbHeight - padY * 2) * 0.75} x2={vbWidth - padX} y2={padY + (vbHeight - padY * 2) * 0.75} />
+      </g>
+    )}
+    {points
+      .filter((_, i) => i % stride === 0)
+      .map((p, i) => (
+        <circle
+          cx={(offsetX + (p[0]! - minX) * drawScaleX).toFixed(1)}
+          cy={(vbHeight - padY - (p[1]! - minY) * drawScaleY).toFixed(1)}
+          r={wide ? '3.1' : '2.2'}
+          fill={colors[(experiment.labels[i * stride] ?? 0) % colors.length]}
+          opacity={wide ? '.82' : '.76'}
+        />
+      ))}
   </svg>
-  <figcaption>Photo · QGCN <span>{locale === "es" ? "Proyección 2D" : "2D projection"}</span></figcaption>
+  <figcaption>
+    <span class="research-preview__lead">
+      {wide
+        ? locale === 'es'
+          ? 'Geometría y redes neuronales sobre grafos · Photo (QGCN)'
+          : 'Geometry and graph neural networks · Photo (QGCN)'
+        : 'Photo · QGCN'}
+    </span>
+    <span class="research-preview__meta">
+      {wide
+        ? locale === 'es'
+          ? 'Explorar investigación →'
+          : 'Explore research →'
+        : locale === 'es'
+          ? 'Proyección 2D'
+          : '2D projection'}
+    </span>
+  </figcaption>
 </figure>
+
 <style>
- .research-preview { margin: 0; background: var(--bg-raised); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
- .research-preview svg { width: 100%; height: auto; padding: 1rem; }
- .research-preview figcaption { display: flex; justify-content: space-between; gap: 1rem; padding: 1rem 1.5rem; border-top: 1px solid var(--border); color: var(--fg-strong); font-size: .8rem; }
- .research-preview figcaption span { color: var(--fg-muted); }
- .research-preview--compact { border: none; border-radius: 0; }
+  .research-preview {
+    margin: 0;
+    background: var(--bg-raised);
+    border: var(--rule) var(--border-style) var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .research-preview svg {
+    width: 100%;
+    height: auto;
+    padding: 0.75rem;
+  }
+
+  .research-preview__axes line {
+    stroke: var(--border);
+    stroke-width: 1;
+    stroke-dasharray: 3 5;
+    opacity: 0.7;
+  }
+
+  .research-preview figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem 1rem;
+    padding: 0.9rem 1.35rem;
+    border-top: var(--rule) var(--border-style) var(--border);
+    font-size: var(--text-sm);
+  }
+
+  .research-preview__lead {
+    color: var(--fg-strong);
+    font-weight: 500;
+  }
+
+  .research-preview__meta {
+    color: var(--fg-muted);
+  }
+
+  .research-preview--wide {
+    box-shadow: var(--shadow-sm);
+  }
+
+  .research-preview--wide .research-preview__meta {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .research-preview--compact {
+    border: none;
+    border-radius: 0;
+  }
 </style>

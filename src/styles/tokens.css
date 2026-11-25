@@ -24,27 +24,33 @@
   --font-feature-body: "ss01" 1, "cv05" 1;
   --font-feature-tabular: "tnum" 1, "zero" 1;
 
-  /* Fluid scale. Every step is usable at 320px and at 1440px without a
-     breakpoint, so sections never need font-size media queries. */
-  --step--2: clamp(0.694rem, 0.676rem + 0.09vw, 0.75rem);
-  --step--1: clamp(0.833rem, 0.799rem + 0.17vw, 0.938rem);
-  --step-0: clamp(1rem, 0.953rem + 0.23vw, 1.125rem);
-  --step-1: clamp(1.2rem, 1.128rem + 0.36vw, 1.4rem);
-  --step-2: clamp(1.44rem, 1.33rem + 0.55vw, 1.75rem);
-  --step-3: clamp(1.728rem, 1.563rem + 0.82vw, 2.188rem);
-  --step-4: clamp(2.074rem, 1.831rem + 1.21vw, 2.734rem);
-  --step-5: clamp(2.488rem, 2.14rem + 1.74vw, 3.418rem);
-  --step-6: clamp(2.986rem, 2.494rem + 2.46vw, 4.272rem);
+  /* Strict 3-size body discipline (hero h1 and navbar wordmark exempt).
+     --text-heading for section headings, --text-body for all prose/lists/subheadings,
+     --text-sm (14px) for metadata, labels and controls — never < 13px. */
+  --text-heading: clamp(1.85rem, 3vw, 2.6rem);
+  --text-body: clamp(1rem, 0.96rem + 0.18vw, 1.0625rem);
+  --text-sm: 0.875rem;
 
-  --leading-tight: 1.12;
-  --leading-snug: 1.3;
-  --leading-normal: 1.6;
+  /* Compatibility aliases mapped to the 3-size system for islands and /lab/. */
+  --step--2: var(--text-sm);
+  --step--1: var(--text-sm);
+  --step-0: var(--text-body);
+  --step-1: var(--text-body);
+  --step-2: var(--text-body);
+  --step-3: var(--text-heading);
+  --step-4: var(--text-heading);
+  --step-5: clamp(2.5rem, 4.5vw, 3.75rem);
+  --step-6: clamp(3.25rem, 7.2vw, 6.5rem);
+
+  --leading-tight: 1.06;
+  --leading-snug: 1.35;
+  --leading-normal: 1.62;
   --leading-loose: 1.75;
 
-  --tracking-tight: -0.021em;
+  --tracking-tight: -0.03em;
   --tracking-normal: 0;
-  --tracking-wide: 0.04em;
-  --tracking-caps: 0.1em;
+  --tracking-wide: 0.01em;
+  --tracking-caps: 0.02em;
 
   /* --------------------------------------------------------------- space */
   --space-3xs: 0.25rem;
@@ -59,11 +65,11 @@
   --space-4xl: 9rem;
 
   /* ------------------------------------------------------------- measure */
-  --page-max: 76rem;
-  --measure: 68ch;
+  --page-max: 78rem;
+  --measure: 64ch;
   --measure-narrow: 54ch;
   --gutter: clamp(1.25rem, 4.5vw, 3.5rem);
-  --section-pad: clamp(3.5rem, 9vw, 7.5rem);
+  --section-pad: clamp(4rem, 9vw, 7.5rem);
 
   /* --------------------------------------------------------------- shape */
   --rule: 1px;
@@ -80,14 +86,14 @@
 
   /* -------------------------------------------------------------- motion */
   --dur-instant: 80ms;
-  --dur-fast: 140ms;
-  --dur: 220ms;
+  --dur-fast: 150ms;
+  --dur: 200ms;
   --dur-slow: 420ms;
   --dur-reveal: 620ms;
-  --ease-standard: cubic-bezier(0.2, 0.6, 0.2, 1);
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --reveal-shift: 1.25rem;
+  --reveal-shift: 1.1rem;
 
   color-scheme: light dark;
 }

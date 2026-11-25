@@ -15,15 +15,22 @@ const supporting = await getSupportingProjects(locale);
   <div class="container">
     <header class="section-head"><h2>{t.sections.projects.title}</h2><p class="section-head__lead">{t.sections.projects.lead}</p></header>
     <ul class="selected-projects" role="list">
-      {featured.map(({data}) => <li class="selected-project">
+      {featured.map(({data}, index) => <li class:list={['selected-project', { 'selected-project--lead': index === 0, 'selected-project--closing': index === featured.length - 1 }]}>
         <a class="selected-project__visual" href={projectPath(locale,data.slug)} aria-label={data.title}>
-          {data.slug === 'pseudo-riemannian-gnn' ? <ResearchPreview compact locale={locale} /> : data.slug === 'telemetry-sentinel' ? <TelemetryPreview locale={locale} /> : data.images[0] ? <Picture src={projectImage(data.images[0].file)} alt={data.images[0].alt} widths={[480,900]} sizes="(max-width: 48rem) 92vw, 42vw" formats={['avif','webp']} loading="lazy" decoding="async" /> : <div class="selected-project__plain"><span>{data.domains[0]}</span><strong>{data.title}</strong><p>{data.stack.slice(0,3).join(' / ')}</p></div>}
+          {data.slug === 'pseudo-riemannian-gnn' ? <ResearchPreview compact locale={locale} /> : data.slug === 'telemetry-sentinel' ? <TelemetryPreview locale={locale} /> : data.images[0] ? <Picture src={projectImage(data.images[0].file)} alt={data.images[0].alt} widths={[480,900]} sizes={index === 0 ? '(max-width: 56rem) 92vw, 54vw' : '(max-width: 48rem) 92vw, 42vw'} formats={['avif','webp']} loading="lazy" decoding="async" /> : <div class="selected-project__plain"><span>{data.domains[0]}</span><strong>{data.title}</strong><p>{data.stack.slice(0,3).join(' · ')}</p></div>}
         </a>
-        {data.images[0]?.caption && <p class="selected-project__image-note">{locale === "es" ? "Vista ilustrativa" : "Illustrative view"}</p>}
-        <div class="selected-project__heading"><h3><a href={projectPath(locale,data.slug)}>{data.title}</a></h3><span>{t.projects.statuses[data.status]}</span></div>
-        <p class="selected-project__summary">{data.summary}</p>
-        <p class="selected-project__stack">{data.stack.slice(0,4).join(' · ')}</p>
-        <div class="cluster selected-project__links"><a href={projectPath(locale,data.slug)}>{locale === 'es' ? 'Explorar proyecto' : 'Explore project'}</a>{data.links.demo ? <a href={data.links.demo} target="_blank" rel="noopener noreferrer">{t.projects.demo}</a> : data.links.repo && <a href={data.links.repo} target="_blank" rel="noopener noreferrer">GitHub</a>}</div>
+        <div class="selected-project__content">
+          <div class="selected-project__heading">
+            <h3><a href={projectPath(locale,data.slug)}>{data.title}</a></h3>
+            <span class="selected-project__status">{t.projects.statuses[data.status]}</span>
+          </div>
+          <p class="selected-project__summary">{data.summary}</p>
+          <p class="selected-project__stack">{data.stack.slice(0,4).join(' · ')}</p>
+          <div class="cluster selected-project__links">
+            <a class="selected-project__action" href={projectPath(locale,data.slug)}>{locale === 'es' ? 'Explorar proyecto →' : 'Explore project →'}</a>
+            {data.links.demo ? <a href={data.links.demo} target="_blank" rel="noopener noreferrer">{t.projects.demo}</a> : data.links.repo && <a href={data.links.repo} target="_blank" rel="noopener noreferrer">GitHub</a>}
+          </div>
+        </div>
       </li>)}
     </ul>
     <details class="other-projects"><summary>{t.projects.more}</summary><ul role="list">{supporting.map(({data}) => <li><a href={projectPath(locale,data.slug)}>{data.title}</a><p>{data.summary}</p></li>)}</ul></details>
@@ -31,30 +38,241 @@ const supporting = await getSupportingProjects(locale);
   </div>
 </section>
 <style>
- .selected-projects { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 3.5rem 2.5rem; }
- .selected-project { min-width: 0; }
- .selected-project__visual { display: flex; align-items: center; justify-content: center; aspect-ratio: 1.55; background: var(--bg-inset); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; text-decoration: none; margin-bottom: 1.2rem; }
- .selected-project__visual :global(picture) { width: 100%; height: 100%; }
- .selected-project__visual :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: center; }
- .selected-project__visual :global(.research-preview) { width: 100%; height: 100%; }
- .selected-project__visual :global(.research-preview svg) { height: calc(100% - 3rem); width: 100%; }
- .selected-project__plain { width: 100%; padding: clamp(1.5rem,4vw,3rem); }
- .selected-project__plain span { font-size: .8rem; color: var(--fg-muted); }
- .selected-project__plain strong { display: block; font-family: var(--font-display); font-size: clamp(1.7rem,2.5vw,2.7rem); line-height: 1.15; color: var(--fg-strong); max-width: 17ch; margin-block: .75rem; }
- .selected-project__plain p { font-size: .8rem; color: var(--fg-muted); }
- .selected-project__image-note { font-size: .7rem; color: var(--fg-muted); margin-top: -.7rem; margin-bottom: .8rem; }
- .selected-project__heading { display: flex; align-items: baseline; justify-content: space-between; gap: .75rem; }
- .selected-project__heading h3 { font-size: var(--step-2); line-height: 1.25; }
- .selected-project__heading h3 a { text-decoration: none; color: var(--fg-strong); }
- .selected-project__heading span { font-size: .75rem; color: var(--fg-muted); flex: none; }
- .selected-project__summary { color: var(--fg); font-size: var(--step--1); line-height: 1.65; margin-top: .75rem; }
- .selected-project__stack { font-size: .75rem; color: var(--fg-muted); margin-top: .75rem; }
- .selected-project__links { margin-top: 1rem; font-size: var(--step--1); gap: 1.5rem; }
- .other-projects { margin-top: 3rem; border-block: 1px solid var(--border); padding-block: 1rem; }
- .other-projects summary { cursor: pointer; font-size: var(--step-1); }
- .other-projects ul { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem 2.5rem; margin-block: 1.5rem; }
- .other-projects li p { font-size: .85rem; color: var(--fg-muted); margin-top: .4rem; }
- .projects__all { margin-top: 1.5rem; }
- @media(max-width:48rem) { .selected-projects,.other-projects ul { grid-template-columns: 1fr; } .selected-project__image-note { font-size: .7rem; color: var(--fg-muted); margin-top: -.7rem; margin-bottom: .8rem; }
- .selected-project__heading { flex-wrap: wrap; } }
+  .selected-projects {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2xl) var(--space-xl);
+  }
+
+  .selected-project {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+  }
+
+  .selected-project--lead,
+  .selected-project--closing {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: var(--space-xl);
+    align-items: center;
+  }
+
+  .selected-project--lead {
+    padding-bottom: var(--space-xl);
+    border-bottom: var(--rule) var(--border-style) var(--border);
+  }
+
+  .selected-project--closing {
+    grid-template-columns: 1fr 1.35fr;
+    padding-top: var(--space-xl);
+    border-top: var(--rule) var(--border-style) var(--border);
+  }
+
+  .selected-project--closing .selected-project__visual {
+    order: 2;
+  }
+
+  .selected-project--closing .selected-project__content {
+    order: 1;
+  }
+
+  .selected-project__visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1.55;
+    background: var(--bg-inset);
+    border: var(--rule) var(--border-style) var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    text-decoration: none;
+    transition: border-color var(--dur) var(--ease-out);
+  }
+
+  .selected-project__visual:hover {
+    border-color: var(--border-strong);
+  }
+
+  .selected-project__visual :global(picture) {
+    width: 100%;
+    height: 100%;
+  }
+
+  .selected-project__visual :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform var(--dur) var(--ease-out);
+  }
+
+  .selected-project__visual:hover :global(img) {
+    transform: scale(1.02);
+  }
+
+  .selected-project__visual :global(.research-preview) {
+    width: 100%;
+    height: 100%;
+  }
+
+  .selected-project__visual :global(.research-preview svg) {
+    height: calc(100% - 3rem);
+    width: 100%;
+  }
+
+  .selected-project__plain {
+    width: 100%;
+    padding: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .selected-project__plain span {
+    font-size: var(--text-sm);
+    color: var(--fg-muted);
+  }
+
+  .selected-project__plain strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: var(--text-heading);
+    line-height: 1.12;
+    color: var(--fg-strong);
+    max-width: 16ch;
+    margin-block: var(--space-xs);
+  }
+
+  .selected-project__plain p {
+    font-size: var(--text-sm);
+    color: var(--fg-muted);
+  }
+
+  .selected-project__content {
+    display: grid;
+    gap: var(--space-2xs);
+    align-content: start;
+  }
+
+  .selected-project__heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-xs);
+  }
+
+  .selected-project__heading h3 {
+    font-family: var(--font-display);
+    font-size: var(--text-body);
+    font-weight: 600;
+    line-height: var(--leading-snug);
+  }
+
+  .selected-project--lead .selected-project__heading h3 {
+    font-size: var(--text-heading);
+    font-weight: 500;
+    line-height: var(--leading-tight);
+  }
+
+  .selected-project__heading h3 a {
+    text-decoration: none;
+    color: var(--fg-strong);
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .selected-project__heading h3 a:hover {
+    color: var(--accent);
+  }
+
+  .selected-project__status {
+    font-size: var(--text-sm);
+    color: var(--fg-muted);
+    flex: none;
+  }
+
+  .selected-project__summary {
+    color: var(--fg);
+    font-size: var(--text-body);
+    line-height: var(--leading-normal);
+  }
+
+  .selected-project__stack {
+    font-size: var(--text-sm);
+    color: var(--fg-muted);
+  }
+
+  .selected-project__links {
+    margin-top: var(--space-3xs);
+    font-size: var(--text-sm);
+    gap: var(--space-m);
+  }
+
+  .selected-project__action {
+    font-weight: 500;
+  }
+
+  .other-projects {
+    margin-top: var(--space-2xl);
+    border-block: var(--rule) var(--border-style) var(--border);
+    padding-block: var(--space-s);
+  }
+
+  .other-projects summary {
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: var(--text-body);
+    font-weight: 600;
+    color: var(--fg-strong);
+  }
+
+  .other-projects ul {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-m) var(--space-xl);
+    margin-block: var(--space-m);
+  }
+
+  .other-projects li a {
+    font-weight: 600;
+    color: var(--fg-strong);
+    text-decoration: none;
+  }
+
+  .other-projects li a:hover {
+    color: var(--accent);
+  }
+
+  .other-projects li p {
+    font-size: var(--text-body);
+    color: var(--fg-muted);
+    margin-top: var(--space-3xs);
+  }
+
+  .projects__all {
+    margin-top: var(--space-l);
+  }
+
+  @media (max-width: 56rem) {
+    .selected-project--lead,
+    .selected-project--closing {
+      grid-template-columns: 1fr;
+      gap: var(--space-m);
+    }
+
+    .selected-project--closing .selected-project__visual,
+    .selected-project--closing .selected-project__content {
+      order: unset;
+    }
+  }
+
+  @media (max-width: 48rem) {
+    .selected-projects,
+    .other-projects ul {
+      grid-template-columns: 1fr;
+    }
+
+    .selected-project__heading {
+      flex-wrap: wrap;
+    }
+  }
 </style>
